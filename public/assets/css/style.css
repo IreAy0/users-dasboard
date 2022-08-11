@@ -1,0 +1,144 @@
+/*================================================================================
+	BASE STYLES
+	Add your own global styles here.
+
+
+*/
+#app {
+  height: 100% !important;
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('/app-assets/fonts/montserrat.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Great Vibes';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/app-assets/fonts/greatFonts.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+html body {
+  height: 100%;
+  background-color: #F8F8F8;
+  direction: ltr;
+  font-family: 'Montserrat', sans-serif;
+  font-weight:900;
+}
+.text-primary {
+  color: #003bb3;
+}
+#loading-bg {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: block;
+	opacity: 0.5;
+  position: absolute;
+}
+.loading-logo {
+  position: absolute;
+  left: calc(50% - 45px);
+  top: 40%;
+}
+.loading {
+  position: absolute;
+  left: calc(50% - 35px);
+  top: 50%;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 3px solid transparent;
+}
+.loading .effect-1,
+.loading .effect-2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-left: 3px solid #003bb3;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.loading .effect-1 {
+  animation: rotate 1s ease infinite;
+}
+.loading .effect-2 {
+  animation: rotateOpacity 1s ease infinite 0.1s;
+}
+.loading .effect-3 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-left: 3px solid #003bb3;
+  -webkit-animation: rotateOpacity 1s ease infinite 0.2s;
+  animation: rotateOpacity 1s ease infinite 0.2s;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.loading .effects {
+  transition: all 0.3s ease;
+}
+
+@keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
+@keyframes rotateOpacity {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    opacity: 0.1;
+  }
+  100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+    opacity: 1;
+  }
+}
+
+.nav-withScroll::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+  background-color: #1660f4;
+}
+
+
+.nav-withScroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);
+  height: 2px;
+}
+
+.nav-withScroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.7);
+  outline: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.analytic .card:hover{
+  background-color: #F8F8F8;
+  color: #003bb3;
+  border: 1px solid #003bb3;
+  }
+  .analytic .card:hover p{
+  color: #003bb3 !important;
+  }
