@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Header />
-    <Menu />
+    
 
     <div class="app-content content">
       <div class="content-overlay"></div>
@@ -40,7 +39,7 @@
         </div>
       </div>
     </div>
-    <Footer />
+  
   </div>
 </template>
 <script setup>

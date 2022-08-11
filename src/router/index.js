@@ -9,7 +9,7 @@ import Profile from "../views/Profile.vue";
 // import ResetPassword from "@/views/auth/passwords/resetPassword.vue";
 // import verifyPage from "../views/auth/verify-email/verifyPage.vue";
 // import RedirectPage from "../views/auth/fromDoc.vue";
-
+import AdminLayout from "../layout.vue"
 
 import store from "@/store";
 
@@ -51,6 +51,10 @@ const RequestPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/fromDoc.vue"
   );
+  const PaymentConfirmationPage = () =>
+  import(
+    /* webpackChunkName: "document" */ "../components/Payment/PaymentConfirmation.vue"
+  );
   
 const routes = [
   
@@ -88,62 +92,45 @@ const routes = [
     name: "redirect",
     component: RedirectPage,
   },
+
   {
-    path: "/admin/dashboard",
+    path: "/admin",
+    name: "admin",
+    component: AdminLayout,
+    meta: {
+      title: "Admin - ToNote",
+    },
+    children: [
+      {
+        path: "dashboard",
     name: "Dashboard",
     component: Dashboard,
-   meta: {
-    title: "Tonote | Dashboard",
-   }
-  },
-  {
-    path: "/admin/requests",
-    name: "admin.requests",
-    component: RequestPage,
-
-   meta: {
-    title: "Tonote | Requests",
-   }
-  },
-  {
-    path: "/admin/settings",
-    name: "admin.settings",
-    component: SettingPage,
-    meta: {
-      title: "ToNote | Settings",
+      },
+      {
+        path: "payment-confirmation",
+        name: "paymentconfirmation",
+        component: PaymentConfirmationPage,
+      },
+      {
+        path: "requests",
+        name: "admin.requests",
+        component: RequestPage,
+    
+       meta: {
+        title: "Tonote | Requests",
+       }
+      },
+      {
+        path: "settings",
+        name: "admin.settings",
+        component: SettingPage,
+        meta: {
+          title: "ToNote | Settings",
+        },
+      },
+      
+    ]
     },
-  },
-  // {
-  //   path: "/tables",
-  //   name: "Tables",
-  //   component: Tables,
-  // },
-  // {
-  //   path: "/billing",
-  //   name: "Billing",
-  //   component: Billing,
-  // },
-  // {
-  //   path: "/rtl-page",
-  //   name: "RTL",
-  //   component: RTL,
-  // },
-  // {
-  //   path: "/notifications",
-  //   name: "Notifications",
-  //   component: Notifications,
-  // },
-  // {
-  //   path: "/profile",
-  //   name: "Profile",
-  //   component: Profile,
-  // },
- 
-  // {
-  //   path: "/sign-up",
-  //   name: "SignUp",
-  //   component: SignUp,
-  // },
 
 ];
 
@@ -165,6 +152,7 @@ const router = createRouter({
     }
   },
 });
+
 
 router.beforeResolve(async (to, from, next) => {
  
