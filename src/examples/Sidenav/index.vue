@@ -1,7 +1,7 @@
 <template>
   <aside
     id="sidenav-main"
-    class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 shadow-lg "
+    class="sidenav bg-white navbar overflow-hidden navbar-vertical navbar-expand-xs border-0 shadow-lg "
     :class="`${
       'fixed-start '
     } ${sidebarType}`"

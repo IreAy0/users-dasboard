@@ -9,11 +9,11 @@
   >
     <div class="px-2  container-fluid">
         <ul class="nav navbar-nav align-items-center bookmark-icons">
-          <li class="nav-item d-xl-none me-1 d-flex align-items-center">
+          <li  @click="toggleSidebar" class="nav-item d-xl-none  d-flex align-items-center">
             <a
               href="#"
-              @click="toggleSidebar"
-              class="p-0 nav-link text-body lh-1"
+             
+              class="p-1 nav-link text-body lh-1"
               id="iconNavbarSidenav"
             >
               <div class="sidenav-toggler-inner">
