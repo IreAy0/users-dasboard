@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import Dashboard from "../views/Dashboard.vue";
 
-import Profile from "../views/Profile.vue";
+// import Profile from "../views/Profile.vue";
 // import SignIn from "../views/auth/login/loginPage.vue";
 // import RegisterPage from "../views/auth/signUp/registerPage.vue";
 // import ForgotPassword from "../views/auth/passwords/forgotPassword.vue";

@@ -8,7 +8,7 @@
 
      <div class="d-none d-lg-block col-lg-6 align-items-center p-0 ">
         <div class=" align-items-center justify-content-center ">
-          <img class="w-100" src="/app-assets/images/pages/login_noLogo.jpg" alt="Login V2" />
+          <img class="w-100" src="/app-assets/images/banner/onboard_1.jpg" alt="Login V2" />
         </div>
       </div>
 

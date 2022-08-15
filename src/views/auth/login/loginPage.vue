@@ -1,14 +1,17 @@
 <template>
-  <div class="auth-wrapper auth-cover">
-    <div class="auth-inner row m-0">
-      <router-link class="brand-logo" to="/">
+  <div class="auth-wrapper auth-cover ">
+    <div class="auth-inner row m-0 ">
+      <div class="brand-logo">
+      <router-link  to="/">
         <img src="/app-assets/images/logo/main.svg" class="img-fluid mt-2" width="150" />
         <h2 class="brand-text text-primary ms-1"></h2>
       </router-link>
+      </div>
+      
 
       <div class="d-none d-lg-block col-lg-6 align-items-center p-0 ">
         <div class=" align-items-center justify-content-center ">
-          <img class="w-100" src="/app-assets/images/pages/login_noLogo.jpg" alt="Login V2" />
+          <img class="w-100" src="/app-assets/images/banner/onboard_2.jpg" alt="Login V2" />
         </div>
       </div>
 
