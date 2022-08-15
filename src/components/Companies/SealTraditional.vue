@@ -208,7 +208,7 @@ import ToNote from "@/Services/Tonote";
 // const { useActions } = createNamespacedHelpers(["print"]);
 // const { savePrint } = useActions(["savePrint"]);
 const store = useStore();
-const companySeals = computed(() => store.state.CompanyModule.companySeal);
+const companySeals = computed(() => store?.state?.CompanyModule?.companySeal);
 // const companyProfile = ref("");
 // const text_cnv = ref(companyProfile?.value?.company_name);
 const text_cnv = ref("");
@@ -346,9 +346,9 @@ watch(
 onBeforeMount(() => {
   ToNote.get("/company")
     .then((res) => {
-      text_cnv.value = res.data.data.company_name;
-      text_cnv2.value = res.data.data.address;
-      text_horizontal.value = `RC: ${res.data.data.registration_company_number}`;
+      text_cnv.value = res?.data?.data?.company_name;
+      text_cnv2.value = res?.data?.data?.address;
+      text_horizontal.value = `RC: ${res?.data?.data?.registration_company_number}`;
     })
     .catch((err) => {
       console.log(err);
@@ -356,10 +356,10 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  updateCanvas(text_cnv.value, 130.5, 144, r, space, 1, "20px");
-  updateCanvas(text_cnv2.value, 130.5, 155, r, space, 0, "1.125em");
+  updateCanvas(text_cnv?.value, 130.5, 144, r, space, 1, "20px");
+  updateCanvas(text_cnv2?.value, 130.5, 155, r, space, 0, "1.125em");
   const coy_number = document.getElementById("coy_number");
-  coy_number.innerText = text_horizontal.value;
+  coy_number.innerText = text_horizontal?.value;
   store.dispatch("CompanyModule/listCompanySeals");
 });
 </script>

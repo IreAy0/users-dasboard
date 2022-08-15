@@ -12,6 +12,7 @@ import Profile from "../views/Profile.vue";
 import AdminLayout from "../layout.vue"
 
 import store from "@/store";
+import isAuthenticated from "@/Services/isAuthenticated";
 
 const RequestPage = () =>
   import(
@@ -153,21 +154,17 @@ const router = createRouter({
   },
 });
 
+router.afterEach(async (to, from) => {
+  await  store.dispatch("ProfileModule/getUser");
+})
 
 router.beforeResolve(async (to, from, next) => {
- 
-  store.dispatch("getUser");
-  await store.dispatch("ProfileModule/getUser");
 
-  const getUser = store.state.ProfileModule.userProfile;
-
-  if (to.fullPath?.includes("admin") && getUser == null) {
+    // await  store.dispatch("ProfileModule/getUser");
+  if (to.fullPath?.includes("admin") && isAuthenticated() == false) {
     next("/");
-  }
-
-  console.log(getUser, 'getUser');
-  if (to.fullPath == "/" || to.fullPath == "/register") {
-    if (getUser) {
+  }  else if (to.fullPath == "/" || to.fullPath == "/register") {
+    if (isAuthenticated() == true) {
       next("/admin/dashboard");
     }
   }

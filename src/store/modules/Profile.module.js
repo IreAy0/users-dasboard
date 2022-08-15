@@ -19,7 +19,7 @@ const state = () => ({
 });
 
 const getters = {
-  getProfile: (state) => state.userProfile,
+ user: (state) => state?.userProfile,
 };
 
 const actions = {

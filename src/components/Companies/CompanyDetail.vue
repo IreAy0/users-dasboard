@@ -653,15 +653,24 @@ export default {
         this.errors = err?.response?.data?.data?.error;
       });
     ToNote.get("/countries").then((res) => {
-      this.countries = res.data.data;
+      this.countries = res?.data?.data;
     });
   },
-
-  mounted() {
-    ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
-      this.states = res.data.data;
+ mounted() {
+    if(this.userProfile){
+      ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
+      this.states = res?.data?.data;
+      
     });
+    }
+   
   },
+  //  mounted() {
+    
+  //   ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
+  //     this.states = res?.data?.data;
+  //   });
+  // },
 };
 </script>
 

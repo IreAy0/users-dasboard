@@ -185,8 +185,8 @@ export default {
 
   beforeCreate() {
     ToNote.get("/user/profile").then((res) => {
-      this.profile = res.data.data;
-      this.validState = res.data.data.national_verification;
+      this.profile = res?.data?.data;
+      this.validState = res?.data?.data?.national_verification;
       this.state = res.data.data.state?.id;
     });
   },
@@ -195,9 +195,3 @@ export default {
 
 <style scoped></style>
 
-<!-- <button type="button" @click.prevent="setActive('contact')" :class="{ 'active': isActive('contact') }" href="#contact"   class="btn btn-primary btn-next nav-link">
-                    <span class="align-middle d-sm-inline-block "
-                      >upgrade to pro</span
-                    >
-                    
-                  </button> -->

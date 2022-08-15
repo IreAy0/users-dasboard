@@ -343,7 +343,7 @@ import { ref } from "vue";
 import { Form, ErrorMessage, Field } from "vee-validate";
 import Signature from "@/components/Signature/Signature.vue";
 import ToNote from "@/Services/Tonote";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { useToast } from "vue-toast-notification";
 
 const toast = useToast();
@@ -461,6 +461,12 @@ export default {
       "signature",
       "updating",
     ]),
+    ...mapGetters("ProfileModule", [
+      "updated",
+      "user",
+      "signature",
+      "updating",
+    ]),
     // populate state from api
     getCountry() {
       const country_id = this.profile?.country?.id;
@@ -540,20 +546,25 @@ export default {
 
   beforeCreate() {
     ToNote.get("/user/profile").then((res) => {
-      this.profile = res.data.data;
-      this.validState = res.data.data.national_verification;
-      this.state = res.data.data.state?.id;
-      this.country = res.data.data.country?.id;
+      this.profile = res?.data?.data;
+      this.validState = res?.data?.data?.national_verification;
+      this.state = res?.data?.data?.state?.id;
+      this.country = res?.data?.data?.country?.id;
     });
 
     ToNote.get("/countries").then((res) => {
-      this.countries = res.data.data;
+      this.countries = res?.data?.data;
+
     });
   },
   mounted() {
-    ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
-      this.states = res.data.data;
+    if(this.userProfile){
+      ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
+      this.states = res?.data?.data;
+      
     });
+    }
+   
   },
 };
 </script>

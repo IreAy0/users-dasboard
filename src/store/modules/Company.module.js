@@ -94,7 +94,7 @@ const actions = {
             pauseOnHover: true,
           });
         }
-        commit("setCompanySeal", res.data.data.CompanySeal);
+        commit("setCompanySeal", res?.data?.data?.CompanySeal);
       },
       (error) => {
         commit("getUserFailed", error);
@@ -122,7 +122,7 @@ const actions = {
             pauseOnHover: true,
           });
         }
-        commit("setCompanyStamp", res.data.data.CompanyStamp);
+        commit("setCompanyStamp", res?.data?.data?.CompanyStamp);
       },
       (error) => {
         commit("getUserFailed", error);
@@ -141,7 +141,7 @@ const actions = {
   listCompanySeals({ commit }) {
     company.getCompanySeals().then(
       (res) => {
-        commit("setCompanySeal", res.data.data.CompanySeal);
+        commit("setCompanySeal", res?.data?.data?.CompanySeal);
       },
       (error) => {
         commit("getUserFailed", error);

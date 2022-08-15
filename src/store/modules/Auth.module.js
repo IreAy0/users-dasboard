@@ -2,6 +2,7 @@
 import auth from "@/api/auth";
 import router from "@/router";
 import { saveToken } from "@/Services/helpers";
+import store from "../index";
 
 // initial state
 
@@ -53,19 +54,21 @@ const actions = {
     );
   },
 
-  login({ commit }, user) {
+  login({ commit , dispatch }, user) {
    
     commit("loginRequest", user);
     auth.Login(user).then(
       (user) => {
         saveToken(user?.data?.token);
         commit("loginSuccess", user);
-        router.push("/admin/dashboard");
-       
-        // setTimeout(() => {
-        //   window.location.reload();
+        
+       console.log('user successfully logged in',user)
+      //  dispatch("ProfileModule/getUser", { root: true });
+      //  store.dispatch("ProfileModule/getUser", { root: true });
+        setTimeout(() => {
+          router.push("/admin/dashboard");
           
-        // }, 2000);
+        }, 2000);
        
       },
       (error) => {

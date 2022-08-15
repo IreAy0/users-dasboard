@@ -21,15 +21,7 @@
       :minNav="navbarMinimize"
       v-if="showNavbar"
     />
- <div v-show="loading == true">
-     <div id="loading-bg">
-    <div class="loading">
-      <div class="effect-1 effects"></div>
-      <div class="effect-2 effects"></div>
-      <div class="effect-3 effects"></div>
-    </div>
-  </div>
-  </div>
+
     <router-view />
    
   </main>
@@ -93,39 +85,21 @@ export default {
     if (window.innerWidth > 1200) {
       sidenav.classList.add("g-sidenav-pinned");
 
-      this.getTeams();
-     this.getSubcriptions();
+    }
+  },
+  beforeRouteEnter(){},
+
+  mounted() {
+    this.$store.dispatch("ProfileModule/getUser");
+    this.getTeams();
+    this.getSubcriptions();
     this.getUser();
     this.getCompany();
     this.getPrints();
     this.getDashboardData();
     this.getTransactions();
     this.RequestsList();
-
-
-    }
   },
-   beforeRouteEnter (to, from, next) {
-    console.log('beforeRouteEnter');
-    // router.push('/redirecting')
-    next();
-
-  },
-
-  beforeRouteUpdate (to, from, next) {
-    console.log('beforeRouteUpdate', to, from)
-    next();
-  },
-  // mounted() {
-  //   this.getTeams();
-  //   this.getSubcriptions();
-  //   this.getUser();
-  //   this.getCompany();
-  //   this.getPrints();
-  //   this.getDashboardData();
-  //   this.getTransactions();
-  //   this.RequestsList();
-  // },
 
 };
 </script>
