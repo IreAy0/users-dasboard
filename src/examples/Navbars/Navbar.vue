@@ -72,8 +72,10 @@
                 >{{ getActive?.subscription?.plan?.name }} Plan</span
               >
             </div>
+            
             <span class="avatar">
-              <span class="img d-flex align-items-center justify-content-center"
+              <img v-if="companyProfile?.logo" :src="companyProfile?.logo" alt="" class="img d-flex align-items-center justify-content-center">
+              <span v-if="!companyProfile?.logo" class="img d-flex align-items-center justify-content-center"
                 >{{ userProfile?.initials }}
               </span>
               <span class="avatar-status-online"></span>
@@ -105,7 +107,8 @@
                   <div class=" d-flex">
                     <div class="my-auto">
                        <div class="avatar avatar-md me-1">
-                    <span class="img d-flex align-items-center justify-content-center"
+                       <img v-if="companyProfile?.logo" :src="companyProfile?.logo" alt="" class="img d-flex align-items-center justify-content-center">
+                    <span v-if="!companyProfile?.logo" class="img d-flex align-items-center justify-content-center"
                         style="font-size: 12px;">{{item?.name?.charAt(0)}}</span>
                     <span :class="{'d-none':item.active === false}"  class="avatar-status-online"></span>
                 </div>
@@ -182,6 +185,7 @@ export default {
   methods: {
     ...mapMutations("MenuModule",["navbarMinimize", "toggleConfigurator"]),
  ...mapActions('ProfileModule', ['getUser']),
+
     ...mapActions('AuthModule', ['logout']),
 ...mapActions('TeamsModule', ['getTeams']),
     // ...mapActions('MenuModule', ['toggleMenu']),
@@ -233,6 +237,7 @@ export default {
   computed: {
     ...mapState("MenuModule",["isRTL", "isAbsolute", "isPinned"]),
     ...mapState("ProfileModule", ["userProfile"]),
+    ...mapState("CompanyModule", ["companyProfile"]),
     ...mapState("TeamsModule", ["Teams"]),
     // ...mapState("MenuModule", ["openMenu"]),
     getActive() {

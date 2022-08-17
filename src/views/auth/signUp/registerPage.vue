@@ -178,7 +178,7 @@
                 />
 
                 <label class="form-check-label" for="register-privacy-policy"
-                  >I agree to<a href="#">&nbsp;privacy policy & terms</a>
+                  >I agree to<a href="https://gettonote.com/privacy.php" target="_blank">&nbsp;privacy policy & terms</a>
                 </label>
               </div>
             </div>

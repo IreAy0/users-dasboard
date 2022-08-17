@@ -88,7 +88,7 @@
             <a  v-for="(item, index) in Teams" :key="index" class="dropdown-item border-bottom align-items-center d-flex justify-content-between" href="#">
                <div  @click="switchTeam(item?.id)" class="d-flex align-items-center d-flex justify-content-between">
             <div class="avatar ">
-                    <span class="img d-flex align-items-center justify-content-center"
+                    <span  class="img d-flex align-items-center justify-content-center"
                         style="font-size: 12px;">{{item?.name?.charAt(0)}}</span>
                     <span :class="{'d-none':item.active === false}"  class="avatar-status-online"></span>
                 </div>
@@ -161,6 +161,7 @@ export default {
   components: {},
   computed: {
     ...mapState("ProfileModule", ["userProfile"]),
+    ...mapState("CompanyModule", ["companyProfile"]),
     ...mapState("TeamsModule", ["Teams"]),
     ...mapState("MenuModule", ["openMenu"]),
     getActive() {

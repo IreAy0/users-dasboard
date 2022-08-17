@@ -41,9 +41,10 @@
                       
                       </button>
                   </form>
-                  <p class="text-center mt-2"><span>Didn&rsquo;t get the code?</span><a href="Javascript:void(0)" @click="resendVerify"><span>&nbsp;Resend</span></a><span>&nbsp;or</span><a href="Javascript:void(0)"><span>&nbsp;Call Us</span></a></p>
+                  <p class="text-center mt-2"><span>Didn&rsquo;t get the code?</span><a href="Javascript:void(0)" @click="resendVerify"><span>&nbsp;Resend</span></a><span>&nbsp;or</span><a href="mailto:ask@gettonote.com" target="_blank"><span>&nbsp;Email Us</span></a></p>
                 </div>
               </div>
+              <a href="mailto:"></a>
       </div>
     </div>
   </div>

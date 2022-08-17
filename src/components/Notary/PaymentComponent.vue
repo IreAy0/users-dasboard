@@ -1,6 +1,9 @@
 <template>
   <div class="modal-body">
-    <div data-aos="zoom-in" class="d-flex justify-content-end">
+    <div data-aos="zoom-in" class="d-flex justify-content-between align-items-center">
+      <div class="col-md-6">
+        <p class="fw-bold mb-0"> Once we receive payment, your document will be securely passed on to the next available notary. We will connect you via email.</p>
+      </div>
       <div class="shadow-lg text-center p-2 price__display">
         <span>Transaction cost</span>
         <p class="h3 text-primary fw-bolder my-0 py-0">&#8358; 8000</p>

@@ -28,7 +28,7 @@
           <h5>OR</h5>
           <h5 class="btn btn-primary">Select File</h5>
           <div class="text-muted mt-1" style="font-size: 12px">
-            <slot name="format">PDF, DOC, DOCX, PNG, JPG or JPEG only</slot>
+            <slot name="format">PDF, DOC, DOCX only</slot>
           </div>
           <slot name="input">
             <input
@@ -42,10 +42,10 @@
         </div>
       </label>
     </div>
-    <label v-if="error_message.file" class="text-danger small" for="error">{{
+    <label v-if="error_message.file" class="text-primary small" for="error">{{
       error_message.file
     }}</label>
-    <p v-if="preview" class="text-danger">{{ preview }}</p>
+    <p v-if="preview" class="text-primary">{{ preview }}</p>
 
     <div class="my-2">
       <label class="form-label" for="template"

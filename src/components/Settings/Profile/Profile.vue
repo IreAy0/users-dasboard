@@ -41,7 +41,7 @@
 </ul>
 </nav>
 
-<div class="tab-content tab-content col-12 col-md-7 bs-stepper-content" >
+<div class="tab-content tab-content col-12 col-md-9 bs-stepper-content" >
   <div class=" formstep step0 " >
      <Form autocomplete="off" @submit="handleSubmit" :validation-schema="simpleSchema" id="account-details-modern" novalidate>
                 <div class="content-header mb-1">
@@ -221,7 +221,7 @@
                     v-show="validState == false"
                     
                     @click="verifyId"
-                    class="btn border-0 btn-primary-outline border-primary text-primary ms-1"
+                    class="btn border mb-0 btn-primary-outline border-primary text-primary ms-1"
                   >
                     <span
                       v-show="verifying"

@@ -37,26 +37,22 @@
     <b-modal
       id="modal-center"
       centered
-      title="Transaction Summary"
+      title="Upgrade Plan"
       hide-footer
       ref="my-modal"
       v-model="modalShow"
     >
-      <b-col cols="12" class="p-0 mt-xl-0 mt-2 d-flex">
+      <b-col cols="12" class="p-0 mt-xl-1 mt-2 d-flex">
         <div>
-          <h6 class="mb-2">Payment Details:</h6>
-          <table>
-            <tbody>
-              <tr>
-                <td class="pr-1">Total Due:</td>
-                <td>
-                  <span class="fw-bold ms-1">
-                    ₦{{ transactionSummary?.total?.toLocaleString() }}</span
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          
+          <h6 v-if="transactionSummary?.title?.includes('Pro')" class="mb-2">You are about to unlock more collaborative features by signing up for the pro plan</h6>
+          <h6 v-if="transactionSummary?.title?.includes('Business')" class="mb-2">You are about to unlock more collaborative features by signing up for the business plan</h6>
+
+      <div class="shadow-lg text-center p-2 price__display">
+        <span>Total Due:</span>
+        <p class="h3 text-primary fw-bolder my-0 py-0">&#8358;{{( Math.round(transactionSummary?.total * 100 ) / 100).toLocaleString() }}</p>
+      </div>
+               
         </div>
       </b-col>
 
@@ -88,7 +84,6 @@
             <span class="bs-stepper-box d-none d-lg-block"> 1 </span>
             <span class="bs-stepper-label">
               <span class="bs-stepper-title">Plans </span>
-              {{individualSelected}}
             </span>
           </button>
         </template>

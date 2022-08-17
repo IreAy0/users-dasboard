@@ -44,7 +44,7 @@
       id="select"
     >
       <div class="row align-items-baseline pt-1">
-        <div class="col-12 col-md-8 rounded-3 overflow-auto">
+        <div class="col-12 col-md-7 rounded-3 overflow-auto">
           <table class="table table-bordered">
             <thead class="table-light">
               <tr>
@@ -57,7 +57,7 @@
                   <div v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000', fontWeight: 'bolder' }"
                       :class="font"
                      
-                      class="form-check-label flex-grow-1 form-check d-flex align-items-center"
+                      class="form-check-label flex-grow-1  form-check d-flex align-items-center"
                       :for="font"
                       @click="onCapture(font, 'Signature', 'Type')">
                    
@@ -71,7 +71,7 @@
                       v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000' }"
                       :class="font"
                       :ref="font"
-                      class="form-check-label flex-grow-1 flex-grow-1 p-50"
+                      class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50"
                       :for="font"
                      
                     >
@@ -86,7 +86,7 @@
           </table>
         </div>
 
-        <div class="col-12 col-md-4 mt-2 mt-md-0">
+        <div class="col-12 col-md-5 mt-2 mt-md-0">
           <!-- <button class="btn  bg-primary text-primary  bg-opacity-10 rounded-3 border border-primary">Preview Signature</button> -->
           <div>
             <div class="mt-1">
@@ -161,7 +161,7 @@
               <img
                class="sign-preview"
                 :src="imgSrc?.file || getInitials"
-                 
+                 :style="{ width: '100%' }"
               />
                <SkeletonLoader :loading="loadingSignature"/>
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
@@ -441,9 +441,10 @@ export default {
       const finalRef = ref;
       this.capturing = true;
       const capture = this.$refs[finalRef];
-
+      // capture.style.fontSize="50px";
         domtoimage.toPng(capture)
         .then((dataUrl) => {
+         
           this.setImage({ file: dataUrl, type, category });
           this.capturing = false;
         })
@@ -573,8 +574,8 @@ export default {
 }
 
 .sign-preview {
-  max-height: 200px;
-  max-width:200px;
+  
+  min-width:200px;
   margin: auto;
 }
 </style>

@@ -33,7 +33,7 @@
             <span class="step-trigger">
               <span class="bs-stepper-box d-none d-lg-block"> 3</span>
               <span class="bs-stepper-label">
-                <span class="bs-stepper-title">Upload stamp and seal</span>
+                <span class="bs-stepper-title">Stamp and seal</span>
               </span>
             </span>
           </button>
@@ -123,13 +123,14 @@
                   name="country"
                   as="select"
                   @change="getStates(country)"
-                  v-model="country"
+                  v-model="country "
                   class="select2 w-100 form-select"
                   id="company-country"
                 >
                   <option value="">Please select a country</option>
                   <option
                     :key="option"
+                    
                     :selected="option.id === country ? true : false"
                     v-for="option in countries"
                     :value="option.id"
@@ -233,7 +234,7 @@
                 </select>
               </div>
               <b-col md="6">
-                <label class="form-label" for="bvn">RC Number</label>
+                <label class="form-label" for="bvn">Company Registration Number</label>
                 <div></div>
                 <div class="input-group relative mb-3">
                   <input
@@ -267,7 +268,7 @@
                     v-show="validState == false"
                     
                     @click="verifyId"
-                    class="btn border-0 btn-primary-outline border-primary text-primary ms-1"
+                    class="btn border mb-0 btn-primary-outline border-primary text-primary ms-1"
                   >
                     <span
                       v-show="verifying"

@@ -65,10 +65,11 @@ const actions = {
        console.log('user successfully logged in',user)
       //  dispatch("ProfileModule/getUser", { root: true });
       //  store.dispatch("ProfileModule/getUser", { root: true });
-        setTimeout(() => {
-          router.push("/admin/dashboard");
+      router.push("/admin/dashboard");
+        // setTimeout(() => {
           
-        }, 2000);
+          
+        // }, 2000);
        
       },
       (error) => {
