@@ -49,7 +49,7 @@ export default {
   computed: {
     ...mapState("TeamsModule", ["Teams"]),
     getActive() {
-      const active = this?.Teams?.find((element) => element.active == true);
+      const active = this?.Teams?.find((element) => element?.active == true);
       return active;
     },
     remainingEnvelops(){

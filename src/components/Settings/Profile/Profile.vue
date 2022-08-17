@@ -116,7 +116,7 @@
                     <label class="form-label" for="country">Country</label>
                     <Field name="country" as="select" @change="getStates(country)" v-model="country" class="select2 w-100 form-select" id="country">
                     <option value="" >Please select a country</option>
-                    <option :key="option" :selected="option.id === country ? true : false"  v-for="option in countries" :value="option.id">{{option.name}}</option>
+                    <option :key="option" :selected="option?.id === country ? true : false"  v-for="option in countries" :value="option?.id">{{option?.name}}</option>
                       
                     </Field>
                   
@@ -126,7 +126,7 @@
                     <label class="form-label" for="state">State</label>
                     <Field name="state" as="select" v-model="state" class="select2 w-100 form-select" id="state">
                     <option value="" disabled >Please select a state</option>
-                    <option :key="option" v-for="option in states" :value="option.id">{{option.name}}</option>
+                    <option :key="option" v-for="option in states" :value="option?.id">{{option.name}}</option>
                       
                     </Field>
                     <ErrorMessage name="state" class="text-danger "/>
@@ -544,7 +544,7 @@ export default {
     },
   },
 
-  beforeCreate() {
+  created() {
     ToNote.get("/user/profile").then((res) => {
       this.profile = res?.data?.data;
       this.validState = res?.data?.data?.national_verification;

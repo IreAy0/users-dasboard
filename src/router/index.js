@@ -154,13 +154,10 @@ const router = createRouter({
   },
 });
 
-router.afterEach(async (to, from) => {
-  await  store.dispatch("ProfileModule/getUser");
-})
 
-router.beforeResolve(async (to, from, next) => {
+router.beforeEach(async (to, from, next) => {
 
-    await  store.dispatch("ProfileModule/getUser");
+    // await  store.dispatch("ProfileModule/getUser");
   if (to.fullPath?.includes("admin") && isAuthenticated() == false) {
     next("/");
   }  else if (to.fullPath == "/" || to.fullPath == "/register") {

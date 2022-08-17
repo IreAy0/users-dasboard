@@ -433,11 +433,6 @@ export default defineComponent({
     },
   },
 
-  beforeCreate() {
-    ToNote.get("/countries").then((res) => {
-      this.countries = res.data.data;
-    });
-  },
 });
 </script>
 

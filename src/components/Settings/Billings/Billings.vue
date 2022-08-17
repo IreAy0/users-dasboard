@@ -299,7 +299,7 @@ export default {
         ...mapState('ProfileModule', ['userProfile', 'transactions']),
 
     getEmail(){
-      return this.userProfile.email
+      return this?.userProfile?.email
     
     },
     
@@ -314,7 +314,6 @@ export default {
 
     remainingEnvelops(){
       const number = this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.limit_number - this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.executed  ;
-     console.log(number, 'number')
      return number
     }
   },

@@ -174,21 +174,13 @@ export default {
 
     getActiveUser() {
       const activeUser = this.Teams?.find(
-        (team) => team?.id == this.userProfile?.id
+        (team) => team?.id == this?.userProfile?.id
       );
       return activeUser;
     },
     getActiveTeam() {
-      return this.Teams?.find((element) => element.active == true);
+      return this.Teams?.find((element) => element?.active == true);
     },
-  },
-
-  beforeCreate() {
-    ToNote.get("/user/profile").then((res) => {
-      this.profile = res?.data?.data;
-      this.validState = res?.data?.data?.national_verification;
-      this.state = res.data.data.state?.id;
-    });
   },
 };
 </script>

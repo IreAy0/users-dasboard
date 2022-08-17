@@ -87,10 +87,14 @@ export default {
 
     }
   },
-  beforeRouteEnter(){},
+  beforeRouteEnter(){
 
-  mounted() {
+  },
+
+beforeCreate(){
     this.$store.dispatch("ProfileModule/getUser");
+},
+  mounted() {
     this.getTeams();
     this.getSubcriptions();
     this.getUser();
@@ -99,6 +103,7 @@ export default {
     this.getDashboardData();
     this.getTransactions();
     this.RequestsList();
+
   },
 
 };

@@ -131,9 +131,9 @@
                   <option
                     :key="option"
                     
-                    :selected="option.id === country ? true : false"
+                    :selected="option?.id === country ? true : false"
                     v-for="option in countries"
-                    :value="option.id"
+                    :value="option?.id"
                   >
                     {{ option.name }}
                   </option>
@@ -154,7 +154,7 @@
                   <option
                     :key="option"
                     v-for="option in states"
-                    :value="option.id"
+                    :value="option?.id"
                   >
                     {{ option.name }}
                   </option>
@@ -554,7 +554,7 @@ export default {
 
     getStates(country) {
       ToNote.get(`/countries/${country}`).then((res) => {
-        this.states = res.data.data;
+        this.states = res?.data?.data;
       });
     },
 
@@ -643,12 +643,15 @@ export default {
   },
 
   beforeCreate() {
-    ToNote.get("/company")
+    
+  },
+ mounted() {
+  ToNote.get("/company")
       .then((res) => {
-        this.profile = res.data.data;
-        this.validState = res.data.data.is_verified;
-        this.state = res.data.data.state_id;
-        this.country = res.data.data.country_id;
+        this.profile = res?.data?.data;
+        this.validState = res?.data?.data?.is_verified;
+        this.state = res?.data?.data?.state_id;
+        this.country = res?.data?.data?.country_id;
       })
       .catch((err) => {
         this.errors = err?.response?.data?.data?.error;
@@ -656,9 +659,7 @@ export default {
     ToNote.get("/countries").then((res) => {
       this.countries = res?.data?.data;
     });
-  },
- mounted() {
-    if(this.userProfile){
+    if(this.companyProfile){
       ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
       this.states = res?.data?.data;
       
