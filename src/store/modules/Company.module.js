@@ -15,6 +15,9 @@ const state = () => ({
   Errors: [],
   companySeal: [],
   companyStamp: [],
+  getCompanySeal: [],
+  getCompanyStamp: [],
+  changeValue:"",
 });
 
 const getters = {
@@ -141,7 +144,7 @@ const actions = {
   listCompanySeals({ commit }) {
     company.getCompanySeals().then(
       (res) => {
-        commit("setCompanySeal", res?.data?.data?.CompanySeal);
+        commit("getCompanySeal", res?.data?.data?.CompanySeal);
       },
       (error) => {
         commit("getUserFailed", error);
@@ -160,7 +163,7 @@ const actions = {
   listCompanyStamps({ commit }) {
     company.getCompanyStamps().then(
       (res) => {
-        commit("setCompanyStamp", res.data.data.CompanyStamp);
+        commit("getCompanyStamp", res.data.data.CompanyStamp);
       },
       (error) => {
         commit("getUserFailed", error);
@@ -181,9 +184,23 @@ const actions = {
 const mutations = {
   setCompanySeal: (state, payload) => {
     state.companySeal = payload;
+    state.changeValue= payload
+    state.updating = true
   },
+
   setCompanyStamp: (state, payload) => {
     state.companyStamp = payload;
+    state.changeValue= payload
+    state.updating = true
+  },
+  getCompanySeal(state, user){
+    state.getCompanySeal =user;
+    // state.loadingSignature = true
+    state.updating =false
+  },
+  getCompanyStamp(state, user){
+    state.getCompanyStamp =user;
+    state.updating = false
   },
   setImage: (state, payload) => {
     state.signature = payload;

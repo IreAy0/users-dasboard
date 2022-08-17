@@ -92,18 +92,19 @@ export default {
   },
 
 beforeCreate(){
-    this.$store.dispatch("ProfileModule/getUser");
+    
 },
   mounted() {
     this.getTeams();
     this.getSubcriptions();
     this.getUser();
-    this.getCompany();
+    // this.getCompany();
     this.getPrints();
     this.getDashboardData();
     this.getTransactions();
     this.RequestsList();
-
+    this.$store.dispatch("ProfileModule/getUser");
+    this.$store.dispatch("CompanyModule/getCompany");
   },
 
 };

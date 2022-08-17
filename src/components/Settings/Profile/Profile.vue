@@ -116,17 +116,17 @@
                     <label class="form-label" for="country">Country</label>
                     <Field name="country" as="select" @change="getStates(country)" v-model="country" class="select2 w-100 form-select" id="country">
                     <option value="" >Please select a country</option>
-                    <option :key="option" :selected="option?.id === country ? true : false"  v-for="option in countries" :value="option?.id">{{option?.name}}</option>
+                    <option :key="option" :selected="option.id === country ? true : false"  v-for="option in countries" :value="option.id">{{option.name}}</option>
                       
                     </Field>
                   
                   </div>
                   <div class="mb-1 col-md-6">
-                   
+                 
                     <label class="form-label" for="state">State</label>
                     <Field name="state" as="select" v-model="state" class="select2 w-100 form-select" id="state">
                     <option value="" disabled >Please select a state</option>
-                    <option :key="option" v-for="option in states" :value="option?.id">{{option.name}}</option>
+                    <option :key="option" :selected="option.id === state ? true : false" v-for="option in states" :value="option.id">{{option.name}}</option>
                       
                     </Field>
                     <ErrorMessage name="state" class="text-danger "/>
@@ -544,12 +544,14 @@ export default {
     },
   },
 
-  created() {
+  beforeCreate() {
     ToNote.get("/user/profile").then((res) => {
       this.profile = res?.data?.data;
       this.validState = res?.data?.data?.national_verification;
       this.state = res?.data?.data?.state?.id;
       this.country = res?.data?.data?.country?.id;
+     
+      this.getStates(this.country)
     });
 
     ToNote.get("/countries").then((res) => {
@@ -557,11 +559,12 @@ export default {
 
     });
   },
-  mounted() {
-    if(this.userProfile){
-      ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
+  created() {
+    console.log(this.profile, this.userProfile, this.user, this.country, 'created');
+    if(this.profile){
+      ToNote.get(`/countries/${this.country}`).then((res) => {
       this.states = res?.data?.data;
-      
+      console.log(res?.data?.data, 'states')
     });
     }
    

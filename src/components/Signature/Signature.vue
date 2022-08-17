@@ -384,17 +384,16 @@ export default {
     changeValue: {
       // eslint-disable-next-line no-unused-vars
       handler(newVal, oldVal) {
+        
         if (
           newVal?.data?.data?.Signature?.length > 0 &&
           this.activeItem == "draw"
         ) {
           this.setActive("select");
-          console.log(this.changeValue, "select");
         } else if (
           newVal?.data?.data?.Signature?.length > 0 &&
           this.activeItem == "select"
         ) {
-          console.log(this.activeItem, this.changeValue, "item");
           this.setActive("initials");
         } else if (
           newVal?.data?.data?.Signature?.length > 0 &&

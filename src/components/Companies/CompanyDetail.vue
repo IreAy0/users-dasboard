@@ -131,9 +131,9 @@
                   <option
                     :key="option"
                     
-                    :selected="option?.id === country ? true : false"
+                    :selected="option.id === country ? true : false"
                     v-for="option in countries"
-                    :value="option?.id"
+                    :value="option.id"
                   >
                     {{ option.name }}
                   </option>
@@ -142,6 +142,7 @@
               <div class="mb-1 col-md-6">
                 <label class="form-label" for="state">State</label>
                 <!-- <b-form-select :options="states"></b-form-select> -->
+                
                 <Field
                 :disabled = "getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
                   name="state"
@@ -154,7 +155,8 @@
                   <option
                     :key="option"
                     v-for="option in states"
-                    :value="option?.id"
+                    :value="option.id"
+                    :selected="option.id === state ? true : false" 
                   >
                     {{ option.name }}
                   </option>
@@ -189,7 +191,7 @@
                       <img
                         :src="profile?.logo"
                         class="sign-preview"
-                        :style="{ width: '100%' }"
+                        :style="{ width: '100%', maxHeight: '150px', objectFit:'contain' }"
                       />
                     </div>
                   </div>
@@ -348,6 +350,7 @@
                     </div>
                   </nav>
                   <div class="tab-content px-2" id="nav-tabContent">
+                   
                     <div
                       
                       class="tab-pane fade"
@@ -525,6 +528,7 @@ export default {
       "Errors",
       "updating",
       "companyProfile",
+      "changeValue",
     ]),
     ...mapState('TeamsModule', ['Teams', 'teamsUsers']),
     ...mapState("ProfileModule", [
@@ -535,10 +539,44 @@ export default {
       "gettingProfile",
     ]),
   },
+  watch: {
+    changeValue: {
+      // eslint-disable-next-line no-unused-vars
+      handler(newVal, oldVal) {
+        if (
+          newVal?.length > 0 &&
+          this.activeItem == "seal"
+          
+        ) {
+          this.$store.dispatch("CompanyModule/listCompanySeals");
+          this.setActive("stamp");
+        }
+         else if (
+          newVal?.length > 0 &&
+          this.activeItem == "stamp"
+        ) {
+           this.$store.dispatch("CompanyModule/listCompanyStamps");
+          toast.success("Company setup Completed", {
+            position: "top-right",
+            duration: 5000,
+            closeButton: false,
+            progressBar: false,
+          });
+           this.$router.push("/admin/dashboard");
+          setInterval(() => {
+            window.location.reload();
+          }, 2000);
+        }
+      },
+
+      deep: true,
+    },
+  },
   methods: {
     isActive(menuItem) {
       return this.activeItem === menuItem;
     },
+    
     setActive(menuItem) {
       this.activeItem = menuItem;
     },
@@ -643,15 +681,13 @@ export default {
   },
 
   beforeCreate() {
-    
-  },
- mounted() {
-  ToNote.get("/company")
+     ToNote.get("/company")
       .then((res) => {
         this.profile = res?.data?.data;
         this.validState = res?.data?.data?.is_verified;
         this.state = res?.data?.data?.state_id;
         this.country = res?.data?.data?.country_id;
+        this.getStates(this.country)
       })
       .catch((err) => {
         this.errors = err?.response?.data?.data?.error;
@@ -659,9 +695,14 @@ export default {
     ToNote.get("/countries").then((res) => {
       this.countries = res?.data?.data;
     });
-    if(this.companyProfile){
-      ToNote.get(`/countries/${this.userProfile?.country?.id}`).then((res) => {
+  },
+ mounted() {
+    
+
+if(this.companyProfile){
+      ToNote.get(`/countries/${this.companyProfile?.country_id}`).then((res) => {
       this.states = res?.data?.data;
+      
       
     });
     }

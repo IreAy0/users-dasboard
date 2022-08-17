@@ -183,14 +183,17 @@
                     </svg>
                   </span>
                 </button>
+               
       <button
         type="button"
         class="btn btn-primary d-block  mt-2"
         @click="onSaveSignature"
-        :disabled="!isAdopt"
+        :disabled="!data.file"
       >
+      
         <span
-          v-show="loading_save"
+        
+          v-show="updating == true"
           class="spinner-border spinner-border-sm"
         ></span>
         <span>save</span>
@@ -208,7 +211,9 @@ import ToNote from "@/Services/Tonote";
 // const { useActions } = createNamespacedHelpers(["print"]);
 // const { savePrint } = useActions(["savePrint"]);
 const store = useStore();
-const companySeals = computed(() => store?.state?.CompanyModule?.companySeal);
+const companySeals = computed(() => store?.state?.CompanyModule?.getCompanySeal);
+const updating = computed(() => store?.state?.CompanyModule?.updating);
+
 // const companyProfile = ref("");
 // const text_cnv = ref(companyProfile?.value?.company_name);
 const text_cnv = ref("");
@@ -270,8 +275,11 @@ const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
 };
 
 const onSaveSignature = () => {
+  
   loading_save.value = true;
+
   store.dispatch("CompanyModule/setCompanySeal", data.value);
+
   loading_save.value = false;
 };
 

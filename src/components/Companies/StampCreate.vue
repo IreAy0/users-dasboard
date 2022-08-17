@@ -30,18 +30,54 @@
         maxlength=""
       />
     </div>
-
+<div class="form-group col-12 col-lg-6 mb-1">
+      <label for="text_canvas2">Email:</label>
+      <input
+        :disabled="
+          props.getActiveUser()?.permission !== 'Admin' ||
+          getActiveUser()?.isOwner !== true
+        "
+        type="text"
+        class="input form-control"
+        placeholder="Email"
+        v-model="email"
+        
+        maxlength=""
+      />
+    </div>
+    <div class="form-group col-12 col-lg-6 mb-1">
+      <label for="text_canvas2">Phone Number:</label>
+      <input
+        :disabled="
+          props.getActiveUser()?.permission !== 'Admin' ||
+          getActiveUser()?.isOwner !== true
+        "
+        type="text"
+        class="input form-control"
+        placeholder="Phone Number"
+        v-model="phone"
+        size="11"
+        maxlength="11"
+      />
+    </div>
     <div class="divider"></div>
 
     <div class="position-relative">
       <div class="px-2 pb-1" ref="capture">
         <div class="mx-auto my-2 bordered">
           <div>
-            <h4 class="text-center text-dark mb-2" style="font-weight: 700">
+            <h4 class="text-center text-dark mb-50" style="font-weight: 700">
               {{ name }}
             </h4>
-            <h5 class="text-center text-dark mb-0" style="font-weight: 700">
+           <h5 class="text-center text-dark mb-50" style="font-weight: 700">
               {{ address }}
+            </h5>
+           
+            <h5 class="text-center text-dark mb-50" style="font-weight: 700">
+              Tel : {{ phone }}
+            </h5>
+             <h5 class="text-center text-dark mb-50" style="font-weight: 700">
+              Email : {{ email }}
             </h5>
           </div>
         </div>
@@ -121,8 +157,10 @@ const loading = ref(false);
 const capture = ref("");
 const name = ref("");
 const address = ref("");
+const phone = ref("");
+const email = ref("");
 const data = ref("");
-const companyStamps = computed(() => store.state.CompanyModule.companyStamp);
+const companyStamps = computed(() => store.state.CompanyModule.getCompanyStamp);
 const props = defineProps(["getActiveUser"]);
 const emit = defineEmits(["close"]);
 const captureStamp = () => {
@@ -153,6 +191,8 @@ onBeforeMount(() => {
     .then((res) => {
       name.value = res.data.data.company_name;
       address.value = res.data.data.address;
+      phone.value= res.data.data.phone;
+      email.value = res.data.data.email;
     })
     .catch((err) => {
       console.log(err);
@@ -181,7 +221,7 @@ onBeforeMount(() => {
   align-items: center;
   border: 2px dashed #000;
   border-radius: 10px;
-  min-height: 130px;
+  min-height: 180px;
 }
 
 .preview {
