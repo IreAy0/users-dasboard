@@ -97,6 +97,7 @@
                 </div>
             </div>
              <div class=" text-center border-bottom pb-1 px-2">
+            
                 <h6>{{userProfile?.first_name}} {{userProfile?.last_name}} </h6>
                 <small>{{userProfile?.email}}</small>
             </div>
@@ -107,8 +108,8 @@
                   <div class=" d-flex">
                     <div class="my-auto">
                        <div class="avatar avatar-md me-1">
-                       <img v-if="companyProfile?.logo" :src="companyProfile?.logo" alt="" class="img d-flex align-items-center justify-content-center">
-                    <span v-if="!companyProfile?.logo" class="img d-flex align-items-center justify-content-center"
+                       <img v-if="item?.image"  :src="item?.image" alt="" class="img d-flex align-items-center justify-content-center">
+                    <span v-else class="img d-flex align-items-center justify-content-center"
                         style="font-size: 12px;">{{item?.name?.charAt(0)}}</span>
                     <span :class="{'d-none':item.active === false}"  class="avatar-status-online"></span>
                 </div>

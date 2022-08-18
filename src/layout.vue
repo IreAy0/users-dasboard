@@ -106,6 +106,7 @@ beforeCreate(){
      setTimeout(() => {
       this.loading = false;
     }, 2000);
+    
     this.getTeams();
     this.getSubcriptions();
     this.getUser();
