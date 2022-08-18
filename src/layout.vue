@@ -1,15 +1,19 @@
 <template>
-  <sidenav
+
+  <div class=" grid" v-if="loading == true" >
+    <Preloader />
+  </div>
+  <div v-else>
+<sidenav
     :custom_class="color"
     :class="[isRTL ? 'fixed-end' : 'fixed-start']"
     v-if="showSidenav"
     class="zindex-4"
   />
-
+  
   <main
     class="main-content position-relative max-height-vh-100 h-100 overflow-x-hidden"
   >
-  
     <div v-show="isPinned == false" class="position-absolute max-height-vh-100 h-100 w-100 sidenav-overlay show zindex-3" @click="toggleSidebar">
      
              </div>
@@ -25,12 +29,15 @@
     <router-view />
    
   </main>
+  </div>
+  
 </template>
 <script>
 import Sidenav from "./examples/Sidenav";
 // import Configurator from "@/examples/Configurator.vue";
 import Navbar from "@/examples/Navbars/Navbar.vue";
 // import AppFooter from "@/examples/Footer.vue";
+import Preloader from './components/PreLoader.vue';
 import { mapMutations, mapState } from "vuex";
 import { mapActions } from "vuex";
 import router from "./router";
@@ -39,7 +46,7 @@ export default {
   name: "App",
   data(){
     return{
-
+        loading: true,
     } 
   },
   components: {
@@ -47,6 +54,7 @@ export default {
     // Configurator,
     Navbar,
     // AppFooter
+    Preloader
   },
   methods: {
     ...mapMutations("MenuModule",["toggleConfigurator", "navbarMinimize"]),
@@ -95,6 +103,9 @@ beforeCreate(){
     
 },
   mounted() {
+     setTimeout(() => {
+      this.loading = false;
+    }, 2000);
     this.getTeams();
     this.getSubcriptions();
     this.getUser();
@@ -109,3 +120,11 @@ beforeCreate(){
 
 };
 </script>
+<style scoped>
+.grid {
+  display: grid;
+  place-items: center;
+  height: 70vh;
+  width: 100%;
+}
+</style>

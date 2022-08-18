@@ -394,6 +394,11 @@ Request;
 export default {
   name: "AdminDashboard",
   components: { AffidavitModal, RequestNotaryModal, DocumentsList },
+  data() {
+    return {
+      loading: true
+    };
+  },
   computed: {
     ...mapState("ProfileModule", ["userProfile", "dashboardData"]),
     getToken() {
@@ -416,6 +421,7 @@ export default {
   mounted: function () {
     this.getUser();
   },
+ 
 };
 </script>
 

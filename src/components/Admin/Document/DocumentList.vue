@@ -19,9 +19,9 @@
             <tbody>
               <tr v-for="document in documents" :key="document.id">
                 <td>
-                  <p class="my-0 py-0">{{ document.title }}</p>
+                  <a :href="`https://tonote-doc.netlify.app/document/${document.status == 'New' ? 'edit' : 'audit'}/${document.id}?qt=${token}`" class="my-0 py-0">{{ document.title }}</a>
                   <p v-if="document.participants_count !== 0" class="my-0 py-0">
-                    To:
+                    <!-- To:
                     <span
                       v-for="participant in document.participants"
                       :key="participant.user.id"
@@ -29,7 +29,7 @@
                       {{
                         `${participant.user.first_name} ${participant.user.last_name},`
                       }}
-                    </span>
+                    </span> -->
                   </p>
                 </td>
                 <td>
@@ -88,7 +88,7 @@
 <script setup>
 import { computed, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import { timeFormat } from "@/Services/helpers";
+import { getToken, timeFormat } from "@/Services/helpers";
 
 onBeforeMount(() => {
   store.dispatch("DocumentModule/DocumentsList");
@@ -99,5 +99,7 @@ const store = useStore();
 const documents = computed(() => store.state.DocumentModule.documents);
 // eslint-disable-next-line no-unused-vars
 const requests = computed(() => store.state.DocumentModule.requests);
+
+  const token = computed(() => getToken())
 </script>
 <style lang="css"></style>

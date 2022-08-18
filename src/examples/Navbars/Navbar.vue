@@ -96,7 +96,7 @@
                   >
                 </div>
             </div>
-             <div class=" text-center border-bottom pb-1">
+             <div class=" text-center border-bottom pb-1 px-2">
                 <h6>{{userProfile?.first_name}} {{userProfile?.last_name}} </h6>
                 <small>{{userProfile?.email}}</small>
             </div>

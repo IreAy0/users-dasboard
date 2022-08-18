@@ -2,9 +2,11 @@
 import auth from "@/api/auth";
 import router from "@/router";
 import { saveToken } from "@/Services/helpers";
+import { useToast } from "vue-toast-notification";
 import store from "../index";
 
 // initial state
+const toast = useToast();
 
 const state = () => ({
   accessToken: null,
@@ -35,6 +37,16 @@ const actions = {
       },
       (error) => {
         commit("registerFailure", error);
+        if (error) {
+         toast.error('Registration failed, Please try again',{
+                duration: 3000,
+              queue: false,
+              position: "top-right",
+              dismissible: true,
+              pauseOnHover: true,
+          })
+          }
+
       }
     );
   },

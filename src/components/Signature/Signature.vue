@@ -329,7 +329,7 @@ export default {
       picked: "One",
       output: null,
       image: "",
-      fonts: ["Great Vibes", "Montserrat"],
+      fonts: ["Great Vibes", "Arizonia"],
       options: {
         penColor: "#000",
         onBegin: () => {

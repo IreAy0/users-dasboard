@@ -39,10 +39,11 @@ const actions = {
     );
   },
 
-  async companyUpdate({ commit }, user) {
+  async companyUpdate({ commit, dispatch }, user) {
     return new Promise((resolve, reject) => {
       company.updateCompany(user).then(
         (response) => {
+          dispatch("getCompany")
           commit("updateUserCompanySuccess", response);
           commit("getCompanySuccess", response?.data?.data);
           resolve(response);
