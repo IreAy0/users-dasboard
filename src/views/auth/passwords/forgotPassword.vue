@@ -88,7 +88,7 @@ export default {
     resetPassword() {
       this.loading = true;
       ToNote.post('/user/password/email', {
-        email: this.user.email.toLocaleLowerCase()
+        email: this.user.email?.toLocaleLowerCase()
       }).then(res => {
         this.loading = false;
          toast.success('A reset link has been sent to your email address', {
