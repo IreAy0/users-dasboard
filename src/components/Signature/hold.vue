@@ -13,9 +13,9 @@
       </button>
       <button
         class="nav-link"
-        @click.prevent="setActive('select')"
-        :class="{ ' active': isActive('select') }"
-        href="#select"
+        @click.prevent="setActive('type')"
+        :class="{ ' active': isActive('type') }"
+        href="#type"
       >
         Select
       </button>
@@ -37,14 +37,15 @@
       </button>
     </div>
   </nav>
+   
   <div class="tab-content px-2" id="nav-tabContent">
     <div
       class="tab-pane fade"
-      :class="{ 'active show': isActive('select') }"
-      id="select"
+      :class="{ 'active show': isActive('type') }"
+      id="type"
     >
       <div class="row align-items-baseline pt-1">
-        <div class="col-12  rounded-3 overflow-auto">
+        <div class="col-12 col-md-7 rounded-3 overflow-auto">
           <table class="table table-bordered">
             <thead class="table-light">
               <tr>
@@ -86,18 +87,20 @@
           </table>
         </div>
 
-        <div class="col-12  mt-2 m-auto">
+  
+        <div class="col-12 col-md-5 mt-2 mt-md-0">
           <!-- <button class="btn  bg-primary text-primary  bg-opacity-10 rounded-3 border border-primary">Preview Signature</button> -->
           <div>
-            <div class="mt-1 ">
-              
+            <div class="mt-1">
+              {{signature}}
               <img
                class="sign-preview"
-                
+                v-if ="signature.category == 'Type'"
                   :style="{ width: '100%' }"
-                :src="signature.length == 0  ? getTyped  : imgSrc?.file"
+                :src="signature.file"
                
               />
+              <img v-else :src="print" alt="" srcset="">
                <SkeletonLoader :loading="loadingSignature"/>
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
@@ -153,14 +156,14 @@
           </table>
         </div>
 
-        <div class="col-12 col-md-4  m-auto ">
+        <div class="col-12 col-md-4 mt-2 mt-md-0">
           <!-- <button class="btn  bg-primary text-primary  bg-opacity-10 rounded-3 border border-primary">Preview Signature</button> -->
           <div>
             <div class="mt-1">
               
               <img
                class="sign-preview"
-                :src="signature.length == 0  ? getInitials  : imgSrc?.file"
+                :src="imgSrc?.file || getInitials"
                  :style="{ width: '100%' }"
               />
                <SkeletonLoader :loading="loadingSignature"/>
@@ -170,6 +173,7 @@
         </div>
       </div>
     </div>
+   
     <div
       class="tab-pane fade"
       :class="{ 'active show': isActive('draw') }"
@@ -214,8 +218,7 @@
               <div class="mt-1">
                   <SkeletonLoader :loading="loadingSignature"/>
                 <img
-                :src="signature.length == 0 ? getDraw  : imgSrc?.file"
-                 
+                   :src=" imgSrc.file"
                   class="sign-preview"
                   :style="{ width: '100%' }"
                 />
@@ -256,7 +259,7 @@
             <div class="mt-1">
                <SkeletonLoader :loading="loadingSignature" />
               <img
-              :src="signature.length == 0  ? getUpload  : imgSrc?.file"
+                 :src="imgSrc.file"
                 class="sign-preview"
                 :style="{ width: '100%' }"
               />
@@ -296,7 +299,7 @@
                   </svg>
                 </span>
               </button>
-      <button  @click="onSaveSignature(imgSrc)" class="btn btn-primary btn-next" :disabled="updating || imgSrc?.length == 0 || imgSrc?.file == ' '">
+      <button  @click="onSaveSignature(imgSrc)" class="btn btn-primary btn-next" :disabled="updating || imgSrc?.length == 0">
         <span v-show="updating"  > Processing...</span>
         <span v-show="!updating" > Save and Continue</span>
        
@@ -390,10 +393,10 @@ export default {
           newVal?.data?.data?.Signature?.length > 0 &&
           this.activeItem == "draw"
         ) {
-          this.setActive("select");
+          this.setActive("type");
         } else if (
           newVal?.data?.data?.Signature?.length > 0 &&
-          this.activeItem == "select"
+          this.activeItem == "type"
         ) {
           this.setActive("initials");
         } else if (
@@ -426,70 +429,70 @@ export default {
   methods: {
     changeValues() {},
     selectTab(value){
-      
+
     },
     isActive(menuItem) {
       return this.activeItem === menuItem;
     },
+
     setActive(menuItem) {
       this.activeItem = menuItem;
-       this.setImage([]);
-      //  this.imgSrc.file = " "
-      this.clear();
-      console.log(this.imgSrc, this.signature );
+      this.imgSrc.file = " "
+      this.print = this.signatures?.Signature?.find(
+        (signature) => signature?.category === menuItem.charAt(0).toUpperCase() + menuItem.slice(1)
+      )?.file;
+
+      console.log(this.print, menuItem.charAt(0).toUpperCase() + menuItem.slice(1), menuItem)
+      // return this.print
+      return  this.imgSrc.file = this.print
     },
-    getMenu(value) {
-      this.setActive(value);
-     
-    },
+
+    // getMenu(value) {
+    //   this.setActive(value);
+
+    // },
     ...mapMutations("ProfileModule", ["setImage"]),
     ...mapActions("ProfileModule", ["createSign", "userSignature"]),
+
     onCapture(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
       const capture = this.$refs[finalRef];
       // capture.style.fontSize="50px";
-        // domtoimage.toPng(capture, {
-        //   height: 200,
-        //   style:{
-        //     fontSize:"50px",
-        //     padding: "50px",
-        //     width: "100%",
-        //   }
-        // })
-        // .then((dataUrl) => {
-         
-        //   this.setImage({ file: dataUrl, type, category });
-        //   this.capturing = false;
-        // })
-        // .catch((error) => {
-        //   this.capturing = false;
-        //   console.error("oops, something went wrong!", error);
-        // });
-        let scale = 1
-            domtoimage.toBlob(capture, {
-              width: capture.clientWidth * scale,
-               height: 100,
-              style: {
-                transform: "scale(" + scale + ")",
-                transformOrigin: "top left",
-                fontSize: "50px",
-                paddingBottom:'1rem'
-              },
-            })
-            .then((blob) => {
-              var reader = new FileReader();
-              reader.readAsDataURL(blob);
-              reader.onloadend = () => {
-                var base64data = reader.result;
-                // data.value.push({ file: base64data, type: type, category: 'Type' })                
-                  this.setImage({ file: base64data, type, category });
-                 this.capturing = false;
-              };
-            })
-            .catch(function (error) {
-              console.error("oops, something went wrong!", error);
-            });
+        domtoimage.toPng(capture)
+        .then((dataUrl) => {
+          this.setImage({ file: dataUrl, type, category });
+          this.capturing = false;
+        })
+        .catch((error) => {
+          this.capturing = false;
+          console.error("oops, something went wrong!", error);
+        });
+
+
+
+            // .toBlob(capture[0], {
+            //   width: capture[0].clientWidth * scale,
+            //    height: capture[0].clientHeight * scale,
+            //   style: {
+            //     transform: "scale(" + scale + ")",
+            //     transformOrigin: "top left",
+                
+            //   },
+            // })
+            // .then((blob) => {
+            //   var reader = new FileReader();
+            //   reader.readAsDataURL(blob);
+            //   reader.onloadend = () => {
+            //     var base64data = reader.result;
+            //     // data.value.push({ file: base64data, type: type, category: 'Type' })                
+            //       this.setImage({ file: base64data, type, category });
+            //      this.capturing = false;
+            //   };
+            // })
+            // .catch(function (error) {
+            //   console.error("oops, something went wrong!", error);
+            // });
     },
 
     onSaveSignature(data) {
@@ -528,6 +531,7 @@ export default {
 
   mounted() {
     this.changeValues();
+    this.setActive("draw");
   },
 };
 </script>
@@ -589,9 +593,9 @@ export default {
   padding: 60px 0;
 }
 
-/* .sign-preview {
+.sign-preview {
   
-  max-width:200px;
+  min-width:200px;
   margin: auto;
-} */
+}
 </style>

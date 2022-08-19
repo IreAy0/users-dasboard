@@ -125,7 +125,7 @@ export default {
     // ...mapState('AuthModule',['loggingIn', 'loginError']),
     resetForm(){
       const resetForm = {
-        email: this.$route.query.email,
+        email: this.$route.query?.email?.toLocaleLowerCase(),
         token: this.$route.query.hash,
         password: "",
         password_confirmation: ""

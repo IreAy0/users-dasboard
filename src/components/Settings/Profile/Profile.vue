@@ -123,7 +123,7 @@
                   </div>
                   <div class="mb-1 col-md-6">
                  
-                    <label class="form-label" for="state">State</label>
+                    <label class="form-label" for="state">State of Residence</label>
                     <Field name="state" as="select" v-model="state" class="select2 w-100 form-select" id="state">
                     <option value="" disabled >Please select a state</option>
                     <option :key="option" :selected="option.id === state ? true : false" v-for="option in states" :value="option.id">{{option.name}}</option>

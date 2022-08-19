@@ -85,7 +85,7 @@ export default {
         ...mapActions('AuthModule', ['verify']),
         handleSubmit() {
             let  email = localStorage.getItem('user')
-    const data =  {email: email, otp: otpInput.value.otp.join('') }
+    const data =  { email: email.toLocaleLowerCase() , otp: otpInput.value.otp.join('') }
       
     loading.value = true;
     this.verify(data)

@@ -85,7 +85,7 @@
             <div class="mb-2 col-6 position-relative">
               <label class="form-label" for="password">Password</label>
               <div
-                class="input-group input-group-merge form-password-toggle"
+                class="form-password-toggle"
                 :class="{
                   'is-invalid': loginError?.password,
                   'is-invalid': passwordError === true,
@@ -133,7 +133,7 @@
              
               <label class="form-label" for="confirm">Confirm Password</label>
               <div
-                class="input-group input-group-merge form-password-toggle"
+                class=" form-password-toggle"
                 :class="{
                   'is-invalid': loginError?.password,
                   'is-invalid': passwordError === true,
@@ -208,7 +208,7 @@
                 />
 
                 <label class="form-check-label" for="register-privacy-policy"
-                  >I agree to<a href="https://gettonote.com/privacy.php" target="_blank">&nbsp;privacy policy & terms</a>
+                  >I agree to<a href="https://gettonote.com/privacy.php" target="_blank">&nbsp;privacy policy </a> & <a href="https://gettonote.com/terms.php" target="_blank">&nbsp;terms</a> 
                 </label>
               </div>
             </div>
@@ -226,13 +226,13 @@
             <span>Already have an account?</span>
             <router-link to="/"><span>&nbsp;Sign in instead</span></router-link>
           </p>
-          <div class="divider my-2">
+          <!-- <div class="divider my-2">
             <div class="divider-text">or</div>
-          </div>
-          <div class="auth-footer-btn d-flex justify-content-center">
+          </div> -->
+          <!-- <div class="auth-footer-btn d-flex justify-content-center">
             <a class="btn btn-outline-primary" href="#"> As a business </a>
             <a class="btn btn-primary" href="#"> As a Notary Public</a>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- /Register-->
@@ -291,8 +291,15 @@ export default {
 
     handleSubmit() {
       this.submitted = true;
+      const registerDetails = {
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+        email: this.user.email.toLocaleLowerCase(),
+        password: this.user.password,
+        role: this.user.role,
+      }
       if (this.validated && !this.passwordError) {
-        this.register(this.user);
+        this.register(registerDetails);
       }
     },
     termsError() {
