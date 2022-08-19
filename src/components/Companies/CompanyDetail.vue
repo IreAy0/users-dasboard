@@ -165,6 +165,7 @@
               </div>
               <div class="row align-items-baseline pt-1">
                 <label class="form-label" for="state">Company Logo</label>
+                
                 <div class="col-12 col-md-8 rounded-3">
                   <div class="file-upload">
                     <!-- <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button> -->
@@ -615,7 +616,7 @@ export default {
         phone: this.profile.phone,
         logo: this.profile.logo,
       };
-      if (data) {
+      if (data ) {
         this.verifying = true;
         this.companyUpdate(data)
           .then((res) => {
@@ -636,7 +637,7 @@ export default {
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
             this.verifying = false;
-            toast.error("Error Updating company", {
+            toast.error(`Failed, Pleae check all fields `, {
               duration: 3000,
               queue: false,
               position: "top-right",

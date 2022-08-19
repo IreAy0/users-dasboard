@@ -97,6 +97,43 @@
                     />
                     <ErrorMessage name="email" class="text-danger "/>
                   </div>
+                   <div class="mb-1 col-md-6 " >
+                    <label class="form-label" for="modern-phone">Date of Birth</label>
+                    <Field
+                      type="date"
+                      name="date_of_birth"
+                      id="modern-date_of_birth"
+                      class="form-control"
+                      aria-label="date_of_birth"
+                      v-model="profile.dob"
+                    />
+                    
+                  </div>
+                   <div class="mb-1 col-md-6 ">
+                    <label class="form-label" for="id_type"
+                      >Gender</label
+                    >
+                    <select  v-model="profile.gender"  class="select2 w-100 form-select">
+                       <option disabled>Please select a gender</option>
+                      <option value="m">Male</option>
+                      <option value="f">Female</option>
+                      <option value="o">I'd prefer not to say</option>
+                    </select>
+                  </div>
+                   <div class="mb-1 col-md-6 " >
+                    <label class="form-label" for="modern-phone">Address</label>
+                    <Field
+                      type="text"
+                      name="address"
+                      id="modern-address"
+                      class="form-control"
+                     
+                      placeholder="Address"
+                      aria-label="phone_number"
+                      v-model="profile.address"
+                    />
+                    
+                  </div>
 <div class="mb-1 col-md-6 " >
                     <label class="form-label" for="modern-phone">Phone Number</label>
                     <Field
@@ -131,7 +168,7 @@
                     </Field>
                     <ErrorMessage name="state" class="text-danger "/>
                   </div>
-                  <div class="mb-1 col-md-12 " >
+                  <!-- <div class="mb-1 col-md-6 " >
                     <label class="form-label" for="modern-phone">Address</label>
                     <Field
                       type="text"
@@ -144,7 +181,7 @@
                       v-model="profile.address"
                     />
                     
-                  </div>
+                  </div> -->
                 </div>
                  <b-button-group class="mt-2 w-100 justify-content-end">
         <div>
@@ -501,7 +538,10 @@ export default {
         country_id: this.country,
         state_id: this.state,
         phone: this.profile.phone,
+        dob: this.profile.dob,
+        gender: this.profile.gender
       };
+      
       if (data) {
         this.goNext();
         this.userUpdate(data);

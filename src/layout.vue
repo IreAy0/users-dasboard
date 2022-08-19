@@ -103,9 +103,7 @@ beforeCreate(){
     
 },
   mounted() {
-     setTimeout(() => {
-      this.loading = false;
-    }, 2000);
+    
     
     this.getTeams();
     this.getSubcriptions();
@@ -117,6 +115,9 @@ beforeCreate(){
     this.RequestsList();
     this.$store.dispatch("ProfileModule/getUser");
     this.$store.dispatch("CompanyModule/getCompany");
+     setTimeout(() => {
+      this.loading = false;
+    }, 2000);
   },
 
 };
