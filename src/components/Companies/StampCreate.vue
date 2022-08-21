@@ -145,6 +145,7 @@ import {
   computed,
   defineProps,
   onBeforeMount,
+  watch,
 } from "vue";
 import { useStore } from "vuex";
 
@@ -161,6 +162,7 @@ const phone = ref("");
 const email = ref("");
 const data = ref("");
 const companyStamps = computed(() => store.state.CompanyModule.getCompanyStamp);
+const company = computed(() => store?.state?.CompanyModule?.companyProfile || {});
 const props = defineProps(["getActiveUser"]);
 const emit = defineEmits(["close"]);
 const captureStamp = () => {
@@ -185,6 +187,18 @@ const captureStamp = () => {
 onMounted(() => {
   store.dispatch("CompanyModule/listCompanyStamps");
 });
+
+watch(company, (newValue,  oldValue) => {
+  if (newValue) {
+    // console.log(newValue, 'watch', oldValue);
+    name.value = newValue.company_name;
+    address.value = newValue.address;
+    phone.value = newValue.phone;
+    email.value = newValue.email;
+    // text_horizontal.value = `RC: ${newValue.registration_company_number}` 
+   
+  }
+}),
 
 onBeforeMount(() => {
   ToNote.get("/company")

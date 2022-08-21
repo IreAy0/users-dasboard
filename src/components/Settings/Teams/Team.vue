@@ -243,12 +243,54 @@ export default defineComponent({
     },
   },
   data() {
+     const simpleSchema = {
+      email(value) {
+        if (!value?.includes("@")) {
+          return "Please add a valid email address";
+        }
+        if (value.length > 100) {
+          return "Email must be less than 100 characters";
+        }
+        if (!value) {
+          return "Email is required";
+        }
+        // validate email value...
+        return true;
+      },
+      company_name(value) {
+        if (!value) {
+          return "Company name is required";
+        }
+        return true;
+      },
+
+      address(value) {
+        if (!value) {
+          return "Address is required";
+        }
+        return true;
+      },
+      state(value) {
+        if (!value) {
+          return "State is required";
+        }
+        return true;
+      },
+      phone(value) {
+        if (!value) {
+          return "Phone Number is required";
+        }
+        return true;
+      },
+   
+    };
     return {
       fields: ["first_name", "last_name", "email", "permission", "action"],
       localData: this.generalData,
       first_name: "",
       last_name: "",
       permission: "",
+      simpleSchema,
       email: "",
       modalShow: false,
       teams: [],
@@ -358,7 +400,7 @@ export default defineComponent({
         // eslint-disable-next-line no-unused-vars
         .then((_res) => {
           this.modalShow = false;
-          this.$store.dispatch("TeamsModule/getTeamUsers");
+          // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
           toast.success(`Team member invited successfully`, {
             duration: 3000,
@@ -373,8 +415,8 @@ export default defineComponent({
           this.email = "";
         })
         .catch((err) => {
-          this.modalShow = false;
-          toast.error(`${err?.response?.data?.data?.error}`, {
+          // this.modalShow = false;
+          toast.error(` ${ err?.response?.data?.errors?.first_name ? err?.response?.data?.errors?.first_name.toString() + '<br /> ' : ''} ${ err?.response?.data?.errors?.email ? err?.response?.data?.errors?.email.toString() + '<br /> ' : ''} ${ err?.response?.data?.errors?.last_name ? err?.response?.data?.errors?.last_name?.toString()+ '<br /> ' : ''} ${ err?.response?.data?.errors?.permission ? err?.response?.data?.errors?.permission?.toString() : ''}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -390,7 +432,7 @@ export default defineComponent({
       ToNote.delete(`/team-users/${id}`)
       // eslint-disable-next-line no-unused-vars
         .then((_res) => {
-          this.$store.dispatch("TeamsModule/getTeamUsers");
+          // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
           toast.success(`Team member deleted successfully`, {
             duration: 3000,

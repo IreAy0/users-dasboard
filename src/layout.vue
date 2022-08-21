@@ -115,9 +115,12 @@ beforeCreate(){
     this.RequestsList();
     this.$store.dispatch("ProfileModule/getUser");
     this.$store.dispatch("CompanyModule/getCompany");
+    // this.$store.dispatch("CompanyModule/listCompanySeals");
+    // this.store.dispatch("CompanyModule/listCompanyStamps");
+
      setTimeout(() => {
       this.loading = false;
-    }, 2000);
+    }, 3000);
   },
 
 };

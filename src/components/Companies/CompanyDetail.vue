@@ -56,7 +56,7 @@
             <div class="row">
               <div class="mb-1 col-md-12">
                 <label class="form-label" for="modern-first-name"
-                  >Company Name</label
+                  >Company Name <span> &#x2731; </span></label
                 >
                 <Field
                   :disabled = "getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
@@ -87,7 +87,7 @@
               </div>
               <div class="mb-1 col-md-12">
                 <label class="form-label" for="modern-phone"
-                  >Company Address</label
+                  >Company Address <span> &#x2731; </span></label
                 >
                 <Field
                 :disabled = "getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
@@ -99,10 +99,11 @@
                   aria-label="phone_number"
                   v-model="profile.address"
                 />
+                 <ErrorMessage name="address" class="text-danger" />
               </div>
               <div class="mb-1 col-md-6">
                 <label class="form-label" for="modern-phone"
-                  >Phone Number</label
+                  >Phone Number <span> &#x2731; </span></label
                 >
                 <Field
                 :disabled = "getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
@@ -115,9 +116,10 @@
                   aria-label="phone_number"
                   v-model="profile.phone"
                 />
+                 <ErrorMessage name="phone" class="text-danger" />
               </div>
               <div class="mb-1 col-md-6">
-                <label class="form-label" for="country">Country</label>
+                <label class="form-label" for="country">Country <span> &#x2731; </span> </label>
                 <Field
                 :disabled = "getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
                   name="country"
@@ -140,7 +142,7 @@
                 </Field>
               </div>
               <div class="mb-1 col-md-6">
-                <label class="form-label" for="state">State</label>
+                <label class="form-label" for="state">State <span> &#x2731; </span></label>
                 <!-- <b-form-select :options="states"></b-form-select> -->
                 
                 <Field
@@ -164,7 +166,7 @@
                 <ErrorMessage name="state" class="text-danger" />
               </div>
               <div class="row align-items-baseline pt-1">
-                <label class="form-label" for="state">Company Logo</label>
+                <label class="form-label" for="state">Company Logo <span> &#x2731; </span></label>
                 
                 <div class="col-12 col-md-8 rounded-3">
                   <div class="file-upload">
@@ -401,14 +403,12 @@
 import { ref } from "vue";
 import { Form, ErrorMessage, Field } from "vee-validate";
 import ToNote from "@/Services/Tonote";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, useStore } from "vuex";
 import { useToast } from "vue-toast-notification";
 import SealTraditional from "./SealTraditional.vue";
 import StampCreate from "./StampCreate.vue";
-// import { useStore } from "vuex";
 
 const toast = useToast();
-// const store = useStore();
 
 export default {
   name: "CompanyDetails",
@@ -424,6 +424,7 @@ export default {
     },
   },
   setup() {
+    const store = useStore();
     let step = 0;
     const nextButton = document.getElementById("nextbtn");
     const prevButton = document.getElementById("prev");
@@ -440,6 +441,10 @@ export default {
     }
 
     function goToStep(stepNumber) {
+      if (stepNumber == 2) {
+       store?.dispatch("CompanyModule/getCompany");
+      }
+
       let currentStep = stepNumber;
 
       let inputsToHide = document.getElementsByClassName("companysteps");
@@ -476,7 +481,7 @@ export default {
       elem.classList.add("d-none");
     }
 
-    return { nextButton, prevButton, goNext, goPrev, goToStep };
+    return { nextButton, prevButton, goNext, goPrev, goToStep, store };
   },
   data() {
     const simpleSchema = {
@@ -495,11 +500,29 @@ export default {
       },
       company_name(value) {
         if (!value) {
-          return "First name is required";
+          return "Company name is required";
         }
         return true;
       },
 
+      address(value) {
+        if (!value) {
+          return "Address is required";
+        }
+        return true;
+      },
+      state(value) {
+        if (!value) {
+          return "State is required";
+        }
+        return true;
+      },
+      phone(value) {
+        if (!value) {
+          return "Phone Number is required";
+        }
+        return true;
+      },
       // state(value){
       //   if(!value){
       //     return "State is required";
@@ -564,9 +587,7 @@ export default {
             progressBar: false,
           });
            this.$router.push("/admin/dashboard");
-          setInterval(() => {
-            window.location.reload();
-          }, 2000);
+         
         }
       },
 
@@ -637,7 +658,7 @@ export default {
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
             this.verifying = false;
-            toast.error(`Failed, Pleae check all fields `, {
+            toast.error(error.response.data.errors.logo, {
               duration: 3000,
               queue: false,
               position: "top-right",

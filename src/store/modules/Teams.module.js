@@ -38,17 +38,17 @@ const actions = {
      )
    },
 
-   async getTeamUsers({ commit }) {
-        await team.getTeamUsers().then(user =>{
-          commit('getTeamsUsersSuccess', user?.data?.data)
-        },
-        error => {
-          commit('getTeamssFailed', error)
-          console.log('error', error);
-        }
+  //  async getTeamUsers({ commit }) {
+  //       await team.getTeamUsers().then(user =>{
+  //         commit('getTeamsUsersSuccess', user?.data?.data)
+  //       },
+  //       error => {
+  //         commit('getTeamssFailed', error)
+  //         console.log('error', error);
+  //       }
         
-        )
-   },
+  //       )
+  //  },
 
    async getSubcriptions({ commit }) {
     await team.getSubcriptions().then(user =>{

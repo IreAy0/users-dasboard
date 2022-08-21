@@ -414,9 +414,9 @@ export default {
             progressBar: false,
           });
            this.$router.push("/admin/dashboard");
-          setInterval(() => {
-            window.location.reload();
-          }, 2000);
+          // setInterval(() => {
+          //   window.location.reload();
+          // }, 2000);
         }
       },
 

@@ -35,6 +35,7 @@
     </div>
 
     <div class="row">
+       <!-- @/assets/images/company-seal-${sealColor}.png -->
       <div class="col-12 col-lg-9">
         <div class="position-relative" style="width: auto" ref="capture">
           <div id="coy_number" :class="sealColor"></div>
@@ -42,7 +43,8 @@
           class=""
             width="380"
             height="380"
-            :src="`../assets/images/company-seal-${sealColor}.png`"
+           
+            :src="`/assets/images/company-seal-${sealColor}.png`"
             alt="company seal"
           />
           <canvas
@@ -213,7 +215,7 @@ import ToNote from "@/Services/Tonote";
 const store = useStore();
 const companySeals = computed(() => store?.state?.CompanyModule?.getCompanySeal);
 const updating = computed(() => store?.state?.CompanyModule?.updating);
-
+const company = computed(() => store?.state?.CompanyModule?.companyProfile || {});
 // const companyProfile = ref("");
 // const text_cnv = ref(companyProfile?.value?.company_name);
 const text_cnv = ref("");
@@ -312,13 +314,22 @@ const captureSeal = () => {
       console.error("oops, something went wrong!", error);
     });
 };
-
+watch(company, (newValue,  oldValue) => {
+  if (newValue) {
+    // console.log(newValue, 'watch', oldValue);
+    text_cnv.value = newValue.company_name;
+    text_cnv2.value = newValue.address;
+    text_horizontal.value = `RC: ${newValue.registration_company_number}` 
+   
+  }
+}),
 watch(
   () => [
     text_cnv.value,
     text_cnv2.value,
     text_horizontal.value,
     sealColor.value,
+    
   ],
   ([newCnv, newCnv2, newCoy, newcol], [oldCnv, oldCnv2, oldCoy, oldcol]) => {
     if (
