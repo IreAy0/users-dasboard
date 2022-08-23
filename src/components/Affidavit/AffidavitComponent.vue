@@ -1,20 +1,13 @@
 <template>
   <div class="modal-body">
-    <nav class="d-flex justify-content-center align-items-center gap-2">
-      <button
-        @click="activeForm = 'Template'"
-        :class="activeForm === 'Template' ? 'btn btn-primary' : 'not__active'"
-        type="button"
-        aria-selected="true"
-      >
-        Select a template
+    <nav
+      class="d-flex  justify-content-center align-items-center gap-2 nav flex-nowrap text-center d-inline-flex d-sm-flex nav-tabs bg-white shadow pt-1 pe-2 ps-2">
+      <button @click="activeForm = 'Template'" :class="activeForm === 'Template' ? 'nav-link active' : 'not__active'"
+        type="button" aria-selected="true">
+        <span>Select a template </span>
       </button>
-      <button
-        @click="activeForm = 'Custom'"
-        :class="activeForm === 'Custom' ? 'btn btn-primary' : 'not__active'"
-        type="button"
-        aria-selected="true"
-      >
+      <button @click="activeForm = 'Custom'" :class="activeForm === 'Custom' ? 'nav-link active' : 'not__active'"
+        type="button" aria-selected="true">
         Custom Affidavit
       </button>
     </nav>
@@ -23,69 +16,35 @@
       <div class="select__template my-2">
         <div class="my-2">
           <label class="form-label" for="template">Select a template</label>
-          <select
-            id="template"
-            class="form-select"
-            aria-label="select affidavit template"
-            v-model="template"
-            @change="error_message.title = null"
-            :style="error_message.title && 'border: 1px solid red'"
-          >
-            <option
-              v-for="template in templates"
-              :key="template.id"
-              :value="`${template.id}&&&&${template.title}`"
-            >
+          <select id="template" class="form-select" aria-label="select affidavit template" v-model="template"
+            @change="error_message.title = null" :style="error_message.title && 'border: 1px solid red'">
+            <option value="">Please select a template</option>
+            <option v-for="template in templates" :key="template.id" :value="`${template.id}&&&&${template.title}`">
               {{ template.title }}
             </option>
           </select>
-          <label
-            v-if="error_message.title"
-            class="text-danger small"
-            for="error"
-            >{{ error_message.title }}</label
-          >
+          <label v-if="error_message.title" class="text-danger small" for="error">{{ error_message.title }}</label>
         </div>
 
         <div class="my-2">
-          <label class="form-label" for="template"
-            >How do you want your document delivered?</label
-          >
-          <select
-            id="template"
-            class="form-select"
-            aria-label="select affidavit template"
-            :style="error_message.delivery && 'border: 1px solid red'"
-            v-model="data.delivery_channel"
-            @change="error_message.delivery = null"
-          >
+          <label class="form-label" for="delivery_channel">How do you want your document delivered?</label>
+          <select id="delivery_channel" class="form-select" :style="error_message.delivery && 'border: 1px solid red'"
+            v-model="data.delivery_channel" @change="error_message.delivery = null">
+            <option value="">Please select one</option>
             <option value="Email">Electronic Document Only(Via Email)</option>
             <option value="Address">
               Electronic and Physical Document(To your address)
             </option>
             <option value="Collection">Collection</option>
           </select>
-          <label
-            v-if="error_message.delivery"
-            class="text-danger small"
-            for="error"
-            >{{ error_message.delivery }}</label
-          >
+          <label v-if="error_message.delivery" class="text-danger small" for="error">{{ error_message.delivery
+          }}</label>
         </div>
 
-        <div
-          data-aos="fade-down"
-          v-if="data.delivery_channel === 'Address'"
-          class="my-2"
-        >
+        <div data-aos="fade-down" v-if="data.delivery_channel === 'Address'" class="my-2">
           <label class="form-label" for="template">Enter your address</label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder="Address"
-            v-model="data.delivery_address"
-          />
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Address"
+            v-model="data.delivery_address" />
         </div>
       </div>
     </div>
@@ -94,83 +53,40 @@
       <div class="select__template my-2">
         <div class="my-2">
           <label class="form-label" for="document_type">Document Type *</label>
-          <input
-            type="text"
-            class="form-control"
-            id="document_type"
-            placeholder=""
-            v-model="data.title"
-            @change="error_message2.title = null"
-            :style="error_message2.title && 'border: 1px solid red'"
-          />
-          <label
-            v-if="error_message2.title"
-            class="text-danger small"
-            for="error"
-            >{{ error_message2.title }}</label
-          >
+          <input type="text" class="form-control" id="document_type" placeholder="" v-model="data.title"
+            @change="error_message2.title = null" :style="error_message2.title && 'border: 1px solid red'" />
+          <label v-if="error_message2.title" class="text-danger small" for="error">{{ error_message2.title }}</label>
         </div>
 
         <div class="my-2">
-          <label for="document_description" class="form-label"
-            >Describe your document *</label
-          >
-          <textarea
-            v-model="data.description"
-            class="form-control"
-            id="document_description"
-            required
-            rows="3"
+          <label for="document_description" class="form-label">Describe your document *</label>
+          <textarea v-model="data.description" class="form-control" id="document_description" required rows="3"
             @change="error_message2.description = null"
-            :style="error_message2.description && 'border: 1px solid red'"
-          ></textarea>
-          <label
-            v-if="error_message2.description"
-            class="text-danger small"
-            for="error"
-            >{{ error_message2.description }}</label
-          >
+            :style="error_message2.description && 'border: 1px solid red'"></textarea>
+          <label v-if="error_message2.description" class="text-danger small" for="error">{{ error_message2.description
+          }}</label>
         </div>
 
         <div class="my-2">
-          <label class="form-label" for="template"
-            >How do you want your document delivered?</label
-          >
-          <select
-            id="template"
-            class="form-select"
-            aria-label="select affidavit template"
-            v-model="data.delivery_channel"
-            @change="error_message2.delivery = null"
-            :style="error_message2.delivery && 'border: 1px solid red'"
-          >
+          <label class="form-label" for="template">How do you want your document delivered?</label>
+          <select id="template" class="form-select" aria-label="select affidavit template"
+            v-model="data.delivery_channel" @change="error_message2.delivery = null"
+            :style="error_message2.delivery && 'border: 1px solid red'">
+            <option value="">Please select one</option>
             <option value="Email">Electronic Document Only(Via Email)</option>
             <option value="Address">
               Electronic and Physical Document(To your address)
             </option>
             <option value="Collection">Collection</option>
           </select>
-          <label
-            v-if="error_message2.delivery"
-            class="text-danger small"
-            for="error"
-            >{{ error_message2.delivery }}</label
-          >
+          <label v-if="error_message2.delivery" class="text-danger small" for="error">{{ error_message2.delivery
+          }}</label>
         </div>
 
-        <div
-          data-aos="fade-down"
-          v-if="data.delivery_channel === 'Address'"
-          class="my-2"
-        >
+        <div data-aos="fade-down" v-if="data.delivery_channel === 'Address'" class="my-2">
           <label class="form-label" for="template">Enter your address</label>
-          <input
-            type="email"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder="Address"
-            v-model="data.delivery_address"
-          />
+          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Address"
+            v-model="data.delivery_address" />
         </div>
       </div>
     </div>
@@ -200,7 +116,7 @@ const data = ref({
   schedule_id: null,
   schedule_type: "DocumentTemplate",
   description: "",
-  delivery_channel: null,
+  delivery_channel: "",
   delivery_address: "",
   platform_initiated: "Web",
 });
@@ -253,7 +169,7 @@ const handleSubmit = () => {
             : "",
         delivery_address:
           data.value.delivery_address === "" ||
-          data.value.delivery_address.trim() === null
+            data.value.delivery_address.trim() === null
             ? (data.value.delivery_address = "Address")
             : data.value.delivery_address,
       });
@@ -299,7 +215,7 @@ const handleSubmit = () => {
             : "",
         delivery_address:
           data.value.delivery_address === "" ||
-          data.value.delivery_address.trim() === null
+            data.value.delivery_address.trim() === null
             ? (data.value.delivery_address = "Address")
             : data.value.delivery_address,
       });

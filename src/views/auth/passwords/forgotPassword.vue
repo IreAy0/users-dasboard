@@ -68,58 +68,58 @@ const toast = useToast()
 export default {
   name: "ForgotPassword",
 
- 
+
   data() {
     return {
-      user:{
+      user: {
         email: '',
-        
+
       },
-    loading: false,
-    passwordFieldType: 'password'
+      loading: false,
+      passwordFieldType: 'password'
     }
   },
-  computed:{
+  computed: {
     // ...mapState('AuthModule',['loggingIn', 'loginError']),
   },
   methods: {
     // ...mapActions('AuthModule',['login']),
-    ...mapMutations("MenuModule",["toggleEveryDisplay", "toggleHideConfig"]),
+    ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     resetPassword() {
       this.loading = true;
       ToNote.post('/user/password/email', {
         email: this.user.email?.toLocaleLowerCase()
       }).then(res => {
         this.loading = false;
-         toast.success('A reset link has been sent to your email address', {
-                      duration: 5000,
-                    queue: false,
-                    position: "top-right",
-                    dismissible: true,
-                    pauseOnHover: true,
-                })
-          this.user.email = " "
-          console.log(res)
+        toast.success('A reset link has been sent to your email address', {
+          duration: 5000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        })
+        this.user.email = " "
+        console.log(res)
       }
-      // eslint-disable-next-line no-unused-vars
-      ).catch(error =>{
+        // eslint-disable-next-line no-unused-vars
+      ).catch(error => {
         this.loading = false;
-         toast.error(error.response.data.message, {
-                      duration: 5000,
-                    queue: false,
-                    position: "top-right",
-                    dismissible: true,
-                    pauseOnHover: true,
-                })
+        toast.error(error.response.data.message, {
+          duration: 5000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        })
       })
 
-     
-      },
-    isVisible() {
-    return   passwordFieldType.value = passwordFieldType.value === "password" ? "text" : "password";
 
-  }
-},
+    },
+    isVisible() {
+      return passwordFieldType.value = passwordFieldType.value === "password" ? "text" : "password";
+
+    }
+  },
   beforeMount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();

@@ -114,16 +114,16 @@ const toast = useToast()
 export default {
   name: "ResetPassword",
 
- 
+
   data() {
     return {
-    passwordFieldType: 'password',
-    loading:false
+      passwordFieldType: 'password',
+      loading: false
     }
   },
-  computed:{
+  computed: {
     // ...mapState('AuthModule',['loggingIn', 'loginError']),
-    resetForm(){
+    resetForm() {
       const resetForm = {
         email: this.$route.query?.email?.toLocaleLowerCase(),
         token: this.$route.query.hash,
@@ -135,54 +135,55 @@ export default {
   },
   methods: {
     // ...mapActions('AuthModule',['login']),
-        ...mapMutations("MenuModule",["toggleEveryDisplay", "toggleHideConfig"]),
+    ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     resetPassword() {
-     this.loading = true
+      this.loading = true
       // eslint-disable-next-line no-unused-vars
       ToNote.post('/user/password/reset', this.resetForm).then(res => {
-       
+
         this.loading = false
-         toast.success('Successfully updated password', {
-                      duration: 5000,
-                    queue: false,
-                    position: "top-right",
-                    dismissible: true,
-                    pauseOnHover: true,
-                })
+        toast.success('Successfully updated password', {
+          duration: 5000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        })
         this.$router.push('/')
       }
-      // eslint-disable-next-line no-unused-vars
-      ).catch(error =>{
-       
-        this.loading = false
-          if (error.response.data.data) {
-             toast.error('Link Expired', {
-                      duration: 5000,
-                    queue: false,
-                    position: "top-right",
-                    dismissible: true,
-                    pauseOnHover: true,
-                })
-          } else {
-             toast.error(error.response.data.message, {
-                      duration: 5000,
-                    queue: false,
-                    position: "top-right",
-                    dismissible: true,
-                    pauseOnHover: true,
-                })
-          }
-        
+        // eslint-disable-next-line no-unused-vars
+      ).catch(error => {
 
-        
-      })},
+        this.loading = false
+        if (error.response.data.data) {
+          toast.error('Link Expired', {
+            duration: 5000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          })
+        } else {
+          toast.error(error.response.data.message, {
+            duration: 5000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          })
+        }
+
+
+
+      })
+    },
 
     isVisible() {
-      this.passwordFieldType = this.passwordFieldType === 'text' ? 'password' : 'text';   
+      this.passwordFieldType = this.passwordFieldType === 'text' ? 'password' : 'text';
 
-  }
-},
- beforeMount() {
+    }
+  },
+  beforeMount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
   },

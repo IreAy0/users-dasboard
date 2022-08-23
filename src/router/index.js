@@ -19,46 +19,50 @@ const RequestPage = () =>
     /* webpackChunkName: "requests" */ "@/components/Requests/Request.vue"
   );
 
-  const Dashboard = () =>
+const Dashboard = () =>
   import(
     /* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"
   );
 
-  const SignIn = () =>
+const SignIn = () =>
   import(
     /* webpackChunkName: "signIn" */ "../views/auth/login/loginPage.vue"
   );
-  const RegisterPage = () =>
+const RegisterPage = () =>
   import(
     /* webpackChunkName: "register" */ "../views/auth/signUp/registerPage.vue"
   );
-  const ForgotPassword = () =>
+const ForgotPassword = () =>
   import(
     /* webpackChunkName: "forgotPassword" */ "../views/auth/passwords/forgotPassword.vue"
   );
-  const SettingPage = () =>
+const SettingPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../components/Settings/Setting.vue"
   );
-  const ResetPassword = () =>
+const ResetPassword = () =>
   import(
     /* webpackChunkName: "settings" */ "@/views/auth/passwords/resetPassword.vue"
   );
-  const verifyPage = () =>
+const verifyPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/verify-email/verifyPage.vue"
   );
-  const RedirectPage = () =>
+const reVerify = () =>
+  import(
+    /* webpackChunkName: "settings" */ "../views/auth/verify-email/reverify.vue"
+  );
+const RedirectPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/fromDoc.vue"
   );
-  const PaymentConfirmationPage = () =>
+const PaymentConfirmationPage = () =>
   import(
     /* webpackChunkName: "document" */ "../components/Payment/PaymentConfirmation.vue"
   );
-  
+
 const routes = [
-  
+
   {
     path: "/",
     name: "SignIn",
@@ -66,7 +70,7 @@ const routes = [
     meta: {
       title: "SignIn | Dashboard",
     },
-    
+
   },
   {
     path: "/register",
@@ -89,6 +93,11 @@ const routes = [
     component: verifyPage,
   },
   {
+    path: "/verify-email",
+    name: "re-verify",
+    component: reVerify,
+  },
+  {
     path: "/redirecting",
     name: "redirect",
     component: RedirectPage,
@@ -104,8 +113,8 @@ const routes = [
     children: [
       {
         path: "dashboard",
-    name: "Dashboard",
-    component: Dashboard,
+        name: "Dashboard",
+        component: Dashboard,
       },
       {
         path: "payment-confirmation",
@@ -116,10 +125,10 @@ const routes = [
         path: "requests",
         name: "admin.requests",
         component: RequestPage,
-    
-       meta: {
-        title: "Tonote | Requests",
-       }
+
+        meta: {
+          title: "Tonote | Requests",
+        }
       },
       {
         path: "settings",
@@ -129,9 +138,9 @@ const routes = [
           title: "ToNote | Settings",
         },
       },
-      
+
     ]
-    },
+  },
 
 ];
 
@@ -157,16 +166,16 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
 
-    // await  store.dispatch("ProfileModule/getUser");
+  // await  store.dispatch("ProfileModule/getUser");
   if (to.fullPath?.includes("admin") && isAuthenticated() == false) {
     next("/");
-  }  else if (to.fullPath == "/" || to.fullPath == "/register") {
+  } else if (to.fullPath == "/" || to.fullPath == "/register") {
     if (isAuthenticated() == true) {
       next("/admin/dashboard");
     }
   }
 
- 
+
   const nearestWithTitle = to.matched
     .slice()
     .reverse()
@@ -204,8 +213,8 @@ router.beforeEach(async (to, from, next) => {
       return tag;
     })
     .forEach((tag) => document.head.appendChild(tag));
-    next();
-  
+  next();
+
 });
 
 export default router;

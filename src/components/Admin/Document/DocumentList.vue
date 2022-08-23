@@ -19,7 +19,8 @@
             <tbody>
               <tr v-for="document in documents" :key="document.id">
                 <td>
-                  <a :href="`https://tonote-doc.netlify.app/document/${document.status == 'New' ? 'edit' : 'audit'}/${document.id}?qt=${token}`" class="my-0 py-0">{{ document.title }}</a>
+                  <a :href="`https://tonote-doc.netlify.app/document/${document.status == 'New' ? 'edit' : 'audit'}/${document.id}?qt=${token}`"
+                    class="my-0 py-0">{{ document.title }}</a>
                   <p v-if="document.participants_count !== 0" class="my-0 py-0">
                     <!-- To:
                     <span
@@ -33,10 +34,7 @@
                   </p>
                 </td>
                 <td>
-                  <span
-                    class="badge rounded-pill badge-light-secondary"
-                    text-capitalized=""
-                  >
+                  <span class="badge rounded-pill badge-light-secondary" text-capitalized="">
                     {{ document.status }}
                   </span>
                 </td>
@@ -100,6 +98,7 @@ const documents = computed(() => store.state.DocumentModule.documents);
 // eslint-disable-next-line no-unused-vars
 const requests = computed(() => store.state.DocumentModule.requests);
 
-  const token = computed(() => getToken())
+const token = computed(() => getToken())
 </script>
-<style lang="css"></style>
+<style lang="css">
+</style>

@@ -1,8 +1,8 @@
 <template>
-  <div v-show="getActiveTeam?.subscription?.plan?.name === 'Business'" >
-    <CompanyDetail/>
+  <div v-show="getActiveTeam?.subscription?.plan?.name === 'Business'">
+    <CompanyDetail />
   </div>
-   <UpgradeRequest  v-show="getActiveTeam?.subscription?.plan?.name === 'Basic'" />
+  <UpgradeRequest v-show="getActiveTeam?.subscription?.plan?.name === 'Basic'" />
 </template>
 
 <script>
@@ -12,19 +12,20 @@ import CompanyDetail from "./CompanyDetail.vue";
 
 export default defineComponent({
   name: "CompanyPage",
-  components: {  UpgradeRequest, CompanyDetail},
-props: {
+  components: { UpgradeRequest, CompanyDetail },
+  props: {
     generalData: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     getActiveTeam: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
   },
 
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

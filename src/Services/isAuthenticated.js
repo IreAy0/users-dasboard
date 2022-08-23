@@ -4,15 +4,15 @@ import jwtDecode from 'jwt-decode';
 
 export default () => {
   const accessToken = sessionStorage.getItem('token');
-    
+
   // check if token exists and is not expired
   if (accessToken) {
     try {
       const token = jwtDecode(accessToken);
-      const time = Date.now().valueOf() / 1000;    
+      const time = Date.now().valueOf() / 1000;
       if (token.exp < time) {
         console.log('false');
-        
+
         return false;
       }
     } catch (error) {

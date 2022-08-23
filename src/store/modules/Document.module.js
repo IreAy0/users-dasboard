@@ -32,7 +32,7 @@ const actions = {
         // console.log(error);
       });
   },
-  RequestsList({ commit }) {  
+  RequestsList({ commit }) {
     getRequests()
       .then((res) => {
         commit("SET_REQUESTS", res.data.data);

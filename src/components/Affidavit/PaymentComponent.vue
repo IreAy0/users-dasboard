@@ -1,8 +1,9 @@
 <template>
   <div class="modal-body">
     <div data-aos="zoom-in" class="d-flex justify-content-between">
-       <div class="col-md-6">
-        <p class="fw-bold mb-0"> Once we receive payment, your document will be securely passed on to the next available notary. We will connect you via email.</p>
+      <div class="col-md-6">
+        <p class="fw-bold mb-0"> Once we receive payment, your document will be securely passed on to the next available
+          notary. We will connect you via email.</p>
       </div>
       <div class="shadow-lg text-center p-2 price__display">
         <span>Transaction cost</span>
@@ -14,25 +15,12 @@
     <p class="h5 fw-bold my-2">Select payment option</p>
 
     <div class="payment__options gap-2">
-      <label
-        v-for="paymentGateway in paymentGateways"
-        :key="paymentGateway.id"
-        class="payment__option"
-        :for="paymentGateway.gateway.name"
-      >
-        <input
-          name="payment_gateway"
-          v-model="payment_gateway"
-          :value="paymentGateway.gateway.name"
-          type="radio"
-          :id="paymentGateway.gateway.name"
-        />
+      <label v-for="paymentGateway in paymentGateways" :key="paymentGateway.id" class="payment__option"
+        :for="paymentGateway.gateway.name">
+        <input name="payment_gateway" v-model="payment_gateway" :value="paymentGateway.gateway.name" type="radio"
+          :id="paymentGateway.gateway.name" />
         <div class="payment__option-content">
-          <img
-            loading="lazy"
-            :src="paymentGateway.gateway.file"
-            :alt="paymentGateway.gateway.name"
-          />
+          <img loading="lazy" :src="paymentGateway.gateway.file" :alt="paymentGateway.gateway.name" />
           <div class="payment__option-details">
             <span> {{ paymentGateway.gateway.name }}</span>
           </div>
@@ -49,25 +37,12 @@
     <button @click="emits('prevStep')" type="button" class="btn-secondary btn">
       Back
     </button>
-    <paystack
-      v-if="payment_gateway === 'Paystack'"
-      buttonText="Pay now"
-      :publicKey="publicKey"
-      :email="email"
-      :amount="amount"
-      :reference="transactionable_id"
-      :onSuccess="onSuccessfulPayment"
-      :onCanel="onCancelledPayment"
-      class="btn btn-primary"
-    >
+    <paystack v-if="payment_gateway === 'Paystack'" buttonText="Pay now" :publicKey="publicKey" :email="email"
+      :amount="amount" :reference="transactionable_id" :onSuccess="onSuccessfulPayment" :onCanel="onCancelledPayment"
+      class="btn btn-primary">
     </paystack>
 
-    <button
-      v-if="payment_gateway === 'Flutterwave'"
-      type="button"
-      class="btn btn-primary"
-      @click="openFlutterwave"
-    >
+    <button v-if="payment_gateway === 'Flutterwave'" type="button" class="btn btn-primary" @click="openFlutterwave">
       Pay now
     </button>
   </div>
@@ -106,12 +81,12 @@ const onSuccessfulPayment = (response) => {
       payment_gateway.value === "Paystack"
         ? response.reference
         : payment_gateway.value === "Flutterwave"
-        ? response.tx_ref
-        : null,
+          ? response.tx_ref
+          : null,
 
     payment_gateway: payment_gateway.value,
   };
-  
+
   store.dispatch("AffidavitModule/put_notaryrequesttransaction", data);
   emits("nextStep");
 };
@@ -214,15 +189,13 @@ onMounted(() => {
   font-size: 1rem;
   line-height: 24px;
 }
+
 .payment__options .payment__option .payment__option-content:hover {
   -webkit-box-shadow: 0px 3px 5px 0px #e8e8e8;
   box-shadow: 0px 3px 5px 0px #e8e8e8;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content:after {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content:after {
   content: "";
   position: absolute;
   height: 8px;
@@ -236,10 +209,7 @@ onMounted(() => {
   box-shadow: 0px 0px 0px 2px #003bb3;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content {
   border: 2px solid #003bb3;
   background: #eaf1fe;
   -webkit-transition: ease-in 0.3s;

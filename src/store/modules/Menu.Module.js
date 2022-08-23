@@ -1,5 +1,5 @@
 
-const state = () => ( {
+const state = () => ({
   hideConfigButton: false,
   isPinned: true,
   showConfig: false,
@@ -20,7 +20,7 @@ const state = () => ( {
 });
 
 const mutations = {
-    
+
   toggleConfigurator(state) {
     state.showConfig = !state.showConfig;
   },
@@ -57,7 +57,7 @@ const mutations = {
 }
 
 const getters = {
- 
+
 };
 
 const actions = {

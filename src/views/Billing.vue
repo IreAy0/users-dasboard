@@ -14,20 +14,12 @@
           <div class="col-xl-6">
             <div class="row">
               <div class="col-md-6">
-                <default-info-card
-                  icon="account_balance"
-                  title="Salary"
-                  description="Belong Interactive"
-                  value="+$2000"
-                />
+                <default-info-card icon="account_balance" title="Salary" description="Belong Interactive"
+                  value="+$2000" />
               </div>
               <div class="col-md-6">
-                <default-info-card
-                  icon="account_balance_wallet"
-                  title="Paypal"
-                  description="Freelance Payment"
-                  value="$455.00"
-                />
+                <default-info-card icon="account_balance_wallet" title="Paypal" description="Freelance Payment"
+                  value="$455.00" />
               </div>
             </div>
           </div>

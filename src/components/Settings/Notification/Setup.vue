@@ -1,9 +1,7 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
   <section class="">
-    <b-tabs
-      v-model="tabIndexAdv1"
-      class="
+    <b-tabs v-model="tabIndexAdv1" class="
         notifications
         modern-horizontal-wizard
         bs-stepper
@@ -11,12 +9,10 @@
         modern-wizard-example
         d-flex
         flex-column flex-lg-row
-      "
-      content-class=" tab-content col-12 col-md-7 bs-stepper-content"
+      " content-class=" tab-content col-12 col-md-7 bs-stepper-content"
       nav-class="nav-link step align-items-baseline  step align-items-baseline flex-row flex-nowrap overflow-x-auto flex-lg-column"
       active-nav-item-class="nav-link step"
-      nav-wrapper-class="py-1 px-0 col-12 col-md-3 bs-stepper-header d-flex flex-row flex-lg-column nav nav-tabs align-items-baseline"
-    >
+      nav-wrapper-class="py-1 px-0 col-12 col-md-3 bs-stepper-header d-flex flex-row flex-lg-column nav nav-tabs align-items-baseline">
       <b-tab active>
         <template #title>
           <button class="step-trigger">
@@ -27,47 +23,26 @@
           </button>
         </template>
 
-        <b-form
-          @submit.prevent="submitForm"
-          class="tab-pane fade show active"
-          id="nav-teammates"
-          role="tabpanel"
-          aria-labelledby="nav-teammates-tab"
-        >
+        <b-form @submit.prevent="submitForm" class="tab-pane fade show active" id="nav-teammates" role="tabpanel"
+          aria-labelledby="nav-teammates-tab">
           <div class="content-header mb-1">
             <h5 class="mb-0">As a Document Owner</h5>
             <small class="">Notify me when:</small>
           </div>
-          <b-form-checkbox
-            id="checkbox-1"
-            v-model="getForms.notify_owner_when_document_complete"
-            name="checkbox-1"
-            label="Document Complete"
-          >
+          <b-form-checkbox id="checkbox-1" v-model="getForms.notify_owner_when_document_complete" name="checkbox-1"
+            label="Document Complete">
             A document is completed
           </b-form-checkbox>
-          <b-form-checkbox
-            id="checkbox-2"
-            v-model="getForms.notify_owner_when_a_signer_refuse_to_sign"
-            name="checkbox-2"
-            label="Document Complete"
-          >
+          <b-form-checkbox id="checkbox-2" v-model="getForms.notify_owner_when_a_signer_refuse_to_sign"
+            name="checkbox-2" label="Document Complete">
             A signer declines to sign
           </b-form-checkbox>
-          <b-form-checkbox
-            id="checkbox-3"
-            v-model="getForms.notify_owner_when_each_signer_views_a_document"
-            name="checkbox-3"
-            label="Document Complete"
-          >
+          <b-form-checkbox id="checkbox-3" v-model="getForms.notify_owner_when_each_signer_views_a_document"
+            name="checkbox-3" label="Document Complete">
             Each signer views a document
           </b-form-checkbox>
-          <b-form-checkbox
-            id="checkbox-4"
-            v-model="getForms.notify_owner_always_cc_admin"
-            name="checkbox-4"
-            label="Document Complete"
-          >
+          <b-form-checkbox id="checkbox-4" v-model="getForms.notify_owner_always_cc_admin" name="checkbox-4"
+            label="Document Complete">
             Always cc Admin
           </b-form-checkbox>
 
@@ -78,72 +53,39 @@
           </div>
 
           <div>
-            <b-form-checkbox
-              id="checkbox-5"
-              v-model="getForms.notify_signer_when_to_sign_a_document"
-              name="checkbox-5"
-              label="Document Complete"
-            >
+            <b-form-checkbox id="checkbox-5" v-model="getForms.notify_signer_when_to_sign_a_document" name="checkbox-5"
+              label="Document Complete">
               I have a document to sign
             </b-form-checkbox>
-            <b-form-checkbox
-              id="checkbox-6"
-              v-model="getForms.notify_signer_when_document_complete"
-              name="checkbox-6"
-              label="Document Complete"
-            >
+            <b-form-checkbox id="checkbox-6" v-model="getForms.notify_signer_when_document_complete" name="checkbox-6"
+              label="Document Complete">
               A document is completed
             </b-form-checkbox>
-            <b-form-checkbox
-              id="checkbox-7"
-              v-model="
-                getForms.notify_signer_when_signer_declines_to_sign_document
-              "
-              name="checkbox-7"
-              label="Document Complete"
-            >
+            <b-form-checkbox id="checkbox-7" v-model="
+              getForms.notify_signer_when_signer_declines_to_sign_document
+            " name="checkbox-7" label="Document Complete">
               Another signer declines to sign
             </b-form-checkbox>
-            <b-form-checkbox
-              id="checkbox-8"
-              v-model="getForms.notify_signer_when_owner_withdraws_document"
-              name="checkbox-8"
-              label="Document Complete"
-            >
+            <b-form-checkbox id="checkbox-8" v-model="getForms.notify_signer_when_owner_withdraws_document"
+              name="checkbox-8" label="Document Complete">
               A document owner withdraws a document
             </b-form-checkbox>
-            <b-form-checkbox
-              id="checkbox-9"
-              v-model="getForms.notify_signer_when_document_updated"
-              name="checkbox-9"
-              label="Document Complete"
-            >
+            <b-form-checkbox id="checkbox-9" v-model="getForms.notify_signer_when_document_updated" name="checkbox-9"
+              label="Document Complete">
               The document is updated
             </b-form-checkbox>
-            <b-form-checkbox
-              id="checkbox-10"
-              v-model="getForms.notify_signer_always_cc_admin"
-              name="checkbox-10"
-              label="Document Complete"
-            >
+            <b-form-checkbox id="checkbox-10" v-model="getForms.notify_signer_always_cc_admin" name="checkbox-10"
+              label="Document Complete">
               Always cc Admin
             </b-form-checkbox>
           </div>
 
           <hr class="mt-1 mb-1" />
 
-          <b-form-checkbox
-            v-model="getForms.send_sms"
-            name="check-button"
-            switch
-          >
+          <b-form-checkbox v-model="getForms.send_sms" name="check-button" switch>
             Send Sms
           </b-form-checkbox>
-          <b-form-checkbox
-            v-model="getForms.send_email"
-            name="check-button"
-            switch
-          >
+          <b-form-checkbox v-model="getForms.send_email" name="check-button" switch>
             Send Email
           </b-form-checkbox>
 
@@ -151,10 +93,7 @@
 
           <div class="mt-1">
             <button type="submit" class="rounded btn btn-primary">
-              <span
-                v-show="loading"
-                class="spinner-border spinner-border-sm"
-              ></span>
+              <span v-show="loading" class="spinner-border spinner-border-sm"></span>
               <span class="align-middle d-inline-block">Save</span>
             </button>
           </div>
@@ -170,44 +109,25 @@
             </span>
           </button>
         </template>
-        <b-form
-          @submit.prevent="updatePassword"
-          @reset="onReset"
-          class="tab-pane fade show active"
-          id="nav-teammates"
-          role="tabpanel"
-          aria-labelledby="nav-teammates-tab"
-        >
+        <b-form @submit.prevent="updatePassword" @reset="onReset" class="tab-pane fade show active" id="nav-teammates"
+          role="tabpanel" aria-labelledby="nav-teammates-tab">
           <div class="content-header mb-1">
             <h5 class="mb-0">Change Password</h5>
           </div>
 
           <div class="form-group my-2">
             <label class="small" for="password">Current password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              v-model="curent_password"
-            />
+            <input type="password" class="form-control" id="password" v-model="curent_password" />
           </div>
 
           <div class="form-group my-2">
             <label class="small" for="new_password">New password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="new-password"
-              v-model="new_password"
-            />
+            <input type="password" class="form-control" id="new-password" v-model="new_password" />
           </div>
 
           <div class="my-2">
             <button class="rounded btn btn-primary">
-              <span
-                v-show="loading"
-                class="spinner-border spinner-border-sm"
-              ></span>
+              <span v-show="loading" class="spinner-border spinner-border-sm"></span>
               <span class="align-middle d-inline-block">Save</span>
             </button>
           </div>

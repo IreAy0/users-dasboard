@@ -17,7 +17,7 @@ const state = () => ({
   companyStamp: [],
   getCompanySeal: [],
   getCompanyStamp: [],
-  changeValue:"",
+  changeValue: "",
 });
 
 const getters = {
@@ -185,22 +185,22 @@ const actions = {
 const mutations = {
   setCompanySeal: (state, payload) => {
     state.companySeal = payload;
-    state.changeValue= payload
+    state.changeValue = payload
     state.updating = true
   },
 
   setCompanyStamp: (state, payload) => {
     state.companyStamp = payload;
-    state.changeValue= payload
+    state.changeValue = payload
     state.updating = true
   },
-  getCompanySeal(state, user){
-    state.getCompanySeal =user;
+  getCompanySeal(state, user) {
+    state.getCompanySeal = user;
     // state.loadingSignature = true
-    state.updating =false
+    state.updating = false
   },
-  getCompanyStamp(state, user){
-    state.getCompanyStamp =user;
+  getCompanyStamp(state, user) {
+    state.getCompanyStamp = user;
     state.updating = false
   },
   setImage: (state, payload) => {

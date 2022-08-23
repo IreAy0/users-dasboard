@@ -1,24 +1,11 @@
 <template>
   <div class="modal-dialog">
     <div class="modal-content">
-      <div
-        v-if="this.activeComponent !== this.stepsList.length - 1"
-        class="modal-header"
-      >
+      <div v-if="this.activeComponent !== this.stepsList.length - 1" class="modal-header">
         <h4 class="fw-bold">Request a Notary Session</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <component
-        :is="stepsList[activeComponent]"
-        @nextStep="forward"
-        @prevStep="backward"
-        @resetStep="reset"
-      />
+      <component :is="stepsList[activeComponent]" @nextStep="forward" @prevStep="backward" @resetStep="reset" />
     </div>
   </div>
 </template>
@@ -52,4 +39,5 @@ export default {
 };
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+</style>

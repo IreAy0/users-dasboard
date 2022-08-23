@@ -1,9 +1,6 @@
 <template>
   <div class="fixed-plugin">
-    <a
-      class="px-3 py-2 fixed-plugin-button text-dark position-fixed"
-      @click="toggle"
-    >
+    <a class="px-3 py-2 fixed-plugin-button text-dark position-fixed" @click="toggle">
       <i class="material-icons py-2">settings</i>
     </a>
     <div class="shadow-lg card">
@@ -26,40 +23,13 @@
           <h6 class="mb-0">Sidebar Colors</h6>
         </div>
         <a href="#" class="switch-trigger background-color">
-          <div
-            class="my-2 badge-colors"
-            :class="isRTL ? 'text-end' : ' text-start'"
-          >
-            <span
-              class="badge filter "
-              data-color="primary"
-              @click="sidebarColor('primary')"
-            ></span>
-            <span
-              class="badge filter bg-gradient-dark"
-              data-color="dark"
-              @click="sidebarColor('dark')"
-            ></span>
-            <span
-              class="badge filter bg-gradient-info"
-              data-color="info"
-              @click="sidebarColor('info')"
-            ></span>
-            <span
-              class="badge filter bg-gradient-success"
-              data-color="success"
-              @click="sidebarColor('success')"
-            ></span>
-            <span
-              class="badge filter bg-gradient-warning"
-              data-color="warning"
-              @click="sidebarColor('warning')"
-            ></span>
-            <span
-              class="badge filter bg-gradient-danger"
-              data-color="danger"
-              @click="sidebarColor('danger')"
-            ></span>
+          <div class="my-2 badge-colors" :class="isRTL ? 'text-end' : ' text-start'">
+            <span class="badge filter " data-color="primary" @click="sidebarColor('primary')"></span>
+            <span class="badge filter bg-gradient-dark" data-color="dark" @click="sidebarColor('dark')"></span>
+            <span class="badge filter bg-gradient-info" data-color="info" @click="sidebarColor('info')"></span>
+            <span class="badge filter bg-gradient-success" data-color="success" @click="sidebarColor('success')"></span>
+            <span class="badge filter bg-gradient-warning" data-color="warning" @click="sidebarColor('warning')"></span>
+            <span class="badge filter bg-gradient-danger" data-color="danger" @click="sidebarColor('danger')"></span>
           </div>
         </a>
         <!-- Sidenav Type -->
@@ -68,28 +38,16 @@
           <p class="text-sm">Choose between 2 different sidenav types.</p>
         </div>
         <div class="d-flex">
-          <button
-            id="btn-dark"
-            class="px-3 mb-2 btn bg-gradient-dark"
-            :class="sidebarType === 'bg-gradient-dark' ? 'active' : ''"
-            @click="sidebar('bg-gradient-dark')"
-          >
+          <button id="btn-dark" class="px-3 mb-2 btn bg-gradient-dark"
+            :class="sidebarType === 'bg-gradient-dark' ? 'active' : ''" @click="sidebar('bg-gradient-dark')">
             Dark
           </button>
-          <button
-            id="btn-transparent"
-            class="px-3 mb-2 btn bg-gradient-dark ms-2"
-            :class="sidebarType === 'bg-transparent' ? 'active' : ''"
-            @click="sidebar('bg-transparent')"
-          >
+          <button id="btn-transparent" class="px-3 mb-2 btn bg-gradient-dark ms-2"
+            :class="sidebarType === 'bg-transparent' ? 'active' : ''" @click="sidebar('bg-transparent')">
             Transparent
           </button>
-          <button
-            id="btn-white"
-            class="px-3 mb-2 btn bg-gradient-dark ms-2"
-            :class="sidebarType === 'bg-white' ? 'active' : ''"
-            @click="sidebar('bg-white')"
-          >
+          <button id="btn-white" class="px-3 mb-2 btn bg-gradient-dark ms-2"
+            :class="sidebarType === 'bg-white' ? 'active' : ''" @click="sidebar('bg-white')">
             White
           </button>
         </div>
@@ -102,35 +60,22 @@
         <div class="mt-2 d-flex">
           <h6 class="mb-0">Light / Dark</h6>
           <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input
-              class="form-check-input mt-1 ms-auto"
-              type="checkbox"
-              :checked="this.$store.state.isDarkMode"
-              @click="darkMode"
-            />
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" :checked="this.$store.state.isDarkMode"
+              @click="darkMode" />
           </div>
         </div>
         <hr class="horizontal dark my-sm-4" />
 
-        <a
-          class="btn btn-outline-dark w-100"
-          href="https://www.creative-tim.com/learning-lab/vue/overview/material-dashboard/"
-          >View documentation</a
-        >
+        <a class="btn btn-outline-dark w-100"
+          href="https://www.creative-tim.com/learning-lab/vue/overview/material-dashboard/">View documentation</a>
         <div class="text-center w-100">
           <h6 class="mt-3">Thank you for sharing!</h6>
-          <a
-            href="https://twitter.com/intent/tweet?text=Check%20Vue%20Material%20Dashboard%202%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23vuejs3&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fvue-material-dashboard-2"
-            class="mb-0 btn btn-dark me-2"
-            target="_blank"
-          >
+          <a href="https://twitter.com/intent/tweet?text=Check%20Vue%20Material%20Dashboard%202%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23vuejs3&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fvue-material-dashboard-2"
+            class="mb-0 btn btn-dark me-2" target="_blank">
             <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
           </a>
-          <a
-            href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/vue-material-dashboard-2"
-            class="mb-0 btn btn-dark me-2"
-            target="_blank"
-          >
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/vue-material-dashboard-2"
+            class="mb-0 btn btn-dark me-2" target="_blank">
             <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
           </a>
         </div>
@@ -147,8 +92,8 @@ export default {
   name: "configurator",
   props: ["toggle"],
   methods: {
-    ...mapMutations("MenuModule",["navbarMinimize", "navbarFixed"]),
-    ...mapActions("MenuModule",["setColor"]),
+    ...mapMutations("MenuModule", ["navbarMinimize", "navbarFixed"]),
+    ...mapActions("MenuModule", ["setColor"]),
 
     sidebarColor(color = "success") {
       document.querySelector("#sidenav-main").setAttribute("data-color", color);
@@ -192,7 +137,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("MenuModule",["isRTL", "sidebarType"]),
+    ...mapState("MenuModule", ["isRTL", "sidebarType"]),
     sidenavResponsive() {
       return this.sidenavTypeOnResize;
     },

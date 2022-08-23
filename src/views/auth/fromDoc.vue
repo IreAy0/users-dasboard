@@ -1,36 +1,36 @@
 
 <template>
   <div>
-     <div id="loading-bg">
-    <div class="loading">
-      <div class="effect-1 effects"></div>
-      <div class="effect-2 effects"></div>
-      <div class="effect-3 effects"></div>
+    <div id="loading-bg">
+      <div class="loading">
+        <div class="effect-1 effects"></div>
+        <div class="effect-2 effects"></div>
+        <div class="effect-3 effects"></div>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 <script>
 import { saveToken } from '@/Services/helpers'
 import { mapMutations } from 'vuex'
 export default {
-  name:"RedirectPage",
-  methods:{
-        ...mapMutations("MenuModule",["toggleEveryDisplay", "toggleHideConfig"]),
+  name: "RedirectPage",
+  methods: {
+    ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
 
   },
-  mounted(){
+  mounted() {
     if (this.$route.query.qt) {
       saveToken(this.$route.query.qt)
-      setTimeout(()=> {
+      setTimeout(() => {
         this.$router.push('/admin/dashboard')
       }, 1000)
-      
+
     }
 
   },
 
- beforeMount() {
+  beforeMount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
   },

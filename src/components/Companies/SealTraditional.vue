@@ -3,93 +3,47 @@
     <div class="row mb-3 my-2">
       <div class="form-group col-12 col-lg-4 mb-1">
         <label for="text_cnv">Company Name:</label>
-        <input
-          type="text"
-          class="input form-control"
-          placeholder="Company Name"
-          v-model="text_cnv"
-          size="40"
-          maxlength=""
-        />
+        <input type="text" class="input form-control" placeholder="Company Name" v-model="text_cnv" size="40"
+          maxlength="" />
       </div>
       <div class="form-group col-12 col-lg-4 mb-1">
         <label for="text_cnv">Address:</label>
-        <input
-          type="text"
-          class="input form-control"
-          placeholder="Your place, State"
-          v-model="text_cnv2"
-          size="40"
-          maxlength=""
-        />
+        <input type="text" class="input form-control" placeholder="Your place, State" v-model="text_cnv2" size="40"
+          maxlength="" />
       </div>
       <div class="col-12 col-lg-4 mb-1">
         <label style="padding-right: 32px">RC Number:</label>
-        <input
-          type="text"
-          v-model="text_horizontal"
-          class="input form-control"
-          placeholder="RC:12345"
-        />
+        <input type="text" v-model="text_horizontal" class="input form-control" placeholder="RC:12345" />
       </div>
     </div>
 
     <div class="row">
-       <!-- @/assets/images/company-seal-${sealColor}.png -->
+      <!-- @/assets/images/company-seal-${sealColor}.png -->
       <div class="col-12 col-lg-9">
         <div class="position-relative" style="width: auto" ref="capture">
           <div id="coy_number" :class="sealColor"></div>
-          <img
-          class=""
-            width="380"
-            height="380"
-           
-            :src="`/assets/images/company-seal-${sealColor}.png`"
-            alt="company seal"
-          />
-          <canvas
-            id="canvas"
-            width="300"
-            height="300"
-            style="
+          <img class="" width="380" height="380" :src="`/assets/images/company-seal-${sealColor}.png`"
+            alt="company seal" />
+          <canvas id="canvas" width="300" height="300" style="
               transform: translate(-48%, -50%);
               position: absolute;
               top: 50%;
               left: 203px;
-            "
-          ></canvas>
+            "></canvas>
         </div>
       </div>
       <div class="col-12 col-lg-3">
         <div class="payment__options">
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="captureSeal"
-            :disabled="!isAdopt"
-          >
-            <span
-              v-show="loading"
-              class="spinner-border spinner-border-sm"
-            ></span>
+          <button type="button" class="btn btn-primary" @click="captureSeal" :disabled="!isAdopt">
+            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
             <span>Adopt</span>
           </button>
           <label class="payment__option" for="color-grey">
-            <input
-              name="sealColor"
-              v-model="sealColor"
-              value="grey"
-              type="radio"
-              id="color-grey"
-              checked
-            />
+            <input name="sealColor" v-model="sealColor" value="grey" type="radio" id="color-grey" checked />
 
             <div class="payment__option-content">
               <div class="parent" :style="`border-color: rgb(152, 152, 152)`">
-                <div
-                  class="child1"
-                  :style="`border-color: rgb(152, 152, 152)`"
-                ></div>
+                <div class="child1" :style="`border-color: rgb(152, 152, 152)`"></div>
               </div>
               <!-- <img
               loading="lazy"
@@ -99,13 +53,7 @@
             </div>
           </label>
           <label class="payment__option" for="color-blue">
-            <input
-              name="sealColor"
-              v-model="sealColor"
-              value="blue"
-              type="radio"
-              id="color-blue"
-            />
+            <input name="sealColor" v-model="sealColor" value="blue" type="radio" id="color-blue" />
             <div class="payment__option-content">
               <!-- <img
               loading="lazy"
@@ -118,13 +66,7 @@
             </div>
           </label>
           <label class="payment__option" for="color-red">
-            <input
-              name="sealColor"
-              v-model="sealColor"
-              value="red"
-              type="radio"
-              id="color-red"
-            />
+            <input name="sealColor" v-model="sealColor" value="red" type="radio" id="color-red" />
             <div class="payment__option-content">
               <!-- <img
               loading="lazy"
@@ -132,72 +74,36 @@
               alt="seal color"
             /> -->
               <div class="parent" :style="`border-color: rgb(227, 125, 125)`">
-                <div
-                  class="child1"
-                  :style="`border-color: rgb(227, 125, 125)`"
-                ></div>
+                <div class="child1" :style="`border-color: rgb(227, 125, 125)`"></div>
               </div>
             </div>
           </label>
 
           <div class="preview">
-            <img
-              v-if="data.file"
-              :src="data.file"
-              class="img-fluid"
-              alt="Seal"
-            />
+            <img v-if="data.file" :src="data.file" class="img-fluid" alt="Seal" />
           </div>
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-md-start align-items-center">
-      <img
-        v-for="seal in companySeals"
-        :key="seal.id"
-        :src="seal.file"
-        class="img-fluid m-2"
-        alt="Seal"
-        width="120"
-        height="auto"
-      />
+      <img v-for="seal in companySeals" :key="seal.id" :src="seal.file" class="img-fluid m-2" alt="Seal" width="120"
+        height="auto" />
     </div>
     <div class="d-flex justify-content-end align-items-center">
-       <button
-                   @click="$emit('goToStep', goToStep)"
-                  id="prev"
-                  class="mt-1 me-3 rounded-circle p-1 btn btn-outline-secondary"
-                >
-                  <span class="align-middle d-inline-block">
-                    <svg
-                      width="17"
-                      height="15"
-                      viewBox="0 0 17 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M16.9998 7.26542C16.9998 7.53064 16.8945 7.785 16.7069 7.97253C16.5194 8.16007 16.2651 8.26542 15.9998 8.26542H4.41383L8.70783 12.5574C8.80081 12.6504 8.87456 12.7608 8.92488 12.8823C8.9752 13.0037 9.0011 13.1339 9.0011 13.2654C9.0011 13.3969 8.9752 13.5271 8.92488 13.6486C8.87456 13.7701 8.80081 13.8804 8.70783 13.9734C8.61486 14.0664 8.50448 14.1402 8.383 14.1905C8.26152 14.2408 8.13132 14.2667 7.99983 14.2667C7.86835 14.2667 7.73815 14.2408 7.61667 14.1905C7.49519 14.1402 7.38481 14.0664 7.29183 13.9734L1.29183 7.97342C1.19871 7.88053 1.12482 7.77018 1.07441 7.64869C1.024 7.5272 0.998047 7.39696 0.998047 7.26542C0.998047 7.13389 1.024 7.00365 1.07441 6.88216C1.12482 6.76067 1.19871 6.65031 1.29183 6.55742L7.29183 0.557424C7.47961 0.36965 7.73428 0.26416 7.99983 0.26416C8.26539 0.26416 8.52006 0.36965 8.70783 0.557424C8.89561 0.745197 9.0011 0.999872 9.0011 1.26542C9.0011 1.53098 8.89561 1.78565 8.70783 1.97342L4.41383 6.26542H15.9998C16.2651 6.26542 16.5194 6.37078 16.7069 6.55832C16.8945 6.74585 16.9998 7.00021 16.9998 7.26542Z"
-                        fill="#A1A0A0"
-                      />
-                    </svg>
-                  </span>
-                </button>
-               
-      <button
-        type="button"
-        class="btn btn-primary d-block  mt-2"
-        @click="onSaveSignature"
-        :disabled="!data.file"
-      >
-      
-        <span
-        
-          v-show="updating == true"
-          class="spinner-border spinner-border-sm"
-        ></span>
+      <button @click="$emit('goToStep', goToStep)" id="prev"
+        class="mt-1 me-3 rounded-circle p-1 btn btn-outline-secondary">
+        <span class="align-middle d-inline-block">
+          <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M16.9998 7.26542C16.9998 7.53064 16.8945 7.785 16.7069 7.97253C16.5194 8.16007 16.2651 8.26542 15.9998 8.26542H4.41383L8.70783 12.5574C8.80081 12.6504 8.87456 12.7608 8.92488 12.8823C8.9752 13.0037 9.0011 13.1339 9.0011 13.2654C9.0011 13.3969 8.9752 13.5271 8.92488 13.6486C8.87456 13.7701 8.80081 13.8804 8.70783 13.9734C8.61486 14.0664 8.50448 14.1402 8.383 14.1905C8.26152 14.2408 8.13132 14.2667 7.99983 14.2667C7.86835 14.2667 7.73815 14.2408 7.61667 14.1905C7.49519 14.1402 7.38481 14.0664 7.29183 13.9734L1.29183 7.97342C1.19871 7.88053 1.12482 7.77018 1.07441 7.64869C1.024 7.5272 0.998047 7.39696 0.998047 7.26542C0.998047 7.13389 1.024 7.00365 1.07441 6.88216C1.12482 6.76067 1.19871 6.65031 1.29183 6.55742L7.29183 0.557424C7.47961 0.36965 7.73428 0.26416 7.99983 0.26416C8.26539 0.26416 8.52006 0.36965 8.70783 0.557424C8.89561 0.745197 9.0011 0.999872 9.0011 1.26542C9.0011 1.53098 8.89561 1.78565 8.70783 1.97342L4.41383 6.26542H15.9998C16.2651 6.26542 16.5194 6.37078 16.7069 6.55832C16.8945 6.74585 16.9998 7.00021 16.9998 7.26542Z"
+              fill="#A1A0A0" />
+          </svg>
+        </span>
+      </button>
+
+      <button type="button" class="btn btn-primary d-block  mt-2" @click="onSaveSignature" :disabled="!data.file">
+
+        <span v-show="updating == true" class="spinner-border spinner-border-sm"></span>
         <span>save</span>
       </button>
     </div>
@@ -246,10 +152,10 @@ const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
     sealColor.value === "grey"
       ? "rgb(152, 152, 152)"
       : sealColor.value === "blue"
-      ? "#406dc6"
-      : sealColor.value === "red"
-      ? "rgb(227, 125, 125)"
-      : "";
+        ? "#406dc6"
+        : sealColor.value === "red"
+          ? "rgb(227, 125, 125)"
+          : "";
   // ctx.fillStyle = "#C1353F";
   ctx.closePath();
 
@@ -277,7 +183,7 @@ const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
 };
 
 const onSaveSignature = () => {
-  
+
   loading_save.value = true;
 
   store.dispatch("CompanyModule/setCompanySeal", data.value);
@@ -314,53 +220,53 @@ const captureSeal = () => {
       console.error("oops, something went wrong!", error);
     });
 };
-watch(company, (newValue,  oldValue) => {
+watch(company, (newValue, oldValue) => {
   if (newValue) {
     // console.log(newValue, 'watch', oldValue);
     text_cnv.value = newValue.company_name;
     text_cnv2.value = newValue.address;
-    text_horizontal.value = `RC: ${newValue.registration_company_number}` 
-   
+    text_horizontal.value = `RC: ${newValue.registration_company_number}`
+
   }
 }),
-watch(
-  () => [
-    text_cnv.value,
-    text_cnv2.value,
-    text_horizontal.value,
-    sealColor.value,
-    
-  ],
-  ([newCnv, newCnv2, newCoy, newcol], [oldCnv, oldCnv2, oldCoy, oldcol]) => {
-    if (
-      text_cnv.value != "" &&
-      text_cnv2.value != "" &&
-      text_horizontal.value != ""
-    ) {
-      isAdopt.value = true;
-    }
-    if (newcol != oldcol) {
-      updateCanvas(newCnv, 130.5, 144, r, space, 1, "20px");
-    }
-    if (newcol != oldcol) {
-      const coy_number = document.getElementById("coy_number");
-      coy_number.innerText = newCoy;
-    }
-    if (newcol != oldcol) {
-      updateCanvas(newCnv2, 130.5, 155, r, space, 0, "1.125em");
-    }
+  watch(
+    () => [
+      text_cnv.value,
+      text_cnv2.value,
+      text_horizontal.value,
+      sealColor.value,
 
-    if (newCnv != oldCnv) updateCanvas(newCnv, 130.5, 144, r, space, 1, "20px");
+    ],
+    ([newCnv, newCnv2, newCoy, newcol], [oldCnv, oldCnv2, oldCoy, oldcol]) => {
+      if (
+        text_cnv.value != "" &&
+        text_cnv2.value != "" &&
+        text_horizontal.value != ""
+      ) {
+        isAdopt.value = true;
+      }
+      if (newcol != oldcol) {
+        updateCanvas(newCnv, 130.5, 144, r, space, 1, "20px");
+      }
+      if (newcol != oldcol) {
+        const coy_number = document.getElementById("coy_number");
+        coy_number.innerText = newCoy;
+      }
+      if (newcol != oldcol) {
+        updateCanvas(newCnv2, 130.5, 155, r, space, 0, "1.125em");
+      }
 
-    if (newCnv2 != oldCnv2)
-      updateCanvas(newCnv2, 130.5, 155, r, space, 0, "1.125em");
+      if (newCnv != oldCnv) updateCanvas(newCnv, 130.5, 144, r, space, 1, "20px");
 
-    if (newCoy != oldCoy) {
-      const coy_number = document.getElementById("coy_number");
-      coy_number.innerText = newCoy;
+      if (newCnv2 != oldCnv2)
+        updateCanvas(newCnv2, 130.5, 155, r, space, 0, "1.125em");
+
+      if (newCoy != oldCoy) {
+        const coy_number = document.getElementById("coy_number");
+        coy_number.innerText = newCoy;
+      }
     }
-  }
-);
+  );
 
 onBeforeMount(() => {
   ToNote.get("/company")
@@ -393,6 +299,7 @@ onMounted(() => {
   border: 2px solid black;
   border-radius: 50%;
 }
+
 .child1 {
   background-color: transparent;
   top: 15%;
@@ -403,6 +310,7 @@ onMounted(() => {
   border: 2px solid black;
   border-radius: 50%;
 }
+
 #canvas {
   border-radius: 50%;
   letter-spacing: 20px;
@@ -480,10 +388,7 @@ onMounted(() => {
   box-shadow: 0px 3px 5px 0px #e8e8e8;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content:after {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content:after {
   content: "";
   position: absolute;
   height: 8px;
@@ -498,10 +403,7 @@ onMounted(() => {
   box-shadow: 0px 0px 0px 2px #003bb3; */
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content {
   border: 2px solid #e4e4e4;
   /* background: #eaf1fe; */
   -webkit-transition: ease-in 0.3s;
@@ -512,9 +414,11 @@ onMounted(() => {
 .grey {
   color: rgb(152, 152, 152) !important;
 }
+
 .blue {
   color: #406dc6 !important;
 }
+
 .red {
   color: rgb(227, 125, 125) !important;
 }

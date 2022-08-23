@@ -1,36 +1,25 @@
 <template>
 
-  <div class=" grid" v-if="loading == true" >
+  <div class=" grid" v-if="loading == true">
     <Preloader />
   </div>
   <div v-else>
-<sidenav
-    :custom_class="color"
-    :class="[isRTL ? 'fixed-end' : 'fixed-start']"
-    v-if="showSidenav"
-    class="zindex-4"
-  />
-  
-  <main
-    class="main-content position-relative max-height-vh-100 h-100 overflow-x-hidden"
-  >
-    <div v-show="isPinned == false" class="position-absolute max-height-vh-100 h-100 w-100 sidenav-overlay show zindex-3" @click="toggleSidebar">
-     
-             </div>
-    <!-- nav -->
-    <navbar
+    <sidenav :custom_class="color" :class="[isRTL ? 'fixed-end' : 'fixed-start']" v-if="showSidenav" class="zindex-4" />
 
-      :class="[isNavFixed ? navbarFixed : '', isAbsolute ? absolute : '']"
-      :color="isAbsolute ? 'text-white opacity-8' : ''"
-      :minNav="navbarMinimize"
-      v-if="showNavbar"
-    />
+    <main class="main-content position-relative max-height-vh-100 h-100 overflow-x-hidden">
+      <div v-show="isPinned == false"
+        class="position-absolute max-height-vh-100 h-100 w-100 sidenav-overlay show zindex-3" @click="toggleSidebar">
 
-    <router-view />
-   
-  </main>
+      </div>
+      <!-- nav -->
+      <navbar :class="[isNavFixed ? navbarFixed : '', isAbsolute ? absolute : '']"
+        :color="isAbsolute ? 'text-white opacity-8' : ''" :minNav="navbarMinimize" v-if="showNavbar" />
+
+      <router-view />
+
+    </main>
   </div>
-  
+
 </template>
 <script>
 import Sidenav from "./examples/Sidenav";
@@ -44,10 +33,10 @@ import router from "./router";
 
 export default {
   name: "App",
-  data(){
-    return{
-        loading: true,
-    } 
+  data() {
+    return {
+      loading: true,
+    }
   },
   components: {
     Sidenav,
@@ -57,20 +46,20 @@ export default {
     Preloader
   },
   methods: {
-    ...mapMutations("MenuModule",["toggleConfigurator", "navbarMinimize"]),
+    ...mapMutations("MenuModule", ["toggleConfigurator", "navbarMinimize"]),
     ...mapActions('TeamsModule', ['getTeams', 'getTeamUsers', 'getSubcriptions']),
     ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', 'getTransactions']),
     ...mapActions('TeamsModule', ['logout']),
-     ...mapActions('CompanyModule', ['getCompany']),
-     ...mapActions('DocumentModule', [ 'RequestsList']),
-    
-     toggleSidebar() {
+    ...mapActions('CompanyModule', ['getCompany']),
+    ...mapActions('DocumentModule', ['RequestsList']),
+
+    toggleSidebar() {
       this.navbarMinimize();
     },
   },
   computed: {
     ...mapState('TeamsModule', ['Teams']),
-    ...mapState("MenuModule",[
+    ...mapState("MenuModule", [
       "isRTL",
       "color",
       "isAbsolute",
@@ -95,16 +84,16 @@ export default {
 
     }
   },
-  beforeRouteEnter(){
+  beforeRouteEnter() {
 
   },
 
-beforeCreate(){
-    
-},
+  beforeCreate() {
+
+  },
   mounted() {
-    
-    
+
+
     this.getTeams();
     this.getSubcriptions();
     this.getUser();
@@ -118,7 +107,7 @@ beforeCreate(){
     // this.$store.dispatch("CompanyModule/listCompanySeals");
     // this.store.dispatch("CompanyModule/listCompanyStamps");
 
-     setTimeout(() => {
+    setTimeout(() => {
       this.loading = false;
     }, 3000);
   },

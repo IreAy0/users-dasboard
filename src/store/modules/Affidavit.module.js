@@ -39,22 +39,22 @@ const actions = {
   ALL_AFFIDAVIT({ commit }) {
     getAffidavitTemplates()
       .then((res) => {
-        
+
         commit("setAffidavitTemplates", res.data.data);
       })
       .catch(function () {
-        
+
       });
   },
 
   ALL_PAYMENTGATEWAYS({ commit }) {
     getPaymentGatways()
       .then((res) => {
-       
+
         commit("setPaymentGateways", res.data.data);
       })
       .catch(function () {
-       
+
       });
   },
 

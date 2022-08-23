@@ -1,25 +1,12 @@
 <template>
   <div class="modal-dialog modal-md modal-dialog-scrollable">
     <div class="modal-content">
-      <div
-        class="modal-header"
-        v-if="this.activeStep !== this.stepsList.length - 1"
-      >
+      <div class="modal-header" v-if="this.activeStep !== this.stepsList.length - 1">
         <h4 class="fw-bold">Get an affidavit</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <component
-        :is="stepsList[activeStep]"
-        @nextStep="forward"
-        @prevStep="backward"
-        @resetStep="reset"
-      />
+      <component :is="stepsList[activeStep]" @nextStep="forward" @prevStep="backward" @resetStep="reset" />
     </div>
   </div>
 </template>

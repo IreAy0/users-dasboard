@@ -14,7 +14,7 @@ ToNote.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
-    
+
 ToNote.interceptors.response.use(
   response => {
     return response;
@@ -28,9 +28,9 @@ ToNote.interceptors.response.use(
     // }
     return Promise.reject(error);
   });
-    
-    
-    
+
+
+
 
 export default ToNote;
 

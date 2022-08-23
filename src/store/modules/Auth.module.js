@@ -29,23 +29,26 @@ const actions = {
     commit("registerRequest", user);
     auth.Register(user).then(
       (user) => {
+
+        const email = localStorage.getItem("user");
+        console.log(user, email)
         commit("registerSuccess", user);
 
         setTimeout(() => {
-          router.push("/verify");
+          router.push("/verify?email=" + email);
         });
       },
       (error) => {
         commit("registerFailure", error);
         if (error) {
-         toast.error('Registration failed, Please try again',{
-                duration: 3000,
-              queue: false,
-              position: "top-right",
-              dismissible: true,
-              pauseOnHover: true,
+          toast.error('Registration failed, Please try again', {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
           })
-          }
+        }
 
       }
     );
@@ -59,34 +62,49 @@ const actions = {
         setTimeout(() => {
           router.push('/admin/dashboard');
         });
+        toast.success('Email Succesfully verified', {
+          duration: 3000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        })
       },
       (error) => {
         commit("verifyFailure", error);
+        toast.error('Please try again', {
+          duration: 3000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        })
       }
     );
   },
 
-  login({ commit , dispatch }, user) {
-   
+  login({ commit, dispatch }, user) {
+
     commit("loginRequest", user);
     auth.Login(user).then(
       (user) => {
         saveToken(user?.data?.token);
         commit("loginSuccess", user);
-        
-       console.log('user successfully logged in',user)
-      //  dispatch("ProfileModule/getUser", { root: true });
-      //  store.dispatch("ProfileModule/getUser", { root: true });
-      router.push("/admin/dashboard");
+
+        console.log('user successfully logged in', user)
+        //  dispatch("ProfileModule/getUser", { root: true });
+        //  store.dispatch("ProfileModule/getUser", { root: true });
+        router.push("/admin/dashboard");
+
         // setTimeout(() => {
-          
-          
+
+
         // }, 2000);
-       
+
       },
       (error) => {
         commit("loginFailure", error);
-       
+
       }
     );
   },
@@ -117,7 +135,7 @@ const mutations = {
   },
   loginRequest(state) {
     state.loggingIn = true;
-   
+
   },
   loginSuccess(state) {
     state.loggedIn = true;
@@ -126,7 +144,7 @@ const mutations = {
   loginFailure(state, error) {
     state.loggingIn = false;
     state.loginError = error?.response?.data?.errors;
-    
+
   },
 };
 

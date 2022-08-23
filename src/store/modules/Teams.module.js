@@ -10,9 +10,9 @@ const state = () => ({
   gettingTeams: false,
   image: null,
   updated: false,
-  signature : {},
+  signature: {},
   updating: false,
-  subcriptions:null,
+  subcriptions: null,
   errors: [],
 })
 
@@ -24,19 +24,19 @@ const actions = {
 
   async getTeams({ commit }) {
     await team.Teams()
-     .then(
-       user => {
-         // state.companyProfile = user?.data?.data
-         commit('getTeamsSuccess', user?.data?.data)
-         
-        //  router("/admin")
-       },
-       error => {
-         commit('getUserFailed', error)
-         console.log('error', error);
-       }
-     )
-   },
+      .then(
+        user => {
+          // state.companyProfile = user?.data?.data
+          commit('getTeamsSuccess', user?.data?.data)
+
+          //  router("/admin")
+        },
+        error => {
+          commit('getUserFailed', error)
+          console.log('error', error);
+        }
+      )
+  },
 
   //  async getTeamUsers({ commit }) {
   //       await team.getTeamUsers().then(user =>{
@@ -46,54 +46,54 @@ const actions = {
   //         commit('getTeamssFailed', error)
   //         console.log('error', error);
   //       }
-        
+
   //       )
   //  },
 
-   async getSubcriptions({ commit }) {
-    await team.getSubcriptions().then(user =>{
+  async getSubcriptions({ commit }) {
+    await team.getSubcriptions().then(user => {
       commit('getSubcriptionsSuccess', user?.data?.data)
     },
-    error => {
-      commit('getSubcriptionsFailed', error)
-      console.log('error', error);
-    }
-    
-    )
-   }
-//  async companyUpdate({ commit }, user) {
-//   return new Promise((resolve, reject) => {
-//     company.updateCompany(user).then(response => {
-//             console.log(response, 'response' );
+      error => {
+        commit('getSubcriptionsFailed', error)
+        console.log('error', error);
+      }
 
-//       commit('updateUserCompanySuccess', response);
-//       commit('getCompanySuccess', response?.data?.data)
-//       resolve(response)
-//     }, error => {
-//       commit('getUserFailed', error);
-//         reject(error)
-//     })
-// })},
+    )
+  }
+  //  async companyUpdate({ commit }, user) {
+  //   return new Promise((resolve, reject) => {
+  //     company.updateCompany(user).then(response => {
+  //             console.log(response, 'response' );
+
+  //       commit('updateUserCompanySuccess', response);
+  //       commit('getCompanySuccess', response?.data?.data)
+  //       resolve(response)
+  //     }, error => {
+  //       commit('getUserFailed', error);
+  //         reject(error)
+  //     })
+  // })},
 
 }
 
 
 const mutations = {
-  getTeamsSuccess(state, user){
+  getTeamsSuccess(state, user) {
     state.Teams = user
     state.gettingTeams = true
   },
-  getTeamsUsersSuccess(state, user){
+  getTeamsUsersSuccess(state, user) {
     state.teamsUsers = user
     state.gettingTeams = true
   },
-  getTeamsFailed(state){
+  getTeamsFailed(state) {
     state.gettingTeams = false
   },
-  getSubcriptionsSuccess(state, user){
+  getSubcriptionsSuccess(state, user) {
     state.subcriptions = user
     // state.gettingTeams = true
-  } 
+  }
 }
 
 export const TeamsModule = {

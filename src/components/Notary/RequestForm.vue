@@ -2,26 +2,13 @@
   <div class="modal-body">
     <div class="my-2">
       <label class="form-label" for="document_type">Title *</label>
-      <input
-        type="text"
-        class="form-control"
-        id="document_type"
-        placeholder=""
-        :style="error_message.title && 'border: 1px solid red'"
-        v-model="form_data.title"
-        @change="error_message.title = null"
-      />
+      <input type="text" class="form-control" id="document_type" placeholder="Enter document title"
+        :style="error_message.title && 'border: 1px solid red'" v-model="form_data.title"
+        @change="error_message.title = null" />
     </div>
 
-    <div
-      @change="selectedFile"
-      @drop.prevent="drop"
-      @dragenter.prevent="toggleActive"
-      @dragleave.prevent="toggleActive"
-      @dragover.prevent
-      :class="{ 'active-dropzone': active }"
-      class="dropzone"
-    >
+    <div @change="selectedFile" @drop.prevent="drop" @dragenter.prevent="toggleActive" @dragleave.prevent="toggleActive"
+      @dragover.prevent :class="{ 'active-dropzone': active }" class="dropzone">
       <label for="dropzoneFile" class="custom-file-upload">
         <div class="text-center">
           <h5>Drag and drop to upload</h5>
@@ -31,68 +18,37 @@
             <slot name="format">PDF, DOC, DOCX only</slot>
           </div>
           <slot name="input">
-            <input
-              type="file"
-              id="dropzoneFile"
-              class="dropzoneFile"
-              @change="error_message.file = null"
-              accept=".png, .jpg, .jpeg, .pdf, .docx, .doc"
-            />
+            <input type="file" id="dropzoneFile" class="dropzoneFile" @change="error_message.file = null"
+              accept=".png, .jpg, .jpeg, .pdf, .docx, .doc" />
           </slot>
         </div>
       </label>
     </div>
     <label v-if="error_message.file" class="text-primary small" for="error">{{
-      error_message.file
+        error_message.file
     }}</label>
     <p v-if="preview" class="text-primary">{{ preview }}</p>
 
     <div class="my-2">
-      <label class="form-label" for="template"
-        >How do you want your document delivered?</label
-      >
-      <select
-        id="template"
-        class="form-select"
-        aria-label="select affidavit template"
-        v-model="form_data.delivery_channel"
-        @change="error_message.delivery_channel = null"
-      >
+      <label class="form-label" for="template">How do you want your document delivered?</label>
+      <select id="template" class="form-select" aria-label="select affidavit template"
+        v-model="form_data.delivery_channel" @change="error_message.delivery_channel = null">
+        <option value=" ">Select an option</option>
         <option value="Email">Electronic Document Only(Via Email)</option>
         <option value="Address">
           Electronic and Physical Document(To your address)
         </option>
         <option value="Collection">Collection</option>
       </select>
-      <label
-        v-if="error_message.delivery"
-        class="text-danger small"
-        for="error"
-        >{{ error_message.delivery }}</label
-      >
+      <label v-if="error_message.delivery" class="text-danger small" for="error">{{ error_message.delivery }}</label>
     </div>
 
-    <div
-      data-aos="fade-down"
-      v-if="form_data.delivery_channel === 'Address'"
-      class="my-2"
-    >
+    <div data-aos="fade-down" v-if="form_data.delivery_channel === 'Address'" class="my-2">
       <label class="form-label" for="template">Enter your address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="exampleFormControlInput1"
-        placeholder="Address"
-        v-model="form_data.delivery_address"
-        @change="error_message.address = null"
-        :style="error_message.address && 'border: 1px solid red'"
-      />
-      <label
-        v-if="error_message.address"
-        class="text-danger small"
-        for="error"
-        >{{ error_message.address }}</label
-      >
+      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Address"
+        v-model="form_data.delivery_address" @change="error_message.address = null"
+        :style="error_message.address && 'border: 1px solid red'" />
+      <label v-if="error_message.address" class="text-danger small" for="error">{{ error_message.address }}</label>
     </div>
   </div>
   <div class="modal-footer">
