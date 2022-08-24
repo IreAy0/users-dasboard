@@ -4,8 +4,13 @@ import { getToken } from "./helpers";
 
 const ToNote = axios.create();
 
+const env_variable = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_TONOTE_API_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_TONOTE_API_BASE_URL_STAGING : process.env.VUE_APP_TONOTE_API_BASE_URL_LIVE
+const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+
+console.log(env_variable, 'VUE_APP_API_BASE_URL', redirect_url+'/tonote/callback')
+
 ToNote.interceptors.request.use(config => {
-  config.baseURL = process.env.VUE_APP_API_BASE_URL;
+  config.baseURL = env_variable;
   config.headers['Authorization'] = getToken() && `Bearer ${getToken()}`;
   config.headers['Content-Type'] = 'application/json';
   config.headers['Accept'] = 'application/json';
