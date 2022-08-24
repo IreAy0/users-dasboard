@@ -19,7 +19,7 @@
             <tbody>
               <tr v-for="document in documents" :key="document.id">
                 <td>
-                  <a :href="`https://tonote-doc.netlify.app/document/${document.status == 'New' ? 'edit' : 'audit'}/${document.id}?qt=${token}`"
+                  <a :href="`${getEnv}/document/${document.status == 'New' ? 'edit' : 'audit'}/${document.id}?qt=${token}`"
                     class="my-0 py-0">{{ document.title }}</a>
                   <p v-if="document.participants_count !== 0" class="my-0 py-0">
                     <!-- To:
@@ -97,7 +97,7 @@ const store = useStore();
 const documents = computed(() => store.state.DocumentModule.documents);
 // eslint-disable-next-line no-unused-vars
 const requests = computed(() => store.state.DocumentModule.requests);
-
+const getEnv = computed(() => process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE)
 const token = computed(() => getToken())
 </script>
 <style lang="css">

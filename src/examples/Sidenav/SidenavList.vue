@@ -34,7 +34,7 @@
       </li>
       
         <li>
-  <a  class="nav-link" :href="`https://tonote-doc.netlify.app/?qt=${getToken}`">
+  <a  class="nav-link" :href="`${getEnv}/?qt=${getToken}`">
  <div
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
@@ -179,10 +179,11 @@ computed: {
       const token = getToken();
       return token;
     },
-    getUrl() {
-      const url = process.env.VUE_APP_DOCUMENT_PAGE;
-      return url;
+     getEnv(){
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
+
     },
+    
     getActive() {
       const active = this?.Teams?.find((element) => element.active == true);
       return active;

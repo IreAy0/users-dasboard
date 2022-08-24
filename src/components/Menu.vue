@@ -43,7 +43,7 @@
         </li>
 
         <li class="nav-item">
-          <a :href="`https://tonote-doc.netlify.app/?qt=${getToken}`" class="d-flex align-items-center">
+          <a :href="`${getEnv}/?qt=${getToken}`" class="d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
               class="feather feather-layers">
@@ -145,6 +145,10 @@ export default {
     getToken() {
       const token = getToken();
       return token;
+    },
+     getEnv(){
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
+
     },
     getUrl() {
       const url = process.env.VUE_APP_DOCUMENT_PAGE;

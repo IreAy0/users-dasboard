@@ -85,7 +85,7 @@
             </router-link>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
-            <a :href="`https://tonote-doc.netlify.app/document?status=received?qt=${getToken}`" class="card">
+            <a :href="`${getEnv}/document?status=received?qt=${getToken}`" class="card">
               <div class="card-header">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.viewed }}</h2>
@@ -104,7 +104,7 @@
             </a>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
-            <a :href="`https://tonote-doc.netlify.app/document?status=sent?qt=${getToken}`" class="card">
+            <a :href="`${getEnv}/document?status=sent?qt=${getToken}`" class="card">
               <div class="card-header">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.completed }}</h2>
@@ -233,7 +233,7 @@
                       </p>
 
                       <div class="mt-auto">
-                        <a :href="`https://tonote-doc.netlify.app/document/upload?qt=${getToken}`"
+                        <a :href="`${getEnv}/document/upload?qt=${getToken}`"
                           class="text-primary">Sign now
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             class="bi bi-arrow-right" viewBox="0 0 16 16">
@@ -287,6 +287,10 @@ export default {
       const token = getToken();
       return token;
     },
+    getEnv(){
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
+
+    }
   },
   methods: {
     ...mapActions("ProfileModule", ["getUser"]),
