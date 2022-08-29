@@ -215,8 +215,14 @@
           </svg>
         </span>
       </button>
+      <router-link v-if="isActive('upload') && imgSrc?.length == 0" to="/admin/dashboard" 
+        :disabled="updating || imgSrc?.length == 0 || imgSrc?.file == ' '">
+        <button type="button" class="btn btn-primary btn-next"> Finish</button>
 
-      <button @click="onSaveSignature(imgSrc)" class="btn btn-primary btn-next"
+      </router-link>
+
+    
+      <button :class="{'d-none' : isActive('upload') && imgSrc?.length == 0}" @click="onSaveSignature(imgSrc)" class="btn btn-primary btn-next"
         :disabled="updating || imgSrc?.length == 0 || imgSrc?.file == ' '">
         <span v-show="updating"> Processing...</span>
         <span v-show="!updating"> Save and Continue</span>
@@ -395,7 +401,7 @@ export default {
         quality: scale,
         height: capture.offsetHeight * scale,
         style: {
-          // transform: `scale(${scale}) `,
+          transform: `scale(${2}) translateX(10%) `,
           padding: "50px 10px",
           fontSize:"70px",
         },
