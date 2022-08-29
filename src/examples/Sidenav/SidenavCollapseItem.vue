@@ -7,6 +7,7 @@
       :href="`#${refer}`"
       @click="isExpanded = !isExpanded"
     >
+    {{isExpanded}}
       <span class="sidenav-mini-icon"> {{ miniIcon }} </span>
       <span class="sidenav-normal me-3 ms-2 ps-1">
         {{ text }} <b class="caret"></b

@@ -45,7 +45,7 @@
             </div>
             <div class="row">
               <div class="mb-1 col-md-12">
-                <label class="form-label" for="modern-first-name">Company Name <span> &#x2731; </span></label>
+                <label class="form-label" for="modern-first-name">Company Name </label>
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
                   type="text" id="modern-first-name" class="form-control" placeholder="John" name="company_name"
                   v-model="profile.company_name" />
@@ -61,21 +61,21 @@
                 <ErrorMessage name="email" class="text-danger" />
               </div>
               <div class="mb-1 col-md-12">
-                <label class="form-label" for="modern-phone">Company Address <span> &#x2731; </span></label>
+                <label class="form-label" for="modern-phone">Company Address </label>
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
                   type="text" name="address" id="company-address" class="form-control" placeholder="Address"
                   aria-label="phone_number" v-model="profile.address" />
                 <ErrorMessage name="address" class="text-danger" />
               </div>
               <div class="mb-1 col-md-6">
-                <label class="form-label" for="modern-phone">Phone Number <span> &#x2731; </span></label>
+                <label class="form-label" for="modern-phone">Phone Number </label>
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
                   type="tel" name="phone" id="modern-phone" class="form-control" :class="{ 'has-error': errorMessage }"
                   placeholder="070 0000 000" aria-label="phone_number" v-model="profile.phone" />
                 <ErrorMessage name="phone" class="text-danger" />
               </div>
               <div class="mb-1 col-md-6">
-                <label class="form-label" for="country">Country <span> &#x2731; </span> </label>
+                <label class="form-label" for="country">Country  </label>
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
                   name="country" as="select" @change="getStates(country)" v-model="country"
                   class="select2 w-100 form-select" id="company-country">
@@ -87,7 +87,7 @@
                 </Field>
               </div>
               <div class="mb-1 col-md-6">
-                <label class="form-label" for="state">State <span> &#x2731; </span></label>
+                <label class="form-label" for="state">State</label>
                 <!-- <b-form-select :options="states"></b-form-select> -->
 
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
@@ -101,7 +101,7 @@
                 <ErrorMessage name="state" class="text-danger" />
               </div>
               <div class="row align-items-baseline pt-1">
-                <label class="form-label" for="state">Company Logo <span> &#x2731; </span></label>
+                <label class="form-label" for="state">Company Logo * </label>
 
                 <div class="col-12 col-md-8 rounded-3">
                   <div class="file-upload">

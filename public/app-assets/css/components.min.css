@@ -25,7 +25,7 @@ html .content {
 	-webkit-transition: .3s ease all;
 	transition: .3s ease all;
 	backface-visibility: hidden;
-	min-height: calc(100% - 3.35rem);
+	/* min-height: calc(100% - 3.35rem); */
 	/* margin-left: 260px */
 }
 
@@ -510,7 +510,7 @@ html .pace .pace-progress {
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 120vh;
+	height: 100%;
 	background-color: rgba(34, 41, 47, .5);
 	z-index: 997;
 	display: block;

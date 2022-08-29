@@ -28,8 +28,8 @@
                   separator="" :num-inputs="6" :should-auto-focus="true" :is-input-num="true"
                   @on-change="handleOnChange" @on-complete="submitOtp" />
               </div>
-
-              <button class="btn btn-primary w-100" type="submit" tabindex="4">
+               
+              <button :disabled="otpInput?.otp.length < 6"  class="btn btn-primary w-100" type="submit" tabindex="4">
                 <span v-show="verifying" class="spinner-border spinner-border-sm"></span>
                 Verify my account
 
@@ -67,12 +67,23 @@ export default {
     }
   },
   setup() {
+    const handleOnComplete = (value) => {
+      console.log('OTP completed: ', value);
+    };
+
+    const handleOnChange = (value) => {
+      console.log('OTP changed: ', value);
+    };
+
     const clearInput = () => {
       otpInput.value.clearInput()
     }
 
-    return { clearInput, otpInput };
+    return { clearInput, otpInput, handleOnChange, handleOnComplete};
+
   },
+
+
   computed: {
     ...mapState('AuthModule', ['verifying', 'verifyError']),
   },
@@ -84,7 +95,6 @@ export default {
       const data = { email: email.toLocaleLowerCase(), otp: otpInput.value.otp.join('') }
 
       loading.value = true;
-      console.log()
       this.verify(data)
 
 

@@ -140,9 +140,7 @@ function openFlutterwave() {
 
   useFlutterwave({
     amount: 8000,
-    callback(data) {
-      onSuccessfulPayment(data);
-    },
+   
     country: "NG",
     currency: "NGN",
     customer: {
@@ -161,8 +159,14 @@ function openFlutterwave() {
     },
     payment_options: "card,ussd",
     public_key: flutterwaveKey,
-    redirect_url: redirect_url+'/admin/payment-confirmation',
+    // redirect_url: redirect_url+'/admin/payment-confirmation',
     tx_ref: transactionable_id.value,
+    callback: function(data) {
+      onSuccessfulPayment(data)
+      setTimeout(function() {
+        window.location.href = redirect_url+ '/admin/payment-confirmation'
+}, 1000);
+    },
   });
 }
 
