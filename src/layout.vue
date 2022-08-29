@@ -3,7 +3,7 @@
   <div class=" grid" v-if="loading == true">
     <Preloader />
   </div>
-  <div v-else>
+  <div v-else class="h-100">
     <sidenav :custom_class="color" :class="[isRTL ? 'fixed-end' : 'fixed-start']" v-if="showSidenav" class="zindex-4" />
 
     <main class="main-content position-relative max-height-vh-100 h-100 overflow-x-hidden">

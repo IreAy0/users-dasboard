@@ -63,6 +63,7 @@ import paystack from "vue3-paystack";
 import { useFlutterwave } from "flutterwave-vue3";
 import { useStore } from "vuex";
 import { useToast } from "vue-toast-notification";
+import router from "@/router";
 
 const toast = useToast();
 let store = useStore();
@@ -101,6 +102,7 @@ const onSuccessfulPayment = (response) => {
     payment_gateway: payment_gateway.value,
   };
 
+
   store.dispatch("AffidavitModule/put_notaryrequesttransaction", data);
   emits("nextStep");
 };
@@ -119,9 +121,7 @@ function openFlutterwave() {
   console.log("openFlutterwave", transactionable_id.value );
   useFlutterwave({
     amount: 4000,
-    callback(data) {
-      onSuccessfulPayment(data);
-    },
+    
     country: "NG",
     currency: "NGN",
     customer: {
@@ -140,8 +140,15 @@ function openFlutterwave() {
     },
     payment_options: "card,ussd",
     public_key: flutterwaveKey,
-    redirect_url: redirect_url+ '/admin/payment-confirmation',
+    // redirect_url: redirect_url+ '/admin/payment-confirmation',
     tx_ref: transactionable_id.value,
+    callback: function(data) {
+      onSuccessfulPayment(data)
+      
+      setTimeout(function() {
+        window.location.href = redirect_url+ '/admin/payment-confirmation'
+}, 1000);
+    },
   });
 }
 

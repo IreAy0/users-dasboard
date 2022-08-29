@@ -8,7 +8,9 @@
     :class="getRoute() === collapseRef ? `active bg-${color}` : ''"
     v-bind="$attrs"
     @click="isExpanded = !isExpanded"
+    
   >
+ 
     <div
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
@@ -61,6 +63,20 @@ export default {
     ...mapState("MenuModule",["isRTL", "color"]),
       ...mapState("TeamsModule", ["Teams"]),
      ...mapState("MenuModule", ["openMenu"]),
+      ...mapState("MenuModule", [
+      "isRTL",
+      "color",
+      "isAbsolute",
+      "isNavFixed",
+      "navbarFixed",
+      "absolute",
+      "showSidenav",
+      "showNavbar",
+      "showFooter",
+      "showConfig",
+      "hideConfigButton",
+      "isPinned",
+    ]),
     getToken() {
       const token = getToken();
       return token;
