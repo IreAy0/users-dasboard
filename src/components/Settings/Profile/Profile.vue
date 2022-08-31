@@ -77,7 +77,7 @@
               <label class="form-label" for="modern-phone">Date of Birth</label>
               <Field type="date" name="date_of_birth" id="modern-date_of_birth" class="form-control"
                 aria-label="date_of_birth" v-model="profile.dob" />
-
+                <ErrorMessage name="date_of_birth" class="text-danger " />
             </div>
             <div class="mb-1 col-md-6 ">
               <label class="form-label" for="id_type">Gender</label>
@@ -378,6 +378,12 @@ export default {
         }
         return true;
       },
+      date_of_birth(value){
+        if(!value){
+          return 'Date of birth is required'
+        }
+        return true;
+      }
     };
     return {
       tabIndexAdv1: ref(0),
