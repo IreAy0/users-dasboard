@@ -195,7 +195,7 @@
 import ToNote from "@/Services/Tonote";
 import { ref } from "vue";
 import paystack from "vue3-paystack";
-import { useFlutterwave } from "flutterwave-vue3";
+import { useFlutterwave,  } from "flutterwave-vue3";
 import { useToast } from "vue-toast-notification";
 import { dateFormat } from "@/Services/helpers";
 import { mapActions, mapState } from "vuex";
@@ -206,6 +206,7 @@ import store from "@/store";
 const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
 const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
 const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+
 
 const toast = useToast();
 export default {
@@ -289,10 +290,8 @@ export default {
         });
     },
 
-    onSuccessfulPayment(response) {
+    onSuccessfulPayment: function(response) {
       this.modalShow = false;
-      console.log(response, 'response')
-      
       ToNote.put(`/transactions/${this.payment_gateway === "Paystack"
         ? response.reference
         : this.payment_gateway === "Flutterwave"
@@ -330,9 +329,6 @@ export default {
           });
           console.log(err);
         });
-   
-   
-   
    },
     onCancelledPayment: function () {
       this.payment_gateway=""
@@ -347,8 +343,9 @@ export default {
     },
 
 openFlutterwave() {
-  console.log(this.transactionSummary?.id, 'id')
-  useFlutterwave({
+   const hold = this.onSuccessfulPayment
+  useFlutterwave(
+    {
     amount: this.transactionSummary?.total,
     // callback(data) {
     //   // console.log(data);
@@ -372,25 +369,27 @@ openFlutterwave() {
     },
     payment_options: "card,ussd",
     public_key: flutterwaveKey,
-    redirect_url: redirect_url+'/admin/payment-confirmation',
+    // redirect_url: redirect_url+'/admin/payment-confirmation',
     tx_ref: this.transactionSummary?.id,
-    callback: function(data) {
-      this.onSuccessfulPayment(data)
+    callback: function(data){
+        hold(data)
       setTimeout(function() {
-        window.location.href = redirect_url+ '/admin/payment-confirmation'
-}, 1000);
+         window.location.href = redirect_url+ '/admin/payment-confirmation'
+}, 2000);
     },
   });
-}
-
-
+},
   },
+
+
   mounted() {
     this.ALL_PAYMENTGATEWAYS();
     this.$store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS")
     
   },
 };
+
+
 </script>
 
 <style>
