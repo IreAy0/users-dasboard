@@ -33,7 +33,6 @@ const mutations = {
     } else {
       sidenav_show.classList.add("g-sidenav-pinned");
       state.isPinned = false;
-      console.log(state.isPinned);
     }
   },
   navbarFixed(state) {

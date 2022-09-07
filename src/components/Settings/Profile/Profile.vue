@@ -479,7 +479,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
+         
           this.verifying = false;
           toast.error("Error verifying", {
             duration: 3000,
@@ -508,11 +508,10 @@ export default {
     });
   },
   created() {
-    console.log(this.profile, this.userProfile, this.user, this.country, 'created');
     if (this.profile) {
       ToNote.get(`/countries/${this.country}`).then((res) => {
         this.states = res?.data?.data;
-        console.log(res?.data?.data, 'states')
+       
       });
     }
 

@@ -118,7 +118,6 @@ const onCancelledPayment = () => {
 };
 
 function openFlutterwave() {
-  console.log("openFlutterwave", transactionable_id.value );
   useFlutterwave({
     amount: 4000,
     

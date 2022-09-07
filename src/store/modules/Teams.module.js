@@ -33,7 +33,7 @@ const actions = {
         },
         error => {
           commit('getUserFailed', error)
-          console.log('error', error);
+         
         }
       )
   },
@@ -56,7 +56,7 @@ const actions = {
     },
       error => {
         commit('getSubcriptionsFailed', error)
-        console.log('error', error);
+       
       }
 
     )
