@@ -9832,7 +9832,9 @@ fieldset:disabled .btn {
 .fs-6 {
     font-size: 1rem !important
 }
-
+.fs-small {
+    font-size: .9rem !important
+}
 .fst-italic {
     font-style: italic !important
 }

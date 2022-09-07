@@ -7,6 +7,7 @@ const state = () => ({
   loading: false,
   documents: [],
   requests: [],
+  counter:[]
 });
 
 const mutations = {
@@ -15,6 +16,9 @@ const mutations = {
   },
   SET_REQUESTS: (state, payload) => {
     state.requests = payload;
+  },
+  SET_COUNTER: (state, payload) => {
+    state.counter = payload;
   }
 };
 
@@ -27,6 +31,8 @@ const actions = {
     getDocuments()
       .then((res) => {
         commit("SET_DOCUMENTS", res.data.data);
+        commit("SET_COUNTER", res.data.stats);
+
       })
       .catch(function () {
         // console.log(error);
