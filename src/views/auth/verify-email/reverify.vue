@@ -16,7 +16,7 @@
 
         <div class="col-12 col-sm-8 col-md-6 col-lg-10 px-xl-2 mx-auto">
 
-          <h2 class="card-title fw-bolder mb-1">Hi, You are a click away 👋</h2>
+          <h2 class="card-title fw-bolder mb-1">You are almost done👋</h2>
           <p class="card-text mb-75">Enter your registered email, and a link will be sent to you shortly.</p>
           <div class="form-group">
 

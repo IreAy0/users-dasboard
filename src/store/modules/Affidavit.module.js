@@ -14,6 +14,7 @@ const state = () => ({
   templates: [],
   paymentGateways: {},
   transactionable_id: null,
+  fetching: false
 });
 
 const mutations = {
@@ -23,8 +24,13 @@ const mutations = {
   setPaymentGateways: (state, payload) => {
     state.paymentGateways = payload;
   },
+  fetchtransactionable_id: (state, payload) => {
+   state.fetching = true
+    },
+
   SET_TRANSACTIONABLE_ID: (state, payload) => {
     state.transactionable_id = payload;
+    state.fetching = false
   },
   LOADING(state) {
     state.loading = true;
@@ -59,9 +65,10 @@ const actions = {
   },
 
   post_notaryrequestform({ commit }, payload) {
+    commit("fetchtransactionable_id");
     postNotaryRequestForm(payload)
       .then((res) => {
-        console.log(res);
+        console.log(res, 'post_notaryrequestform');
         commit("SET_TRANSACTIONABLE_ID", res.data.data.id);
       })
       .catch(function () {
@@ -70,6 +77,7 @@ const actions = {
   },
 
   post_AffidavitRequestForm({ commit }, payload) {
+    commit("fetchtransactionable_id");
     postAffidavitRequestForm(payload)
       .then((res) => {
         console.log(res);

@@ -33,14 +33,54 @@
           </div>
 
         </div>
+        
       </b-col>
-
+        <b-col cols="12" class="p-0 mt-xl-1 mt-2 ">
+          
+           <p class="h5 fw-bold my-2">Select payment option</p>
+    <div  class="payment__options gap-2">
+      <label
+        v-for="paymentGateway in paymentGateways"
+        :key="paymentGateway.id"
+        class="payment__option"
+        :for="paymentGateway.gateway.name"
+      >
+        <input
+          name="payment_gateway"
+          v-model="payment_gateway"
+          :value="paymentGateway.gateway.name"
+          type="radio"
+          :id="paymentGateway.gateway.name"
+        />
+        <div class="payment__option-content">
+          <img
+            loading="lazy"
+            :src="paymentGateway.gateway.file"
+            :alt="paymentGateway.gateway.name"
+          />
+          <div class="payment__option-details">
+            <span> {{ paymentGateway.gateway.name }}</span>
+          </div>
+        </div>
+      </label>
+    </div>
+        </b-col>
       <div class="d-flex justify-content-center my-2">
-        <paystack buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey"
+  <button
+      v-if="payment_gateway === 'Flutterwave'"
+      type="button"
+      class="btn btn-primary"
+      @click="openFlutterwave"
+    >
+      Pay Now
+    </button>
+        <paystack v-if=" payment_gateway === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey"
           :email="getEmail" :amount="transactionSummary?.total * 100" :reference="transactionSummary?.id"
           :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
       </div>
     </b-modal>
+
+
     <b-tabs v-model="tabIndexAdv1"
       class="modern-horizontal-wizard bs-stepper wizard-modern modern-wizard-example d-flex flex-column flex-lg-row"
       content-class=" tab-content col-12 col-md-7 bs-stepper-content"
@@ -115,59 +155,7 @@
         </div>
       </b-tab>
 
-      <!-- <b-tab>
-        <template #title>
-          <button class="step-trigger">
-            <span class="bs-stepper-box d-none d-lg-block"> 2 </span>
-            <span class="bs-stepper-label">
-              <span class="bs-stepper-title">Payments method</span>
-            </span>
-          </button>
-        </template>
-        <div
-          class="tab-pane"
-          id="nav-teammates"
-          role="tabpanel"
-          aria-labelledby="nav-teammates-tab"
-        >
-          <div class="content-header mb-1">
-            <h5 class="mb-0">Add a New Card</h5>
-            <small class="text-muted"
-              >Select your preferred payment partner to proceed</small
-            >
-          </div>
-          <div class="payment-card justify-content-between mb-1 mt-2">
-            <b-form-group v-slot="{ ariaDescribedby }">
-              <div class="card-body rounded-3">
-                <b-form-radio
-                  class=""
-                  v-model="selected"
-                  :aria-describedby="ariaDescribedby"
-                  name="some-radios"
-                  value="A"
-                  >Pay with Paystack</b-form-radio
-                >
-              </div>
-              <div class="card-body rounded-3">
-                <b-form-radio
-                  class=""
-                  v-model="selected"
-                  :aria-describedby="ariaDescribedby"
-                  name="some-radios"
-                  value="B"
-                  >Pay with Flutterwave</b-form-radio
-                >
-              </div>
-            </b-form-group>
-          </div>
-
-          <div class="">
-            <button class="rounded btn btn-primary">
-              <span class="align-middle d-inline-block">Proceed</span>
-            </button>
-          </div>
-        </div>
-      </b-tab> -->
+      
       <b-tab>
         <template #title>
           <button class="step-trigger">
@@ -207,10 +195,19 @@
 import ToNote from "@/Services/Tonote";
 import { ref } from "vue";
 import paystack from "vue3-paystack";
+import { useFlutterwave,  } from "flutterwave-vue3";
 import { useToast } from "vue-toast-notification";
 import { dateFormat } from "@/Services/helpers";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
+import { map } from "lodash";
+import store from "@/store";
 // const individualSelected = ref();
+
+const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
+const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
+const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+
+
 const toast = useToast();
 export default {
   name: "BillingsPage",
@@ -222,6 +219,7 @@ export default {
   },
   data() {
     return {
+      payment_gateway: "",
       modalShow: false,
       paymentConfirmation: false,
       pageLength: 3,
@@ -243,6 +241,8 @@ export default {
   computed: {
     ...mapState("TeamsModule", ["Teams", "subcriptions"]),
     ...mapState('ProfileModule', ['userProfile', 'transactions']),
+    ...mapState('AffidavitModule', ['paymentGateways']),
+    
 
     getEmail() {
       return this?.userProfile?.email
@@ -250,7 +250,7 @@ export default {
     },
 
     getPublicKey() {
-      return process?.env?.VUE_APP_PAYSTACK_PUBLIC_KEY
+      return  payStackKey
     },
 
     getActive() {
@@ -265,11 +265,14 @@ export default {
   },
 
   methods: {
+        ...mapActions("AffidavitModule", ["ALL_PAYMENTGATEWAYS"]),
     formatDate: dateFormat,
 
     showModal() {
       this.modalShow = true;
+      // this.ALL_PAYMENTGATEWAYS();
     },
+
     onSubmit() {
       const planData = {
         transactionable_type: "Plan",
@@ -286,10 +289,17 @@ export default {
           console.log(err);
         });
     },
-    onSuccessfulPayment: function (response) {
+
+    onSuccessfulPayment: function(response) {
       this.modalShow = false;
-      ToNote.put(`/transactions/${response.reference}`, {
-        payment_gateway: "Paystack",
+      ToNote.put(`/transactions/${this.payment_gateway === "Paystack"
+        ? response.reference
+        : this.payment_gateway === "Flutterwave"
+        ? response.tx_ref
+        : null}`,
+        
+        {
+        payment_gateway: this.payment_gateway,
       })
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
@@ -319,15 +329,67 @@ export default {
           });
           console.log(err);
         });
-    },
+   },
     onCancelledPayment: function () {
+      this.payment_gateway=""
       console.log("Payment cancelled by user");
+      toast.error("Payment Cancelled", {
+        duration: 3000,
+        queue: false,
+        position: "top-right",
+        dismissible: true,
+        pauseOnHover: true,
+      });
     },
 
+openFlutterwave() {
+   const hold = this.onSuccessfulPayment
+  useFlutterwave(
+    {
+    amount: this.transactionSummary?.total,
+    // callback(data) {
+    //   // console.log(data);
+    //   this.onSuccessfulPayment(data)
+    // },
+    country: "NG",
+    currency: "NGN",
+    customer: {
+      email: this?.userProfile?.email,
+      name: `${this?.userProfile?.first_name} ${this?.userProfile?.last_name}`,
+      phone_number: this?.userProfile?.phone,
+    },
+    onclose() {
+      toast.error("Payment Cancelled", {
+        duration: 3000,
+        queue: false,
+        position: "top-right",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+    },
+    payment_options: "card,ussd",
+    public_key: flutterwaveKey,
+    // redirect_url: redirect_url+'/admin/payment-confirmation',
+    tx_ref: this.transactionSummary?.id,
+    callback: function(data){
+        hold(data)
+      setTimeout(function() {
+         window.location.href = redirect_url+ '/admin/payment-confirmation'
+}, 2000);
+    },
+  });
+},
+  },
 
 
+  mounted() {
+    this.ALL_PAYMENTGATEWAYS();
+    this.$store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS")
+    
   },
 };
+
+
 </script>
 
 <style>
@@ -345,4 +407,92 @@ export default {
   height: 120px;
   width: 120px;
 }
+.price__display {
+  border-radius: 5px;
+  border: 1px solid #003bb3;
+}
+
+.payment__options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.payment__options .payment__option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.payment__options .payment__option {
+  cursor: pointer;
+  /* width: 48.5%; */
+}
+
+.payment__options .payment__option .payment__option-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border: 2px solid #f3f3f3;
+  border-radius: 6px;
+  -webkit-transition: -webkit-box-shadow 0.4s;
+  transition: -webkit-box-shadow 0.4s;
+  -o-transition: box-shadow 0.4s;
+  transition: box-shadow 0.4s;
+  transition: box-shadow 0.4s, -webkit-box-shadow 0.4s;
+  position: relative;
+}
+
+.payment__options .payment__option .payment__option-content img {
+  margin-right: 25px;
+  height: 35px;
+  width: 35px;
+}
+
+.payment__options .payment__option .payment__option-details span {
+  display: block;
+  font-size: 1rem;
+  line-height: 24px;
+}
+.payment__options .payment__option .payment__option-content:hover {
+  -webkit-box-shadow: 0px 3px 5px 0px #e8e8e8;
+  box-shadow: 0px 3px 5px 0px #e8e8e8;
+}
+
+.payment__options
+  .payment__option
+  input[type="radio"]:checked
+  + .payment__option-content:after {
+  content: "";
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  background: #003bb3;
+  right: 5px;
+  top: 5px;
+  border-radius: 100%;
+  border: 3px solid #fff;
+  -webkit-box-shadow: 0px 0px 0px 2px #003bb3;
+  box-shadow: 0px 0px 0px 2px #003bb3;
+}
+
+.payment__options
+  .payment__option
+  input[type="radio"]:checked
+  + .payment__option-content {
+  border: 2px solid #003bb3;
+  background: #eaf1fe;
+  -webkit-transition: ease-in 0.3s;
+  -o-transition: ease-in 0.3s;
+  transition: ease-in 0.3s;
+}
+
 </style>

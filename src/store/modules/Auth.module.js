@@ -29,7 +29,7 @@ const actions = {
     commit("registerRequest", user);
     auth.Register(user).then(
       (user) => {
-
+        console.log(user, 'user');
         const email = localStorage.getItem("user");
         console.log(user, email)
         commit("registerSuccess", user);
@@ -39,6 +39,7 @@ const actions = {
         });
       },
       (error) => {
+        console.log(error, 'error')
         commit("registerFailure", error);
         if (error) {
           toast.error('Registration failed, Please try again', {

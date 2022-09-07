@@ -10,10 +10,16 @@
         <!-- <span class="small">per document</span> -->
       </div>
     </div>
-
-    <p class="h5 fw-bold my-2">Select payment option</p>
-
-    <div class="payment__options gap-2">
+    <div v-if="fetching == true">
+      <div class="fulfilling-bouncing-circle-spinner">
+  <div class="circle"></div>
+  <div class="orbit"></div>
+</div>
+    </div>
+    
+    <div v-if="fetching == false">
+ <p class="h5 fw-bold my-2">Select payment option</p>
+    <div  class="payment__options gap-2">
       <label
         v-for="paymentGateway in paymentGateways"
         :key="paymentGateway.id"
@@ -39,6 +45,8 @@
         </div>
       </label>
     </div>
+    </div>
+   
 
     <!-- <div class="mt-2">
      
@@ -79,6 +87,7 @@ import paystack from "vue3-paystack";
 import { useFlutterwave } from "flutterwave-vue3";
 import { useStore } from "vuex";
 import { useToast } from "vue-toast-notification";
+import SkeletonLoader from "../SkeletonLoader.vue";
 
 const toast = useToast();
 let store = useStore();
@@ -89,9 +98,14 @@ const paymentGateways = computed(
 const transactionable_id = computed(
   () => store.state.AffidavitModule.transactionable_id
 );
+const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
+const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
+const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+
 const payment_gateway = ref("");
 const userProfile = computed(() => store.state.ProfileModule.userProfile);
-const publicKey = process.env.VUE_APP_PAYSTACK_PUBLIC_KEY;
+const fetching = computed(() => store.state.AffidavitModule.fetching)
+const publicKey = payStackKey;
 const amount = 800000;
 const email = userProfile.value.email;
 const firstName = userProfile.value.first_name;
@@ -123,11 +137,10 @@ const onCancelledPayment = () => {
 };
 
 function openFlutterwave() {
+
   useFlutterwave({
     amount: 8000,
-    callback(data) {
-      onSuccessfulPayment(data);
-    },
+   
     country: "NG",
     currency: "NGN",
     customer: {
@@ -145,9 +158,15 @@ function openFlutterwave() {
       });
     },
     payment_options: "card,ussd",
-    public_key: process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY,
-    redirect_url: process.env.VUE_APP_TONOTE_URL,
+    public_key: flutterwaveKey,
+    // redirect_url: redirect_url+'/admin/payment-confirmation',
     tx_ref: transactionable_id.value,
+    callback: function(data) {
+      onSuccessfulPayment(data)
+      setTimeout(function() {
+        window.location.href = redirect_url+ '/admin/payment-confirmation'
+}, 1000);
+    },
   });
 }
 
@@ -244,4 +263,5 @@ onMounted(() => {
   -o-transition: ease-in 0.3s;
   transition: ease-in 0.3s;
 }
+
 </style>
