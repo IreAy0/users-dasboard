@@ -155,7 +155,6 @@ watch(company, (newValue, oldValue) => {
         email.value = res.data.data.email;
       })
       .catch((err) => {
-        console.log(err);
       });
   });
 

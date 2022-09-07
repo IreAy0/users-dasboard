@@ -99,7 +99,6 @@ export default {
           pauseOnHover: true,
         })
         this.user.email = " "
-        console.log(res)
       }
         // eslint-disable-next-line no-unused-vars
       ).catch(error => {

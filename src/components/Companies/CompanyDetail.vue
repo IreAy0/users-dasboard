@@ -295,7 +295,6 @@ export default {
 
     function goPrev() {
       step -= 1;
-      console.log('step', step);
       goToStep(step);
     }
 
@@ -548,7 +547,6 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
           this.verifying = false;
           toast.error("Error while verifying business", {
             duration: 3000,

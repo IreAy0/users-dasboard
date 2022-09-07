@@ -67,19 +67,13 @@ export default {
     }
   },
   setup() {
-    const handleOnComplete = (value) => {
-      console.log('OTP completed: ', value);
-    };
-
-    const handleOnChange = (value) => {
-      console.log('OTP changed: ', value);
-    };
+    
 
     const clearInput = () => {
       otpInput.value.clearInput()
     }
 
-    return { clearInput, otpInput, handleOnChange, handleOnComplete};
+    return { clearInput, otpInput};
 
   },
 
