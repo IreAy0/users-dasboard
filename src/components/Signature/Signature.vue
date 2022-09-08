@@ -223,9 +223,9 @@
 
     
       <button :class="{'d-none' : isActive('upload') && imgSrc?.length == 0}" @click="onSaveSignature(imgSrc)" class="btn btn-primary btn-next"
-        :disabled="updating || imgSrc?.length == 0 || imgSrc?.file == ' '">
-        <span v-show="updating"> Processing...</span>
-        <span v-show="!updating"> Save and Continue</span>
+        :disabled="updating || capturing || imgSrc?.length == 0 || imgSrc?.file == ' '">
+        <span v-if="capturing || updating" > Processing...</span>
+        <span v-else > Save and Continue</span>
 
       </button>
     </div>

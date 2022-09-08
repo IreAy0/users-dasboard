@@ -41,7 +41,7 @@
           </template>
           <template v-slot:nav-child-item>
             <li class="nav-item">
-              <a  class="nav-link" :href="`${getEnv}/dashboard?status=received&qt=${getToken}`">
+              <a  class="nav-link" :href="`${getEnv}?status=received&qt=${getToken}`">
  <div
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
@@ -64,7 +64,7 @@
 
       </li>
       <li class="nav-item nav-sm ">
-              <a  class="nav-link" :href="`${getEnv}/dashboard?status=sent&qt=${getToken}`">
+              <a  class="nav-link" :href="`${getEnv}?status=sent&qt=${getToken}`">
  <div
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
@@ -87,7 +87,7 @@
 
       </li>
       <li class="nav-item">
-              <a  class="nav-link" :href="`${getEnv}/dashboard?status=new&qt=${getToken}`">
+              <a  class="nav-link" :href="`${getEnv}?status=new&qt=${getToken}`">
  <div
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
@@ -110,7 +110,7 @@
 
       </li>
       <li class="nav-item">
-              <a  class="nav-link" :href="`${getEnv}/dashboard?status=deleted&qt=${getToken}`">
+              <a  class="nav-link" :href="`${getEnv}?status=deleted&qt=${getToken}`">
  <div
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
