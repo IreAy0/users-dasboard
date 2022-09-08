@@ -85,7 +85,7 @@
             </router-link>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
-            <a :href="`${getEnv}/document?status=received?qt=${getToken}`" class="card">
+            <a :href="`${getEnv}?status=received?qt=${getToken}`" class="card">
               <div class="card-header">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.viewed }}</h2>
@@ -104,7 +104,7 @@
             </a>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
-            <a :href="`${getEnv}/document?status=sent?qt=${getToken}`" class="card">
+            <a :href="`${getEnv}?status=sent?qt=${getToken}`" class="card">
               <div class="card-header">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.completed }}</h2>
