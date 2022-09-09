@@ -19,7 +19,7 @@
             <tbody>
               <tr v-for="document in documents" :key="document.id">
                 <td>
-                  <a :href="`${getEnv}/document/${document.status == 'New' ? 'edit' : 'audit'}/${document.id}?qt=${token}`"
+                  <a :href="`${getEnv}?di=${document.id}&qt=${token}`"
                     class="my-0 py-0">{{ document.title }}</a>
                   <p v-if="document.participants_count !== 0" class="my-0 py-0">
                     <!-- To:
