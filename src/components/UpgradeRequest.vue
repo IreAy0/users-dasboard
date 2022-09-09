@@ -9,15 +9,16 @@
       </svg>
     </div>
     <p>
+     
 
       It’s time for your upgrade! Invite your team members, digitise your
       signature, share up to 50 documents per month and achieve more with ToNote
-      {{ getActive?.subscription?.plan?.next_suggested_plan }}.
+      {{planName}}.
     </p>
     <div class="d-flex justify-content-between">
       <button @click.prevent="setActive('billing')" href="#billing" type="button" class="btn btn-primary btn-next">
         <span class="align-middle d-sm-inline-block">Upgrade To
-          {{ getActive?.subscription?.plan?.next_suggested_plan }}</span>
+          {{planName}}</span>
       </button>
     </div>
   </div>
@@ -33,12 +34,21 @@ export default {
       activeItem: "billing",
     };
   },
+  props: {
+    planName: {
+      type: String,
+      
+    },
+  },
+
   computed: {
+
     ...mapState("TeamsModule", ["Teams"]),
     getActive() {
       const active = this?.Teams?.find((element) => element?.active == true);
       return active;
     },
+
     remainingEnvelops() {
       const number = this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.limit_number - this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.executed;
 
@@ -51,6 +61,7 @@ export default {
     isActive(menuItem) {
       return this.activeItem === menuItem;
     },
+
     setActive(menuItem) {
       this?.$emit("activeName", `${menuItem}`);
     },

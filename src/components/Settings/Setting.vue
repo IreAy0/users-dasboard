@@ -39,7 +39,7 @@
                 ">
                   <CompanyDetail :generalData="profile" :getActiveTeam="getActiveTeam" />
                 </div>
-                <UpgradeRequest @activeName="getMenu" v-show="getActiveTeam?.subscription?.plan?.name === 'Basic' ||
+                <UpgradeRequest :planName="'Business'" @activeName="getMenu" v-show="getActiveTeam?.subscription?.plan?.name === 'Basic' ||
                 getActiveTeam?.subscription?.plan?.name === 'Pro'" />
               </div>
               <div class="tab-pane fade" :class="{ 'active show': isActive('team') }" id="team">
@@ -49,7 +49,7 @@
                 ">
                   <Teams :generalData="profile" :getActiveTeam="getActiveTeam" />
                 </div>
-                <UpgradeRequest @activeName="getMenu" v-show="getActiveTeam?.subscription?.plan?.name === 'Basic'" />
+                <UpgradeRequest :planName="'Pro'" @activeName="getMenu" v-show="getActiveTeam?.subscription?.plan?.name === 'Basic'" />
               </div>
 
               <!-- v-show="getActiveUser?.permission === 'Admin'" -->
