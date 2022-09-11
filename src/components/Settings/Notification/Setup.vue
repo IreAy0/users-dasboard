@@ -217,7 +217,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          console.log(error);
+          // console.log(error);
         });
     },
     updatePassword() {
@@ -228,7 +228,6 @@ export default {
       this.loading = true;
       ToNote.post("/user/change/password", passwords)
         .then((res) => {
-          console.log(res);
           this.loading = false;
           toast.success(`Password updated successfully`, {
             duration: 3000,
@@ -241,7 +240,6 @@ export default {
           (this.curent_password = ""), (this.new_password = "");
         })
         .catch((error) => {
-          console.log(error);
           this.loading = false;
           toast.error(`${error.response.data.message} `, {
             duration: 3000,
@@ -251,7 +249,6 @@ export default {
             pauseOnHover: true,
           });
         });
-      console.log(passwords);
     },
   },
 };

@@ -49,7 +49,7 @@ const actions = {
         commit("getDashboardDataSuccess", data?.data?.data?.message)
       },
       error => {
-        console.log(error)
+       
       }
     )
   },
@@ -60,7 +60,7 @@ const actions = {
         commit("getTransactionsSuccess", data?.data?.data)
       },
       error => {
-        console.log(error)
+        
       }
     )
   },
@@ -131,7 +131,6 @@ const actions = {
         },
         error => {
           commit('createSignatureFailed', error);
-          console.log(error);
           if (error) {
             if (error.response.status === 422) {
               toast.error('Please generate signature', {

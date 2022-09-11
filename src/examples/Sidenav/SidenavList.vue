@@ -32,23 +32,111 @@
           </template>
         </sidenav-collapse>
       </li>
-      
-        <li>
-  <a  class="nav-link" :href="`${getEnv}/?qt=${getToken}`">
+  
+  <li class="nav-item">
+        <sidenav-collapse-item url="#" :aria-controls="''" v-bind:collapse="true" collapseRef="forms" text="My Documents" >
+          <template v-slot:miniIcon>
+            <svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+
+          </template>
+          <template v-slot:nav-child-item>
+            <li class="nav-item">
+              <a  class="nav-link" :href="`${getEnv}?status=received&qt=${getToken}`">
  <div
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
     >
-     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-    </div>
+    <svg style="{{
+    height: 20px;
+    font-size: 16px;
+    margin-right: 0.5rem;
+    height: 16px;
+    width: 16px;
+}}
+" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail" data-v-af43c274="" data-v-b8d005c4=""><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" data-v-b8d005c4=""></path><polyline points="22,6 12,13 2,6" data-v-b8d005c4=""></polyline></svg>    </div>
     <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
-    <span class="menu-title text-truncate" data-i18n="Email">My Documents</span>
+    <span class="menu-title text-truncate fs-6 d-flex " > <span>Received</span>  </span>
    
 </span>
+<span class="badge rounded-pill badge-light-warning ms-auto "> {{counter.Received ? counter.Received : 0}}</span>
   </a>
-   
-  </li>
      
+
+      </li>
+      <li class="nav-item nav-sm ">
+              <a  class="nav-link" :href="`${getEnv}?status=sent&qt=${getToken}`">
+ <div
+      class="text-center d-flex align-items-center justify-content-center"
+      :class="isRTL ? ' ms-2' : 'me-1'"
+    >
+    <svg style="{{
+    height: 20px;
+    font-size: 16px;
+    margin-right: 0.5rem;
+    height: 16px;
+    width: 16px;
+}}
+" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send" data-v-af43c274="" data-v-b8d005c4=""><line x1="22" y1="2" x2="11" y2="13" data-v-b8d005c4=""></line><polygon points="22 2 15 22 11 13 2 9 22 2" data-v-b8d005c4=""></polygon></svg>    </div>
+    <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
+    <span class="menu-title text-truncate fs-6 d-flex gap-3" >Sent </span>
+   
+</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter.Sent ? counter.Sent : 0}}</span>
+  </a>
+     
+
+      </li>
+      <li class="nav-item">
+              <a  class="nav-link" :href="`${getEnv}?status=new&qt=${getToken}`">
+ <div
+      class="text-center d-flex align-items-center justify-content-center"
+      :class="isRTL ? ' ms-2' : 'me-1'"
+    >
+    <svg style="{{
+    height: 20px;
+    font-size: 16px;
+    margin-right: 0.5rem;
+    height: 16px;
+    width: 16px;
+}}
+" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder-plus" data-v-af43c274="" data-v-b8d005c4=""><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" data-v-b8d005c4=""></path><line x1="12" y1="11" x2="12" y2="17" data-v-b8d005c4=""></line><line x1="9" y1="14" x2="15" y2="14" data-v-b8d005c4=""></line></svg>    </div>
+    <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
+    <span class="menu-title text-truncate fs-6 d-flex gap-3" >Draft </span>
+</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter.New ? counter.New : 0}}</span>
+
+  </a>
+     
+
+      </li>
+      <li class="nav-item">
+              <a  class="nav-link" :href="`${getEnv}?status=deleted&qt=${getToken}`">
+ <div
+      class="text-center d-flex align-items-center justify-content-center"
+      :class="isRTL ? ' ms-2' : 'me-1'"
+    >
+    <svg style="{{
+    height: 20px;
+    font-size: 16px;
+    margin-right: 0.5rem;
+    height: 16px;
+    width: 16px;
+}}
+" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash" data-v-af43c274="" data-v-b8d005c4=""><polyline points="3 6 5 6 21 6" data-v-b8d005c4=""></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" data-v-b8d005c4=""></path></svg>    </div>
+    <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
+    <span class="menu-title text-truncate fs-6 d-flex gap-3" >Deleted Files   </span>
+   
+</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter.Trash ? counter.Trash : 0}}</span>
+
+  </a>
+     
+
+      </li>
+          </template>
+        </sidenav-collapse-item>
+      </li>
+
       <li class="nav-item">
         <sidenav-collapse
           url="#"
@@ -154,7 +242,7 @@
 import { getToken } from "@/Services/helpers";
 import { mapActions, mapState } from "vuex";
 import SidenavCollapse from "./SidenavCollapse.vue";
-
+import SidenavCollapseItem from "./SidenavCollapseItem.vue";
 export default {
   name: "SidenavList",
   props: {
@@ -169,12 +257,14 @@ export default {
   },
   components: {
     SidenavCollapse,
+    SidenavCollapseItem
    
 
   },
 computed: {
     ...mapState("TeamsModule", ["Teams"]),
      ...mapState("MenuModule", ["openMenu"]),
+     ...mapState("DocumentModule", ["counter"]),
     getToken() {
       const token = getToken();
       return token;

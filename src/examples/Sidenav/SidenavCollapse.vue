@@ -8,7 +8,6 @@
     :class="getRoute() === collapseRef ? `active bg-${color}` : ''"
     v-bind="$attrs"
     @click="isExpanded = !isExpanded"
-    
   >
  
     <div

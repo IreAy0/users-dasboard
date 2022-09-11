@@ -222,7 +222,6 @@ const captureSeal = () => {
 };
 watch(company, (newValue, oldValue) => {
   if (newValue) {
-    // console.log(newValue, 'watch', oldValue);
     text_cnv.value = newValue.company_name;
     text_cnv2.value = newValue.address;
     text_horizontal.value = `RC: ${newValue.registration_company_number}`
@@ -276,7 +275,7 @@ onBeforeMount(() => {
       text_horizontal.value = `RC: ${res?.data?.data?.registration_company_number}`;
     })
     .catch((err) => {
-      console.log(err);
+     
     });
 });
 

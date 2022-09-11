@@ -323,7 +323,7 @@ export default defineComponent({
             dismissible: true,
             pauseOnHover: true,
           });
-          console.log(err);
+         
         });
     },
 
@@ -343,7 +343,7 @@ export default defineComponent({
           });
         })
         .catch((err) => {
-          console.log(err);
+         
           toast.error(`${err?.response?.data?.data?.error}`, {
             duration: 3000,
             queue: false,
@@ -370,7 +370,7 @@ export default defineComponent({
           });
         })
         .catch((err) => {
-          console.log(err);
+         
         });
     },
   },
