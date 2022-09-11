@@ -17,7 +17,9 @@ export default {
     ...mapActions('TeamsModule', ['logout']),
     ...mapActions('CompanyModule', ['getCompany']),
     ...mapActions('DocumentModule', ['RequestsList']),
-
+    debug (event) {
+    console.log(event)
+  }
 
   },
   mounted() {

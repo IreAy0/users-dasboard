@@ -286,7 +286,7 @@ export default {
           this.modalShow = true;
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     },
 
@@ -327,12 +327,11 @@ export default {
             dismissible: true,
             pauseOnHover: true,
           });
-          console.log(err);
+         
         });
    },
     onCancelledPayment: function () {
       this.payment_gateway=""
-      console.log("Payment cancelled by user");
       toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,

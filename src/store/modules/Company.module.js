@@ -34,7 +34,6 @@ const actions = {
       },
       (error) => {
         commit("getUserFailed", error);
-        console.log("error", error);
       }
     );
   },

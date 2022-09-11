@@ -155,7 +155,7 @@ export default {
     },
     switchTeam(id) {
       ToNote.get('/team-switch/' + id).then(response => {
-        console.log(response?.data?.data);
+       
         this.getTeams();
         toast.success('Team switched successfully', {
           position: 'top-right',
@@ -170,7 +170,7 @@ export default {
         window.location.reload();
       })
         .catch(error => {
-          console.log(error);
+         
           toast.error(error?.response?.data?.data?.error, {
             position: 'top-right',
             duration: 3000,

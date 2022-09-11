@@ -29,9 +29,9 @@ const actions = {
     commit("registerRequest", user);
     auth.Register(user).then(
       (user) => {
-        console.log(user, 'user');
+       
         const email = localStorage.getItem("user");
-        console.log(user, email)
+        
         commit("registerSuccess", user);
 
         setTimeout(() => {
@@ -39,7 +39,7 @@ const actions = {
         });
       },
       (error) => {
-        console.log(error, 'error')
+       
         commit("registerFailure", error);
         if (error) {
           toast.error('Registration failed, Please try again', {
@@ -92,7 +92,6 @@ const actions = {
         saveToken(user?.data?.token);
         commit("loginSuccess", user);
 
-        console.log('user successfully logged in', user)
         //  dispatch("ProfileModule/getUser", { root: true });
         //  store.dispatch("ProfileModule/getUser", { root: true });
         router.push("/admin/dashboard");

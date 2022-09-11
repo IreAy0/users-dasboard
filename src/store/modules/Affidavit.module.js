@@ -68,7 +68,6 @@ const actions = {
     commit("fetchtransactionable_id");
     postNotaryRequestForm(payload)
       .then((res) => {
-        console.log(res, 'post_notaryrequestform');
         commit("SET_TRANSACTIONABLE_ID", res.data.data.id);
       })
       .catch(function () {
@@ -80,7 +79,7 @@ const actions = {
     commit("fetchtransactionable_id");
     postAffidavitRequestForm(payload)
       .then((res) => {
-        console.log(res);
+       
         commit("SET_TRANSACTIONABLE_ID", res.data.data.id);
       })
       .catch(function () {
@@ -91,7 +90,7 @@ const actions = {
   put_notaryrequesttransaction({ commit }, data) {
     putNotaryRequestTransaction(data)
       .then((res) => {
-        console.log(res);
+       
         commit("LOADING");
       })
       .catch(function () {

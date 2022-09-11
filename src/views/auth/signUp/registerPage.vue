@@ -239,7 +239,6 @@ export default {
   watch: {
     confirm_password: {
       handler(newConfirm_password, oldConfirm_password) {
-        console.log("confirm_password: " + oldConfirm_password);
         this.checkPasswords(newConfirm_password);
       },
     },
@@ -259,10 +258,8 @@ export default {
       // const confirm = document.querySelector("input[name=confirm]");
       if (e === password.value) {
         this.passwordError = false;
-        console.log("Password error_message2", this.passwordError);
       } else {
         this.passwordError = true;
-        console.log("Password error_message2", this.passwordError);
       }
     },
     ...mapActions("AuthModule", ["register"]),
