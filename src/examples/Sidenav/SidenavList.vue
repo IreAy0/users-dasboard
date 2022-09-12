@@ -58,7 +58,7 @@
     <span class="menu-title text-truncate fs-6 d-flex " > <span>Received</span>  </span>
    
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto "> {{counter.Received ? counter.Received : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto "> {{counter?.Received ? counter?.Received : 0}}</span>
   </a>
      
 
@@ -81,7 +81,7 @@
     <span class="menu-title text-truncate fs-6 d-flex gap-3" >Sent </span>
    
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter.Sent ? counter.Sent : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter?.Sent ? counter.Sent : 0}}</span>
   </a>
      
 
@@ -103,7 +103,7 @@
     <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
     <span class="menu-title text-truncate fs-6 d-flex gap-3" >Draft </span>
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter.New ? counter.New : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter?.New ? counter.New : 0}}</span>
 
   </a>
      
@@ -127,7 +127,7 @@
     <span class="menu-title text-truncate fs-6 d-flex gap-3" >Deleted Files   </span>
    
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter.Trash ? counter.Trash : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter?.Trash ? counter?.Trash : 0}}</span>
 
   </a>
      
