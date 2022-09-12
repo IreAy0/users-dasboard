@@ -68,7 +68,7 @@ const routes = [
     name: "SignIn",
     component: SignIn,
     meta: {
-      title: "SignIn | Dashboard",
+      title: "SignIn | ToNote",
     },
 
   },
@@ -108,7 +108,7 @@ const routes = [
     name: "admin",
     component: AdminLayout,
     meta: {
-      title: "Admin - ToNote",
+      title: "Dashboard | ToNote",
     },
     children: [
       {

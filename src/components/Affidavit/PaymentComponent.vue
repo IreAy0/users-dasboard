@@ -120,7 +120,6 @@ const onCancelledPayment = () => {
 function openFlutterwave() {
   useFlutterwave({
     amount: 4000,
-    
     country: "NG",
     currency: "NGN",
     customer: {
@@ -137,7 +136,7 @@ function openFlutterwave() {
         pauseOnHover: true,
       });
     },
-    payment_options: "card,ussd",
+    payment_options: "card, mobilemoneyghana, ussd",
     public_key: flutterwaveKey,
     // redirect_url: redirect_url+ '/admin/payment-confirmation',
     tx_ref: transactionable_id.value,
