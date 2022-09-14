@@ -27,7 +27,7 @@
           <table class="table table-bordered">
             <thead class="table-light">
               <tr>
-                <th>Signature</th>
+                <th>Signature {{capturing}} {{updating}}</th>
               </tr>
             </thead>
             <tbody>
@@ -389,6 +389,7 @@ export default {
     },
     ...mapMutations("ProfileModule", ["setImage"]),
     ...mapActions("ProfileModule", ["createSign", "userSignature"]),
+
     onCaptureSignature(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
@@ -399,18 +400,19 @@ export default {
 
       domtoimage.toPng(capture, {
         quality: scale,
-        height: capture.offsetHeight * scale,
+        // height: capture.offsetHeight * scale,
         style: {
           transform: `scale(${2}) translateX(10%) `,
           padding: "50px 10px",
           fontSize:"70px",
         },
-        width: capture.offsetWidth * scale,
+        // width: capture.offsetWidth * scale,
       },
       )
         .then((dataUrl) => {
           this.setImage({ file: dataUrl, type, category });
           this.capturing = false;
+          console.log(dataUrl, this.capturing);
         })
         .catch(function (error) {
           console.error("oops, something went wrong!", error);
@@ -424,12 +426,12 @@ export default {
        const scale =  4;
       domtoimage.toPng(capture, {
         quality: scale,
-        height: capture.offsetHeight * scale,
+        // height: capture.offsetHeight * scale,
         style: {
           padding: "50px 10px",
           fontSize:"70px",
         },
-        width: capture.offsetWidth * scale,
+        // width: capture.offsetWidth * scale,
       },
       )
         .then((dataUrl) => {
