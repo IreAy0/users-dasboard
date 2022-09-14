@@ -539,7 +539,7 @@ export default {
             toast.success("ID verified successfully", {
               duration: 3000,
               queue: false,
-              position: "top-right",
+              position:"top-right",
               dismissible: true,
               pauseOnHover: true,
             });
@@ -551,7 +551,7 @@ export default {
           toast.error("Error while verifying business", {
             duration: 3000,
             queue: false,
-            position: "top-right",
+            position:"top-right",
             dismissible: true,
             pauseOnHover: true,
           });
