@@ -142,7 +142,7 @@ export default {
       
         this.getTeams();
         toast.success('Team switched successfully', {
-          position: 'top-right',
+          position: 'center',
           duration: 3000,
           action: {
             text: 'Dismiss',
@@ -156,7 +156,7 @@ export default {
         .catch(error => {
         
           toast.error(error?.response?.data?.data?.error, {
-            position: 'top-right',
+            position: 'center',
             duration: 3000,
             action: {
               text: 'Dismiss',
