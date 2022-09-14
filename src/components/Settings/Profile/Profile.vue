@@ -157,23 +157,24 @@
             <h5 class="mb-0">Identity Verification</h5>
             <small>Verify your ID.</small>
           </div>
-          <div class="d-flex flex-column flex-lg-row  gx-5" style=" gap: 4%;">
-            <div class="mb-1 ">
+          <Form @submit="verifyId" :validation-schema="verificationSchema" class="mb-3 d-flex flex-column flex-lg-row  gx-5" style=" gap: 4%;">
+            <div class="mb-1 col-md-5">
               <label class="form-label" for="id_type">Identification Type</label>
-              <select :disabled="validState" v-model="profile.identity_type" class="select2 w-100 form-select">
+              <Field as="select" :disabled="validState" v-model="profile.identity_type" name="id_type" class="select2 w-100 form-select">
                 <option value="" disabled>Please select a form of Identity</option>
                 <option value="nin">NIN</option>
                 <option value="drivers_license">Drivers License</option>
                 <option value="bvn">BVN</option>
-              </select>
+              </Field>
+              <ErrorMessage name="id_type" class="text-danger " />
             </div>
             <b-col>
               <label class="form-label" for="bvn">ID Number</label>
               <div>
 
               </div>
-              <div class="input-group relative mb-3">
-                <input placeholder="12345678910" v-model="profile.identity_number" :disabled="validState === true"
+              <div class="input-group relative ">
+                <Field placeholder="12345678910" name="registration_company_number" v-model="profile.identity_number" :disabled="validState === true"
                   id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" />
                 <span v-if="validState" class="position-absolute end-0  px-1" :style="{ top: '7px' }">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -182,19 +183,22 @@
                       d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                   </svg>
                 </span>
-                <button v-show="validState == false" @click="verifyId"
+
+                <button type="submit" v-show="validState == false" 
                   class="btn border mb-0 btn-primary-outline border-primary text-primary ms-1">
                   <span v-show="verifying" class="spinner-border spinner-border-sm"></span>
                   <span class="align-middle d-inline-block">Verify ID</span>
                 </button>
+
               </div>
+              <ErrorMessage name="registration_company_number" class="text-danger " />
 
 
             </b-col>
 
 
 
-          </div>
+          </Form>
           <b-button-group class="mt-2 w-100 justify-content-end ">
             <div>
 
@@ -357,6 +361,7 @@ export default {
         if (!value) {
           return "Email is required";
         }
+
         // validate email value...
         return true;
       },
@@ -385,18 +390,46 @@ export default {
         return true;
       }
     };
+    const verificationSchema = {
+      id_type(value) {
+        if (!value) {
+          return "ID Type is required";
+        }
+        return true;
+      },
+      registration_company_number(value) {
+        if (!value) {
+          return "ID number is required";
+        }
+        if (value.length > 12) {
+          return "ID must not be more than 11 characters";
+        }
+        if(value.length < 11){
+          return "ID must not be less than 11 characters";
+        }
+        // check if value is  a number
+        if (isNaN(value)) {
+          return "ID must be a number";
+        }
+        return true;
+      },
+    }
+    
     return {
       tabIndexAdv1: ref(0),
       states: [],
       countries: [],
       profile: {},
       simpleSchema,
+      verificationSchema,
       state: "",
       country: "",
       validState: "",
       ID: "",
+
       verifying: false,
       currentStep: 1,
+      verifyError: false,
     };
   },
   computed: {
@@ -479,7 +512,7 @@ export default {
           }
         })
         .catch((err) => {
-         
+          this.verifyError = true
           this.verifying = false;
           toast.error("Error verifying", {
             duration: 3000,

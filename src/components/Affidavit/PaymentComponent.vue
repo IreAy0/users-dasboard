@@ -131,7 +131,7 @@ function openFlutterwave() {
       toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
-        position: "top-right",
+        position:" center",
         dismissible: true,
         pauseOnHover: true,
       });
