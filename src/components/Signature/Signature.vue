@@ -393,18 +393,17 @@ export default {
     onCaptureSignature(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
-      const capture = this.$refs[ref];
+      const capture = this?.$refs[ref];
       this.selectedFont = ref      
-       const scale =  4;
+       const scale =  2;
 
 
       domtoimage.toPng(capture, {
-        quality: scale,
-        height: capture?.offsetHeight * 2,
+        quality: 1,
+        height: capture?.offsetHeight * scale,
         style: {
-          transform: `translateX(10%) `,
-          // padding: "20px 0px",
-          fontSize:"60px",
+          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
+            }px, ${capture?.offsetHeight / 2 / scale}px)`,
         },
         width: capture?.offsetWidth * scale,
       },
@@ -422,15 +421,15 @@ export default {
  onCaptureInitials(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
-      const capture = this.$refs[ref];
+      const capture = this?.$refs[ref];
       this.selectedInitial = ref      
-       const scale =  4;
+       const scale =  2;
       domtoimage.toPng(capture, {
-        quality: scale,
+        quality: 1,
         height: capture?.offsetHeight * scale,
         style: {
-          padding: "50px 10px",
-          fontSize:"70px",
+          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
+            }px, ${capture?.offsetHeight / 2 / scale}px)`,
         },
         width: capture?.offsetWidth * scale,
       },
