@@ -27,7 +27,7 @@
           <table class="table table-bordered">
             <thead class="table-light">
               <tr>
-                <th>Signature {{capturing}} {{updating}}</th>
+                <th>Signature</th>
               </tr>
             </thead>
             <tbody>
@@ -400,13 +400,13 @@ export default {
 
       domtoimage.toPng(capture, {
         quality: scale,
-        // height: capture.offsetHeight * scale,
+        height: capture?.offsetHeight * 2,
         style: {
-          transform: `scale(${2}) translateX(10%) `,
-          padding: "50px 10px",
-          fontSize:"70px",
+          transform: `translateX(10%) `,
+          // padding: "20px 0px",
+          fontSize:"60px",
         },
-        // width: capture.offsetWidth * scale,
+        width: capture?.offsetWidth * scale,
       },
       )
         .then((dataUrl) => {
@@ -418,6 +418,7 @@ export default {
           console.error("oops, something went wrong!", error);
         });
     },
+
  onCaptureInitials(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
@@ -426,12 +427,12 @@ export default {
        const scale =  4;
       domtoimage.toPng(capture, {
         quality: scale,
-        // height: capture.offsetHeight * scale,
+        height: capture?.offsetHeight * scale,
         style: {
           padding: "50px 10px",
           fontSize:"70px",
         },
-        // width: capture.offsetWidth * scale,
+        width: capture?.offsetWidth * scale,
       },
       )
         .then((dataUrl) => {
