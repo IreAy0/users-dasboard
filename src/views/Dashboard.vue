@@ -63,8 +63,8 @@
             <router-link to="/admin/requests" class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.scheduledRequests }}</h2>
-                  <p class="card-text text-dark">Sent Requests</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.notary_request}}</h2>
+                  <p class="card-text text-dark">Notary requests</p>
                 </div>
                 <div class="avatar  bg-light-warning p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -85,12 +85,12 @@
             </router-link>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
-          
-            <a :href="`${getEnv}?status=received&qt=${getToken}`" class="card">
+            <!-- <a :href="`${getEnv}?status=received&qt=${getToken}`" class="card"> -->
+            <div class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.viewed }}</h2>
-                  <p class="card-text text-dark">Received</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.complete_sessions }}</h2>
+                  <p class="card-text text-dark">Complete sessions</p>
                 </div>
                 <div class="avatar bg-light-primary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -102,14 +102,14 @@
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
             <a :href="`${getEnv}?status=sent&qt=${getToken}`" class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.completed }}</h2>
-                  <p class="card-text text-dark">Signed</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>
+                  <p class="card-text text-dark">Signed Notes</p>
                 </div>
                 <div class="avatar bg-light-secondary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -124,12 +124,13 @@
               </div>
             </a>
           </div>
+          
           <div class="col-lg-3 col-sm-6 col-6">
-            <div class="card">
+            <a :href="`${getEnv}?status=received&qt=${getToken}`"  class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.notarised }}</h2>
-                  <p class="card-text text-dark">Notarised</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.received_notes }}</h2>
+                  <p class="card-text text-dark">Received Notes</p>
                 </div>
                 <div class="avatar bg-light-success p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -145,8 +146,28 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
+          <div class="col-lg-3 col-sm-6 col-6">
+          
+          <a :href="`${getEnv}?status=completed&qt=${getToken}`" class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="fw-bolder mb-0">{{ dashboardData?.completed_notes }}</h2>
+                <p class="card-text text-dark">Complete Notes</p>
+              </div>
+              <div class="avatar bg-light-primary p-25 p-lg-50 m-0">
+                <div class="avatar-content">
+                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
         </div>
 
         <!-- List DataTable -->
@@ -310,6 +331,7 @@ export default {
       const url = process.env.VUE_APP_DOCUMENT_PAGE;
       return url;
     },
+   
   },
   mounted: function () {
     this.getUser();
