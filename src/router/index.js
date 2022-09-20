@@ -127,7 +127,7 @@ const routes = [
         component: RequestPage,
 
         meta: {
-          title: "Tonote | Requests",
+          title: " Requests | Tonote",
         }
       },
       {
@@ -135,7 +135,7 @@ const routes = [
         name: "admin.settings",
         component: SettingPage,
         meta: {
-          title: "ToNote | Settings",
+          title: " Settings | ToNote ",
         },
       },
 

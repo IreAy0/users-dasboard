@@ -81,10 +81,13 @@
           </div>
 
           <hr class="mt-1 mb-1" />
-
-          <b-form-checkbox v-model="getForms.send_sms" name="check-button" switch>
-            Send Sms
+            <div class="d-flex align-items-center"> 
+              <b-form-checkbox disabled="true"  v-model="getForms.send_sms" name="check-button" switch>
+            Send Sms 
           </b-form-checkbox>
+          <span title="Coming Soon" class="coming-soon form-check form-switch form-label border border-warning text-warning" data-v-735b3461=""> Coming Soon</span>
+            </div>
+         
           <b-form-checkbox v-model="getForms.send_email" name="check-button" switch>
             Send Email
           </b-form-checkbox>
@@ -257,5 +260,13 @@ export default {
 <style>
 .notifications .form-check {
   margin-bottom: 0.5rem !important;
+}
+.coming-soon{
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    margin: 0 10px;
 }
 </style>

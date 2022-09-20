@@ -2,7 +2,7 @@
   <div class="col-12 mt-2">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title">Document Lists</h5>
+        <h5 class="card-title">Document List</h5>
       </div>
       <div class="card invoice-list-wrapper">
         <div class="card-datatable table-responsive">
@@ -62,6 +62,8 @@
               </tr>
             </tbody>
           </table>
+         
+
         </div>
       </div>
     </div>
@@ -92,6 +94,14 @@ onBeforeMount(() => {
   store.dispatch("DocumentModule/DocumentsList");
   store.dispatch("DocumentModule/RequestsList");
 });
+
+// const headers = [
+// { text: "Document name", value: "title" },
+// { text: "Status", value: "status" },
+// { text: "Last Edited", value: "updated_at" },
+
+// ];
+
 
 const store = useStore();
 const documents = computed(() => store.state.DocumentModule.documents);
