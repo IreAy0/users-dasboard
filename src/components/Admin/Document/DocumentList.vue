@@ -62,6 +62,8 @@
               </tr>
             </tbody>
           </table>
+         
+
         </div>
       </div>
     </div>
@@ -92,6 +94,14 @@ onBeforeMount(() => {
   store.dispatch("DocumentModule/DocumentsList");
   store.dispatch("DocumentModule/RequestsList");
 });
+
+// const headers = [
+// { text: "Document name", value: "title" },
+// { text: "Status", value: "status" },
+// { text: "Last Edited", value: "updated_at" },
+
+// ];
+
 
 const store = useStore();
 const documents = computed(() => store.state.DocumentModule.documents);
