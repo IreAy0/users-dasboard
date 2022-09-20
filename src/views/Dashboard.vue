@@ -63,8 +63,8 @@
             <router-link to="/admin/requests" class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.scheduledRequests }}</h2>
-                  <p class="card-text text-dark">Sent Requests</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.notary_request}}</h2>
+                  <p class="card-text text-dark">Notary requests</p>
                 </div>
                 <div class="avatar  bg-light-warning p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -85,12 +85,12 @@
             </router-link>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
-          
-            <a :href="`${getEnv}?status=received&qt=${getToken}`" class="card">
+            <!-- <a :href="`${getEnv}?status=received&qt=${getToken}`" class="card"> -->
+            <div class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.viewed }}</h2>
-                  <p class="card-text text-dark">Received</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.complete_sessions }}</h2>
+                  <p class="card-text text-dark">Complete sessions</p>
                 </div>
                 <div class="avatar bg-light-primary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -102,14 +102,14 @@
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
           <div class="col-lg-3 col-sm-6 col-6">
             <a :href="`${getEnv}?status=sent&qt=${getToken}`" class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.completed }}</h2>
-                  <p class="card-text text-dark">Signed</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>
+                  <p class="card-text text-dark">Signed Notes</p>
                 </div>
                 <div class="avatar bg-light-secondary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -124,12 +124,13 @@
               </div>
             </a>
           </div>
+          
           <div class="col-lg-3 col-sm-6 col-6">
-            <div class="card">
+            <a :href="`${getEnv}?status=received&qt=${getToken}`"  class="card">
               <div class="card-header">
                 <div>
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.notarised }}</h2>
-                  <p class="card-text text-dark">Notarised</p>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.received_notes }}</h2>
+                  <p class="card-text text-dark">Received Notes</p>
                 </div>
                 <div class="avatar bg-light-success p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -145,8 +146,28 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
+          <div class="col-lg-3 col-sm-6 col-6">
+          
+          <a :href="`${getEnv}?status=completed&qt=${getToken}`" class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="fw-bolder mb-0">{{ dashboardData?.completed_notes }}</h2>
+                <p class="card-text text-dark">Complete Notes</p>
+              </div>
+              <div class="avatar bg-light-primary p-25 p-lg-50 m-0">
+                <div class="avatar-content">
+                  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
         </div>
 
         <!-- List DataTable -->
@@ -155,6 +176,38 @@
             <h4 class="card-title">What will you like to do?</h4>
             <div class="pt-0 me-0">
               <div class="row row row-cols-1 row-cols-md-3">
+                <div class="col mt-3 mt-lg-0">
+                  <div class="card mb-0 h-100 border-primary bg-transparent rounded-4">
+                    <div class="card-body d-flex flex-column">
+                      <h5 class="card-title text-primary">
+                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M20 22.5H8.75C8.3523 22.4996 7.971 22.3414 7.68978 22.0602C7.40856 21.779 7.2504 21.3977 7.25 21V16.5H8.75V21H20V4.5H13.25V3H20C20.3977 3.0004 20.779 3.15856 21.0602 3.43978C21.3414 3.721 21.4996 4.1023 21.5 4.5V21C21.4996 21.3977 21.3414 21.779 21.0602 22.0602C20.779 22.3414 20.3977 22.4996 20 22.5Z"
+                            fill="#003BB3" />
+                          <path
+                            d="M13.25 7.5H18.5V9H13.25V7.5ZM12.5 11.25H18.5V12.75H12.5V11.25ZM11.75 15H18.5V16.5H11.75V15ZM7.25 14.25C6.25574 14.249 5.30249 13.8536 4.59945 13.1506C3.8964 12.4475 3.50099 11.4943 3.5 10.5V2.25H5V10.5C5 11.0967 5.23705 11.669 5.65901 12.091C6.08097 12.5129 6.65326 12.75 7.25 12.75C7.84674 12.75 8.41903 12.5129 8.84099 12.091C9.26295 11.669 9.5 11.0967 9.5 10.5V3.75C9.5 3.55109 9.42098 3.36032 9.28033 3.21967C9.13968 3.07902 8.94891 3 8.75 3C8.55109 3 8.36032 3.07902 8.21967 3.21967C8.07902 3.36032 8 3.55109 8 3.75V11.25H6.5V3.75C6.5 3.15326 6.73705 2.58097 7.15901 2.15901C7.58097 1.73705 8.15326 1.5 8.75 1.5C9.34674 1.5 9.91903 1.73705 10.341 2.15901C10.7629 2.58097 11 3.15326 11 3.75V10.5C10.999 11.4943 10.6036 12.4475 9.90055 13.1506C9.19751 13.8536 8.24426 14.249 7.25 14.25Z"
+                            fill="#003BB3" />
+                        </svg>
+                        Sign a document
+                      </h5>
+                      <p class="card-text">
+                        Securely sign documents online with legally binding
+                        electronic signatures.
+                      </p>
+
+                      <div class="mt-auto">
+                        <a :href="`${getEnv}/document/upload?qt=${getToken}`"
+                          class="text-primary">Sign now
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="col mt-3 mt-lg-0">
                   <div class="card mb-0 h-100 border-primary bg-transparent rounded-4">
                     <div class="card-body d-flex flex-column">
@@ -214,38 +267,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col mt-3 mt-lg-0">
-                  <div class="card mb-0 h-100 border-primary bg-transparent rounded-4">
-                    <div class="card-body d-flex flex-column">
-                      <h5 class="card-title text-primary">
-                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M20 22.5H8.75C8.3523 22.4996 7.971 22.3414 7.68978 22.0602C7.40856 21.779 7.2504 21.3977 7.25 21V16.5H8.75V21H20V4.5H13.25V3H20C20.3977 3.0004 20.779 3.15856 21.0602 3.43978C21.3414 3.721 21.4996 4.1023 21.5 4.5V21C21.4996 21.3977 21.3414 21.779 21.0602 22.0602C20.779 22.3414 20.3977 22.4996 20 22.5Z"
-                            fill="#003BB3" />
-                          <path
-                            d="M13.25 7.5H18.5V9H13.25V7.5ZM12.5 11.25H18.5V12.75H12.5V11.25ZM11.75 15H18.5V16.5H11.75V15ZM7.25 14.25C6.25574 14.249 5.30249 13.8536 4.59945 13.1506C3.8964 12.4475 3.50099 11.4943 3.5 10.5V2.25H5V10.5C5 11.0967 5.23705 11.669 5.65901 12.091C6.08097 12.5129 6.65326 12.75 7.25 12.75C7.84674 12.75 8.41903 12.5129 8.84099 12.091C9.26295 11.669 9.5 11.0967 9.5 10.5V3.75C9.5 3.55109 9.42098 3.36032 9.28033 3.21967C9.13968 3.07902 8.94891 3 8.75 3C8.55109 3 8.36032 3.07902 8.21967 3.21967C8.07902 3.36032 8 3.55109 8 3.75V11.25H6.5V3.75C6.5 3.15326 6.73705 2.58097 7.15901 2.15901C7.58097 1.73705 8.15326 1.5 8.75 1.5C9.34674 1.5 9.91903 1.73705 10.341 2.15901C10.7629 2.58097 11 3.15326 11 3.75V10.5C10.999 11.4943 10.6036 12.4475 9.90055 13.1506C9.19751 13.8536 8.24426 14.249 7.25 14.25Z"
-                            fill="#003BB3" />
-                        </svg>
-                        Sign a document
-                      </h5>
-                      <p class="card-text">
-                        Securely sign documents online with legally binding
-                        electronic signatures.
-                      </p>
-
-                      <div class="mt-auto">
-                        <a :href="`${getEnv}/document/upload?qt=${getToken}`"
-                          class="text-primary">Sign now
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            class="bi bi-arrow-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
-                          </svg>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
               </div>
             </div>
           </div>
@@ -309,6 +331,7 @@ export default {
       const url = process.env.VUE_APP_DOCUMENT_PAGE;
       return url;
     },
+   
   },
   mounted: function () {
     this.getUser();

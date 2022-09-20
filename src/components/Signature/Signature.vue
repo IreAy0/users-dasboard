@@ -27,7 +27,7 @@
           <table class="table table-bordered">
             <thead class="table-light">
               <tr>
-                <th>Signature {{capturing}} {{updating}}</th>
+                <th>Signature</th>
               </tr>
             </thead>
             <tbody>
@@ -393,20 +393,19 @@ export default {
     onCaptureSignature(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
-      const capture = this.$refs[ref];
+      const capture = this?.$refs[ref];
       this.selectedFont = ref      
-       const scale =  4;
+       const scale =  2;
 
 
       domtoimage.toPng(capture, {
-        quality: scale,
-        // height: capture.offsetHeight * scale,
+        quality: 1,
+        height: capture?.offsetHeight * scale,
         style: {
-          transform: `scale(${2}) translateX(10%) `,
-          padding: "50px 10px",
-          fontSize:"70px",
+          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
+            }px, ${capture?.offsetHeight / 2 / scale}px)`,
         },
-        // width: capture.offsetWidth * scale,
+        width: capture?.offsetWidth * scale,
       },
       )
         .then((dataUrl) => {
@@ -418,20 +417,21 @@ export default {
           console.error("oops, something went wrong!", error);
         });
     },
+
  onCaptureInitials(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
-      const capture = this.$refs[ref];
+      const capture = this?.$refs[ref];
       this.selectedInitial = ref      
-       const scale =  4;
+       const scale =  2;
       domtoimage.toPng(capture, {
-        quality: scale,
-        // height: capture.offsetHeight * scale,
+        quality: 1,
+        height: capture?.offsetHeight * scale,
         style: {
-          padding: "50px 10px",
-          fontSize:"70px",
+          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
+            }px, ${capture?.offsetHeight / 2 / scale}px)`,
         },
-        // width: capture.offsetWidth * scale,
+        width: capture?.offsetWidth * scale,
       },
       )
         .then((dataUrl) => {
