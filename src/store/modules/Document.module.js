@@ -27,10 +27,10 @@ const getters = {
 };
 
 const actions = {
-  DocumentsList({ commit }) {
-    getDocuments()
+  DocumentsList({ commit }, pageNumber) {
+    getDocuments(pageNumber)
       .then((res) => {
-        commit("SET_DOCUMENTS", res.data.data);
+        commit("SET_DOCUMENTS", res.data);
         commit("SET_COUNTER", res.data.stats);
 
       })
