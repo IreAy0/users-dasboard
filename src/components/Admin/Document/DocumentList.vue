@@ -3,7 +3,9 @@
     <div class="card">
       <div class="card-header">
         <h5 class="card-title">Document List</h5>
+
       </div>
+  
       <div class="card invoice-list-wrapper">
         <div class="card-datatable table-responsive">
           <table class="invoice-list-table table">
@@ -17,7 +19,7 @@
             </thead>
 
             <tbody>
-              <tr v-for="document in documents" :key="document.id">
+              <tr v-for="document in documents?.data" :key="document.id">
                 <td>
                   <a :href="`${getEnv}?di=${document.id}&qt=${token}`"
                     class="my-0 py-0">{{ document.title }}</a>
@@ -67,21 +69,22 @@
         </div>
       </div>
     </div>
-    <!-- <nav aria-label="page navigation example">
+    <nav aria-label="page navigation example">
       <ul class="pagination">
-        <li class="page-item disabled">
-          <span class="page-link">Prev</span>
+        <li class="page-item " :class="paginationLinks?.prev === null ? 'disabled' : ''" @click="prev" >
+          <a class="page-link">Prev</a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active" aria-current="page">
-          <span class="page-link">2</span>
+        <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
+        <li  class="page-item " :class="links?.active === true ? 'active' : ''" v-for="links in meta?.links" :key="links + 1" aria-current="page">
+          <a class="page-link" :class="links?.label?.includes('Next') || links?.label?.includes('Previous') ? 'd-none': ''"  v-html="links.label"> </a>
+          
         </li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
+        <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+        <li class="page-item" :class="paginationLinks?.next === null ? 'disabled' : ''" @click="next" >
+          <a class="page-link"  href="#">Next </a>
         </li>
       </ul>
-    </nav> -->
+    </nav>
   </div>
 </template>
 
@@ -95,18 +98,24 @@ onBeforeMount(() => {
   store.dispatch("DocumentModule/RequestsList");
 });
 
-// const headers = [
-// { text: "Document name", value: "title" },
-// { text: "Status", value: "status" },
-// { text: "Last Edited", value: "updated_at" },
-
-// ];
 
 
 const store = useStore();
 const documents = computed(() => store.state.DocumentModule.documents);
+
+
+const next = () => {
+  store.dispatch("DocumentModule/DocumentsList", meta?.value?.current_page + 1);
+};
+
+const prev = () => {
+  store.dispatch("DocumentModule/DocumentsList", meta?.value?.current_page - 1);
+};
+
 // eslint-disable-next-line no-unused-vars
 const requests = computed(() => store.state.DocumentModule.requests);
+const meta = computed(() => documents.value.meta)
+const paginationLinks = computed(() => documents.value.links )
 const getEnv = computed(() => process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE)
 const token = computed(() => getToken())
 </script>

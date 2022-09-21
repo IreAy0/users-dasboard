@@ -216,21 +216,26 @@
         </div>
         <h5 class="mt-3">
           Your current plan is
-          <span class="text-primary font-weight-bold">{{
-            getActive?.subscription?.plan?.name
-          }}</span>
+          <span class="text-primary font-weight-bold d-flex justify-content-center mt-1">{{
+            getActive?.subscription?.plan?.name 
+          }}
+         <span v-if="getActive?.subscription?.plan?.trial == true" title="Free trial" class="coming-soon  border border-warning text-warning" data-v-735b3461=""> Free Trial </span>
+        </span>
         </h5>
         <hr />
+       
         <div>Sends remaining: {{remainingEnvelops}} </div>
         <hr />
-        
-        <div v-show="getActive?.subscription?.plan?.name == 'Basic' || getActive?.subscription?.plan?.name == 'Pro' " >
+        <!-- {{getActive?.subscription?.plan?.expired_at?.toLocaleString() > new Date().toLocaleString() ? 'Your plan will expire on ' + getActive?.subscription?.plan?.expired_at : 'Your plan has expired'}} -->
+       <p v-show="getActive?.subscription?.plan?.trial == true" class="text-primary font-weight-bold">You have {{ getActive?.subscription?.plan?.days_remaining }} free trial remaining</p>
+       
+        <div v-show="getActive?.subscription?.plan?.name == 'Basic' || getActive?.subscription?.plan?.name == 'Pro' || getActive?.subscription?.plan?.trial == true" >
             <p  class="mb-2" >
           Upgrade to <span class="text-primary font-weight-bold">{{getActive?.subscription?.plan?.next_suggested_plan}}</span> to
           share more documents.
         </p>
         <div class="text-center">
-          <a href="/admin/settings/?tab=billing" class="btn btn-primary btn-sm">Upgrade</a>
+          <a href="/admin/settings/?tab=billing" class="btn btn-primary btn-sm">  {{getActive?.subscription?.plan?.trial == true ? 'Pay now' :  'Upgrade' }}</a>
         </div>
         </div>
       
@@ -243,6 +248,8 @@ import { getToken } from "@/Services/helpers";
 import { mapActions, mapState } from "vuex";
 import SidenavCollapse from "./SidenavCollapse.vue";
 import SidenavCollapseItem from "./SidenavCollapseItem.vue";
+import { timeFormat } from "@/Services/helpers";
+
 export default {
   name: "SidenavList",
   props: {
@@ -269,6 +276,11 @@ computed: {
       const token = getToken();
       return token;
     },
+    formateDate(data){
+      console.log(data, 'date');
+      return timeFormat(data)
+    },
+    
      getEnv(){
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
 
@@ -294,3 +306,15 @@ computed: {
   },
 };
 </script>
+<style>
+ 
+  .coming-soon{
+      display: inline-block;
+      padding: 2px 5px;
+      text-align: center;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      margin: 0 10px;
+  }
+  </style>
