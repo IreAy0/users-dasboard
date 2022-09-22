@@ -57,16 +57,16 @@
             </div>
           </div>
         </div>
-
-        <div class="row analytic">
-          <div class="col-lg-3 col-sm-6 col-6">
-            <router-link to="/admin/requests" class="card">
-              <div class="card-header">
+        <div class="row row-cols-2 row-cols-md-5 g-2 mb-3">
+  <div class="col">
+    <div class="card h-100 justify-content-center">
+      <router-link to="/admin/requests" class="">
+              <div class="card-header p-1">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.notary_request}}</h2>
                   <p class="card-text text-dark">Notary requests</p>
                 </div>
-                <div class="avatar  bg-light-warning p-25 p-lg-50 m-0">
+                <div class="avatar avatar-sm   bg-light-warning p-25 p-lg-50 m-0">
                   <div class="avatar-content">
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
                       stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -83,16 +83,16 @@
                 </div>
               </div>
             </router-link>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-6">
-            <!-- <a :href="`${getEnv}?status=received&qt=${getToken}`" class="card"> -->
-            <div class="card">
-              <div class="card-header">
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 justify-content-center">
+      <div class="card-header p-1 ">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.complete_sessions }}</h2>
                   <p class="card-text text-dark">Complete sessions</p>
                 </div>
-                <div class="avatar bg-light-primary p-25 p-lg-50 m-0">
+                <div class="avatar avatar-sm  bg-light-primary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
                       stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -102,16 +102,17 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-6">
-            <a :href="`${getEnv}?status=sent&qt=${getToken}`" class="card">
-              <div class="card-header">
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 justify-content-center">
+      <a :href="`${getEnv}?status=sent&qt=${getToken}`"  >
+              <div class="card-header p-1">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>
                   <p class="card-text text-dark">Signed Notes</p>
                 </div>
-                <div class="avatar bg-light-secondary p-25 p-lg-50 m-0">
+                <div class="avatar avatar-sm  bg-light-secondary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -123,16 +124,17 @@
                 </div>
               </div>
             </a>
-          </div>
-          
-          <div class="col-lg-3 col-sm-6 col-6">
-            <a :href="`${getEnv}?status=received&qt=${getToken}`"  class="card">
-              <div class="card-header">
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 justify-content-center">
+      <a :href="`${getEnv}?status=received&qt=${getToken}`"  class="">
+              <div class="card-header p-1">
                 <div>
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.received_notes }}</h2>
                   <p class="card-text text-dark">Received Notes</p>
                 </div>
-                <div class="avatar bg-light-success p-25 p-lg-50 m-0">
+                <div class="avatar avatar-sm  bg-light-success p-25 p-lg-50 m-0">
                   <div class="avatar-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -147,16 +149,17 @@
                 </div>
               </div>
             </a>
-          </div>
-          <div class="col-lg-3 col-sm-6 col-6">
-          
-          <a :href="`${getEnv}?status=completed&qt=${getToken}`" class="card">
-            <div class="card-header">
+    </div>
+  </div>
+  <div class="col">
+    <div class="card h-100 justify-content-center">
+      <a :href="`${getEnv}?status=completed&qt=${getToken}`" >
+            <div class="card-header p-1">
               <div>
                 <h2 class="fw-bolder mb-0">{{ dashboardData?.completed_notes }}</h2>
-                <p class="card-text text-dark">Complete Notes</p>
+                <p class="card-text text-dark ">Complete Notes</p>
               </div>
-              <div class="avatar bg-light-primary p-25 p-lg-50 m-0">
+              <div class="avatar avatar-sm bg-light-primary p-25 p-lg-50 m-0">
                 <div class="avatar-content">
                   <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -167,8 +170,10 @@
               </div>
             </div>
           </a>
-        </div>
-        </div>
+    </div>
+  </div>
+</div>
+        
 
         <!-- List DataTable -->
         <div class="row">
@@ -346,5 +351,10 @@ export default {
   height: 1.5rem;
   width: 1.5rem;
   display: inline-block;
+}
+.avatar-sm {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.875rem;
 }
 </style>

@@ -87,6 +87,7 @@ export default {
     handleSubmit() {
       let email = this.$route.query.email
       const data = { email: email.toLocaleLowerCase(), otp: otpInput.value.otp.join('') }
+      
 
       loading.value = true;
       this.verify(data)
