@@ -25,7 +25,8 @@
           <form @submit.prevent="handleLogin">
             <div :class="{ 'is-invalid': loginError }" class="">
               <div v-if="loginError" class="alert p-1 alert-danger alert-dismissible fade show" role="alert">
-                <strong>{{ loginError?.root.toString() }}</strong>
+                <strong v-if="loginError?.root">{{ loginError?.root.toString() }}</strong>
+                <strong v-else>{{  loginError?.email?.toString() }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             </div>
