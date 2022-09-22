@@ -12,6 +12,10 @@
           </li>
         </ul>
         <ul class="nav navbar-nav align-items-center bookmark-icons">
+          <li class="nav-item ">
+           Dashboard
+          </li>
+
           <li class="nav-item d-none d-lg-block">
             <span :class="{
               'badge rounded-pill badge-light-danger':
