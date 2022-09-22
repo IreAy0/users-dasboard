@@ -16,7 +16,7 @@ export default {
     ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', 'getTransactions']),
     ...mapActions('TeamsModule', ['logout']),
     ...mapActions('CompanyModule', ['getCompany']),
-    ...mapActions('DocumentModule', ['RequestsList']),
+    ...mapActions('DocumentModule', ['RequestsList', 'DocumentsList']),
     debug (event) {
     console.log(event)
   }
@@ -34,7 +34,7 @@ export default {
     this.getDashboardData();
     this.getTransactions();
     this.RequestsList();
-
+    this.DocumentsList();
     (function () {
       const s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
       s1.async = true;

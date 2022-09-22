@@ -19,6 +19,7 @@ const mutations = {
   },
   SET_COUNTER: (state, payload) => {
     state.counter = payload;
+    
   }
 };
 
@@ -32,7 +33,6 @@ const actions = {
       .then((res) => {
         commit("SET_DOCUMENTS", res.data);
         commit("SET_COUNTER", res.data.stats);
-
       })
       .catch(function () {
         // console.log(error);
