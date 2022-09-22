@@ -15,6 +15,12 @@
           </a>
         </li>
         <li class="nav-item ">
+          <a class="nav-link text-body font-weight-bold px-0 me-1 me-lg-3" href="#">
+            <h6 class="mb-0 fs-3 text-capitalize">{{ title }}</h6>
+          </a>
+         
+        </li>
+        <li class="nav-item ">
           <span :class="{
             'badge rounded-pill badge-light-danger':
               !userProfile?.national_verification,
@@ -207,6 +213,17 @@ export default {
     currentRouteName() {
       return this.$route.name;
     },
+    title(){
+      // get pathname
+      const path = this.$route.path;
+      // get the last part of the path
+      const lastPart = path.split('/').pop();
+     
+
+      return lastPart;
+     
+
+    }
   },
   mounted: function () {
     this.getUser();
