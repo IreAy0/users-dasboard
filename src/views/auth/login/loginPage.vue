@@ -23,7 +23,7 @@
           </p> -->
 
           <form @submit.prevent="handleLogin">
-            <div :class="{ 'is-invalid': loginError }" class="">
+            <div :class="{ 'is-invalid': loginError, 'd-none': close }" class="">
               <div v-if="loginError" class="alert p-1 alert-danger alert-dismissible fade show" role="alert">
                 <strong v-if="loginError?.root">{{ loginError?.root.toString() }}</strong>
                 <strong v-else>{{  loginError?.email?.toString() }}</strong>
@@ -120,9 +120,11 @@ export default {
         email: '',
         password: ''
       },
+      close: false,
       passwordFieldType: 'password'
     }
   },
+  
   computed: {
     ...mapState('AuthModule', ['loggingIn', 'loginError']),
   },
@@ -151,7 +153,29 @@ export default {
       this.passwordFieldType = this.passwordFieldType === 'text' ? 'password' : 'text';
 
     },
+
+    //set alert timeout
+    setAlertTimeout() {
+      setTimeout(() => {
+        // clear loginError
+        this.close = true;
+      
+        console.log(this.loginError)
+      }, 3000);
+    },
   },
+
+  watch: {
+    loginError() {
+      
+      if (this.loginError) {
+        this.setAlertTimeout();
+      }
+    }
+  
+  },
+  deep: true
+
 }
 
 </script>
