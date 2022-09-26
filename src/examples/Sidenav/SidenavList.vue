@@ -253,7 +253,7 @@
        <p v-show="getActive?.subscription?.plan?.trial == true" class="text-primary font-weight-bold">You have {{ getActive?.subscription?.plan?.days_remaining }} free trial remaining</p>
        
         <div v-show="getActive?.subscription?.plan?.name == 'Basic' || getActive?.subscription?.plan?.name == 'Pro' || getActive?.subscription?.plan?.trial == true" >
-            <p  class="mb-2" >
+            <p  class="mb-2" v-show="getActive?.subscription?.plan?.trial == false">
           Upgrade to <span class="text-primary font-weight-bold">{{getActive?.subscription?.plan?.next_suggested_plan}}</span> to
           share more documents.
         </p>
