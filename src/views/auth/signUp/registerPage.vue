@@ -221,7 +221,6 @@ export default {
         last_name: "",
         email: "",
         password: "",
-
         role: "User",
       },
       submitted: false,

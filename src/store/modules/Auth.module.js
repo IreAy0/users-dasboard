@@ -146,6 +146,10 @@ const mutations = {
     state.loginError = error?.response?.data?.errors;
 
   },
+  emptyLoginError(state) {
+    state.loginError = null;
+  }
+  
 };
 
 export const AuthModule = {
