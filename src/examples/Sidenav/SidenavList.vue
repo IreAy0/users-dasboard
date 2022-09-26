@@ -41,6 +41,29 @@
           </template>
           <template v-slot:nav-child-item>
             <li class="nav-item">
+              <a  class="nav-link" :href="`${getEnv}?status=completed&qt=${getToken}`">
+ <div
+      class="text-center d-flex align-items-center justify-content-center"
+      :class="isRTL ? ' ms-2' : 'me-1'"
+    >
+    <svg style="{{
+    height: 20px;
+    font-size: 16px;
+    margin-right: 0.5rem;
+    height: 16px;
+    width: 16px;
+}}
+" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle" data-v-64c7739b=""><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" data-v-64c7739b=""></path><polyline points="22 4 12 14.01 9 11.01" data-v-64c7739b=""></polyline></svg>    </div>
+    <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
+    <span class="menu-title text-truncate fs-6 d-flex " > <span>Completed</span>  </span>
+   
+</span>
+<span class="badge rounded-pill badge-light-warning ms-auto "> {{counter?.Completed ? counter?.Completed : 0}}</span>
+  </a>
+     
+
+      </li>
+            <li class="nav-item">
               <a  class="nav-link" :href="`${getEnv}?status=received&qt=${getToken}`">
  <div
       class="text-center d-flex align-items-center justify-content-center"
@@ -230,7 +253,7 @@
        <p v-show="getActive?.subscription?.plan?.trial == true" class="text-primary font-weight-bold">You have {{ getActive?.subscription?.plan?.days_remaining }} free trial remaining</p>
        
         <div v-show="getActive?.subscription?.plan?.name == 'Basic' || getActive?.subscription?.plan?.name == 'Pro' || getActive?.subscription?.plan?.trial == true" >
-            <p  class="mb-2" >
+            <p  class="mb-2" v-show="getActive?.subscription?.plan?.trial == false">
           Upgrade to <span class="text-primary font-weight-bold">{{getActive?.subscription?.plan?.next_suggested_plan}}</span> to
           share more documents.
         </p>

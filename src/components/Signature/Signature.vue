@@ -38,8 +38,8 @@
                     @click="onCaptureSignature(font, 'Signature', 'Type')">
 
                     <input class="form-check-input flex-shrink-0 typed" type="radio" name="sign" :id="font" v-model="selected" :value="font"/>
-                    <label v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000' }" :class="font"
-                       class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50" :for="font">
+                    <label  v-bind:style="{ fontFamily: font,fontSize: '20px', color: '#000' }" :class="font"
+                       class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50 " :for="font">
 
                       {{ generalData?.first_name }} {{ generalData?.last_name }}
                     </label>
@@ -56,14 +56,14 @@
 
 
              <span v-if="selectedFont " class="d-inline-block">
-          <div  :ref="selectedFont" class="d-inline-block " data-type="Signature"
-            style="font-size: 50px; padding: 0 10px; color: #000" :style="{ fontFamily: selectedFont }">
+          <div  :ref="selectedFont" class="d-inline-block fs-1" data-type="Signature"
+            style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedFont }">
              {{ generalData?.first_name }} {{ generalData?.last_name }}
           </div>
         </span>
             <div v-else class="mt-1 ">
                  <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview" :style="{ width: '100%' }"
+              <img class="sign-preview" :style="{ width: '100%', maxWidth:'50%' }"
                 :src=" getTyped" />
               
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
@@ -111,8 +111,8 @@
 
 
              <span v-if="selectedInitial " class="d-inline-block">
-          <div  :ref="selectedInitial " class="d-inline-block " data-type="Signature"
-            style="font-size: 50px; padding: 0 10px; color: #000" :style="{ fontFamily: selectedInitial}">
+          <div  :ref="selectedInitial " class="d-inline-block fs-1" data-type="Signature"
+            style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedInitial}">
              {{ generalData?.initials }}
           </div>
         </span>
@@ -404,6 +404,7 @@ export default {
         style: {
           transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
             }px, ${capture?.offsetHeight / 2 / scale}px)`,
+          // padding: '0px 50px 0px 0px',
         },
         width: capture?.offsetWidth * scale,
       },
