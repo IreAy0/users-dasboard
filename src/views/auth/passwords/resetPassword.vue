@@ -15,11 +15,11 @@
         <div class="col-12 col-sm-8 col-md-6 col-lg-10 px-xl-2 mx-auto">
           <h2 class="card-title fw-bold mb-1">Welcome to ToNote! 👋</h2>
           <p class="card-text mb-2">
-            Please enter the email registered, a reset password link will be sent to you.
+            Please create your password.
           </p>
 
           <form @submit.prevent="resetPassword" >
-           
+            
             <div class="mb-2">
               <label class="form-label" for="login-email">Email</label>
               <input 
@@ -41,7 +41,7 @@
               name="password" 
               tabindex="1" 
               placeholder="*******"
-              v-model="resetForm.password"
+              v-model="password"
               
               />
               <a type="button" class="position-absolute top-50 end-0  px-1" @click="isVisible">
@@ -57,6 +57,9 @@
   <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
 </svg>
               </a>
+              <div v-if="passwordError === true" class="text-danger text-sm">
+                "Passwords do not Match"
+              </div>
               <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
             </div>
              <div class="mb-2 position-relative">
@@ -64,10 +67,10 @@
               <input 
               class="form-control" 
               :type="passwordFieldType" 
-              name="password" 
+              name="confirm"
               tabindex="1" 
               placeholder="*******"
-              v-model="resetForm.password_confirmation"
+              v-model="confirm_password"
               />
                   <a type="button" class="position-absolute top-50 end-0  px-1" @click="isVisible">
                 
@@ -83,9 +86,56 @@
 </svg>
               </a>
               <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
+              <div v-if="passwordError === true" class="text-danger text-sm">
+                "Passwords do not Match"
+              </div>
+            </div>
+            <div>
+              <ul class="hint">
+                <li :class="{
+                  'text--red': !pws().length < 8,
+                  'text--green': pws().length > 8,
+                }">
+                  At least 8 characters
+                </li>
+                <li :class="{
+                  'text--red': !pws().contains.includes('uppercase'),
+                  'text--green': pws().contains.includes('uppercase'),
+                }">
+                  At least 1 capital letter
+                </li>
+                <li :class="{
+                  'text--red': !pws().contains.includes('lowercase'),
+                  'text--green': pws().contains.includes('lowercase'),
+                }">
+                  At least 1 small letter
+                </li>
+                <li :class="{
+                  'text--red': !pws().contains.includes('number'),
+                  'text--green': pws().contains.includes('number'),
+                }">
+                  At least 1 number
+                </li>
+                <li :class="{
+                  'text--red': !pws().contains.includes('symbol'),
+                  'text--green': pws().contains.includes('symbol'),
+                }">
+                  At least 1 special character
+                </li>
+
+                <li class="text--red" :class="{
+                  'text--red': pws().value !== 'Too weak',
+                  'text--red': pws().value == 'Weak',
+                  'text-warning': pws().value == 'Medium',
+                  'text--green': pws().value == 'Strong',
+                }">
+                  {{ pws().value }}
+                </li>
+                <!-- <li :class="{'text--red' : passwordError === true, 'text--green' : passwordError == false , 'text--red' : !user.password } " >Passwords match</li> -->
+              </ul>
             </div>
             <div class="form-group">
-              <button class="btn btn-primary btn-block w-100" :disabled="loading">
+              <button class="btn btn-primary btn-block w-100" :disabled="loading || passwordError === true || (!password &&  !confirm_password) || !resetForm.email || pws().value !== 'Too weak' || pws().value !== 'Weak '">
                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                 <span>Submit</span>
               </button>
@@ -109,6 +159,7 @@
 import ToNote from '@/Services/Tonote';
 import { useToast } from 'vue-toast-notification';
 import { mapMutations } from 'vuex';
+import { passwordStrength } from '../passwordChecker';
 
 const toast = useToast()
 export default {
@@ -118,7 +169,11 @@ export default {
   data() {
     return {
       passwordFieldType: 'password',
-      loading: false
+      loading: false,
+      passwordError: false,
+      showPass: false,
+      confirm_password: "",
+      password: "",
     }
   },
   computed: {
@@ -127,19 +182,35 @@ export default {
       const resetForm = {
         email: this.$route.query?.email?.toLocaleLowerCase(),
         token: this.$route.query.hash,
-        password: "",
-        password_confirmation: ""
+       
+        password_confirmation: "",
+        
       }
       return resetForm
     }
   },
+
+  watch: {
+
+    confirm_password: {
+      handler(newConfirm_password, oldConfirm_password) {
+        this.checkPasswords(newConfirm_password);
+      },
+    },
+  },
   methods: {
     // ...mapActions('AuthModule',['login']),
-    ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     resetPassword() {
       this.loading = true
+      const formData = {
+        email: this.$route.query?.email?.toLocaleLowerCase(),
+        token: this.$route.query.hash,
+        password: this.password,
+        password_confirmation: this.confirm_password,
+      }
+      console.log(formData),
       // eslint-disable-next-line no-unused-vars
-      ToNote.post('/user/password/reset', this.resetForm).then(res => {
+      ToNote.post('/user/password/reset', formData).then(res => {
 
         this.loading = false
         toast.success('Successfully updated password', {
@@ -179,10 +250,32 @@ export default {
     },
 
     isVisible() {
-      this.passwordFieldType = this.passwordFieldType === 'text' ? 'password' : 'text';
+      this.passwordFieldType =
+        this.passwordFieldType === "text" ? "password" : "text";
+    },
 
-    }
+
+    pws() {
+      console.log(this.password, this.resetForm.password)
+      
+      return passwordStrength(this.password);
+    },
+
+    checkPasswords(e) {
+      const password = document.querySelector("input[name=password]");
+      // const confirm = document.querySelector("input[name=confirm]");
+
+      if (e === password.value) {
+
+        this.passwordError = false;
+      } else {
+        this.passwordError = true;
+      }
+    },
+    ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
   },
+
+
   beforeMount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
@@ -195,6 +288,29 @@ export default {
 
 
 </script>
-<style lang="">
+<style lang="scss" scoped>
+  ul.hint {
+    font-size: 12px;
+    line-height: 21px;
+    // list-style-type: "\1F44D" !important;
+    color: #434343;
+    padding: 0;
+  }
   
-</style>
+  ul li::before {
+    display: list-item;
+  }
+  
+  ul.hint li {
+    padding: 0 0 0 1em;
+    margin-bottom: 2px;
+  }
+  
+  .text--red {
+    color: #ee0004;
+  }
+  
+  .text--green {
+    color: #2fa36b;
+  }
+  </style>
