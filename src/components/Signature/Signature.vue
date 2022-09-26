@@ -51,7 +51,7 @@
           </table>
         </div>
 
-        <div class="col-12  mt-2 m-auto">
+        <div class="col-12 p-0  mt-2 m-auto">
           <div  >
 
 
@@ -63,7 +63,7 @@
         </span>
             <div v-else class="mt-1 ">
                  <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview" :style="{ width: '100%', maxWidth:'50%' }"
+              <img class="sign-preview col-12 col-xl-6" 
                 :src=" getTyped" />
               
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
@@ -412,7 +412,7 @@ export default {
         .then((dataUrl) => {
           this.setImage({ file: dataUrl, type, category });
           this.capturing = false;
-          console.log(dataUrl, this.capturing);
+        
         })
         .catch(function (error) {
           console.error("oops, something went wrong!", error);
@@ -432,6 +432,7 @@ export default {
           transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
             }px, ${capture?.offsetHeight / 2 / scale}px)`,
         },
+        
         width: capture?.offsetWidth * scale,
       },
       )
