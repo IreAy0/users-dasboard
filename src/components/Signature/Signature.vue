@@ -55,9 +55,9 @@
           <div  >
 
 
-             <span v-if="selectedFont " class="d-inline-block">
-          <div  :ref="selectedFont" class="d-inline-block fs-1" data-type="Signature"
-            style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedFont }">
+        <span v-if="selectedFont " class="d-inline-block">
+          <div  :ref="selectedFont" class="d-inline-block custom-fs-sm" data-type="Signature"
+            style="color: #000" :style="{ fontFamily: selectedFont }">
              {{ generalData?.first_name }} {{ generalData?.last_name }}
           </div>
         </span>
@@ -406,11 +406,12 @@ export default {
             }px, ${capture?.offsetHeight / 2 / scale}px)`,
           // padding: '0px 50px 0px 0px',
         },
-        width: capture?.offsetWidth * scale,
+        width: capture?.offsetWidth * 2.5,
       },
       )
         .then((dataUrl) => {
           this.setImage({ file: dataUrl, type, category });
+          console.log(dataUrl);
           this.capturing = false;
         
         })
@@ -543,7 +544,10 @@ export default {
   color: #cacaca;
   padding: 60px 0;
 }
-
+.custom-fs-sm {
+  color: #000;
+  font-size: clamp(12px, 2.5vw, 46px);
+}
 /* .sign-preview {
   
   max-width:200px;
