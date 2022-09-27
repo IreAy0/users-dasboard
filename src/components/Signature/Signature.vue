@@ -234,7 +234,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
-import domtoimage from "dom-to-image-more";
+import domtoimage from "dom-to-image";
 import { useToast } from "vue-toast-notification";
 import SkeletonLoader from "../SkeletonLoader.vue";
 import { ref } from 'vue3-paystack';
@@ -393,25 +393,22 @@ export default {
       this.capturing = true;
       const capture = this?.$refs[ref];
       this.selectedFont = ref      
-       const scale =  2;
+      const scale = 5;
 
       
       domtoimage.toPng(capture, {
         quality: 1,
-        height: capture?.offsetHeight * scale,
+        width: capture?.clientWidth * scale,
+        height: capture?.clientHeight * scale,
         style: {
-         ' -webkit-transform': `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
-            }px, ${capture?.offsetHeight / 2 / scale}px)`,
-          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
-            }px, ${capture?.offsetHeight / 2 / scale}px)`,
-          // padding: '0px 50px 0px 0px',
+          transform: 'scale(' + scale + ')',
+          transformOrigin: 'top left'
         },
-        width: capture?.offsetWidth * 2.5,
-      },
+      }
       )
         .then((dataUrl) => {
           this.setImage({ file: dataUrl, type, category });
-          console.log(dataUrl);
+          // console.log(dataUrl);
           this.capturing = false;
         
         })
@@ -546,7 +543,11 @@ export default {
 }
 .custom-fs-sm {
   color: #000;
-  font-size: clamp(12px, 2.5vw, 46px);
+  color: #000;
+  padding: 0 3px;
+  font-size: 46px;
+  font-size: clamp(1rem, 2vw, 2.875rem);
+  /* font-size: clamp(12px, 2.5vw, 46px); */
 }
 /* .sign-preview {
   
