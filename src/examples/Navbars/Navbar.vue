@@ -3,7 +3,7 @@
   <nav
     class="shadow navbar bg-white py-1 my-2 mx-2 navbar-main navbar-expand-lg border-radius-xl position-sticky  left-auto top-1 z-index-2 px-0 "
     v-bind="$attrs" id="navbarBlur" data-scroll="true" :class="isAbsolute ? 'mt-4' : ''">
-    <div class="px-2  container-fluid">
+    <div class="container-fluid">
       <ul class="nav navbar-nav align-items-center bookmark-icons">
         <li @click="toggleSidebar" class="nav-item d-xl-none  d-flex align-items-center">
           <a href="#" class="p-1 nav-link text-body lh-1" id="iconNavbarSidenav">

@@ -51,19 +51,19 @@
           </table>
         </div>
 
-        <div class="col-12  mt-2 m-auto">
+        <div class="col-12 p-0  mt-2 m-auto">
           <div  >
 
 
-             <span v-if="selectedFont " class="d-inline-block">
-          <div  :ref="selectedFont" class="d-inline-block fs-1" data-type="Signature"
-            style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedFont }">
+        <span v-if="selectedFont " class="d-inline-block">
+          <div  :ref="selectedFont" class="d-inline-block custom-fs-sm" data-type="Signature"
+            style="color: #000" :style="{ fontFamily: selectedFont }">
              {{ generalData?.first_name }} {{ generalData?.last_name }}
           </div>
         </span>
             <div v-else class="mt-1 ">
                  <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview" :style="{ width: '100%', maxWidth:'50%' }"
+              <img class="sign-preview col-12 col-xl-6" 
                 :src=" getTyped" />
               
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
@@ -406,13 +406,14 @@ export default {
             }px, ${capture?.offsetHeight / 2 / scale}px)`,
           // padding: '0px 50px 0px 0px',
         },
-        width: capture?.offsetWidth * scale,
+        width: capture?.offsetWidth * 2.5,
       },
       )
         .then((dataUrl) => {
           this.setImage({ file: dataUrl, type, category });
+          console.log(dataUrl);
           this.capturing = false;
-          console.log(dataUrl, this.capturing);
+        
         })
         .catch(function (error) {
           console.error("oops, something went wrong!", error);
@@ -432,6 +433,7 @@ export default {
           transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
             }px, ${capture?.offsetHeight / 2 / scale}px)`,
         },
+        
         width: capture?.offsetWidth * scale,
       },
       )
@@ -542,7 +544,10 @@ export default {
   color: #cacaca;
   padding: 60px 0;
 }
-
+.custom-fs-sm {
+  color: #000;
+  font-size: clamp(12px, 2.5vw, 46px);
+}
 /* .sign-preview {
   
   max-width:200px;
