@@ -56,7 +56,7 @@
 
 
         <span v-if="selectedFont " class="d-inline-block">
-          <div  :ref="selectedFont" class="d-inline-block custom-fs-sm" data-type="Signature"
+          <div :ref="selectedFont" class="d-inline-block fs-1" data-type="Signature"
             style="color: #000" :style="{ fontFamily: selectedFont }">
              {{ generalData?.first_name }} {{ generalData?.last_name }}
           </div>
@@ -357,9 +357,7 @@ export default {
   },
   methods: {
     changeValues() { },
-    selectTab(value) {
-
-    },
+    
     isActive(menuItem) {
       return this.activeItem === menuItem;
     },
@@ -397,11 +395,13 @@ export default {
       this.selectedFont = ref      
        const scale =  2;
 
-
+      
       domtoimage.toPng(capture, {
         quality: 1,
         height: capture?.offsetHeight * scale,
         style: {
+         ' -webkit-transform': `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
+            }px, ${capture?.offsetHeight / 2 / scale}px)`,
           transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
             }px, ${capture?.offsetHeight / 2 / scale}px)`,
           // padding: '0px 50px 0px 0px',
