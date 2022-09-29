@@ -11,7 +11,7 @@
       <ul class="nav navbar-nav flex-row">
         <li class="nav-item me-auto">
           <a class="navbar-brand" href="#">
-            <img width="150" src="/app-assets/images/logo/main.svg" />
+            <img width="150" src="/app-assets/images/logo/betaLogo.png" />
           </a>
         </li>
         <li class="nav-item nav-toggle">
