@@ -2,7 +2,7 @@
     <div class="auth-wrapper auth-cover">
     <div class="auth-inner row m-0">
       <router-link class="brand-logo" to="/">
-        <img src="/app-assets/images/logo/main.svg" class="img-fluid mt-2" width="150" />
+        <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mt-2" width="150" />
       </router-link>
 
       <div class="d-none d-lg-block col-lg-6 align-items-center p-0">
@@ -135,7 +135,7 @@
               </ul>
             </div>
             <div class="form-group">
-              <button class="btn btn-primary btn-block w-100" :disabled="loading || passwordError === true || (!password &&  !confirm_password) || !resetForm.email || pws().value !== 'Too weak' || pws().value !== 'Weak '">
+              <button class="btn btn-primary btn-block w-100" :disabled="loading || passwordError === true || (!password &&  !confirm_password)  || pws().value == 'Too weak' || pws().value == 'Weak '">
                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                 <span>Submit</span>
               </button>
@@ -208,7 +208,7 @@ export default {
         password: this.password,
         password_confirmation: this.confirm_password,
       }
-      console.log(formData),
+      // console.log(formData),
       // eslint-disable-next-line no-unused-vars
       ToNote.post('/user/password/reset', formData).then(res => {
 
@@ -256,7 +256,7 @@ export default {
 
 
     pws() {
-      console.log(this.password, this.resetForm.password)
+      // console.log(this.password, this.resetForm.password)
       
       return passwordStrength(this.password);
     },
