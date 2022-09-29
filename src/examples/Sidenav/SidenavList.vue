@@ -250,7 +250,7 @@
         <div>Sends remaining: {{remainingEnvelops}} </div>
         <hr />
         <!-- {{getActive?.subscription?.plan?.expired_at?.toLocaleString() > new Date().toLocaleString() ? 'Your plan will expire on ' + getActive?.subscription?.plan?.expired_at : 'Your plan has expired'}} -->
-       <p v-show="getActive?.subscription?.plan?.trial == true" class="text-primary font-weight-bold">You have {{ getActive?.subscription?.plan?.days_remaining }} free trial remaining</p>
+       <p v-show="getActive?.subscription?.plan?.trial == true" class="text-primary font-weight-bold"> {{ getActive?.subscription?.plan?.days_remaining }} left</p>
        
         <div v-show="getActive?.subscription?.plan?.name == 'Basic' || getActive?.subscription?.plan?.name == 'Pro' || getActive?.subscription?.plan?.trial == true" >
             <p  class="mb-2" v-show="getActive?.subscription?.plan?.trial == false">
@@ -300,7 +300,7 @@ computed: {
       return token;
     },
     formateDate(data){
-      console.log(data, 'date');
+     
       return timeFormat(data)
     },
     

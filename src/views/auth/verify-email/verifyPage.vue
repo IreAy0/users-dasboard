@@ -2,7 +2,7 @@
   <div class="auth-wrapper auth-cover">
     <div class="auth-inner row m-0">
       <router-link class="brand-logo" to="/">
-        <img src="/app-assets/images/logo/main.svg" class="img-fluid mt-2" width="150" />
+        <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mt-2" width="150" />
         <!-- <h2 class="brand-text text-primary ms-1"></h2> -->
       </router-link>
 

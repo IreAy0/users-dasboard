@@ -55,9 +55,9 @@
           <div  >
 
 
-             <span v-if="selectedFont " class="d-inline-block">
-          <div  :ref="selectedFont" class="d-inline-block fs-1" data-type="Signature"
-            style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedFont }">
+        <span v-if="selectedFont " class="d-inline-block">
+          <div :ref="selectedFont" class="d-inline-block fs-1" data-type="Signature"
+            style="color: #000" :style="{ fontFamily: selectedFont }">
              {{ generalData?.first_name }} {{ generalData?.last_name }}
           </div>
         </span>
@@ -234,7 +234,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
-import domtoimage from "dom-to-image-more";
+import domtoimage from "dom-to-image";
 import { useToast } from "vue-toast-notification";
 import SkeletonLoader from "../SkeletonLoader.vue";
 import { ref } from 'vue3-paystack';
@@ -357,9 +357,7 @@ export default {
   },
   methods: {
     changeValues() { },
-    selectTab(value) {
-
-    },
+    
     isActive(menuItem) {
       return this.activeItem === menuItem;
     },
@@ -395,22 +393,22 @@ export default {
       this.capturing = true;
       const capture = this?.$refs[ref];
       this.selectedFont = ref      
-       const scale =  2;
+      const scale = 5;
 
-
+      
       domtoimage.toPng(capture, {
         quality: 1,
-        height: capture?.offsetHeight * scale,
+        width: capture?.clientWidth * scale,
+        height: capture?.clientHeight * scale,
         style: {
-          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
-            }px, ${capture?.offsetHeight / 2 / scale}px)`,
-          // padding: '0px 50px 0px 0px',
+          transform: 'scale(' + scale + ')',
+          transformOrigin: 'top left'
         },
-        width: capture?.offsetWidth * scale,
-      },
+      }
       )
         .then((dataUrl) => {
           this.setImage({ file: dataUrl, type, category });
+          // console.log(dataUrl);
           this.capturing = false;
         
         })
@@ -543,7 +541,14 @@ export default {
   color: #cacaca;
   padding: 60px 0;
 }
-
+.custom-fs-sm {
+  color: #000;
+  color: #000;
+  padding: 0 3px;
+  font-size: 46px;
+  font-size: clamp(1rem, 2vw, 2.875rem);
+  /* font-size: clamp(12px, 2.5vw, 46px); */
+}
 /* .sign-preview {
   
   max-width:200px;
