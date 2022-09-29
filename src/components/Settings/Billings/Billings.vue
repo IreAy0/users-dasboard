@@ -77,6 +77,15 @@
         <paystack v-if=" payment_gateway === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey"
           :email="getEmail" :amount="transactionSummary?.total * 100" :reference="transactionSummary?.id"
           :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
+
+      <!-- <button
+      v-if="payment_gateway === 'Credo'"
+      type="button"
+      class="btn btn-primary"
+      @click="openCredo"
+    >
+      Pay Now
+    </button> -->
       </div>
     </b-modal>
 
@@ -146,7 +155,7 @@
             </div>
             <hr class="mt-1 mb-1" />
             <div class=""
-              v-show="getActive?.subscription?.plan?.name == 'Basic' || getActive?.subscription?.plan?.name == 'Pro'">
+              v-show="getActive?.subscription?.plan?.name == 'Basic' || getActive?.subscription?.plan?.name == 'Pro' || getActive?.subscription?.plan?.trial == true">
               <button :disabled="!individualSelected" @click="modalShow" class="rounded btn btn-primary">
                 <span class="align-middle d-inline-block">Upgrade</span>
               </button>
@@ -341,6 +350,26 @@ export default {
       });
     },
 
+    // openCredo(){
+    //    const transRef = this.transactionSummary?.id
+    //   CredoCheckout({
+    //           transRef, //Please generate your own transRef (20 characters max) that is unique for each transaction
+    //           amount: 2700,
+    //           redirectUrl: "https://merchant-test-line.netlify.app/successful",
+    //           paymentOptions: ["CARDS", "BANK"],
+    //           currency: "NGN",
+    //           customerName: "Ciroma Chukwuma Adekunle",
+    //           customerEmail: "cirochwukunle@example.com",
+    //           customerPhoneNo: "08032698425",
+    //           onClose: function(){
+    //               console.log("Modal closed")
+    //           },
+    //           callback: function(){
+    //               console.log("Payment Successful");
+    //           },
+    //           publicKey: "pk_demo-Ghz9Wo4cGeebxzDwfNZdooKLFtX7op.cXgwh6MyBs-d" // You should store your API key as an environment variable
+    //         })
+    // },
 openFlutterwave() {
    const hold = this.onSuccessfulPayment
   useFlutterwave(
@@ -384,7 +413,11 @@ openFlutterwave() {
   mounted() {
     this.ALL_PAYMENTGATEWAYS();
     this.$store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS")
-    
+   
+      let recaptchaScript = document.createElement('script')
+      recaptchaScript.setAttribute('src', 'https://www.credocentral.com/inline.js')
+      document.head.appendChild(recaptchaScript)
+  
   },
 };
 

@@ -61,8 +61,8 @@
   <div class="col">
     <div class="card h-100 justify-content-center">
       <router-link to="/admin/requests" class="">
-              <div class="card-header p-1">
-                <div>
+              <div class="card-header p-1 flex-nowrap">
+                <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.notary_request}}</h2>
                   <p class="card-text text-dark">Notary requests</p>
                 </div>
@@ -77,8 +77,8 @@
   </div>
   <div class="col">
     <div class="card h-100 justify-content-center">
-      <div class="card-header p-1 ">
-                <div>
+      <div class="card-header p-1 flex-nowrap">
+                <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.complete_sessions }}</h2>
                   <p class="card-text text-dark">Complete sessions</p>
                 </div>
@@ -93,8 +93,8 @@
   <div class="col">
     <div class="card h-100 justify-content-center">
       <a :href="`${getEnv}?status=sent&qt=${getToken}`"  >
-              <div class="card-header p-1">
-                <div>
+              <div class="card-header p-1 flex-nowrap">
+                <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>
                   <p class="card-text text-dark">Signed Notes</p>
                 </div>
@@ -110,8 +110,8 @@
   <div class="col">
     <div class="card h-100 justify-content-center">
       <a :href="`${getEnv}?status=received&qt=${getToken}`"  class="">
-              <div class="card-header p-1">
-                <div>
+              <div class="card-header p-1 flex-nowrap">
+                <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.received_notes }}</h2>
                   <p class="card-text text-dark">Received Notes</p>
                 </div>
@@ -127,8 +127,8 @@
   <div class="col">
     <div class="card h-100 justify-content-center">
       <a :href="`${getEnv}?status=completed&qt=${getToken}`" >
-            <div class="card-header p-1">
-              <div>
+            <div class="card-header p-1 flex-nowrap">
+              <div class="flex-shrink-1">
                 <h2 class="fw-bolder mb-0">{{ dashboardData?.completed_notes }}</h2>
                 <p class="card-text text-dark ">Complete Notes</p>
               </div>

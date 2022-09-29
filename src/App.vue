@@ -18,7 +18,7 @@ export default {
     ...mapActions('CompanyModule', ['getCompany']),
     ...mapActions('DocumentModule', ['RequestsList', 'DocumentsList']),
     debug (event) {
-    console.log(event)
+   
   }
 
   },
