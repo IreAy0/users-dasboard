@@ -28,7 +28,14 @@
         error_message.file
     }}</label>
     <p v-if="preview" class="text-primary">{{ preview }}</p>
+    <div class="my-2">
+      <label class="form-label" for="customer_phone">Phone Number *</label>
+      <input type="tel" class="form-control" id="customer_phone" placeholder="Enter your phone number"
+        :style="error_message.phone && 'border: 1px solid red'" v-model="form_data.phone"
+        @change="error_message.phone = null" />
+        <label v-if="error_message.phone" class="text-danger small" for="error">{{ error_message.phone }}</label>
 
+      </div>
     <div class="my-2">
       <label class="form-label" for="template">How do you want your document delivered?</label>
       <select id="template" class="form-select" aria-label="select affidavit template"
@@ -75,6 +82,7 @@ const error_message = ref({
   file: null,
   delivery: null,
   address: null,
+  phone: null,
 });
 const form_data = ref({
   title: "",
@@ -82,6 +90,7 @@ const form_data = ref({
   delivery_channel: "",
   delivery_address: "",
   platform_initiated: "Web",
+  phone: "",
 });
 
 const preparedFile = (file) => {
@@ -135,6 +144,25 @@ const SubmitHandler = () => {
     error.value = false;
   }
 
+  if (
+    !form_data.value.phone ||
+    !form_data.value.phone.trim()
+  ) {
+    error_message.value.phone = "This field is required";
+    error.value = true;
+  } else if(
+    // check if value is not a number
+    isNaN(form_data.value.phone) ||
+    form_data.value.phone.length < 11 
+  ) {
+    error_message.value.phone = "Invalid phone number";
+    error.value = true;
+  }
+  else {
+    error_message.value.delivery = null;
+    error.value = false;
+  }
+
   if (form_data.value.delivery_channel === "Address") {
     if (
       !form_data.value.delivery_address ||
@@ -153,7 +181,8 @@ const SubmitHandler = () => {
   }
 
   if (
-    !error_message.value.title &&
+    !error_message.value.title && 
+    !error_message.value.phone && 
     !error_message.value.file &&
     !error_message.value.delivery &&
     !error_message.value.address
