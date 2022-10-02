@@ -20,7 +20,7 @@
         <option value="via-office">Collection</option>
       </select>
     </div>
-    <p @click="count++">{{ count }}</p>
+    
     <div data-aos="zoom-in" v-if="delivery__channel === 'via-address'" class="my-2">
       <label class="form-label" for="template">Enter your address</label>
       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Address" v-model="address" />

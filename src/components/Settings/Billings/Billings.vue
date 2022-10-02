@@ -352,15 +352,15 @@ export default {
 
     // openCredo(){
     //    const transRef = this.transactionSummary?.id
-    //   CredoCheckout({
+    //   window.CredoCheckout({
     //           transRef, //Please generate your own transRef (20 characters max) that is unique for each transaction
-    //           amount: 2700,
-    //           redirectUrl: "https://merchant-test-line.netlify.app/successful",
+    //           amount: this.transactionSummary?.total,
+    //           // redirectUrl: "https://merchant-test-line.netlify.app/successful",
     //           paymentOptions: ["CARDS", "BANK"],
     //           currency: "NGN",
-    //           customerName: "Ciroma Chukwuma Adekunle",
-    //           customerEmail: "cirochwukunle@example.com",
-    //           customerPhoneNo: "08032698425",
+    //           customerName:  `${this?.userProfile?.first_name} ${this?.userProfile?.last_name}`,
+    //           customerEmail: this?.userProfile?.email ,
+    //           customerPhoneNo: this?.userProfile?.phone,
     //           onClose: function(){
     //               console.log("Modal closed")
     //           },
@@ -417,7 +417,7 @@ openFlutterwave() {
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://www.credocentral.com/inline.js')
       document.head.appendChild(recaptchaScript)
-  
+    
   },
 };
 
