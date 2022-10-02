@@ -33,13 +33,28 @@
             <tbody>
               <tr v-for="font in fonts" :key="font + 1">
                 <td>
+                  <!-- <label  :for="font" class="form-check-label"  >
+              <div class="me-3">
+                <input  @change="onCaptureSignature(font, 'Signature', 'Type')" type="radio" :name="font" v-model="selected" :value="font" class="form-check-input"
+                  style="margin-top: 7px" :id="font" />
+              </div>
+
+              <div  class="css-pl8xw2">
+                <div class="css-fv3lde">
+                  <span class="css-4x8v88 initials" :class="font" :style="{ fontFamily: font, fontSize: '30px' }">
+                    {{ generalData?.first_name }} {{ generalData?.last_name }}
+                  </span>
+                </div>
+              </div>
+            </label> -->
                   <div v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000', fontWeight: 'bolder' }"
                     :class="font" class="form-check-label flex-grow-1  form-check d-flex align-items-center" :for="font"
                     @click="onCaptureSignature(font, 'Signature', 'Type')">
 
-                    <input class="form-check-input flex-shrink-0 typed" type="radio" name="sign" :id="font" v-model="selected" :value="font"/>
-                    <label  v-bind:style="{ fontFamily: font,fontSize: '20px', color: '#000' }" :class="font"
-                       class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50 " :for="font">
+                    <input class="form-check-input flex-shrink-0 typed" type="radio" name="sign" :id="font"
+                      v-model="selected" :value="font" />
+                    <label v-bind:style="{ fontFamily: font,fontSize: '20px', color: '#000' }" :class="font"
+                      class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50 " :for="font">
 
                       {{ generalData?.first_name }} {{ generalData?.last_name }}
                     </label>
@@ -52,20 +67,18 @@
         </div>
 
         <div class="col-12 p-0  mt-2 m-auto">
-          <div  >
+          <div>
 
+            <span :class="{'d-none': selectedFont == '' }" class="d-inline-block">
+              <div ref="capture" class="d-inline-block fs-1" data-type="Signature" style="color: #000"
+                :style="{ fontFamily: selectedFont }">
+                {{ generalData?.first_name }} {{ generalData?.last_name }}
+              </div>
+            </span>
+            <div :class="{'d-none': selectedFont !== '' }" v-show="getTyped" class="mt-1 ">
+              <SkeletonLoader :loading="loadingSignature" />
+              <img class="sign-preview col-12 col-xl-6" :src=" getTyped" />
 
-        <span v-if="selectedFont " class="d-inline-block">
-          <div :ref="selectedFont" class="d-inline-block fs-1" data-type="Signature"
-            style="color: #000" :style="{ fontFamily: selectedFont }">
-             {{ generalData?.first_name }} {{ generalData?.last_name }}
-          </div>
-        </span>
-            <div v-else class="mt-1 ">
-                 <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview col-12 col-xl-6" 
-                :src=" getTyped" />
-              
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
           </div>
@@ -88,12 +101,11 @@
                   <div v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }" :class="fontNew"
                     class="form-check-label  flex-grow-1 form-check d-flex align-items-center"
                     @click="onCaptureInitials(fontNew, 'Initial', 'Type')" :for="fontNew+'_initials'">
-                    <input class="form-check-input flex-shrink-0" type="radio" name="initials"
-                      :id="fontNew+'_initials'" :for="fontNew+'_initials'"/>
+                    <input class="form-check-input flex-shrink-0" type="radio" name="initials" :id="fontNew+'_initials'"
+                      :for="fontNew+'_initials'" />
                     <label v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }"
-                      :class="fontNew+'initials'" 
-                      class="form-check-label flex-grow-1 flex-grow-1 py-1 p-50" :for="fontNew+'_initials'"
-                      >
+                      :class="fontNew+'initials'" class="form-check-label flex-grow-1 flex-grow-1 py-1 p-50"
+                      :for="fontNew+'_initials'">
 
                       {{ generalData?.initials }}
                     </label>
@@ -107,24 +119,23 @@
 
         <div class="col-12 col-md-4  m-auto ">
           <!-- <button class="btn  bg-primary text-primary  bg-opacity-10 rounded-3 border border-primary">Preview Signature</button> -->
-         <div  >
+          <div>
 
 
-             <span v-if="selectedInitial " class="d-inline-block">
-          <div  :ref="selectedInitial " class="d-inline-block fs-1" data-type="Signature"
-            style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedInitial}">
-             {{ generalData?.initials }}
-          </div>
-        </span>
-            <div v-else class="mt-1 ">
-                 <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview" :style="{ width: '100%' }"
-                :src="getInitials" />
-              
+            <span :class="{'d-none': selectedInitial == '' }" class="d-inline-block">
+              <div ref="initials" class="d-inline-block fs-1" data-type="Signature"
+                style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedInitial}">
+                {{ generalData?.initials }}
+              </div>
+            </span>
+            <div :class="{'d-none': selectedInitial !== '' }" class="mt-1 ">
+              <SkeletonLoader :loading="loadingSignature" />
+              <img class="sign-preview" :style="{ width: '100%' }" :src="getInitials" />
+
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
           </div>
-         <!-- <div>
+          <!-- <div>
             <div class="mt-1">
 
               <img class="sign-preview" :src="signature.length == 0 ? getInitials : imgSrc?.file"
@@ -215,17 +226,18 @@
           </svg>
         </span>
       </button>
-      <router-link v-if="isActive('upload') && imgSrc?.length == 0" to="/admin/dashboard" 
+      <router-link v-if="isActive('upload') && imgSrc?.length == 0" to="/admin/dashboard"
         :disabled="updating || imgSrc?.length == 0 || imgSrc?.file == ' '">
         <button type="button" class="btn btn-primary btn-next"> Finish</button>
 
       </router-link>
 
-    
-      <button :class="{'d-none' : isActive('upload') && imgSrc?.length == 0}" @click="onSaveSignature(imgSrc)" class="btn btn-primary btn-next"
+
+      <button :class="{'d-none' : isActive('upload') && imgSrc?.length == 0}" @click="onSaveSignature(imgSrc)"
+        class="btn btn-primary btn-next"
         :disabled="updating || capturing || imgSrc?.length == 0 || imgSrc?.file == ' '">
-        <span v-if="capturing || updating" > Processing...</span>
-        <span v-else > Save and Continue</span>
+        <span v-if="capturing || updating"> Processing...</span>
+        <span v-else> Save and Continue</span>
 
       </button>
     </div>
@@ -237,12 +249,12 @@ import { mapState, mapMutations, mapActions } from "vuex";
 import domtoimage from "dom-to-image";
 import { useToast } from "vue-toast-notification";
 import SkeletonLoader from "../SkeletonLoader.vue";
-import { ref } from 'vue3-paystack';
 // import VueSignaturePad from 'vue-signature-pad';
 const toast = useToast();
 
 export default {
   name: "SignatureLayout",
+  emits: ["goPrev", "goNext"],
   components: {
     SkeletonLoader
   },
@@ -255,9 +267,9 @@ export default {
 
   data() {
     return {
-      selected:" ",
-      selectedFont:'',
-      selectedInitial:'',
+      selected: " ",
+      selectedFont: '',
+      selectedInitial: '',
       activeItem: "draw",
       picked: "One",
       output: null,
@@ -269,7 +281,7 @@ export default {
           this.$refs.signaturePad.resizeCanvas();
         },
       },
-      
+
       disabled: false,
       optionsLocal: this.generalData,
       loading: false,
@@ -357,26 +369,26 @@ export default {
   },
   methods: {
     changeValues() { },
-    
+
     isActive(menuItem) {
       return this.activeItem === menuItem;
     },
     setActive(menuItem) {
       this.activeItem = menuItem;
       this.setImage([]);
-        const radioButtons = document.querySelectorAll('input[name="sign"]');
-        for (const radioButton of radioButtons) {
-                if (radioButton.checked  == true) {
-                    radioButton.checked = false
-                }
-            }
-    const radioInitials = document.querySelectorAll('input[name="initials"]');
-        for (const radioInitial of radioInitials) {
-                if (radioInitial.checked  == true) {
-                    radioInitial.checked = false
-                }
-            }
-      this.selectedInitial=''
+      const radioButtons = document.querySelectorAll('input[name="sign"]');
+      for (const radioButton of radioButtons) {
+        if (radioButton.checked == true) {
+          radioButton.checked = false
+        }
+      }
+      const radioInitials = document.querySelectorAll('input[name="initials"]');
+      for (const radioInitial of radioInitials) {
+        if (radioInitial.checked == true) {
+          radioInitial.checked = false
+        }
+      }
+      this.selectedInitial = ''
       this.selectedFont = "";
       this.clear();
 
@@ -390,39 +402,49 @@ export default {
 
     onCaptureSignature(ref, type, category) {
       const finalRef = ref;
-      this.capturing = true;
-      const capture = this?.$refs[ref];
-      this.selectedFont = ref      
-      const scale = 5;
 
-      
-      domtoimage.toPng(capture, {
-        quality: 1,
-        width: capture?.clientWidth * scale,
-        height: capture?.clientHeight * scale,
-        style: {
-          transform: 'scale(' + scale + ')',
-          transformOrigin: 'top left'
-        },
+      const capture = this.$refs.capture;
+
+      this.selectedFont = ref
+
+      if (this.selectedFont != '') {
+        const scale = 5;
+        this.capturing = true;
+        domtoimage.toPng(capture, {
+          quality: 1,
+          width: capture?.clientWidth * scale,
+          height: capture?.clientHeight * scale,
+          style: {
+            transform: 'scale(' + scale + ')',
+            transformOrigin: 'top left'
+          },
+        }
+        )
+          .then((dataUrl) => {
+
+            
+            this.setImage({ file: dataUrl, type, category });
+            this.capturing = false;
+
+          })
+          .catch(function (error) {
+            console.error("oops, something went wrong!", error);
+          });
+
+
+
       }
-      )
-        .then((dataUrl) => {
-          this.setImage({ file: dataUrl, type, category });
-          // console.log(dataUrl);
-          this.capturing = false;
-        
-        })
-        .catch(function (error) {
-          console.error("oops, something went wrong!", error);
-        });
+
     },
 
- onCaptureInitials(ref, type, category) {
+    onCaptureInitials(ref, type, category) {
       const finalRef = ref;
       this.capturing = true;
-      const capture = this?.$refs[ref];
-      this.selectedInitial = ref      
-       const scale =  2;
+      const capture = this?.$refs.initials;
+      this.selectedInitial = ref
+
+      if(this.selectedInitial != '' ){
+        const scale = 2;
       domtoimage.toPng(capture, {
         quality: 1,
         height: capture?.offsetHeight * scale,
@@ -430,7 +452,7 @@ export default {
           transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
             }px, ${capture?.offsetHeight / 2 / scale}px)`,
         },
-        
+
         width: capture?.offsetWidth * scale,
       },
       )
@@ -441,7 +463,11 @@ export default {
         .catch(function (error) {
           console.error("oops, something went wrong!", error);
         });
-    },
+    
+      }
+    
+    
+      },
 
 
     onSaveSignature(data) {
@@ -541,6 +567,7 @@ export default {
   color: #cacaca;
   padding: 60px 0;
 }
+
 .custom-fs-sm {
   color: #000;
   color: #000;
@@ -549,6 +576,7 @@ export default {
   font-size: clamp(1rem, 2vw, 2.875rem);
   /* font-size: clamp(12px, 2.5vw, 46px); */
 }
+
 /* .sign-preview {
   
   max-width:200px;

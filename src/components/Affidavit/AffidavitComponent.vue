@@ -25,7 +25,14 @@
           </select>
           <label v-if="error_message.title" class="text-danger small" for="error">{{ error_message.title }}</label>
         </div>
+        <div class="my-2">
+      <label class="form-label" for="customer_phone">Phone Number *</label>
+      <input type="tel" class="form-control" id="customer_phone" placeholder="Enter your phone number"
+        :style="error_message.phone && 'border: 1px solid red'" v-model="data.phone"
+        @change="error_message.phone = null" />
+        <label v-if="error_message.phone" class="text-danger small" for="error">{{ error_message.phone }}</label>
 
+      </div>
         <div class="my-2">
           <label class="form-label" for="delivery_channel">How do you want your document delivered?</label>
           <select id="delivery_channel" class="form-select" :style="error_message.delivery && 'border: 1px solid red'"
@@ -66,7 +73,14 @@
           <label v-if="error_message2.description" class="text-danger small" for="error">{{ error_message2.description
           }}</label>
         </div>
+        <div class="my-2">
+      <label class="form-label" for="customer_phone">Phone Number *</label>
+      <input type="tel" class="form-control" id="customer_phone" placeholder="Enter your phone number"
+        :style="error_message.phone && 'border: 1px solid red'" v-model="data.phone"
+        @change="error_message.phone = null" />
+        <label v-if="error_message.phone" class="text-danger small" for="error">{{ error_message.phone }}</label>
 
+      </div>
         <div class="my-2">
           <label class="form-label" for="template">How do you want your document delivered?</label>
           <select id="template" class="form-select" aria-label="select affidavit template"
@@ -91,7 +105,7 @@
       </div>
     </div>
   </div>
-
+ 
   <div class="modal-footer">
     <button @click="handleSubmit" type="button" class="btn btn-primary">
       Proceed
@@ -119,12 +133,14 @@ const data = ref({
   delivery_channel: "",
   delivery_address: "",
   platform_initiated: "Web",
+  phone: ""
 });
 const error = ref(true);
 const error_message = ref({
   title: null,
   delivery: null,
   address: null,
+  phone: null
 });
 const error2 = ref(true);
 const error_message2 = ref({
@@ -132,6 +148,7 @@ const error_message2 = ref({
   delivery: null,
   address: null,
   description: null,
+  phone: null
 });
 
 const handleSubmit = () => {
@@ -154,8 +171,28 @@ const handleSubmit = () => {
       error_message.value.delivery = null;
       error.value = false;
     }
+    if (
+    !data.value.phone ||
+    !data.value.phone.trim()
+  ) {
+    error_message.value.phone = "Phone number is required";
+    error.value = true;
+  } else if(
+    // check if value is not a number
+    isNaN(data.value.phone) ||
+    data.value.phone.length < 11 
+  ) {
+    error_message.value.phone = "Invalid phone number";
+    error.value =true;
+  } else {
+    error_message.value.phone = null;
+    error.value = false;
+  }
 
-    if (!error_message.value.title && !error_message.value.delivery) {
+
+
+
+    if (!error_message.value.title && !error_message.value.delivery && !error_message.value.phone) {
       emits("nextStep");
       store.dispatch("AffidavitModule/post_AffidavitRequestForm", {
         ...data.value,
@@ -172,6 +209,10 @@ const handleSubmit = () => {
             data.value.delivery_address.trim() === null
             ? (data.value.delivery_address = "Address")
             : data.value.delivery_address,
+        phone: data.value.phone === "" ||
+        data.value.phone.trim() === null
+        ? (error_message.value.phone = "Phone number is required")
+        : data.value.phone,
       });
     }
   } else if (activeForm.value === "Custom") {
@@ -196,11 +237,31 @@ const handleSubmit = () => {
       error_message2.value.description = null;
       error2.value = false;
     }
+    if (
+      !data.value.phone ||
+      !data.value.phone.trim()
+    ) {
+      error_message2.value.phone = "Phone number is required";
+      error2.value = true;
+    } else if(
+      // check if value is not a number
+      isNaN(data.value.phone) ||
+      data.value.phone.length < 11 
+    ) {
+      error_message2.value.phone = "Invalid phone number";
+      error2.value = true;
+    } else {
+      error_message2.value.phone = null;
+      error2.value = false;
+    }
+
+
 
     if (
       !error_message2.value.title &&
       !error_message2.value.delivery &&
-      !error_message2.value.description
+      !error_message2.value.description &&
+      !error_message2.value.phone
     ) {
       emits("nextStep");
       store.dispatch("AffidavitModule/post_AffidavitRequestForm", {
@@ -218,6 +279,10 @@ const handleSubmit = () => {
             data.value.delivery_address.trim() === null
             ? (data.value.delivery_address = "Address")
             : data.value.delivery_address,
+        phone: data.value.phone === "" ||
+        data.value.phone.trim() === null
+        ? (error_message2.value.phone = "Phone number is required")
+        : data.value.phone,
       });
     }
   }
