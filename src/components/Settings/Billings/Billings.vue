@@ -40,42 +40,43 @@
            <p class="h5 fw-bold my-2">Select payment option</p>
     <div  class="payment__options gap-2">
       <label
-        v-for="paymentGateway in paymentGateways"
+        v-for="paymentGateway in transactionSummary?.payment_methods"
         :key="paymentGateway.id"
         class="payment__option"
-        :for="paymentGateway.gateway.name"
+        :for="paymentGateway?.name"
       >
         <input
           name="payment_gateway"
           v-model="payment_gateway"
-          :value="paymentGateway.gateway.name"
+          :value="paymentGateway"
           type="radio"
-          :id="paymentGateway.gateway.name"
+          :id="paymentGateway?.name"
         />
         <div class="payment__option-content">
           <img
             loading="lazy"
-            :src="paymentGateway.gateway.file"
-            :alt="paymentGateway.gateway.name"
+            :src="paymentGateway?.file"
+            :alt="paymentGateway?.name"
           />
           <div class="payment__option-details">
-            <span> {{ paymentGateway.gateway.name }}</span>
+            <span> {{ paymentGateway?.name }}</span>
           </div>
         </div>
       </label>
     </div>
         </b-col>
+       
       <div class="d-flex justify-content-center my-2">
   <button
-      v-if="payment_gateway === 'Flutterwave'"
+      v-if="payment_gateway?.name === 'Flutterwave'"
       type="button"
       class="btn btn-primary"
       @click="openFlutterwave"
     >
       Pay Now
     </button>
-        <paystack v-if=" payment_gateway === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey"
-          :email="getEmail" :amount="transactionSummary?.total * 100" :reference="transactionSummary?.id"
+        <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey" :email="getEmail" 
+        :amount="payment_gateway?.total * 100" :reference="transactionSummary?.id"
           :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
 
       <!-- <button
@@ -301,14 +302,14 @@ export default {
 
     onSuccessfulPayment: function(response) {
       this.modalShow = false;
-      ToNote.put(`/transactions/${this.payment_gateway === "Paystack"
+      ToNote.put(`/transactions/${this.payment_gateway?.name === "Paystack"
         ? response.reference
-        : this.payment_gateway === "Flutterwave"
+        : this.payment_gateway?.name === "Flutterwave"
         ? response.tx_ref
         : null}`,
         
         {
-        payment_gateway: this.payment_gateway,
+        payment_gateway: this.payment_gateway?.name,
       })
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
@@ -374,7 +375,7 @@ openFlutterwave() {
    const hold = this.onSuccessfulPayment
   useFlutterwave(
     {
-    amount: this.transactionSummary?.total,
+    amount: this.payment_gateway?.total,
     // callback(data) {
     //   // console.log(data);
     //   this.onSuccessfulPayment(data)
