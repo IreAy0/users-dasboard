@@ -22,25 +22,25 @@
     <div  class="payment__options gap-2">
       <label
         v-for="paymentGateway in paymentGateways"
-        :key="paymentGateway.id"
+        :key="paymentGateway?.id"
         class="payment__option"
-        :for="paymentGateway.gateway.name"
+        :for="paymentGateway?.name"
       >
         <input
           name="payment_gateway"
           v-model="payment_gateway"
-          :value="paymentGateway.gateway.name"
+          :value="paymentGateway"
           type="radio"
-          :id="paymentGateway.gateway.name"
+          :id="paymentGateway?.name"
         />
         <div class="payment__option-content">
           <img
             loading="lazy"
-            :src="paymentGateway.gateway.file"
-            :alt="paymentGateway.gateway.name"
+            :src="paymentGateway?.file"
+            :alt="paymentGateway?.name"
           />
           <div class="payment__option-details">
-            <span> {{ paymentGateway.gateway.name }}</span>
+            <span> {{ paymentGateway?.name }}</span>
           </div>
         </div>
       </label>
@@ -59,7 +59,7 @@
     </button>
 
     <button
-      v-if="payment_gateway === 'Flutterwave'"
+      v-if="payment_gateway?.name === 'Flutterwave'"
       type="button"
       class="btn btn-primary"
       @click="openFlutterwave"
@@ -67,11 +67,11 @@
       Pay now
     </button>
     <paystack
-      v-if="payment_gateway === 'Paystack'"
+      v-if="payment_gateway?.name === 'Paystack'"
       buttonText="Pay now"
       :publicKey="publicKey"
       :email="email"
-      :amount="amount"
+      :amount="payment_gateway?.total * 100"
       :reference="transactionable_id"
       :onSuccess="onSuccessfulPayment"
       :onCanel="onCancelledPayment"
@@ -95,6 +95,8 @@ const emits = defineEmits(["nextStep", "prevStep", "resetStep"]);
 const paymentGateways = computed(
   () => store.state.AffidavitModule.paymentGateways
 );
+console.log(paymentGateways)
+
 const transactionable_id = computed(
   () => store.state.AffidavitModule.transactionable_id
 );
@@ -102,11 +104,11 @@ const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE
 const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
 const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
-const payment_gateway = ref("");
+const payment_gateway = ref({});
 const userProfile = computed(() => store.state.ProfileModule.userProfile);
 const fetching = computed(() => store.state.AffidavitModule.fetching)
 const publicKey = payStackKey;
-const amount = 800000;
+const amount = payment_gateway?.value?.amount;
 const email = userProfile.value.email;
 const firstName = userProfile.value.first_name;
 const lastName = userProfile.value.last_name;
@@ -115,12 +117,12 @@ const phone = userProfile.value.phone;
 const onSuccessfulPayment = (response) => {
   const data = {
     id:
-      payment_gateway.value === "Paystack"
+      payment_gateway.value?.name === "Paystack"
         ? response.reference
-        : payment_gateway.value === "Flutterwave"
+        : payment_gateway.value?.name === "Flutterwave"
         ? response.tx_ref
         : null,
-    payment_gateway: payment_gateway.value,
+    payment_gateway: payment_gateway.value?.name,
   };
   store.dispatch("AffidavitModule/put_notaryrequesttransaction", data);
   emits("nextStep");
@@ -139,7 +141,7 @@ const onCancelledPayment = () => {
 function openFlutterwave() {
 
   useFlutterwave({
-    amount: 8000,
+    amount: payment_gateway?.value?.total,
    
     country: "NG",
     currency: "NGN",
