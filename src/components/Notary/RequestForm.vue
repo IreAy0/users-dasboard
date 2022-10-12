@@ -3,11 +3,43 @@
     <div class="my-2">
       <label class="form-label" for="document_type">Title *</label>
       <input type="text" class="form-control" id="document_type" placeholder="Enter document title"
-        :style="error_message.title && 'border: 1px solid red'" v-model="form_data.title"
+        :style="error_message.title && 'border: 1px solid red'"  v-model="form_data.title"
         @change="error_message.title = null" />
     </div>
 
-    <div @change="selectedFile" @drop.prevent="drop" @dragenter.prevent="toggleActive" @dragleave.prevent="toggleActive"
+    <DropZone @drop.prevent="drop" @change="selectedFile">
+              <template #format>
+               Upload PDF only
+              
+              </template>
+              
+              <template #input>
+                <input type="file" id="dropzoneFile" multiple class="dropzoneFile" accept=".pdf" />
+              </template>
+    </DropZone>
+
+    <div class="card mb-1 mt-50 shadow-none border d-flex" v-for="(prev, index) in previewFile" :key="index">
+          <div class="p-50">
+            <div class="d-flex align-items-center">
+              <!-- <div class="col-auto">
+                <img data-dz-thumbnail src="@/assets/default.png" class="avatar-sm rounded bg-light" :alt="prev" />
+              </div> -->
+
+              <div class="col ps-0">
+                <!-- <a href="javascript:void(0)" class="text-muted fw-bold" data-dz-name></a> -->
+                <p class="mb-0" data-dz-size>{{ prev }}</p>
+              </div>
+
+              <div class="col-auto">
+                <a role="button" class="btn mb-0 btn-sm btn-outline-danger ds-remove filed" data-id="#document_id"
+                  data-name="fileName" @click="removeItem(index)">
+                  X
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    <!-- <div @change="selectedFile" @drop.prevent="drop" @dragenter.prevent="toggleActive" @dragleave.prevent="toggleActive"
       @dragover.prevent :class="{ 'active-dropzone': active }" class="dropzone">
       <label for="dropzoneFile" class="custom-file-upload">
         <div class="text-center">
@@ -15,20 +47,27 @@
           <h5>OR</h5>
           <h5 class="btn btn-primary">Select File</h5>
           <div class="text-muted mt-1" style="font-size: 12px">
-            <slot name="format">PDF, DOC, DOCX only</slot>
+            <slot name="format">PDF only</slot>
           </div>
           <slot name="input">
-            <input type="file" id="dropzoneFile" class="dropzoneFile" @change="error_message.file = null"
-              accept=".png, .jpg, .jpeg, .pdf, .docx, .doc" />
+            <input type="file" id="dropzoneFile" class="dropzoneFile" multiple @change="error_message.file = null"
+              accept=".pdf" />
           </slot>
         </div>
       </label>
-    </div>
-    <label v-if="error_message.file" class="text-primary small" for="error">{{
+    </div> -->
+    <label v-if="error_message.file" class="text-danger small" for="error">{{
         error_message.file
     }}</label>
     <p v-if="preview" class="text-primary">{{ preview }}</p>
+    <div class="my-2">
+      <label class="form-label" for="customer_phone">Phone Number *</label>
+      <input type="tel" class="form-control" id="customer_phone" placeholder="Enter your phone number"
+        :style="error_message.phone && 'border: 1px solid red'" v-model="form_data.phone"
+        @change="error_message.phone = null" />
+        <label v-if="error_message.phone" class="text-danger small" for="error">{{ error_message.phone }}</label>
 
+      </div>
     <div class="my-2">
       <label class="form-label" for="template">How do you want your document delivered?</label>
       <select id="template" class="form-select" aria-label="select affidavit template"
@@ -61,20 +100,28 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 import { useStore } from "vuex";
+import DropZone from "@/components/DropZone.vue";
 
 const emits = defineEmits(["nextStep", "prevStep", "resetStep"]);
 const active = ref(false);
 const dropzoneFile = ref("");
+const previewFile = ref([]);
+const dataFile = ref([]);
+dataFile.value = [];
+previewFile.value = [];
+
 const preview = ref(null);
 const isSelected = ref(false);
 const isUpload = ref(false);
 const store = useStore();
+let selectedFiles= ref("");
 
 const error = ref(true);
 const error_message = ref({
   file: null,
   delivery: null,
   address: null,
+  phone: null,
 });
 const form_data = ref({
   title: "",
@@ -82,36 +129,79 @@ const form_data = ref({
   delivery_channel: "",
   delivery_address: "",
   platform_initiated: "Web",
+  phone: "",
 });
 
 const preparedFile = (file) => {
-  let reader = new FileReader();
+  for (let i = 0; i < file.length; i++) {
+    if(file[i].size > 2097152){
+      //  alert("File is too big!");
+       error_message.value.file = "File is too big!";
+       form_data.value.title= ""
+       error.value = true;
 
-  reader.onloadend = () => {
-    form_data.value.files = [reader.result];
-  };
-  reader.readAsDataURL(file);
+        return false;
+    } else {
+      let reader = new FileReader();
+    const params = file[i];
+    reader.onloadend = () => {
+      form_data.value.files.push(reader.result);
+      if (!form_data.value.title || !form_data.value.title.trim()) {
+    form_data.value.title = params.name.split('.').slice(0, -1).join('.');
+  }
+      // form_data.value.title = params.name;
+      previewFile.value.push(params.name);
+    };
+    reader.readAsDataURL(params);
+    }
+
+   
+  }
+
   isSelected.value = true;
+  // let reader = new FileReader();
+
+  // reader.onloadend = () => {
+  //   form_data.value.files = [reader.result];
+  // };
+  // reader.readAsDataURL(file);
+  // isSelected.value = true;
 };
 
 const drop = (e) => {
   isUpload.value = true;
-  let dropFiles = (dropzoneFile.value = e.dataTransfer.files[0]);
+
+  let dropFiles = (dropzoneFile.value = e.dataTransfer.files);
+  // form_data.value.title = dropzoneFile.value[0].name.split('.').slice(0, -1).join('.');
   preparedFile(dropFiles);
-  preview.value = dropFiles.name;
+  // preview.value = dropFiles.name;
   !form_data.value.title || !form_data.value.title.trim()
-    ? (form_data.value.title = dropFiles.name)
+    ? (form_data.value.title = dropzoneFile.value[0].name.split('.').slice(0, -1).join('.'))
     : null;
 };
 
-const selectedFile = () => {
-  isUpload.value = true;
-  let dropFiles = (dropzoneFile.value =
-    document.querySelector(".dropzoneFile").files[0]);
+const selectedFile = (e) => {
+  let dropFiles = (dropzoneFile.value = e.target.files);
   preparedFile(dropFiles);
-  preview.value = dropFiles.name;
-  if (!form_data.value.title || !form_data.value.title.trim()) {
-    form_data.value.title = dropFiles.name;
+  isSelected.value = true;
+
+  isUpload.value = true;
+  selectedFiles = e.target.files;
+
+  // let dropFiles = (dropzoneFile.value = document.querySelector(".dropzoneFile").files[0]);
+    // console.log( document.querySelector(".dropzoneFile").files)
+  // preparedFile(dropFiles);
+  // form_data.value.title = dropFiles[0].name.split('.').slice(0, -1).join('.')
+  // preview.value = dropFiles.name;
+ 
+};
+
+const removeItem = (index) => {
+  previewFile.value.splice(index, 1);
+  dataFile.value.splice(index, 1);
+  if (previewFile.value.length == 0) {
+    form_data.value.title = "";
+    isSelected.value = false;
   }
 };
 
@@ -135,6 +225,25 @@ const SubmitHandler = () => {
     error.value = false;
   }
 
+  if (
+    !form_data.value.phone ||
+    !form_data.value.phone.trim()
+  ) {
+    error_message.value.phone = "This field is required";
+    error.value = true;
+  } else if(
+    // check if value is not a number
+    isNaN(form_data.value.phone) ||
+    form_data.value.phone.length < 11 
+  ) {
+    error_message.value.phone = "Invalid phone number";
+    error.value = true;
+  }
+  else {
+    error_message.value.delivery = null;
+    error.value = false;
+  }
+
   if (form_data.value.delivery_channel === "Address") {
     if (
       !form_data.value.delivery_address ||
@@ -153,12 +262,14 @@ const SubmitHandler = () => {
   }
 
   if (
-    !error_message.value.title &&
+    !error_message.value.title && 
+    !error_message.value.phone && 
     !error_message.value.file &&
     !error_message.value.delivery &&
     !error_message.value.address
   ) {
     emits("nextStep");
+    // console.log(form_data.value);
     store.dispatch("AffidavitModule/post_notaryrequestform", {
       ...form_data.value,
     });

@@ -56,8 +56,7 @@ const actions = {
   ALL_PAYMENTGATEWAYS({ commit }) {
     getPaymentGatways()
       .then((res) => {
-
-        commit("setPaymentGateways", res.data.data);
+        // commit("setPaymentGateways", res.data.data);
       })
       .catch(function () {
 
@@ -68,10 +67,13 @@ const actions = {
     commit("fetchtransactionable_id");
     postNotaryRequestForm(payload)
       .then((res) => {
+        commit("setPaymentGateways", res.data.data.payment_methods);
         commit("SET_TRANSACTIONABLE_ID", res.data.data.id);
+
       })
-      .catch(function () {
-        // console.log(error);
+      .catch(function (error) {
+        console.log(error);
+        
       });
   },
 
@@ -79,7 +81,7 @@ const actions = {
     commit("fetchtransactionable_id");
     postAffidavitRequestForm(payload)
       .then((res) => {
-       
+        commit("setPaymentGateways", res.data.data.payment_methods);
         commit("SET_TRANSACTIONABLE_ID", res.data.data.id);
       })
       .catch(function () {

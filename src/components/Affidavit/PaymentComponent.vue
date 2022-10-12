@@ -17,18 +17,19 @@
   <div class="orbit"></div>
 </div>
     </div>
+   
       <div v-if="fetching == false">
  <p class="h5 fw-bold my-2">Select payment option</p>
 
     <div class="payment__options gap-2">
       <label v-for="paymentGateway in paymentGateways" :key="paymentGateway.id" class="payment__option"
-        :for="paymentGateway.gateway.name">
-        <input name="payment_gateway" v-model="payment_gateway" :value="paymentGateway.gateway.name" type="radio"
-          :id="paymentGateway.gateway.name" />
+        :for="paymentGateway.name">
+        <input name="payment_gateway" v-model="payment_gateway" :value="paymentGateway" type="radio"
+          :id="paymentGateway.name" />
         <div class="payment__option-content">
-          <img loading="lazy" :src="paymentGateway.gateway.file" :alt="paymentGateway.gateway.name" />
+          <img loading="lazy" :src="paymentGateway.file" :alt="paymentGateway.name" />
           <div class="payment__option-details">
-            <span> {{ paymentGateway.gateway.name }}</span>
+            <span> {{ paymentGateway.name }}</span>
           </div>
         </div>
       </label>
@@ -46,12 +47,12 @@
     <button @click="emits('prevStep')" type="button" class="btn-secondary btn">
       Back
     </button>
-    <paystack v-if="payment_gateway === 'Paystack'" buttonText="Pay now" :publicKey="publicKey" :email="email"
-      :amount="amount" :reference="transactionable_id" :onSuccess="onSuccessfulPayment" :onCanel="onCancelledPayment"
+    <paystack v-if="payment_gateway?.name === 'Paystack'" buttonText="Pay now" :publicKey="publicKey" :email="email"
+      :amount="payment_gateway?.total * 100" :reference="transactionable_id" :onSuccess="onSuccessfulPayment" :onCanel="onCancelledPayment"
       class="btn btn-primary">
     </paystack>
 
-    <button v-if="payment_gateway === 'Flutterwave'" type="button" class="btn btn-primary" @click="openFlutterwave">
+    <button v-if="payment_gateway?.name === 'Flutterwave'" type="button" class="btn btn-primary" @click="openFlutterwave">
       Pay now
     </button>
   </div>
@@ -80,26 +81,28 @@ const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE
 const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
 const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
-const payment_gateway = ref("");
+const payment_gateway = ref({});
 const userProfile = computed(() => store.state.ProfileModule.userProfile);
 const fetching = computed(() => store.state.AffidavitModule.fetching)
 const publicKey = payStackKey;
-const amount = 400000;
+const amount =  4000;
 const email = userProfile.value.email;
 const firstName = userProfile.value.first_name;
 const lastName = userProfile.value.last_name;
 const phone = userProfile.value.phone;
 
+
+
 const onSuccessfulPayment = (response) => {
   const data = {
     id:
-      payment_gateway.value === "Paystack"
+      payment_gateway.value.name === "Paystack"
         ? response.reference
-        : payment_gateway.value === "Flutterwave"
+        : payment_gateway.value.name === "Flutterwave"
           ? response.tx_ref
           : null,
 
-    payment_gateway: payment_gateway.value,
+    payment_gateway: payment_gateway.value.name,
   };
 
 
@@ -119,7 +122,7 @@ const onCancelledPayment = () => {
 
 function openFlutterwave() {
   useFlutterwave({
-    amount: 4000,
+    amount: payment_gateway?.value?.total,
     country: "NG",
     currency: "NGN",
     customer: {
@@ -131,12 +134,12 @@ function openFlutterwave() {
       toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
-        position:" center",
+        position: "top-right",
         dismissible: true,
         pauseOnHover: true,
       });
     },
-    payment_options: "card, mobilemoneyghana, ussd",
+    payment_options: "card, ussd",
     public_key: flutterwaveKey,
     // redirect_url: redirect_url+ '/admin/payment-confirmation',
     tx_ref: transactionable_id.value,
@@ -150,9 +153,9 @@ function openFlutterwave() {
   });
 }
 
-onMounted(() => {
-  store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS");
-});
+// onMounted(() => {
+//   store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS");
+// });
 </script>
 
 <style>
