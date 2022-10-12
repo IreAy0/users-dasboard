@@ -26,10 +26,14 @@
                   <!-- modal vertical center -->
 
                   <div class="table-responsive">
-                    <b-table :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
+                    <b-table 
+                    striped 
+                    hover  
+                    per-page="10"
+                    :current-page="currentPage" :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
                       <template #cell(status)="data">
                         <span
-                          :class="{ 'bg-success ': data.item.status === 'Completed', 'bg-danger ': data.item.status === 'Cancelled', 'bg-warning ': data.item.status === 'Pending', 'bg-primary ': data.item.status === 'New' }"
+                          :class="{ 'bg-success ': data.item.status === 'Completed', 'bg-danger ': data.item.status === 'Cancelled', 'bg-warning ': data.item.status === 'Awaiting', 'bg-warning ': data.item.status === 'Processing', 'bg-primary ': data.item.status === 'New' }"
                           class="text-white px-1 rounded-pill">{{ data?.item?.status }}</span>
                       </template>
 
@@ -47,6 +51,13 @@
                         </div>
                       </template>
                     </b-table>
+                    <b-pagination
+                    class="my-2"
+              v-model="currentPage"
+              :total-rows="filteredItems?.length"
+              :per-page="10"
+              aria-controls="myTable"
+            ></b-pagination>
                   </div>
                 </div>
               </div>
@@ -68,7 +79,11 @@ export default {
   components: { MainLayout },
   data() {
     return {
-      fields: ["title", 'type', "status", 'created', "action"],
+      perPage: 10,
+      currentPage: 1,
+      fields: [
+        "title", 'type', "status", { key: 'created', label: 'created at', sortable : true}, "action"
+      ],
       searchValue: ""
     }
   },

@@ -180,8 +180,14 @@
             <h5 class="mb-0">History</h5>
           </div>
           <div class="payment-card justify-content-between mb-1 mt-2">
-
-            <b-table striped hover :items="transactions ? transactions : []" :fields="fields">
+            <b-table 
+            striped 
+            hover 
+            per-page="10"
+            :current-page="currentPage"
+            :items="transactions|| []"
+            :fields="fields"
+            >
               <template #cell(created_at)="data">
                 <div>
                   <p class="mb-0">{{ formatDate(data?.item?.created_at) }}</p>
@@ -189,12 +195,18 @@
               </template>
               <template #cell(total)="data">
                 <div>
-                  <p class="mb-0">₦{{ data?.item?.total?.toLocaleString("en-US") }}</p>
+                  <p class="mb-0">₦{{data?.item?.total?.toLocaleString("en-US")}}</p>
                 </div>
               </template>
             </b-table>
-
-
+           
+            <b-pagination
+              class="my-2"
+              v-model="currentPage"
+              :total-rows="transactions?.length"
+              :per-page="perPage"
+              aria-controls="myTable"
+            ></b-pagination>
           </div>
         </div>
       </b-tab>
@@ -203,13 +215,11 @@
 </template>
 <script>
 import ToNote from "@/Services/Tonote";
-import { ref } from "vue";
 import paystack from "vue3-paystack";
 import { useFlutterwave,  } from "flutterwave-vue3";
 import { useToast } from "vue-toast-notification";
 import { dateFormat } from "@/Services/helpers";
 import { mapActions, mapState } from "vuex";
-import { map } from "lodash";
 import store from "@/store";
 // const individualSelected = ref();
 
@@ -235,15 +245,27 @@ export default {
       pageLength: 3,
       individualSelected: '',
       transactionSummary: {},
-      perPage: [10, 20, 30, 40, 50],
+      perPage: 10,
+      currentPage: 1,
       plans: {},
       fields: [
         { label: "Date", key: "created_at" },
-        { label: "Amount", key: "total" },
-        { label: "Status", key: "status" },
+        { label: "Amount", key: "total", sortable: true },
+        { label: "Status", key: "status",},
+        // { label: "Status", key: "status" },
         // {label: "Type", key: "payment_gateway" },
       ],
-      items: [],
+      items: [
+          { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
+          { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
+          { id: 3, first_name: 'Barney', last_name: 'Rubble' },
+          { id: 4, first_name: 'Betty', last_name: 'Rubble' },
+          { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
+          { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
+          { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
+          { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
+          { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' }
+      ],
 
 
     };
@@ -252,7 +274,9 @@ export default {
     ...mapState("TeamsModule", ["Teams", "subcriptions"]),
     ...mapState('ProfileModule', ['userProfile', 'transactions']),
     ...mapState('AffidavitModule', ['paymentGateways']),
-    
+    rows() {
+        return this.items.length
+      },
 
     getEmail() {
       return this?.userProfile?.email
@@ -276,6 +300,8 @@ export default {
 
   methods: {
         ...mapActions("AffidavitModule", ["ALL_PAYMENTGATEWAYS"]),
+        // ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', 'getTransactions']),
+
     formatDate: dateFormat,
 
     showModal() {
@@ -413,8 +439,10 @@ openFlutterwave() {
 
   mounted() {
     this.ALL_PAYMENTGATEWAYS();
+    // this.getTransactions();
     this.$store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS")
-   
+   this.$store.dispatch("ProfileModule/getTransactions");
+    this.to
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://www.credocentral.com/inline.js')
       document.head.appendChild(recaptchaScript)
