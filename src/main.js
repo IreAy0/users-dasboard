@@ -13,6 +13,7 @@ import Vue3EasyDataTable from "vue3-easy-data-table";
 import "vue3-easy-data-table/dist/style.css";
 import "vue-toast-notification/dist/theme-sugar.css";
 import MaterialDashboard from "./material-dashboard";
+// import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
 
 const appInstance = createApp(App);
@@ -25,5 +26,5 @@ appInstance.use(BootstrapVue3)
 appInstance.use(VueSignaturePad)
 appInstance.use(ToastPlugin)
 appInstance.use(Flutterwave)
-appInstance.component("EasyDataTable", Vue3EasyDataTable)
+// appInstance.component("EasyDataTable", Vue3EasyDataTable)
 appInstance.mount("#app");

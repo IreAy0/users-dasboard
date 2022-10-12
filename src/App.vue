@@ -13,7 +13,7 @@ export default {
   methods: {
     ...mapMutations("MenuModule", ["toggleConfigurator", "navbarMinimize"]),
     ...mapActions('TeamsModule', ['getTeams', 'getTeamUsers', 'getSubcriptions']),
-    ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', 'getTransactions']),
+    ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', '']),
     ...mapActions('TeamsModule', ['logout']),
     ...mapActions('CompanyModule', ['getCompany']),
     ...mapActions('DocumentModule', ['RequestsList', 'DocumentsList']),
@@ -32,7 +32,7 @@ export default {
 
     this.getPrints();
     this.getDashboardData();
-    this.getTransactions();
+    // this.getTransactions();
     this.RequestsList();
     this.DocumentsList();
     (function () {

@@ -26,10 +26,14 @@
                   <!-- modal vertical center -->
 
                   <div class="table-responsive">
-                    <b-table :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
+                    <b-table 
+                    striped 
+                    hover  
+                    per-page="10"
+                    :current-page="currentPage" :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
                       <template #cell(status)="data">
                         <span
-                          :class="{ 'bg-success ': data.item.status === 'Completed', 'bg-danger ': data.item.status === 'Cancelled', 'bg-warning ': data.item.status === 'Pending', 'bg-primary ': data.item.status === 'New' }"
+                          :class="{ 'bg-success ': data.item.status === 'Completed', 'bg-danger ': data.item.status === 'Cancelled', 'bg-warning ': data.item.status === 'Awaiting', 'bg-warning ': data.item.status === 'Processing', 'bg-primary ': data.item.status === 'New' }"
                           class="text-white px-1 rounded-pill">{{ data?.item?.status }}</span>
                       </template>
 
@@ -38,7 +42,22 @@
                           {{ formatDate(data?.item?.created_at) }}
                         </div>
                       </template>
+                      <template #cell(action)="data">
+                        <div v-if="data?.item?.completed_file_request !== null">
+                          <a class="nav-link nav-link-style" download :href="data?.item?.completed_file_request" target="_blank">
+            <button class="btn btn-sm btn-outline-primary waves-effect" >
+              Download
+            </button></a>
+                        </div>
+                      </template>
                     </b-table>
+                    <b-pagination
+                    class="my-2"
+              v-model="currentPage"
+              :total-rows="filteredItems?.length"
+              :per-page="10"
+              aria-controls="myTable"
+            ></b-pagination>
                   </div>
                 </div>
               </div>
@@ -60,7 +79,11 @@ export default {
   components: { MainLayout },
   data() {
     return {
-      fields: ["title", 'type', "status", 'created', "action"],
+      perPage: 10,
+      currentPage: 1,
+      fields: [
+        "title", 'type', "status", { key: 'created', label: 'created at', sortable : true}, "action"
+      ],
       searchValue: ""
     }
   },
@@ -78,7 +101,34 @@ export default {
     },
   },
   methods: {
-    formatDate: dateFormat
+    formatDate: dateFormat,
+//     exportPDF(){
+//   const data = document.getElementById("mainWrapper");
+//   html2canvas(data).then((canvas) => {
+//     const imgWidth = 208;
+//     const pageHeight = 295;
+//     const imgHeight = (canvas.height * imgWidth) / canvas.width;
+//     let heightLeft = imgHeight - 10;
+//     let position = 10;
+
+//     heightLeft -= pageHeight;
+
+//     const doc = new jsPDF("p", "mm");
+
+//     doc.addImage(canvas, "PNG", 0, position, imgWidth, imgHeight, "", "FAST");
+
+//     while (heightLeft >= 0) {
+//       position = heightLeft - imgHeight;
+//       doc.addPage();
+//       doc.addImage(canvas, "PNG", 0, position, imgWidth, imgHeight, "", "FAST");
+//       heightLeft -= pageHeight;
+//     }
+
+//     // if (params == "done") { return doneDataUrl.value = canvas.toDataURL() }
+
+//     doc.save(userDocument.value.title + ".pdf");
+//   });
+// }
   },
 };
 </script>

@@ -40,42 +40,43 @@
            <p class="h5 fw-bold my-2">Select payment option</p>
     <div  class="payment__options gap-2">
       <label
-        v-for="paymentGateway in paymentGateways"
+        v-for="paymentGateway in transactionSummary?.payment_methods"
         :key="paymentGateway.id"
         class="payment__option"
-        :for="paymentGateway.gateway.name"
+        :for="paymentGateway?.name"
       >
         <input
           name="payment_gateway"
           v-model="payment_gateway"
-          :value="paymentGateway.gateway.name"
+          :value="paymentGateway"
           type="radio"
-          :id="paymentGateway.gateway.name"
+          :id="paymentGateway?.name"
         />
         <div class="payment__option-content">
           <img
             loading="lazy"
-            :src="paymentGateway.gateway.file"
-            :alt="paymentGateway.gateway.name"
+            :src="paymentGateway?.file"
+            :alt="paymentGateway?.name"
           />
           <div class="payment__option-details">
-            <span> {{ paymentGateway.gateway.name }}</span>
+            <span> {{ paymentGateway?.name }}</span>
           </div>
         </div>
       </label>
     </div>
         </b-col>
+       
       <div class="d-flex justify-content-center my-2">
   <button
-      v-if="payment_gateway === 'Flutterwave'"
+      v-if="payment_gateway?.name === 'Flutterwave'"
       type="button"
       class="btn btn-primary"
       @click="openFlutterwave"
     >
       Pay Now
     </button>
-        <paystack v-if=" payment_gateway === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey"
-          :email="getEmail" :amount="transactionSummary?.total * 100" :reference="transactionSummary?.id"
+        <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey" :email="getEmail" 
+        :amount="payment_gateway?.total * 100" :reference="transactionSummary?.id"
           :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
 
       <!-- <button
@@ -179,8 +180,14 @@
             <h5 class="mb-0">History</h5>
           </div>
           <div class="payment-card justify-content-between mb-1 mt-2">
-
-            <b-table striped hover :items="transactions ? transactions : []" :fields="fields">
+            <b-table 
+            striped 
+            hover 
+            per-page="10"
+            :current-page="currentPage"
+            :items="transactions|| []"
+            :fields="fields"
+            >
               <template #cell(created_at)="data">
                 <div>
                   <p class="mb-0">{{ formatDate(data?.item?.created_at) }}</p>
@@ -188,12 +195,18 @@
               </template>
               <template #cell(total)="data">
                 <div>
-                  <p class="mb-0">₦{{ data?.item?.total?.toLocaleString("en-US") }}</p>
+                  <p class="mb-0">₦{{data?.item?.total?.toLocaleString("en-US")}}</p>
                 </div>
               </template>
             </b-table>
-
-
+           
+            <b-pagination
+              class="my-2"
+              v-model="currentPage"
+              :total-rows="transactions?.length"
+              :per-page="perPage"
+              aria-controls="myTable"
+            ></b-pagination>
           </div>
         </div>
       </b-tab>
@@ -202,13 +215,11 @@
 </template>
 <script>
 import ToNote from "@/Services/Tonote";
-import { ref } from "vue";
 import paystack from "vue3-paystack";
 import { useFlutterwave,  } from "flutterwave-vue3";
 import { useToast } from "vue-toast-notification";
 import { dateFormat } from "@/Services/helpers";
 import { mapActions, mapState } from "vuex";
-import { map } from "lodash";
 import store from "@/store";
 // const individualSelected = ref();
 
@@ -234,15 +245,27 @@ export default {
       pageLength: 3,
       individualSelected: '',
       transactionSummary: {},
-      perPage: [10, 20, 30, 40, 50],
+      perPage: 10,
+      currentPage: 1,
       plans: {},
       fields: [
         { label: "Date", key: "created_at" },
-        { label: "Amount", key: "total" },
-        { label: "Status", key: "status" },
+        { label: "Amount", key: "total", sortable: true },
+        { label: "Status", key: "status",},
+        // { label: "Status", key: "status" },
         // {label: "Type", key: "payment_gateway" },
       ],
-      items: [],
+      items: [
+          { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
+          { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
+          { id: 3, first_name: 'Barney', last_name: 'Rubble' },
+          { id: 4, first_name: 'Betty', last_name: 'Rubble' },
+          { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
+          { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
+          { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
+          { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
+          { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' }
+      ],
 
 
     };
@@ -251,7 +274,9 @@ export default {
     ...mapState("TeamsModule", ["Teams", "subcriptions"]),
     ...mapState('ProfileModule', ['userProfile', 'transactions']),
     ...mapState('AffidavitModule', ['paymentGateways']),
-    
+    rows() {
+        return this.items.length
+      },
 
     getEmail() {
       return this?.userProfile?.email
@@ -275,6 +300,8 @@ export default {
 
   methods: {
         ...mapActions("AffidavitModule", ["ALL_PAYMENTGATEWAYS"]),
+        // ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', 'getTransactions']),
+
     formatDate: dateFormat,
 
     showModal() {
@@ -301,14 +328,14 @@ export default {
 
     onSuccessfulPayment: function(response) {
       this.modalShow = false;
-      ToNote.put(`/transactions/${this.payment_gateway === "Paystack"
+      ToNote.put(`/transactions/${this.payment_gateway?.name === "Paystack"
         ? response.reference
-        : this.payment_gateway === "Flutterwave"
+        : this.payment_gateway?.name === "Flutterwave"
         ? response.tx_ref
         : null}`,
         
         {
-        payment_gateway: this.payment_gateway,
+        payment_gateway: this.payment_gateway?.name,
       })
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
@@ -374,7 +401,7 @@ openFlutterwave() {
    const hold = this.onSuccessfulPayment
   useFlutterwave(
     {
-    amount: this.transactionSummary?.total,
+    amount: this.payment_gateway?.total,
     // callback(data) {
     //   // console.log(data);
     //   this.onSuccessfulPayment(data)
@@ -412,8 +439,10 @@ openFlutterwave() {
 
   mounted() {
     this.ALL_PAYMENTGATEWAYS();
+    // this.getTransactions();
     this.$store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS")
-   
+   this.$store.dispatch("ProfileModule/getTransactions");
+    this.to
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://www.credocentral.com/inline.js')
       document.head.appendChild(recaptchaScript)
