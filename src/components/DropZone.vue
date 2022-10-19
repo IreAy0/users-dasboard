@@ -11,7 +11,7 @@
             <slot name="format">PDF only</slot>
             <br />
             <slot name="limit">
-               <span class="">Maximum file size is 2MB</span>
+               <span class="">Maximum size 2mb per file</span>
             </slot>
           </div>
           <slot name="input">

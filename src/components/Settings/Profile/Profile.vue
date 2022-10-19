@@ -410,9 +410,9 @@ export default {
           return "ID must not be less than 11 characters";
         }
         // check if value is  a number
-        if (isNaN(value)) {
-          return "ID must be a number";
-        }
+        // if (isNaN(value)) {
+        //   return "ID must be a number";
+        // }
         return true;
       },
     }
