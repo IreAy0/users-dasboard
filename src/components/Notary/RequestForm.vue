@@ -6,8 +6,26 @@
         :style="error_message.title && 'border: 1px solid red'"  v-model="form_data.title"
         @change="error_message.title = null" />
     </div>
+    <div v-if="form_data?.files.length > 0" @change="selectedFile" >  
+      <div @dragenter.prevent="toggleActive" @dragleave.prevent="toggleActive" @dragover.prevent
+      @drop.prevent="toggleActive" :class="{ 'active-dropzone': active }" class="dropzone h-auto border border-0 d-block">
+      <label for="dropzoneFile"  role="button">
+        <div class="text-center">
+         
+          <h4 class="btn btn-primary">Select More</h4>
+          
+          <slot name="input">
+            <input type="file" id="dropzoneFile" multiple class="dropzoneFile" />
+          </slot>
+        </div>
+      </label>
+    </div>
+      
+      <!-- <input class="btn btn-primary dropzoneFile" type="file" @change="selectedFile" hidden id="dropzoneFile" multiple  accept=".pdf" /> -->
+      <!-- <h4  class="btn btn-primary">Select File</h4> -->
+    </div>
 
-    <DropZone @drop.prevent="drop" @change="selectedFile">
+    <DropZone v-else  @drop.prevent="drop" @change="selectedFile">
               <template #format>
                Upload PDF only
               
@@ -17,7 +35,7 @@
                 <input type="file" id="dropzoneFile" multiple class="dropzoneFile" accept=".pdf" />
               </template>
     </DropZone>
-
+    
     <div class="card mb-1 mt-50 shadow-none border d-flex" v-for="(prev, index) in previewFile" :key="index">
           <div class="p-50">
             <div class="d-flex align-items-center">
@@ -146,6 +164,7 @@ const preparedFile = (file) => {
     const params = file[i];
     reader.onloadend = () => {
       form_data.value.files.push(reader.result);
+
       if (!form_data.value.title || !form_data.value.title.trim()) {
     form_data.value.title = params.name.split('.').slice(0, -1).join('.');
   }
@@ -198,12 +217,19 @@ const selectedFile = (e) => {
 
 const removeItem = (index) => {
   previewFile.value.splice(index, 1);
+  form_data.value.files.splice(index, 1)
+  console.log(form_data.value.files, 'files')
   dataFile.value.splice(index, 1);
   if (previewFile.value.length == 0) {
+    form_data.value.files= []
+    dataFile.value = [];
+    previewFile.value = [];
     form_data.value.title = "";
     isSelected.value = false;
   }
 };
+
+
 
 const SubmitHandler = () => {
   if (!form_data.value.files || form_data.value.files.length === 0) {
