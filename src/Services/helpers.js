@@ -23,8 +23,9 @@ export const saveToken = (userToken) => {
 };
 
 export const removeToken = () => {
+
   sessionStorage.removeItem("token");
-  // window.location.reload(false);
+  window.location.reload(false);
 };
 
 // export const getToken = () => {

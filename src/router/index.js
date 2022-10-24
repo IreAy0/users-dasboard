@@ -165,7 +165,7 @@ const router = createRouter({
 
 
 router.beforeEach(async (to, from, next) => {
-
+  
   // await  store.dispatch("ProfileModule/getUser");
   if (to.fullPath?.includes("admin") && isAuthenticated() == false) {
     next("/");

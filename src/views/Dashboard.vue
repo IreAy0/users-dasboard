@@ -268,7 +268,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import AffidavitModal from "../components/Affidavit/AffidavitModal.vue";
 import RequestNotaryModal from "@/components/Notary/RequestNotaryModal.vue";
 import DocumentsList from "@/components/Admin/Document/DocumentList.vue";
@@ -297,7 +297,13 @@ export default {
   methods: {
     ...mapActions("ProfileModule", ["getUser"]),
     ...mapActions("AuthModule", ["logout"]),
-
+    ...mapMutations("MenuModule", ["toggleConfigurator", "navbarMinimize"]),
+    ...mapActions('TeamsModule', ['getTeams', 'getTeamUsers', 'getSubcriptions']),
+    ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', '']),
+    ...mapActions('TeamsModule', ['logout']),
+    ...mapActions('CompanyModule', ['getCompany']),
+    ...mapActions('DocumentModule', ['RequestsList', 'DocumentsList']),
+    
     openNav() {
       this.navOpen = !this.navOpen;
     },
@@ -308,6 +314,17 @@ export default {
    
   },
   mounted: function () {
+    this.getUser();
+    this.getCompany();
+    this.getTeams();
+    this.getSubcriptions();
+
+
+    this.getPrints();
+    this.getDashboardData();
+    // this.getTransactions();
+    this.RequestsList();
+    this.DocumentsList();
     this.getUser();
   },
 
