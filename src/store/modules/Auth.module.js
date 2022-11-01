@@ -29,14 +29,16 @@ const actions = {
     commit("registerRequest", user);
     auth.Register(user).then(
       (user) => {
-       
-        const email = localStorage.getItem("user");
+        if(user){
+          const email = localStorage.getItem("user");
         
-        commit("registerSuccess", user);
-
-        setTimeout(() => {
-          router.push("/verify?email=" + email);
-        });
+          commit("registerSuccess", user);
+  
+          setTimeout(() => {
+            router.push("/verify?email=" + email);
+          });
+        }
+        
       },
       (error) => {
        
@@ -89,22 +91,21 @@ const actions = {
     commit("loginRequest", user);
     auth.Login(user).then(
       (user) => {
-        saveToken(user?.data?.token);
-        commit("loginSuccess", user);
-
+        if(user){
+          saveToken(user?.data?.token);
+          commit("loginSuccess", user);
+          router.push("/admin/dashboard");
+        }
+       
         //  dispatch("ProfileModule/getUser", { root: true });
         //  store.dispatch("ProfileModule/getUser", { root: true });
-        router.push("/admin/dashboard");
-
+       
         // setTimeout(() => {
-
-
         // }, 2000);
-
       },
       (error) => {
         commit("loginFailure", error);
-
+        console.log(error, 'error')
       }
     );
   },
