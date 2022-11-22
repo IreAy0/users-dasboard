@@ -99,8 +99,7 @@
       </select>
       <label v-if="error_message.delivery" class="text-danger small" for="error">{{ error_message.delivery }}</label>
     </div>
-
-    <div data-aos="fade-down" v-if="form_data.delivery_channel === 'Address'" class="my-2">
+    <div v-if="form_data.delivery_channel === 'Address'" class="my-2">
       <label class="form-label" for="template">Enter your address</label>
       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Address"
         v-model="form_data.delivery_address" @change="error_message.address = null"

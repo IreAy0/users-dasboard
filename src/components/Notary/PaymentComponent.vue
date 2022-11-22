@@ -6,7 +6,7 @@
       </div>
       <div class="shadow-lg text-center p-2 price__display">
         <span>Transaction cost</span>
-        <p class="h3 text-primary fw-bolder my-0 py-0">&#8358; 8000</p>
+        <p class="h3 text-primary fw-bolder my-0 py-0">&#8358; {{getActive()?.subscription?.plan?.name == 'Business' || getActive?.subscription?.plan?.name == 'Pro' ? 5000 : 8000}}</p>
         <!-- <span class="small">per document</span> -->
       </div>
     </div>
@@ -97,6 +97,9 @@ const paymentGateways = computed(
 );
 console.log(paymentGateways)
 
+const Teams = computed(() => store.state.TeamsModule.Teams)
+
+
 const transactionable_id = computed(
   () => store.state.AffidavitModule.transactionable_id
 );
@@ -113,6 +116,13 @@ const email = userProfile.value.email;
 const firstName = userProfile.value.first_name;
 const lastName = userProfile.value.last_name;
 const phone = userProfile.value.phone;
+
+const getActive = () => {
+      const active = Teams?.value?.find((element) => element.active == true);
+      return active;
+}
+
+console.log(getActive(), 'getActive')
 
 const onSuccessfulPayment = (response) => {
   const data = {

@@ -24,8 +24,8 @@
           <div id="coy_number" :class="sealColor"></div>
           <img class="" width="380" height="380" :src="`/assets/images/company-seal-${sealColor}.png`"
             alt="company seal" />
-          <canvas id="canvas" width="300" height="300" style="
-              transform: translate(-48%, -50%);
+          <canvas id="canvas" width="300" height="300" 
+          style="transform: translate(-48%, -50%);
               position: absolute;
               top: 50%;
               left: 203px;
@@ -80,13 +80,13 @@
           </label>
 
           <div class="preview">
-            <img v-if="data.file" :src="data.file" class="img-fluid" alt="Seal" />
+            <img v-if="data?.file" :src="data?.file" class="img-fluid" alt="Seal" />
           </div>
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-md-start align-items-center">
-      <img v-for="seal in companySeals" :key="seal.id" :src="seal.file" class="img-fluid m-2" alt="Seal" width="120"
+      <img v-for="seal in companySeals" :key="seal?.id" :src="seal?.file" class="img-fluid m-2" alt="Seal" width="120"
         height="auto" />
     </div>
     <div class="d-flex justify-content-end align-items-center">
@@ -101,7 +101,7 @@
         </span>
       </button>
 
-      <button type="button" class="btn btn-primary d-block  mt-2" @click="onSaveSignature" :disabled="!data.file">
+      <button type="button" class="btn btn-primary d-block  mt-2" @click="onSaveSignature" :disabled="!data?.file">
 
         <span v-show="updating == true" class="spinner-border spinner-border-sm"></span>
         <span>save</span>
@@ -141,12 +141,13 @@ const r = 111;
 const space = Math.PI / 12;
 
 const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
-  const canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d");
+  const canvas = document?.getElementById("canvas"),
+    ctx = canvas?.getContext("2d");
 
-  draw3dText(ctx, "", canvas.width / 2, 120, 5);
-  ctx.font = "normal " + fontSize + " arial ";
-  ctx.beginPath();
+  draw3dText(ctx, "", canvas?.width / 2, 120, 5);
+  if(ctx){
+    ctx.font = "normal " + fontSize + " arial ";
+    ctx.beginPath();
   ctx.arc(160, 150, r, 0, Math.pow(r, 2), false);
   ctx.fillStyle =
     sealColor.value === "grey"
@@ -161,7 +162,7 @@ const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
 
   ctx.clearRect(0, top ? 0 : y, 600, y);
   space = space || 0;
-  const numRadsPerLetter = (Math.PI - space * 2) / text.length;
+  const numRadsPerLetter = (Math.PI - space * 2) / text?.length;
   ctx.save();
   ctx.translate(x, y);
 
@@ -180,13 +181,16 @@ const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
   }
   base64Url.value = canvas.toDataURL("image/png");
   ctx.restore();
+  }
+  
+  
 };
 
 const onSaveSignature = () => {
 
   loading_save.value = true;
 
-  store.dispatch("CompanyModule/setCompanySeal", data.value);
+  store.dispatch("CompanyModule/setCompanySeal", data?.value);
 
   loading_save.value = false;
 };
@@ -194,19 +198,22 @@ const onSaveSignature = () => {
 const draw3dText = (context, text, x, y, textDepth) => {
   let n;
   for (n = 0; n < textDepth; n++) {
-    context.fillText(text, x - n, y - n);
+    context?.fillText(text, x - n, y - n);
   }
   // context.shadowColor = "#000";
-  context.shadowBlur = 2;
+  if(context){
+    context.shadowBlur = 2;
   context.shadowOffsetX = textDepth + 2;
   context.shadowOffsetY = textDepth + 2;
   context.fillText(text, x - n, y - n);
+  }
+  
 };
 
 const captureSeal = () => {
   loading.value = true;
   domToImage
-    .toPng(capture.value)
+    .toPng(capture?.value)
     .then((dataUrl) => {
       data.value = {
         file: dataUrl,
@@ -248,8 +255,11 @@ watch(company, (newValue, oldValue) => {
         updateCanvas(newCnv, 130.5, 144, r, space, 1, "20px");
       }
       if (newcol != oldcol) {
-        const coy_number = document.getElementById("coy_number");
-        coy_number.innerText = newCoy;
+        const coy_number = document?.getElementById("coy_number");
+        if(coy_number){
+          coy_number.innerText = newCoy;
+        }
+        
       }
       if (newcol != oldcol) {
         updateCanvas(newCnv2, 130.5, 155, r, space, 0, "1.125em");
@@ -283,7 +293,10 @@ onMounted(() => {
   updateCanvas(text_cnv?.value, 130.5, 144, r, space, 1, "20px");
   updateCanvas(text_cnv2?.value, 130.5, 155, r, space, 0, "1.125em");
   const coy_number = document.getElementById("coy_number");
-  coy_number.innerText = text_horizontal?.value;
+  if(coy_number) {
+    coy_number.innerText = text_horizontal?.value;
+  }
+  
   store.dispatch("CompanyModule/listCompanySeals");
 });
 </script>

@@ -1,6 +1,6 @@
 <template>
 
-  <div class=" grid" v-if="loading == true">
+  <div class="grid" v-if="loading == true">
     <Preloader />
   </div>
   <div v-else class="h-100">
