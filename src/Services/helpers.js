@@ -17,6 +17,11 @@ export const dateFormat = (date) => {
     return moment(date).format("Do MMMM YYYY");
   }
 }
+
+export const mask = (cc, num = 4, mask = '*') =>
+  ('' + cc).slice(0, -num).replace(/./g, mask) + ('' + cc).slice(-num);
+
+
 export const saveToken = (userToken) => {
   sessionStorage.setItem("token", JSON.stringify(userToken));
   // setToken(userToken.token);

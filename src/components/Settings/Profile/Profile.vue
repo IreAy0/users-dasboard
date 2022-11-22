@@ -107,8 +107,8 @@
               <Field name="country" as="select" @change="getStates(country)" v-model="country"
                 class="select2 w-100 form-select" id="country">
                 <option value="">Please select a country</option>
-                <option :key="option" :selected="option.id === country ? true : false" v-for="option in countries"
-                  :value="option.id">{{ option.name }}</option>
+                <option :key="option" :selected="option?.id === country ? true : false" v-for="option in countries"
+                  :value="option?.id">{{ option?.name }}</option>
 
               </Field>
 
@@ -118,8 +118,8 @@
               <label class="form-label" for="state">State of Residence</label>
               <Field name="state" as="select" v-model="state" class="select2 w-100 form-select" id="state">
                 <option value="" disabled>Please select a state</option>
-                <option :key="option" :selected="option.id === state ? true : false" v-for="option in states"
-                  :value="option.id">{{ option.name }}</option>
+                <option :key="option" :selected="option?.id === state ? true : false" v-for="option in states"
+                  :value="option?.id">{{ option?.name }}</option>
 
               </Field>
               <ErrorMessage name="state" class="text-danger " />
@@ -183,10 +183,10 @@
             <b-col>
               <label class="form-label" for="bvn">ID Number</label>
               <div>
-
+                 
               </div>
               <div class="input-group relative ">
-                <Field placeholder="12345678910" name="registration_company_number" v-model="profile.identity_number" :disabled="validState === true"
+                <Field placeholder="12345678910" name="registration_company_number" v-model="maskedNumber" :disabled="validState === true"
                   id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" />
                 <span v-if="validState" class="position-absolute end-0  px-1" :style="{ top: '7px' }">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -290,6 +290,7 @@ import Signature from "@/components/Signature/Signature.vue";
 import ToNote from "@/Services/Tonote";
 import { mapActions, mapGetters, mapState } from "vuex";
 import { useToast } from "vue-toast-notification";
+import { mask} from '@/Services/helpers';
 
 const toast = useToast();
 // const store = useStore()
@@ -404,7 +405,7 @@ export default {
           return "ID number is required";
         }
         if (value.length > 12) {
-          return "ID must not be more than 11 characters";
+          return "ID must not be more than 1 characters";
         }
         if(value.length < 11){
           return "ID must not be less than 11 characters";
@@ -453,8 +454,15 @@ export default {
 
       return country_id;
     },
+    maskedNumber(){
+      console.log(this.userProfile, this.profile)
+      if(this.profile?.identity_number){
+        return  mask(this.profile?.identity_number)
+        
+      } 
+      return this.profile?.identity_number
+    }
   },
-
 
   methods: {
 
@@ -464,11 +472,10 @@ export default {
 
     },
     getStates(country) {
-
       ToNote.get(`/countries/${country}`)
         .then(res => {
 
-          this.states = res.data.data;
+          this.states = res?.data?.data;
         })
     },
 
@@ -534,23 +541,21 @@ export default {
       this.state = res?.data?.data?.state?.id;
       this.country = res?.data?.data?.country?.id;
 
-      this.getStates(this.country)
+      this.getStates(this?.country)
     });
 
     ToNote.get("/countries").then((res) => {
       this.countries = res?.data?.data;
-
     });
   },
   created() {
-    if (this.profile) {
-      ToNote.get(`/countries/${this.country}`).then((res) => {
+    if (this?.profile) {
+      ToNote.get(`/countries/${this?.country}`).then((res) => {
         this.states = res?.data?.data;
        
       });
     }
-
-  },
+  }
 };
 </script>
 

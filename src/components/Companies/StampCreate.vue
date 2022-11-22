@@ -107,7 +107,7 @@ const address = ref("");
 const phone = ref("");
 const email = ref("");
 const data = ref("");
-const companyStamps = computed(() => store.state.CompanyModule.getCompanyStamp);
+const companyStamps = computed(() => store?.state?.CompanyModule?.getCompanyStamp);
 const company = computed(() => store?.state?.CompanyModule?.companyProfile || {});
 const props = defineProps(["getActiveUser"]);
 const emit = defineEmits(["close"]);
@@ -149,10 +149,10 @@ watch(company, (newValue, oldValue) => {
   onBeforeMount(() => {
     ToNote.get("/company")
       .then((res) => {
-        name.value = res.data.data.company_name;
-        address.value = res.data.data.address;
-        phone.value = res.data.data.phone;
-        email.value = res.data.data.email;
+        name.value = res?.data?.data?.company_name;
+        address.value = res?.data?.data?.address;
+        phone.value = res?.data?.data?.phone;
+        email.value = res?.data?.data?.email;
       })
       .catch((err) => {
       });
