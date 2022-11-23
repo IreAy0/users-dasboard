@@ -217,7 +217,7 @@ const selectedFile = (e) => {
 const removeItem = (index) => {
   previewFile.value.splice(index, 1);
   form_data.value.files.splice(index, 1)
-  console.log(form_data.value.files, 'files')
+  // console.log(form_data.value.files, 'files')
   dataFile.value.splice(index, 1);
   if (previewFile.value.length == 0) {
     form_data.value.files= []

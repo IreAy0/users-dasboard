@@ -46,7 +46,6 @@ const actions = {
   async getDashboardData({ commit }) {
     await profile.getDashboardData().then(
       (data) => {
-        console.log(data, 'action')
         commit("getDashboardDataSuccess", data?.data)
       },
       error => {

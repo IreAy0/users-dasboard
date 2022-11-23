@@ -186,8 +186,17 @@
                  
               </div>
               <div class="input-group relative ">
-                <Field placeholder="12345678910" name="registration_company_number" v-model="maskedNumber" :disabled="validState === true"
+                <template v-if="profile.identity_number == null ">
+
+               
+               <Field placeholder="12345678910" name="registration_company_number" v-model="profile.identity_number" :disabled="validState === true"
+                  id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" /> 
+
+                </template>
+                <template v-else>
+                  <Field placeholder="12345678910" name="registration_company_number" v-model="maskedNumber" :disabled="validState === true"
                   id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" />
+                </template>
                 <span v-if="validState" class="position-absolute end-0  px-1" :style="{ top: '7px' }">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                     class="bi bi-check-lg text-success" viewBox="0 0 16 16">
@@ -405,10 +414,10 @@ export default {
           return "ID number is required";
         }
         if (value.length > 12) {
-          return "ID must not be more than 1 characters";
+          return "ID must not be more than 12 characters";
         }
-        if(value.length < 11){
-          return "ID must not be less than 11 characters";
+        if(value.length < 10){
+          return "ID must not be less than 10 characters";
         }
         // check if value is  a number
         // if (isNaN(value)) {
@@ -455,12 +464,12 @@ export default {
       return country_id;
     },
     maskedNumber(){
-      console.log(this.userProfile, this.profile)
+      // console.log(this.userProfile, this.profile)
       if(this.profile?.identity_number){
         return  mask(this.profile?.identity_number)
         
       } 
-      return this.profile?.identity_number
+      return this.profile?.identity_number;
     }
   },
 
@@ -504,7 +513,7 @@ export default {
       this.verifying = true;
       ToNote.post("/verify/user", {
         type: this.profile.identity_type,
-        value: this.profile.identity_number,
+        value: this.maskedNumber,
       })
         .then((res) => {
           if (res.status == 200) {

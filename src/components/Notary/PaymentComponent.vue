@@ -95,7 +95,6 @@ const emits = defineEmits(["nextStep", "prevStep", "resetStep"]);
 const paymentGateways = computed(
   () => store.state.AffidavitModule.paymentGateways
 );
-console.log(paymentGateways)
 
 const Teams = computed(() => store.state.TeamsModule.Teams)
 
@@ -122,7 +121,6 @@ const getActive = () => {
       return active;
 }
 
-console.log(getActive(), 'getActive')
 
 const onSuccessfulPayment = (response) => {
   const data = {
