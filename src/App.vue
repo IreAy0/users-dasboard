@@ -27,7 +27,6 @@ const token = getToken();
 const timeoutInMS = 300000; //? 5 minutes -> 5 * 60 * 1000
 let timeoutId;
 function handleInactive() {
-  console.log('timeoutId: ' + timeoutId)
   if (token) {
     store.dispatch("AuthModule/logout");
     // logout({ token: token.value });

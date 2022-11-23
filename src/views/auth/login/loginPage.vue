@@ -22,6 +22,7 @@
             Please sign-in to your account and start the adventure
           </p> -->
 
+          
           <form @submit.prevent="handleLogin">
             <div :class="{ 'is-invalid': loginError}" class="">
               <div v-if="loginError" class="alert p-1 alert-danger alert-dismissible fade show" role="alert">
@@ -160,7 +161,7 @@ export default {
       setTimeout(() => {
         // clear loginError
         this.$store.commit('AuthModule/emptyLoginError');
-      }, 2000);
+      }, 5000);
     },
   },
 
