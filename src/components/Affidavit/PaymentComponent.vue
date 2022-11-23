@@ -42,7 +42,6 @@
      
     </div> -->
   </div>
-  {{payment_gateway}}
   <div class="modal-footer d-flex justify-content-between mt-3">
     <button @click="emits('prevStep')" type="button" class="btn-secondary btn">
       Back
