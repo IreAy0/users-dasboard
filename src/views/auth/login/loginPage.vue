@@ -81,7 +81,7 @@
             </div> -->
 
             <div class="form-group">
-              <button class="btn btn-primary btn-block w-100" :disabled="loading">
+              <button type="submit" class="btn btn-primary btn-block w-100" :disabled="loading">
                 <span v-show="loggingIn" class="spinner-border spinner-border-sm"></span>
                 <span>Sign in</span>
               </button>
