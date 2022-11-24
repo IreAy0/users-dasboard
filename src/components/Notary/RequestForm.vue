@@ -1,4 +1,6 @@
 <template>
+   
+      
   <div class="modal-body">
     <div class="my-2">
       <label class="form-label" for="document_type">Title *</label>
@@ -148,6 +150,11 @@ const form_data = ref({
   platform_initiated: "Web",
   phone: "",
 });
+
+const close = () => {
+  console.log('close')
+}
+
 
 const preparedFile = (file) => {
   for (let i = 0; i < file.length; i++) {

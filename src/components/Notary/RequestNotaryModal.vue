@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div v-if="this.activeComponent !== this.stepsList.length - 1" class="modal-header">
         <h4 class="fw-bold">Request a Notary Session</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button @click="reset" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <component :is="stepsList[activeComponent]" @nextStep="forward" @prevStep="backward" @resetStep="reset" />
     </div>
@@ -26,6 +26,7 @@ export default {
   // eslint-disable-next-line vue/no-unused-components
   components: { RequestForm, PaymentComponent, PaymentConfirmation },
   methods: {
+   
     backward() {
       this.activeComponent--;
     },

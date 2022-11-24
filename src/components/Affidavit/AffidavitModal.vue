@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header" v-if="this.activeStep !== this.stepsList.length - 1">
         <h4 class="fw-bold">Get an affidavit</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button @click="reset"  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <component :is="stepsList[activeStep]" @nextStep="forward" @prevStep="backward" @resetStep="reset" />
