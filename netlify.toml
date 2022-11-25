@@ -2,6 +2,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+  
 [context.production.environment]
   VUE_APP_TONOTE_API_BASE_URL_LIVE="https://tonote-api.herokuapp.com/api/v1/"
   VUE_APP_TAWK_PROPERTY_ID="6257cf987b967b11798ab0e5"
