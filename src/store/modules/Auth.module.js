@@ -86,8 +86,7 @@ const actions = {
     );
   },
 
-  login({ commit, dispatch }, user) {
-
+  login({ commit }, user) {
     commit("loginRequest", user);
     auth.Login(user).then(
       (user) => {
@@ -96,18 +95,13 @@ const actions = {
           commit("loginSuccess", user);
           router.push("/admin/dashboard");
         }
-       
-        //  dispatch("ProfileModule/getUser", { root: true });
-        //  store.dispatch("ProfileModule/getUser", { root: true });
-       
-        // setTimeout(() => {
-        // }, 2000);
-      },
-      (error) => {
+      }
+    ).catch((error) => {
         commit("loginFailure", error);
         console.log(error, 'error')
-      }
-    );
+     
+    })
+     
   },
 };
 
