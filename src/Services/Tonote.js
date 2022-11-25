@@ -27,12 +27,12 @@ ToNote.interceptors.response.use(
     return response;
   },
   error => {
-    if (error.response.status === 401) {
-      removeToken();
-      // const currentUrl = encodeURIComponent(window.location.href);
-      window.location.href = `/`;
-      return;
-    }
+    // if (error.response.status === 401) {
+    //   removeToken();
+    //   // const currentUrl = encodeURIComponent(window.location.href);
+    //   window.location.href = `/`;
+    //   return;
+    // }
     return Promise.reject(error);
   });
 
