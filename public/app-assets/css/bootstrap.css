@@ -9870,6 +9870,9 @@ fieldset:disabled .btn {
 .fw-bolder {
     font-weight: 600 !important
 }
+.fw-boldest {
+    font-weight: 700 !important
+}
 
 .lh-1,
 .lh-sm {
