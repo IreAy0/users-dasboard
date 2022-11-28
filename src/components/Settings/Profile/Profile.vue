@@ -230,8 +230,8 @@
   </div>
           </div>
           <h6 class="text-primary fs-6 fw-boldest">How to get your virtual NIN</h6>	
-          <h6 class="text-dark fs-6 fw-boldest mt-1"> Through the NIMC app</h6>	
-            <ol class="list-group-numbered p-0 fs-small fw-normal lh-base mt-1">
+          <h6 class="text-black fs-6 fw-boldest mt-1"> Through the NIMC app</h6>	
+            <ol class="list-group-numbered p-0 text-black fs-small fw-normal lh-base mt-1">
               <li>Download the NIMC App from your mobile store.
 </li>
               <li>Click on "Get Virtual NIN"
@@ -244,8 +244,8 @@
 </li>
             </ol>
             <hr />
-            <h6 class="text-dark fs-6 fw-boldest"> Via USSD</h6>	
-            <p class="fs-small fw-normal mt-1">Dial <span class="fw-boldest">*346* 3*Your NIN*715461#</span> An SMS message will be sent back to you containing the Virtual NIN generated for you.</p>
+            <h6 class="text-black fs-6 fw-boldest"> Via USSD</h6>	
+            <p class="fs-small text-black fw-normal mt-1">Dial <span class="fw-boldest">*346* 3*Your NIN*715461#</span> An SMS message will be sent back to you containing the Virtual NIN generated for you.</p>
                       </div>
           <b-button-group class="mt-3 w-100 justify-content-end ">
             <div>
