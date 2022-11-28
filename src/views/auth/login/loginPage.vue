@@ -23,7 +23,7 @@
           </p> -->
 
           
-          <form>
+          <form @submit.prevent="handleLogin">
             <div :class="{ 'is-invalid': loginError}" class="">
               <div v-if="loginError" class="alert p-1 alert-danger alert-dismissible fade show" role="alert">
                 <strong v-if="loginError?.root">{{ loginError?.root.toString() }}</strong>
@@ -81,7 +81,7 @@
             </div> -->
 
             <div class="form-group">
-              <button @click="handleLogin" type="button" class="btn btn-primary btn-block w-100" :disabled="loading">
+              <button  type="submit" class="btn btn-primary btn-block w-100" :disabled="loading">
                 <span v-show="loggingIn" class="spinner-border spinner-border-sm"></span>
                 <span>Sign in</span>
               </button>
