@@ -1,4 +1,6 @@
 <template>
+   
+      
   <div class="modal-body">
     <div class="my-2">
       <label class="form-label" for="document_type">Title *</label>
@@ -99,8 +101,7 @@
       </select>
       <label v-if="error_message.delivery" class="text-danger small" for="error">{{ error_message.delivery }}</label>
     </div>
-
-    <div data-aos="fade-down" v-if="form_data.delivery_channel === 'Address'" class="my-2">
+    <div v-if="form_data.delivery_channel === 'Address'" class="my-2">
       <label class="form-label" for="template">Enter your address</label>
       <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Address"
         v-model="form_data.delivery_address" @change="error_message.address = null"
@@ -149,6 +150,11 @@ const form_data = ref({
   platform_initiated: "Web",
   phone: "",
 });
+
+const close = () => {
+  console.log('close')
+}
+
 
 const preparedFile = (file) => {
   for (let i = 0; i < file.length; i++) {
@@ -218,7 +224,7 @@ const selectedFile = (e) => {
 const removeItem = (index) => {
   previewFile.value.splice(index, 1);
   form_data.value.files.splice(index, 1)
-  console.log(form_data.value.files, 'files')
+  // console.log(form_data.value.files, 'files')
   dataFile.value.splice(index, 1);
   if (previewFile.value.length == 0) {
     form_data.value.files= []

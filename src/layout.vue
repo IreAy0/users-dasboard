@@ -1,6 +1,6 @@
 <template>
 
-  <div class=" grid" v-if="loading == true">
+  <div class="grid" v-if="userProfile == null">
     <Preloader />
   </div>
   <div v-else class="h-100">
@@ -59,6 +59,7 @@ export default {
   },
   computed: {
     ...mapState('TeamsModule', ['Teams']),
+    ...mapState('ProfileModule',['userProfile']),
     ...mapState("MenuModule", [
       "isRTL",
       "color",

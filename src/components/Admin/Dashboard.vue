@@ -258,6 +258,14 @@
     </div>
   </div>
 
+  <!-- <ModalComp :show="showModal" :size="'modal-lg'" :footer="false" @close="clearModal">
+    <template #header>
+
+    </template>
+    <template #body>
+        
+      </template>
+  </ModalComp> -->
   <!-- modal -->
   <div class="modal fade" id="AffidavitModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="AffidavitModalLabel" aria-hidden="true">
@@ -269,6 +277,7 @@
     aria-labelledby="NotaryRequestModalLabel" aria-hidden="true">
     <RequestNotaryModal />
   </div>
+
 </template>
 
 <script>
@@ -281,7 +290,12 @@ import { getToken } from "@/Services/helpers";
 Request;
 export default {
   name: "AdminDashboard",
-  components: { AffidavitModal, RequestNotaryModal, DocumentsList },
+  components: { AffidavitModal, RequestNotaryModal, DocumentsList},
+  data(){
+  return {
+    showModal: false
+  }  
+  },
   computed: {
     ...mapState("ProfileModule", ["userProfile", "dashboardData"]),
     getToken() {
@@ -296,7 +310,9 @@ export default {
   methods: {
     ...mapActions("ProfileModule", ["getUser"]),
     ...mapActions("AuthModule", ["logout"]),
-
+    close(){
+      console.log('logout')
+    },
     openNav() {
       this.navOpen = !this.navOpen;
     },

@@ -15,8 +15,7 @@
       </div>
     </b-modal>
 
-
-    <b-modal id="modal-center" centered title="Upgrade Plan" hide-footer ref="my-modal" v-model="modalShow">
+    <b-modal id="modal-center-sum" centered title="Upgrade Plan" hide-footer ref="my-modal" v-model="modalShow">
       <b-col cols="12" class="p-0 mt-xl-1 mt-2 d-flex">
         <div>
 
@@ -65,7 +64,7 @@
       </label>
     </div>
         </b-col>
-       
+        
       <div class="d-flex justify-content-center my-2">
   <button
       v-if="payment_gateway?.name === 'Flutterwave'"
@@ -80,7 +79,7 @@
           :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
 
       <!-- <button
-      v-if="payment_gateway === 'Credo'"
+      v-if="payment_gateway?.name === 'Credo'"
       type="button"
       class="btn btn-primary"
       @click="openCredo"
@@ -89,6 +88,7 @@
     </button> -->
       </div>
     </b-modal>
+
 
 
     <b-tabs v-model="tabIndexAdv1"
@@ -377,26 +377,26 @@ export default {
       });
     },
 
-    // openCredo(){
-    //    const transRef = this.transactionSummary?.id
-    //   window.CredoCheckout({
-    //           transRef, //Please generate your own transRef (20 characters max) that is unique for each transaction
-    //           amount: this.transactionSummary?.total,
-    //           // redirectUrl: "https://merchant-test-line.netlify.app/successful",
-    //           paymentOptions: ["CARDS", "BANK"],
-    //           currency: "NGN",
-    //           customerName:  `${this?.userProfile?.first_name} ${this?.userProfile?.last_name}`,
-    //           customerEmail: this?.userProfile?.email ,
-    //           customerPhoneNo: this?.userProfile?.phone,
-    //           onClose: function(){
-    //               console.log("Modal closed")
-    //           },
-    //           callback: function(){
-    //               console.log("Payment Successful");
-    //           },
-    //           publicKey: "pk_demo-Ghz9Wo4cGeebxzDwfNZdooKLFtX7op.cXgwh6MyBs-d" // You should store your API key as an environment variable
-    //         })
-    // },
+    openCredo(){
+       const transRef = this.transactionSummary?.id
+      window.CredoCheckout({
+              transRef, //Please generate your own transRef (20 characters max) that is unique for each transaction
+              amount: this.transactionSummary?.total,
+              // redirectUrl: "https://merchant-test-line.netlify.app/successful",
+              paymentOptions: ["CARDS", "BANK"],
+              currency: "NGN",
+              customerName:  `${this?.userProfile?.first_name} ${this?.userProfile?.last_name}`,
+              customerEmail: this?.userProfile?.email ,
+              customerPhoneNo: this?.userProfile?.phone,
+              onClose: function(){
+                  console.log("Modal closed")
+              },
+              callback: function(){
+                  console.log("Payment Successful");
+              },
+              publicKey: "pk_demo-Ghz9Wo4cGeebxzDwfNZdooKLFtX7op.cXgwh6MyBs-d" // You should store your API key as an environment variable
+            })
+    },
 openFlutterwave() {
    const hold = this.onSuccessfulPayment
   useFlutterwave(
