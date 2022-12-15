@@ -24,7 +24,7 @@ const token = getToken();
 //   logout: "AuthModule/logout",
 // });
 
-const timeoutInMS = 300000; //? 5 minutes -> 5 * 60 * 1000
+const timeoutInMS = 420000; //? 5 minutes -> 5 * 60 * 1000
 let timeoutId;
 function handleInactive() {
   if (token) {
