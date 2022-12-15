@@ -20,16 +20,12 @@ const store = useStore()
 
 const token = getToken();
 
-// const { logout } = useActions({
-//   logout: "AuthModule/logout",
-// });
-
-const timeoutInMS = 300000; //? 5 minutes -> 5 * 60 * 1000
+const timeoutInMS = 420000; //? 5 minutes -> 7 * 60 * 1000
 let timeoutId;
 function handleInactive() {
   if (token) {
     store.dispatch("AuthModule/logout");
-    // logout({ token: token.value });
+   
   }
  
 }
