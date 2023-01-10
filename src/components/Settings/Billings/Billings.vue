@@ -78,14 +78,14 @@
         :amount="payment_gateway?.total * 100" :reference="transactionSummary?.id"
           :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
 
-      <!-- <button
+      <button
       v-if="payment_gateway?.name === 'Credo'"
       type="button"
       class="btn btn-primary"
       @click="openCredo"
     >
       Pay Now
-    </button> -->
+    </button>
       </div>
     </b-modal>
 

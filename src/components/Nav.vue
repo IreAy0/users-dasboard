@@ -42,6 +42,7 @@
                 Plan</span>
             </div>
             <span class="avatar">
+              <img src={{userProfile?.image}} class="img d-flex align-items-center justify-content-center" alt={{userProfile?.initials}} />
               <span class="img d-flex align-items-center justify-content-center">{{ userProfile?.initials }}
               </span>
               <span class="avatar-status-online"></span>
