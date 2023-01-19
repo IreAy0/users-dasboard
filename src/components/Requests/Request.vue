@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <ul class="nav nav-tabs row mb-2" role="tablist">
+  <div class="container">
+    <ul class="nav nav-tabs row gap-2 mb-2" role="tablist">
       <li class="nav-item col-lg-3 col-12 mb-2">
         <a
           id="affidavit-tab"
@@ -73,22 +73,21 @@
           class="nav-link card"
           :class="{ active: isActive }"
         >
-          <div class="row py-2">
-            <div class="col-9 d-flex align-items-center">
-              <div>
-                <div class="h5">Video Sign</div>
-              </div>
-            </div>
-
-            <div class="col-3 d-flex align-items-center justify-content-end">
-              <div
+        <div class="d-flex align-items-center">
+  <div class="p-2 flex-grow-1"><h5 class="h5">Video Sign</h5></div>
+  <div class="p-2">
+  <div>
+    <span
                 class="btn btn-sm btn-light text-center rounded-pill"
                 style="font-size: 16px"
               >
                 {{ tableRecord.length }} 
-              </div>
-            </div>
-          </div>
+              </span>
+  </div>
+ </div>
+  
+</div>
+         
         </a>
       </li>
     </ul>
