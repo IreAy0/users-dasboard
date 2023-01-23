@@ -1,137 +1,309 @@
 <template>
-  <div>
-    <main-layout>
+  <div class="container">
+    <ul class="nav nav-tabs row gap-2 mb-2" role="tablist">
+      <li class="nav-item col-lg-3 col-12 mb-2">
+        <a
+          id="affidavit-tab"
+          data-bs-toggle="tab"
+          href="#affidavit"
+          role="tab"
+          aria-selected="true"
+          class="nav-link card"
+          :class="{ active: isAffidavitActive }"
+        >
+          <div class="row py-2">
+            <div class="col-9 d-flex align-items-center">
+              <div>
+                <div class="h5">Affidavit Requests</div>
+              </div>
+            </div>
 
-
-      <template v-slot:default>
-        <div class="row">
-          <div class="col-12">
-            <div class="card ">
-              <div class="card-body">
-
-                <div class="tab-pane fade show active" id="nav-teammates" role="tabpanel"
-                  aria-labelledby="nav-teammates-tab">
-                  <div class="row flex-lg-nowrap justify-content-between mb-1">
-                    <div class="col-12 col-md-7">
-                      <!-- <input type="text" v-model="searchValue" /> -->
-                      <input type="text" id="search" class="form-control my-1" placeholder="Search request..."
-                        v-model="searchValue" />
-                    </div>
-                    <div class="col-12 my-1" v-show="getActiveUser?.permission === 'Admin'">
-                      <button @click="modalShow = !modalShow" class="rounded btn btn-primary btn-prev">
-                        <span class="align-middle d-inline-block">Invite your teammates</span>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- modal vertical center -->
-
-                  <div class="table-responsive">
-                    <b-table 
-                    striped 
-                    hover  
-                    per-page="10"
-                    :current-page="currentPage" :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
-                      <template #cell(status)="data">
-                        <span
-                          :class="{ 'bg-success ': data.item.status === 'Completed', 'bg-danger ': data.item.status === 'Cancelled', 'bg-warning ': data.item.status === 'Awaiting', 'bg-warning ': data.item.status === 'Processing', 'bg-primary ': data.item.status === 'New' }"
-                          class="text-white px-1 rounded-pill">{{ data?.item?.status }}</span>
-                      </template>
-
-                      <template #cell(created)="data">
-                        <div>
-                          {{ formatDate(data?.item?.created_at) }}
-                        </div>
-                      </template>
-                      <template #cell(action)="data">
-                        <div v-if="data?.item?.completed_file_request !== null">
-                          <a class="nav-link nav-link-style" download :href="data?.item?.completed_file_request" target="_blank">
-            <button class="btn btn-sm btn-outline-primary waves-effect" >
-              Download
-            </button></a>
-                        </div>
-                      </template>
-                    </b-table>
-                    <b-pagination
-                    class="my-2"
-              v-model="currentPage"
-              :total-rows="filteredItems?.length"
-              :per-page="10"
-              aria-controls="myTable"
-            ></b-pagination>
-                  </div>
-                </div>
+            <div class="col-3 d-flex align-items-center justify-content-end">
+              <div
+                class="btn btn-sm btn-light text-center rounded-pill"
+                style="font-size: 16px"
+              >
+                {{ countAffidavit?.length > 0 ? countAffidavit?.length : 0 }}
               </div>
             </div>
           </div>
-        </div>
-      </template>
-    </main-layout>
+        </a>
+      </li>
+
+      <li class="nav-item col-lg-3 col-12 mb-2">
+        <a
+          id="notary-tab"
+          data-bs-toggle="tab"
+          href="#notary"
+          role="tab"
+          aria-selected="true"
+          class="nav-link card"
+          :class="{ active: isNotaryActive }"
+        >
+          <div class="row py-2">
+            <div class="col-9 d-flex align-items-center">
+              <div>
+                <div class="h5">Notary Requests</div>
+              </div>
+            </div>
+
+            <div class="col-3 d-flex align-items-center justify-content-end">
+              <div
+                class="btn btn-sm btn-light text-center rounded-pill"
+                style="font-size: 16px"
+              >
+                {{
+                    countNotaryRequest?.length > 0
+                      ? countNotaryRequest?.length
+                      : 0
+                }}
+              </div>
+            </div>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item col-lg-3 col-12 mb-2">
+        <a
+          id="videoSign-tab"
+          data-bs-toggle="tab"
+          href="#videoSign"
+          role="tab"
+          aria-selected="true"
+          class="nav-link card"
+          :class="{ active: isActive }"
+        >
+        <div class="d-flex align-items-center">
+  <div class="p-2 flex-grow-1"><h5 class="h5">Video Sign</h5></div>
+  <div class="p-2">
+  <div>
+    <span
+                class="btn btn-sm btn-light text-center rounded-pill"
+                style="font-size: 16px"
+              >
+                {{ tableRecord.length }} 
+              </span>
+  </div>
+ </div>
+  
+</div>
+         
+        </a>
+      </li>
+    </ul>
+
+    <!-- <AnalyticsPage /> -->
+    <div class="tab-content">
+      <div
+        class="tab-pane"
+        :class="{ active: isAffidavitActive }"
+        id="affidavit"
+        aria-labelledby="affidavit-tab"
+        role="tabpanel"
+      >
+        <AffidavitRequest />
+      </div>
+
+      <div
+        class="tab-pane"
+        :class="{ active: isNotaryActive }"
+        id="notary"
+        aria-labelledby="notary-tab"
+        role="tabpanel"
+      >
+        <NotaryRequest />
+      </div>
+
+      <div
+        class="tab-pane"
+        :class="{ active: isActive }"
+        id="videoSign"
+        aria-labelledby="videoSign-tab"
+        role="tabpanel"
+      >
+        <VideoSign />
+      </div>
+    </div>
+  </div>
+
+  <div class="card d-none">
+    <div class="card-body">
+      <ul class="show" data-bs-popper="none">
+        <li class="dropdown-menu-header">
+          <div class="dropdown-header d-flex">
+            <h4 class="notification-title mb-0 me-auto">Action Required</h4>
+            <!-- <div class="badge rounded-pill badge-light-primary">6 New</div> -->
+            <router-link
+              :to="'/'"
+              class="btn btn-sm btn-primary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-plus"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Video sign</span>
+            </router-link>
+          </div>
+        </li>
+
+        <li
+          class="my-1 pb-1 row border-bottom scrollable-container media-list ps ps--active-y"
+        >
+          <div class="col-lg-4">
+            <a class="" href="#">
+              <div class="list-item d-flex align-items-start">
+                <div class="me-1">
+                  <div class="avatar bg-light-dark">
+                    <div class="avatar-content">NR</div>
+                  </div>
+                </div>
+                <div class="list-item-body flex-grow-1">
+                  <div class="media-heading">
+                    <span class="fw-bolder text-dark">Notary Request</span>
+                  </div>
+                  <small class="notification-text"> Lease Agreement</small>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4">
+            <div class="fw-bold">Status</div>
+            <div>
+              <small class="badge rounded-pill badge-light-danger"
+                >Immediate</small
+              >
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <button class="btn btn-sm btn-success">Join Now</button>
+          </div>
+        </li>
+        <li
+          class="my-1 pb-1 row border-bottom scrollable-container media-list ps ps--active-y"
+        >
+          <div class="col-lg-4">
+            <a class="" href="#">
+              <div class="list-item d-flex align-items-start">
+                <div class="me-1">
+                  <div class="avatar bg-light-dark">
+                    <div class="avatar-content">VS</div>
+                  </div>
+                </div>
+                <div class="list-item-body flex-grow-1">
+                  <div class="media-heading">
+                    <span class="fw-bolder text-dark">Video Sign</span>
+                  </div>
+                  <small class="notification-text">
+                    Service Level Agreement</small
+                  >
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4">
+            <div class="fw-bold">Status</div>
+            <div>
+              <small class="badge rounded-pill badge-light-primary"
+                >Scheduled</small
+              >
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <button
+              class="btn btn-sm btn-light text-center"
+              disabled
+              rounded-pill
+            >
+              Join Now
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
-<script>
-import MainLayout from "@/components/MainLayout.vue";
-import { mapState } from "vuex";
-import { dateFormat } from "@/Services/helpers";
+<script setup>
+// import { Icon } from "@iconify/vue";
+import AffidavitRequest from "./folders/AffidavitRequest";
+import NotaryRequest from "./folders/NotaryRequest";
+import VideoSign from "./folders/VideoSign";
+import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
-export default {
-  name: "DocumentPage",
-  components: { MainLayout },
-  data() {
-    return {
-      perPage: 10,
-      currentPage: 1,
-      fields: [
-        "title", 'type', "status", { key: 'created', label: 'created at', sortable : true}, "action"
-      ],
-      searchValue: ""
-    }
-  },
-  computed: {
-    ...mapState('DocumentModule', ['requests']),
+import { useGetters } from "vuex-composition-helpers";
 
-    filteredItems() {
-      return this.requests?.filter((item) => {
-        return (
-          item?.title
-            ?.toLowerCase()
-            ?.indexOf(this.searchValue?.toLowerCase()) > -1
-        );
-      });
-    },
-  },
-  methods: {
-    formatDate: dateFormat,
-//     exportPDF(){
-//   const data = document.getElementById("mainWrapper");
-//   html2canvas(data).then((canvas) => {
-//     const imgWidth = 208;
-//     const pageHeight = 295;
-//     const imgHeight = (canvas.height * imgWidth) / canvas.width;
-//     let heightLeft = imgHeight - 10;
-//     let position = 10;
+const uri = ref("");
+const route = useRouter();
+const isAffidavitActive = ref(false);
+const isActive = ref(false);
+const isNotaryActive = ref(false);
 
-//     heightLeft -= pageHeight;
+const { allSessionRecord, affidavits } = useGetters({
+  allSessionRecord: "schedule/allSessionRecord",
+  affidavits: "schedule/affidavits",
+});
 
-//     const doc = new jsPDF("p", "mm");
+// const { getSessionRecords } = useActions({
+//   getSessionRecords: "schedule/getSessionRecords",
+// });
 
-//     doc.addImage(canvas, "PNG", 0, position, imgWidth, imgHeight, "", "FAST");
+const countAffidavit = computed(() => {
+  return affidavits.value?.filter((respond) => respond.type === "Request Affidavit");
+});
 
-//     while (heightLeft >= 0) {
-//       position = heightLeft - imgHeight;
-//       doc.addPage();
-//       doc.addImage(canvas, "PNG", 0, position, imgWidth, imgHeight, "", "FAST");
-//       heightLeft -= pageHeight;
-//     }
+const countNotaryRequest = computed(() => {
+  return affidavits.value?.filter((respond) => respond.type === "Request A Notary");
+});
 
-//     // if (params == "done") { return doneDataUrl.value = canvas.toDataURL() }
+const tableRecord = computed(() => {
+  return allSessionRecord.value.filter((respond) => respond.entry_point === "Video");
+});
 
-//     doc.save(userDocument.value.title + ".pdf");
-//   });
-// }
-  },
-};
+onMounted(() => {
+  uri.value = route.currentRoute.value.query;
+
+  isAffidavitActive.value = uri.value.page === undefined ? true : false;
+  isNotaryActive.value = uri.value.page === "notary-request" ? true : false;
+  isActive.value = uri.value.page === "video-sign" ? true : false;
+});
 </script>
 
 <style scoped>
+.nav-item .card {
+  min-width: 270px !important;
+}
+
+.show li {
+  list-style: none;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #003bb3 !important;
+  border-radius: 2px;
+  /* border-bottom: 2px solid #ff9f43 !important; */
+}
+
+.nav-tabs .nav-link:hover {
+  background-color: #b8cdf3 !important;
+  /* border-bottom: 2px solid #ff9f43 !important; */
+}
+
+/* .nav-tabs .nav-link:hover .h5 {
+  color: #fff !important;
+} */
+.nav-tabs .nav-link.active .h5 {
+  color: #fff !important;
+}
 </style>

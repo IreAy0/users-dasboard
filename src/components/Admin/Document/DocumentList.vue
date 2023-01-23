@@ -75,8 +75,8 @@
           <a class="page-link">Prev</a>
         </li>
         <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
-        <li  class="page-item " :class="links?.active === true ? 'active' : ''" v-for="links in meta?.links" :key="links + 1" aria-current="page">
-          <a class="page-link" :class="links?.label?.includes('Next') || links?.label?.includes('Previous') ? 'd-none': ''"  v-html="links.label"> </a>
+        <li  @click="goto(links.label)" class="page-item " :class="links?.active === true ? 'active' : ''" v-for="links in meta?.links" :key="links + 1" aria-current="page">
+          <a  class="page-link" :class="links?.label?.includes('Next') || links?.label?.includes('Previous') ? 'd-none': ''"  v-html="links.label"> </a>
           
         </li>
         <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
@@ -112,6 +112,9 @@ const prev = () => {
   store.dispatch("DocumentModule/DocumentsList", meta?.value?.current_page - 1);
 };
 
+const goto = (pageNumber) => {
+  store.dispatch("DocumentModule/DocumentsList", pageNumber)
+}
 // eslint-disable-next-line no-unused-vars
 const requests = computed(() => store.state.DocumentModule.requests);
 const meta = computed(() => documents.value.meta)

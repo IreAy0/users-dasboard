@@ -174,7 +174,7 @@
               <label class="form-label" for="id_type">Identification Type</label>
               <Field as="select" :disabled="validState" v-model="profile.identity_type" name="id_type" class="select2 w-100 form-select">
                 <option value="" disabled>Please select a form of Identity</option>
-                <option value="nin">Virtual NIN</option>
+                <option value="vnin">Virtual NIN</option>
                 <option value="drivers_license">Drivers License</option>
                 <option value="bvn">BVN</option>
               </Field>
@@ -217,7 +217,7 @@
 
             </b-col>
           </Form>
-          <div v-show="profile.identity_type === 'nin' && validState === false">
+          <div v-show="profile.identity_type === 'vnin' && validState === false">
             <div class="alert alert-danger d-flex align-items-center" role="alert">
   <svg width="16" height="17" viewBox="0 0 16 17" fill="none" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-1" xmlns="http://www.w3.org/2000/svg">
 <path d="M8.5 11.7654V7.76538H6.5V8.76538H7.5V11.7654H6V12.7654H10V11.7654H8.5ZM8 4.76538C7.85166 4.76538 7.70666 4.80937 7.58332 4.89178C7.45999 4.97419 7.36386 5.09132 7.30709 5.22837C7.25032 5.36541 7.23547 5.51621 7.26441 5.6617C7.29335 5.80718 7.36478 5.94082 7.46967 6.04571C7.57456 6.1506 7.7082 6.22203 7.85368 6.25097C7.99917 6.27991 8.14997 6.26506 8.28701 6.20829C8.42406 6.15152 8.54119 6.0554 8.6236 5.93206C8.70601 5.80872 8.75 5.66372 8.75 5.51538C8.75 5.31647 8.67098 5.1257 8.53033 4.98505C8.38968 4.8444 8.19891 4.76538 8 4.76538Z" fill="currentColor"/>

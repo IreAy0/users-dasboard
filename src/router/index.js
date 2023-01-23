@@ -40,10 +40,20 @@ const SettingPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../components/Settings/Setting.vue"
   );
+  const VideoSign = () =>
+  import(
+    /* webpackChunkName: "settings" */ "@/components/Requests/folders/VideoSign.vue"
+  );
+  const DocumentPreview = () =>
+  import(
+    /* webpackChunkName: "edit-document" */ "@/components/Requests/DocumentPreview.vue"
+  );
+
 const ResetPassword = () =>
   import(
     /* webpackChunkName: "settings" */ "@/views/auth/passwords/resetPassword.vue"
   );
+  
 const verifyPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/verify-email/verifyPage.vue"
@@ -138,7 +148,43 @@ const routes = [
           title: " Settings | ToNote ",
         },
       },
-
+      {
+        path: "preview",
+        name: "admin.preview",
+        component: DocumentPreview,
+        meta: {
+          title: "Preview Document | ToNote",
+          
+          // metaTags: [
+          //   {
+          //     name: "description",
+          //     content: "The document preview page of ToNote.",
+          //   },
+          //   {
+          //     property: "og:description",
+          //     content: "The document preview page of ToNote.",
+          //   },
+          // ],
+        },
+      },
+      {
+        path: "video-signing-schedule",
+        name: "document.video",
+        component: VideoSign,
+        meta: {
+          title: "Video Signing Schedule | ToNote",
+          // metaTags: [
+          //   {
+          //     name: "description",
+          //     content: "The document upload's page of ToNote.",
+          //   },
+          //   {
+          //     property: "og:description",
+          //     content: "The document upload's page of ToNote.",
+          //   },
+          // ],
+        },
+      },
     ]
   },
 
