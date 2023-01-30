@@ -11,6 +11,11 @@ export const getRescheduled = (state) => {
   return state.rescheduleSession;
 };
 
+export const getDeleteSession = (state) => {
+  return state.deleteSession;
+};
+
+
 export const time_slots = (state) => {
   return state.time_slots;
 };

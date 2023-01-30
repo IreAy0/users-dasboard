@@ -19,13 +19,10 @@
                     </div>
                   </div>
                   <div>
-                    <router-link
-                      :to="{
-                        name: 'document.waiting-page',
-                        params: { session_id: result.id },
-                      }"
+                    <a
+                      :href="`${getEnv()}document/waiting-page/${result.id}}`"
                       class="btn btn-primary btn-sm"
-                      >Join now</router-link
+                      >Join now</a
                     >
                   </div>
                 </div>
@@ -43,7 +40,7 @@
             <h4 class="card-title">Video Signed Document</h4>
             <div class="wrap">
               <a
-               :href="`${getEnv()}?qt=${token}`"
+               :href="`${getEnv()}document/video-signing-schedule?qt=${token}`"
                 class="btn btn-primary waves-effect"
               >
                 <svg
@@ -141,14 +138,9 @@
                           result.status === 'Pending'
                         "
                       >
-                        <router-link
-                          :to="{
-                            name: 'document.waiting-page',
-                            params: { session_id: result.id },
-                          }"
+                        <a :href="`${getEnv()}document/waiting-page/${result.id}}`"
                           class="btn btn-primary btn-sm"
-                          >Join</router-link
-                        >
+                          >Join</a>
                       </template>
                       <!-- <template v-else> Missed Session </template> -->
                     </td>
@@ -183,6 +175,10 @@
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                               </svg>
                               Reschedule
+                            </div>
+                            <div @click="cancelSessionModal(result.id)" class="dropdown-item">
+                              <Icon icon="mdi:cancel" />
+                              Cancel
                             </div>
                           </template>
                           <template v-else>
@@ -292,6 +288,30 @@
         </div>
       </template>
     </ModalComp>
+
+
+    <ModalComp :show="cancelModal" :size="'modal-sm'" @close="cancelModal = false">
+    <template #header>
+      <h4 class="text-danger mb-0">
+        <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" />
+        Alert
+      </h4>
+    </template>
+
+    <template #body>
+      <p class="text-center my-2">Are you sure you want to cancel this session?</p>
+    </template>
+
+    <template #footer>
+      <button class="btn btn-sm btn-secondary" @click="cancelSession(false)">
+        No
+      </button>
+      <button class="btn btn-sm btn-primary" @click="cancelSession(true)">
+        Yes
+      </button>
+    </template>
+  </ModalComp>
+
   </div>
 </template>
 
@@ -330,17 +350,20 @@ const {
   rescheduleSession,
   getUserDocument,
   TimeSlotsAction,
+  deleteSession
 } = useActions({
   getSessionRecords: "schedule/getSessionRecords",
   getSessionRecordToday: "schedule/getSessionRecordToday",
   rescheduleSession: "schedule/rescheduleSession",
   TimeSlotsAction: "schedule/TimeSlotsAction",
   getUserDocument: "document/getUserDocument",
+  deleteSession: "schedule/deleteSession",
 });
 
 const data = ref("");
 data.value = request;
 
+const cancelModal = ref(false);
 const questionModal = ref(false);
 
 const sessionId = ref("");
@@ -348,6 +371,23 @@ const openSessionModal = (id) => {
   sessionId.value = id;
   questionModal.value = true;
 };
+
+const cancelSessionModal = (id) => {
+  sessionId.value = id;
+  cancelModal.value = true;
+};
+
+const cancelSession = (params) => {
+  if (params) {
+    let formData = { id: sessionId.value};
+    // console.log(formData);
+    deleteSession(formData);
+    cancelModal.value = false;
+  } else {
+    cancelModal.value = false;
+  }
+};
+
 
 const reschedule = ref({});
 const submitReschedule = () => {
@@ -434,7 +474,7 @@ const filterDocByNextMeeting = computed(() => {
 
 onMounted(() => {
   getSessionRecords(token.value);
-  getSessionRecordToday(token.value);
+  getSessionRecordToday({token: token.value,  entry_point: 'Video'});
   TimeSlotsAction();
 });
 

@@ -19,7 +19,7 @@
             </thead>
 
             <tbody>
-              <tr v-for="document in documents?.data" :key="document.id">
+              <tr v-for="document in documents?.data?.slice(0, 5)" :key="document.id">
                 <td>
                   <a :href="`${getEnv}?di=${document.id}&qt=${token}`"
                     class="my-0 py-0">{{ document.title }}</a>
@@ -69,22 +69,20 @@
         </div>
       </div>
     </div>
-    <nav aria-label="page navigation example">
+  <!--  <nav aria-label="page navigation example">
       <ul class="pagination">
         <li class="page-item " :class="paginationLinks?.prev === null ? 'disabled' : ''" @click="prev" >
           <a class="page-link">Prev</a>
         </li>
-        <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
         <li  @click="goto(links.label)" class="page-item " :class="links?.active === true ? 'active' : ''" v-for="links in meta?.links" :key="links + 1" aria-current="page">
           <a  class="page-link" :class="links?.label?.includes('Next') || links?.label?.includes('Previous') ? 'd-none': ''"  v-html="links.label"> </a>
           
         </li>
-        <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
         <li class="page-item" :class="paginationLinks?.next === null ? 'disabled' : ''" @click="next" >
           <a class="page-link"  href="#">Next </a>
         </li>
       </ul>
-    </nav>
+    </nav>   -->
   </div>
 </template>
 
