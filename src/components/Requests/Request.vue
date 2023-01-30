@@ -264,11 +264,11 @@ const countAffidavit = computed(() => {
 });
 
 const countNotaryRequest = computed(() => {
-  return affidavits.value?.filter((respond) => respond.type === "Request A Notary");
+  return affidavits?.value?.filter((respond) => respond.entry_point == "Notary");
 });
 
 const tableRecord = computed(() => {
-  return allSessionRecord.value.filter((respond) => respond.entry_point === "Video");
+  return allSessionRecord?.value?.filter((respond) => respond.entry_point == "Video");
 });
 
 onMounted(() => {

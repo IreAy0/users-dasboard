@@ -2,12 +2,15 @@ import ToNote from "@/Services/Tonote";
 // import ToNote from "./ToNote";
 const REQUEST_VIRTUAL_SESSION = "request-virtual-session";
 const REQUEST_VIRTUAL_SESSION_TODAY = "request-virtual-session-today";
+const SCHEDULE = "schedules";
+
 export default {
   showSessionRecord(token) {
     return ToNote.get(`${REQUEST_VIRTUAL_SESSION}?entry_point=Video`, token);
   },
-  showSessionRecordToday(token) {
-    return ToNote.get(`${REQUEST_VIRTUAL_SESSION_TODAY}?entry_point=Video`, token);
+  showSessionRecordToday(token, entry_point) {
+    // Video
+    return ToNote.get(`${REQUEST_VIRTUAL_SESSION_TODAY}?entry_point=${entry_point}`, token);
   },
   // get all the time slots
   TimeSlotsApi() {
@@ -31,6 +34,10 @@ export default {
   RescheduleVirtualSession(data) {
     return ToNote.put(`request-virtual-session/${data.id}`, data.payload);
   },
+
+  CancelVirtualSession(sessionId) {
+    return ToNote.delete(`${SCHEDULE}/${sessionId}`);
+  },
   //get virtual session details
   VirtualSessionDetailsApi(id) {
     return ToNote.get(`request-virtual-session/${id}`);
@@ -47,7 +54,7 @@ export default {
   },
   // 
   AffidavitRequest(data) {
-    return ToNote.get("scheduled-requests", data);
+    return ToNote.get("request-virtual-session", data);
   },
   NotaryRequest(data) {
     return ToNote.get("document", data);

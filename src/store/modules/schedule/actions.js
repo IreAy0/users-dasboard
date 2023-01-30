@@ -21,8 +21,9 @@ export const getSessionRecords = ({ commit }, token) => {
     });
 };
 
-export const getSessionRecordToday = ({ commit }, token) => {
-  Schedule.showSessionRecordToday(token)
+export const getSessionRecordToday = ({ commit }, payload) => {
+  const {token, entry_point } = payload
+  Schedule.showSessionRecordToday(token, entry_point)
     .then((response) => {
       commit("SET_SESSION_RECORD_TODAY", response.data);
     })
@@ -55,6 +56,41 @@ export const rescheduleSession = ({ commit }, sessionData) => {
     .catch((error) => {
       if (error.response.status == 401 || error.response.status == 404) {
         commit("SET_RESCHEDULE_SESSION", null);
+        Vue.$toast.error(`${error.response.data.errors.root}`);
+      }
+    });
+};
+
+export const deleteSession = ({ commit }, sessionData) => {
+
+  Schedule.CancelVirtualSession(sessionData.id)
+    .then((response) => {
+      commit("SET_CANCEL_SESSION", response.data.data);
+      
+      // const token = store.getters["auth/token"];
+      const token = getToken();
+      Schedule.showSessionRecord(token)
+        .then((res) => commit("SET_SESSION_RECORD", res.data.data))
+
+      // Schedule.showSessionRecordToday({token: token,  entry_point: 'Video'})
+      // .then((response) => {
+      //   commit("SET_SESSION_RECORD", response.data);
+      // })
+      
+      Schedule.showSessionRecordToday(token)
+        .then((response) => commit("SET_SESSION_RECORD_TODAY", response.data))
+
+
+      toast.success("Session cancelled successfully", {
+        timeout: 5000,
+        position: "top-right",
+      });
+    })
+
+
+    .catch((error) => {
+      if (error.response.status == 401 || error.response.status == 404) {
+        commit("SET_CANCEL_SESSION", null);
         Vue.$toast.error(`${error.response.data.errors.root}`);
       }
     });

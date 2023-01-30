@@ -22,6 +22,10 @@ export const SET_SCHEDULE_STATES = (state, payload) => {
   state.states = payload;
 };
 
+export const SET_CANCEL_SESSION = (state, payload) => {
+  state.deleteSession = payload;
+};
+
 export const SET_SCHEDULE_STATUS = (state, payload) => {
   state.status = payload;
 };

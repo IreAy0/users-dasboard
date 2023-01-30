@@ -4,6 +4,7 @@ export default {
   rescheduleSession: null,
   time_slots: [],
   errors: null,
+  deleteSession: null,
   // schedule details form data
   schedule_formdata: {
     title: null,

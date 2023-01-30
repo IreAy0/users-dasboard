@@ -178,7 +178,7 @@
   <li class="list-group-item d-flex mb-2 rounded border-primary py-1 justify-content-between align-items-center">
    Video Sign
    <span class="">
-      <a :href="`${getEnv}/document/upload?qt=${getToken}`"
+      <a :href="`${getEnv}/document/video-signing-schedule?qt=${getToken}`"
                           class="text-primary">Sign Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
@@ -218,10 +218,12 @@
     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
       <div class="accordion-body">
         <ul class="list-group ">
+       
   <li class="list-group-item border-primary rounded mb-2  py-1 d-flex justify-content-between align-items-center">
     Get Affidavit
     <span class="">
-      <a data-bs-toggle="modal" data-bs-target="#AffidavitModal" href="javascript:void(0)"
+      <!-- data-bs-toggle="modal" data-bs-target="#AffidavitModal" -->
+      <a  :href="`${virtualNotary}/schedule?session=affidavit&token=${getToken}`"
                           class="text-primary">Get Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
@@ -232,7 +234,8 @@
   <li class="list-group-item d-flex mb-2 rounded border-primary py-1 justify-content-between align-items-center">
    Notarize Document
    <span class="">
-    <a data-bs-toggle="modal" data-bs-target="#NotaryRequestModal" href="javascript:void(0)"
+    <!-- data-bs-toggle="modal" data-bs-target="#NotaryRequestModal" -->
+    <a :href="`${virtualNotary}/schedule?session=notary&token=${getToken}`"
                           class="text-primary">Notarize Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
@@ -339,7 +342,9 @@ export default {
     },
      getEnv(){
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
-
+    },
+    virtualNotary(){
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
     }
   },
   methods: {
