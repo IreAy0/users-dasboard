@@ -21,9 +21,6 @@
         </div>
       </label>
     </div>
-      
-      <!-- <input class="btn btn-primary dropzoneFile" type="file" @change="selectedFile" hidden id="dropzoneFile" multiple  accept=".pdf" /> -->
-      <!-- <h4  class="btn btn-primary">Select File</h4> -->
     </div>
 
     <DropZone v-else  @drop.prevent="drop" @change="selectedFile">
@@ -63,48 +60,23 @@
         error_message.file
     }}</label>
     <p v-if="preview" class="text-primary">{{ preview }}</p>
-    <div class="my-2">
-      <label class="form-label" for="customer_phone">Phone Number *</label>
-      <input type="tel" class="form-control" id="customer_phone" placeholder="Enter your phone number"
-        :style="error_message.phone && 'border: 1px solid red'" v-model="form_data.phone"
-        @change="error_message.phone = null" />
-        <label v-if="error_message.phone" class="text-danger small" for="error">{{ error_message.phone }}</label>
-
-      </div>
-    <div class="my-2">
-      <label class="form-label" for="template">How do you want your document delivered?</label>
-      <select id="template" class="form-select" aria-label="select affidavit template"
-        v-model="form_data.delivery_channel" @change="error_message.delivery_channel = null">
-        <option value=" ">Select an option</option>
-        <option value="Email">Electronic Document Only(Via Email)</option>
-        <option value="Address">
-          Electronic and Physical Document(To your address)
-        </option>
-        <option value="Collection">Collection</option>
-      </select>
-      <label v-if="error_message.delivery" class="text-danger small" for="error">{{ error_message.delivery }}</label>
-    </div>
-    <div v-if="form_data.delivery_channel === 'Address'" class="my-2">
-      <label class="form-label" for="template">Enter your address</label>
-      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Address"
-        v-model="form_data.delivery_address" @change="error_message.address = null"
-        :style="error_message.address && 'border: 1px solid red'" />
-      <label v-if="error_message.address" class="text-danger small" for="error">{{ error_message.address }}</label>
-    </div>
-  </div>
+   
   <div class="modal-footer">
     <button @click="SubmitHandler" type="button" class="btn btn-primary">
       Proceed
     </button>
+  </div>
   </div>
 </template>
 
 <script setup>
 import { ref, defineEmits } from "vue";
 import { useStore } from "vuex";
+import { useActions, useGetters } from "vuex-composition-helpers/dist";
+
 import DropZone from "@/components/DropZone.vue";
 
-const emits = defineEmits(["nextStep", "prevStep", "resetStep"]);
+const emits = defineEmits(["close"]);
 const active = ref(false);
 const dropzoneFile = ref("");
 const previewFile = ref([]);
@@ -121,17 +93,12 @@ let selectedFiles= ref("");
 const error = ref(true);
 const error_message = ref({
   file: null,
-  delivery: null,
-  address: null,
-  phone: null,
+ 
 });
 const form_data = ref({
   title: "",
   files: [],
-  delivery_channel: "",
-  delivery_address: "",
-  platform_initiated: "Web",
-  phone: "",
+ 
 });
 
 const close = () => {
@@ -219,7 +186,6 @@ const removeItem = (index) => {
 };
 
 
-
 const SubmitHandler = () => {
   if (!form_data.value.files || form_data.value.files.length === 0) {
     error_message.value.file = "Please upload your document";
@@ -229,65 +195,18 @@ const SubmitHandler = () => {
     error.value = false;
   }
 
-  if (
-    !form_data.value.delivery_channel ||
-    !form_data.value.delivery_channel.trim()
-  ) {
-    error_message.value.delivery = "This field is required";
-    error.value = true;
-  } else {
-    error_message.value.delivery = null;
-    error.value = false;
-  }
 
-  if (
-    !form_data.value.phone ||
-    !form_data.value.phone.trim()
-  ) {
-    error_message.value.phone = "This field is required";
-    error.value = true;
-  } else if(
-    // check if value is not a number
-    isNaN(form_data.value.phone) ||
-    form_data.value.phone.length < 11 
-  ) {
-    error_message.value.phone = "Invalid phone number";
-    error.value = true;
-  }
-  else {
-    error_message.value.delivery = null;
-    error.value = false;
-  }
-
-  if (form_data.value.delivery_channel === "Address") {
-    if (
-      !form_data.value.delivery_address ||
-      !form_data.value.delivery_address.trim()
-    ) {
-      error_message.value.address = "Please enter your address";
-      error.value = true;
-    } else {
-      error_message.value.address = null;
-      error.value = false;
-    }
-  } else {
-    form_data.value.delivery_address = "Address";
-    error_message.value.address = null;
-    error.value = false;
-  }
 
   if (
     !error_message.value.title && 
-    !error_message.value.phone && 
-    !error_message.value.file &&
-    !error_message.value.delivery &&
-    !error_message.value.address
+    !error_message.value.file
   ) {
-    emits("nextStep");
-    // console.log(form_data.value);
-    store.dispatch("AffidavitModule/post_notaryrequestform", {
+    store.dispatch("locker/uploadDocument", {
       ...form_data.value,
-    });
+    }).then((res) => {
+      emits('close')
+      // store.dispatch("locker/getLockerDocuments")
+    }) ;
   }
 };
 </script>
