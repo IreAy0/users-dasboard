@@ -19,6 +19,8 @@ const RequestPage = () =>
     /* webpackChunkName: "requests" */ "@/components/Requests/Request.vue"
   );
 
+const LockerPage = () => import( /* webpackChunkName: "locker" */ "@/components/Locker/locker.vue");
+
 const Dashboard = () =>
   import(
     /* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"
@@ -138,6 +140,15 @@ const routes = [
 
         meta: {
           title: " Requests | Tonote",
+        }
+      },
+      {
+        path: "locker",
+        name: "admin.locker",
+        component: LockerPage,
+
+        meta: {
+          title: " Locker | Tonote",
         }
       },
       {

@@ -20,7 +20,7 @@
                   </div>
                   <div>
                     <a
-                      :href="`${getEnv()}document/waiting-page/${result?.id}}`"
+                      :href="`${virtualNotary}session-prep/${result.id}?token=${getToken()}}`"
                       class="btn btn-primary btn-sm"
                       >Join now</a
                     >

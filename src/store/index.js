@@ -9,6 +9,7 @@ import { AffidavitModule } from "./modules/Affidavit.module";
 import { DocumentModule } from "./modules/Document.module";
 import { MenuModule } from "./modules/Menu.Module";
 import schedule from "@/store/modules/schedule";
+import locker from "@/store/modules/locker";
 import document from "@/store/modules/document"
 // import { TeamsModule } from "./modules/Teams.module";
 const debug = process.env.NODE_ENV !== "production";
@@ -27,7 +28,8 @@ export default createStore({
     DocumentModule,
     MenuModule,
     schedule,
-    document
+    document,
+    locker
   },
   // strict: debug,
   plugins: debug ? [createLogger()] : [],

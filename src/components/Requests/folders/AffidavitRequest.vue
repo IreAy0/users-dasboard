@@ -1,4 +1,40 @@
 <template>
+   <div class="container-fluid">
+    <div class="row p-0" id="basic-table ">
+      <div class="col col-12">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="">Next Scheduled Meeting Today</h3>
+            <!-- <p>You have no scheduled meeting for today</p> -->
+            <template v-if="filterDocByNextMeeting.length > 0">
+              <template
+                v-for="(result, index) in filterDocByNextMeeting"
+                :key="index"
+              >
+                <div class="border-bottom py-1 d-flex justify-content-between">
+                  <div>
+                    <div class="h5">Title: {{ result.title }}</div>
+                    <div class="text-mute">
+                      {{ dateTime(result.date + " " + result.start_time) }}
+                    </div>
+                  </div>
+                  <div>
+                    
+                    <a
+                      :href="`${virtualNotary}session-prep/${result.id}?token=${getToken()}}`"
+                      class="btn btn-primary btn-sm"
+                      >Join now</a
+                    >
+                  </div>
+                </div>
+              </template>
+            </template>
+            <template v-else>
+              You have no pending scheduled meeting today
+            </template>
+          </div>
+        </div>
+      </div>
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <h4 class="card-title">Affidavit Requests</h4>
@@ -82,6 +118,8 @@
       </table>
     </div>
   </div>
+</div>
+</div>
 </template>
 
 <script setup>
@@ -96,12 +134,16 @@ const dateTime = (value) => {
   return moment(value).format("Do MMM YYYY, hh:mm A");
 };
 
-const { affidavits } = useGetters({
+const { affidavits, allSessionRecordToday } = useGetters({
   affidavits: "schedule/affidavits",
+  allSessionRecordToday: "schedule/allSessionRecordToday",
+
 });
 
-const { getAffidavitRequest } = useActions({
+const { getAffidavitRequest, getSessionRecordToday, } = useActions({
   getAffidavitRequest: "schedule/getAffidavitRequest",
+  getSessionRecordToday: "schedule/getSessionRecordToday",
+
 });
 
 
@@ -112,7 +154,16 @@ const token = computed(()  => {
 
 const filterDocByAffidavitRequests = computed(() => {
   return affidavits?.value?.filter(
-    (data) => data.type === "Request Affidavit",
+    (data) =>  data?.entry_point == "Affidavit",
+  );
+});
+
+const filterDocByNextMeeting = computed(() => {
+  return allSessionRecordToday?.value.filter(
+    (res) =>
+      res?.entry_point == "Affidavit" &&
+      res?.immediate == false &&
+      res?.status != "Completed",
   );
 });
 

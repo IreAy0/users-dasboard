@@ -19,12 +19,17 @@
             </div>
 
             <div class="col-3 d-flex align-items-center justify-content-end">
-              <div
+              <div>
+              <span
                 class="btn btn-sm btn-light text-center rounded-pill"
                 style="font-size: 16px"
               >
-                {{ countAffidavit?.length > 0 ? countAffidavit?.length : 0 }}
+              {{ countAffidavit?.length > 0 ? countAffidavit?.length : 0 }}
+
+              </span>
+                
               </div>
+              
             </div>
           </div>
         </a>
@@ -48,15 +53,19 @@
             </div>
 
             <div class="col-3 d-flex align-items-center justify-content-end">
-              <div
+
+              <div>
+              <span
                 class="btn btn-sm btn-light text-center rounded-pill"
                 style="font-size: 16px"
               >
-                {{
+              {{
                     countNotaryRequest?.length > 0
                       ? countNotaryRequest?.length
                       : 0
                 }}
+              </span>
+                
               </div>
             </div>
           </div>
@@ -260,7 +269,7 @@ const { allSessionRecord, affidavits } = useGetters({
 // });
 
 const countAffidavit = computed(() => {
-  return affidavits.value?.filter((respond) => respond.type === "Request Affidavit");
+  return affidavits.value?.filter((respond) => respond.entry_point == "Affidavit");
 });
 
 const countNotaryRequest = computed(() => {
