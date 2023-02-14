@@ -48,11 +48,19 @@
           }}</label>
         </div>
 
-        <div data-aos="fade-down" v-if="data.delivery_channel === 'Address'" class="my-2">
+        <div v-if="data.delivery_channel === 'Address'" class="my-2">
           <label class="form-label" for="template">Enter your address</label>
           <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Address"
             v-model="data.delivery_address" />
         </div>
+        <div class="my-2">
+      <label class="form-label" for="customer_referral_code">Referral Code (optional)</label>
+      <input type="tel" class="form-control" id="customer_referral_code" placeholder="Enter a referral code"
+        v-model="data.referral_code"
+         />
+        <!-- <label v-if="error_message.phone" class="text-danger small" for="error">{{ error_message.phone }}</label> -->
+
+      </div>
       </div>
     </div>
 
@@ -97,11 +105,19 @@
           }}</label>
         </div>
 
-        <div data-aos="fade-down" v-if="data.delivery_channel === 'Address'" class="my-2">
+        <div v-if="data.delivery_channel === 'Address'" class="my-2">
           <label class="form-label" for="template">Enter your address</label>
           <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Address"
             v-model="data.delivery_address" />
         </div>
+        <div class="my-2">
+      <label class="form-label" for="customer_referral_code">Referral Code (optional)</label>
+      <input type="tel" class="form-control" id="customer_referral_code" placeholder="Enter a referral code"
+        v-model="data.referral_code"
+         />
+        <!-- <label v-if="error_message.phone" class="text-danger small" for="error">{{ error_message.phone }}</label> -->
+
+      </div>
       </div>
     </div>
   </div>

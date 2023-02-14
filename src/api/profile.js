@@ -21,7 +21,7 @@ export default {
   },
 
   async getDashboardData(){
-    return ToNote.get('/user/dashboard')
+    return ToNote.get('/document-statistics')
   },
 
   async getTransactions(){

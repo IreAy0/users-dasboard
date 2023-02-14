@@ -58,7 +58,7 @@
     <span class="menu-title text-truncate fs-6 d-flex " > <span>Completed</span>  </span>
    
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto "> {{counter?.Completed ? counter?.Completed : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto "> {{dashboardData?.completed ? dashboardData?.completed : 0}}</span>
   </a>
      
 
@@ -81,7 +81,7 @@
     <span class="menu-title text-truncate fs-6 d-flex " > <span>Received</span>  </span>
    
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto "> {{counter?.Received ? counter?.Received : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto "> {{dashboardData?.received ? dashboardData?.received : 0}}</span>
   </a>
      
 
@@ -104,7 +104,7 @@
     <span class="menu-title text-truncate fs-6 d-flex gap-3" >Sent </span>
    
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter?.Sent ? counter.Sent : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{dashboardData?.sent ? dashboardData.sent : 0}}</span>
   </a>
      
 
@@ -126,7 +126,7 @@
     <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
     <span class="menu-title text-truncate fs-6 d-flex gap-3" >Draft </span>
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter?.New ? counter.New : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{dashboardData?.draft ? dashboardData.draft : 0}}</span>
 
   </a>
      
@@ -150,7 +150,7 @@
     <span class="menu-title text-truncate fs-6 d-flex gap-3" >Deleted Files   </span>
    
 </span>
-<span class="badge rounded-pill badge-light-warning ms-auto"> {{counter?.Trash ? counter?.Trash : 0}}</span>
+<span class="badge rounded-pill badge-light-warning ms-auto"> {{dashboardData?.deleted ? dashboardData?.deleted : 0}}</span>
 
   </a>
      
@@ -292,6 +292,7 @@ export default {
 
   },
 computed: {
+  ...mapState("ProfileModule", ["userProfile", "dashboardData"]),
     ...mapState("TeamsModule", ["Teams"]),
      ...mapState("MenuModule", ["openMenu"]),
      ...mapState("DocumentModule", ["counter"]),
@@ -320,13 +321,18 @@ computed: {
     }
   },
   methods: {
+    
     ...mapActions("TeamsModule", ["getTeams"]),
     ...mapActions("TeamsModule", ["logout"]),
+    ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', '']),
 
     openNav() {
       this.navOpen = !this.navOpen;
     },
   },
+  mounted: function () {
+    this.getDashboardData();
+  }
 };
 </script>
 <style>

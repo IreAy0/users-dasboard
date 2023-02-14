@@ -22,11 +22,12 @@
             Please sign-in to your account and start the adventure
           </p> -->
 
+          
           <form @submit.prevent="handleLogin">
             <div :class="{ 'is-invalid': loginError}" class="">
               <div v-if="loginError" class="alert p-1 alert-danger alert-dismissible fade show" role="alert">
                 <strong v-if="loginError?.root">{{ loginError?.root.toString() }}</strong>
-                <strong v-else>{{  loginError?.email?.toString() }}</strong>
+                <strong v-if="loginError?.email">{{  loginError?.email?.toString() }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             </div>
@@ -80,7 +81,7 @@
             </div> -->
 
             <div class="form-group">
-              <button class="btn btn-primary btn-block w-100" :disabled="loading">
+              <button  type="submit" class="btn btn-primary btn-block w-100" :disabled="loading">
                 <span v-show="loggingIn" class="spinner-border spinner-border-sm"></span>
                 <span>Sign in</span>
               </button>
@@ -160,7 +161,7 @@ export default {
       setTimeout(() => {
         // clear loginError
         this.$store.commit('AuthModule/emptyLoginError');
-      }, 2000);
+      }, 5000);
     },
   },
 

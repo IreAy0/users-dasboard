@@ -271,3 +271,8 @@ html body {
     transform: scale(1);
   }
 }
+
+.modal.show .modal-dialog {
+  transform: none;
+  z-index: 1072;
+}

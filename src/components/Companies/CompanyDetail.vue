@@ -80,9 +80,9 @@
                   name="country" as="select" @change="getStates(country)" v-model="country"
                   class="select2 w-100 form-select" id="company-country">
                   <option value="">Please select a country</option>
-                  <option :key="option" :selected="option.id === country ? true : false" v-for="option in countries"
-                    :value="option.id">
-                    {{ option.name }}
+                  <option :key="option" :selected="option?.id === country ? true : false" v-for="option in countries"
+                    :value="option?.id">
+                    {{ option?.name }}
                   </option>
                 </Field>
               </div>
@@ -93,9 +93,9 @@
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
                   name="state" as="select" v-model="state" class="select2 w-100 form-select" id="state">
                   <option value="" disabled>Please select a state</option>
-                  <option :key="option" v-for="option in states" :value="option.id"
-                    :selected="option.id === state ? true : false">
-                    {{ option.name }}
+                  <option :key="option" v-for="option in states" :value="option?.id"
+                    :selected="option?.id === state ? true : false">
+                    {{ option?.name }}
                   </option>
                 </Field>
                 <ErrorMessage name="state" class="text-danger" />

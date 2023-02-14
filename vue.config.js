@@ -3,6 +3,7 @@
 //   transpileDependencies: true
 // })
 module.exports = {
+  transpileDependencies: ['vuex-composition-helpers'],
   chainWebpack: (config) => {
       // Disable prefetching and preloading
       config.plugins.delete('prefetch')
