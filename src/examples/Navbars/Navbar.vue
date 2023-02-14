@@ -50,14 +50,17 @@
                   {{ userProfile?.last_name }}</span><span class="user-status">{{ getActive?.subscription?.plan?.name }}
                   Plan</span>
               </div>
-
+              
               <span class="avatar">
-                <img v-if="companyProfile?.logo" :src="companyProfile?.logo" alt=""
+                <img v-if="companyProfile?.logo || userProfile?.image" :src="companyProfile?.logo || userProfile?.image" alt={{userProfile?.initials}}
                   class="img d-flex align-items-center justify-content-center">
-                <span v-if="!companyProfile?.logo" class="img d-flex align-items-center justify-content-center">{{
+                <span v-else  class="img d-flex align-items-center justify-content-center">
+                {{
                     userProfile?.initials
                 }}
                 </span>
+                <!-- <img  v-else  :src="userProfile?.image" class="img d-flex align-items-center justify-content-center" alt={{userProfile?.initials}} /> -->
+
                 <span class="avatar-status-online"></span>
               </span>
               <!-- <i class="material-icons cursor-pointer"> notifications </i> -->
