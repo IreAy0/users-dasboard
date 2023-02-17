@@ -52,7 +52,7 @@
               </div>
               
               <span class="avatar">
-                <img v-if="companyProfile?.logo || userProfile?.image" :src="companyProfile?.logo || userProfile?.image" alt={{userProfile?.initials}}
+                <img v-if="companyProfile?.logo || userProfile?.image" :src="companyProfile?.logo || userProfile?.image" :alt="userProfile?.initials"
                   class="img d-flex align-items-center justify-content-center">
                 <span v-else  class="img d-flex align-items-center justify-content-center">
                 {{

@@ -7,6 +7,10 @@ export default {
 
   uploadLockerDocument(payload){
     return ToNote.post( `/document-locker`, payload)
+  },
+
+  deleteLockerDocument(payload){
+    return ToNote.delete(`/document-locker/${payload}`)
   }
   // showSessionRecordToday(token, entry_point) {
   //   // Video

@@ -56,7 +56,7 @@
                     <label v-bind:style="{ fontFamily: font,fontSize: '20px', color: '#000' }" :class="font"
                       class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50 " :for="font">
 
-                      {{ generalData?.first_name }} {{ generalData?.last_name }}
+                      {{ userProfile?.first_name }} {{ userProfile?.last_name }}
                     </label>
                   </div>
                 </td>
@@ -72,7 +72,7 @@
             <span :class="{'d-none': selectedFont == '' }" class="d-inline-block">
               <div ref="capture" class="d-inline-block fs-1" data-type="Signature" style="color: #000"
                 :style="{ fontFamily: selectedFont }">
-                {{ generalData?.first_name }} {{ generalData?.last_name }}
+                {{ userProfile?.first_name }} {{ userProfile?.last_name }}
               </div>
             </span>
             <div :class="{'d-none': selectedFont !== '' }" v-show="getTyped" class="mt-1 ">
@@ -107,7 +107,7 @@
                       :class="fontNew+'initials'" class="form-check-label flex-grow-1 flex-grow-1 py-1 p-50"
                       :for="fontNew+'_initials'">
 
-                      {{ generalData?.initials }}
+                      {{ userProfile?.initials }}
                     </label>
                   </div>
                 </td>
@@ -125,7 +125,7 @@
             <span :class="{'d-none': selectedInitial == '' }" class="d-inline-block">
               <div ref="initials" class="d-inline-block fs-1" data-type="Signature"
                 style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedInitial}">
-                {{ generalData?.initials }}
+                {{ userProfile?.initials }}
               </div>
             </span>
             <div :class="{'d-none': selectedInitial !== '' }" class="mt-1 ">
@@ -160,8 +160,8 @@
                 class="border-2 border rounded-3"></VueSignaturePad>
             </div>
 
-            <div class="col-12 col-md-4 mt-2 mt-md-0">
-              <button @click="save" class="
+            <div class="col-12 col-md-4 mt-2 m-auto">
+              <!--<button @click="save" class="
                   btn
                   bg-primary
                   text-white
@@ -171,7 +171,7 @@
                   px-1
                 ">
                 Generate Signature
-              </button>
+              </button>-->
               <div class="mt-1">
                 <SkeletonLoader :loading="loadingSignature" />
                 <img :src="signature.length == 0 ? getDraw : imgSrc?.file" class="sign-preview"
@@ -280,6 +280,13 @@ export default {
         onBegin: () => {
           this.$refs.signaturePad.resizeCanvas();
         },
+        onEnd: () => {
+      // eslint-disable-next-line no-unused-vars
+      const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
+
+      this.setImage({ file: data, type: "Signature", category: "Draw" });
+        
+        }
       },
 
       disabled: false,
@@ -490,6 +497,7 @@ export default {
       const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
       this.setImage({ file: data, type: "Signature", category: "Draw" });
     },
+
     onFileChange(e) {
       let image = e.target.files[0];
       let reader = new FileReader();

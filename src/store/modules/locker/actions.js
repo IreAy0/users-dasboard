@@ -11,7 +11,6 @@ const toast = useToast();
 export const getLockerDocuments = ({ commit }) => {
   Locker.getLockerDocuments()
     .then((response) => {
-      console.log(response, 'response')
       commit("SET_LOCKER_DOCUMENTS", response.data.data);
     })
     .catch((error) => {
@@ -56,40 +55,35 @@ return Locker.uploadLockerDocument(payload)
     });
 };
 
-// export const deleteSession = ({ commit }, sessionData) => {
+export const deleteDocument = ({ commit, dispatch }, sessionData) => {
 
-//   Schedule.CancelVirtualSession(sessionData.id)
-//     .then((response) => {
-//       commit("SET_CANCEL_SESSION", response.data.data);
+  Locker.deleteLockerDocument(sessionData.id)
+    .then((response) => {
+      commit("SET_DELETE_DOCUMENT", response.data.data);
       
-//       // const token = store.getters["auth/token"];
-//       const token = getToken();
-//       Schedule.showSessionRecord(token)
-//         .then((res) => commit("SET_SESSION_RECORD", res.data.data))
-
-//       // Schedule.showSessionRecordToday({token: token,  entry_point: 'Video'})
-//       // .then((response) => {
-//       //   commit("SET_SESSION_RECORD", response.data);
-//       // })
+      // const token = store.getters["auth/token"];
+      const token = getToken();
+      // dispatch("locker/getLockerDocuments")
+      Locker.getLockerDocuments()
+    .then((response) => {
+      commit("SET_LOCKER_DOCUMENTS", response.data.data);
+    })
       
-//       Schedule.showSessionRecordToday(token)
-//         .then((response) => commit("SET_SESSION_RECORD_TODAY", response.data))
+
+      toast.success("Document deleted successfully", {
+        timeout: 5000,
+        position: "top-right",
+      });
+    })
 
 
-//       toast.success("Session cancelled successfully", {
-//         timeout: 5000,
-//         position: "top-right",
-//       });
-//     })
-
-
-//     .catch((error) => {
-//       if (error.response.status == 401 || error.response.status == 404) {
-//         commit("SET_CANCEL_SESSION", null);
-//         Vue.$toast.error(`${error.response.data.errors.root}`);
-//       }
-//     });
-// };
+    .catch((error) => {
+      if (error.response.status == 401 || error.response.status == 404) {
+        commit("SET_DELETE_DOCUMENT", null);
+        Vue.$toast.error(`${error.response.data.errors.root}`);
+      }
+    });
+};
 
 
 // get AFFI

@@ -12,6 +12,7 @@ const state = () => ({
   image: null,
   updated: false,
   signature: [],
+  signLinkDocuments: [],
   updating: false,
   dashboardData: null,
   changeValue: "",
@@ -47,6 +48,10 @@ const actions = {
     await profile.getDashboardData().then(
       (data) => {
         commit("getDashboardDataSuccess", data?.data)
+         profile.getSignLinkDocuments()
+        .then((res) => {
+          commit("getSignLinkDocument", res?.data?.data)
+        })
       },
       error => {
        
@@ -76,7 +81,7 @@ const actions = {
     )
   },
   userUpdate({ commit }, user = "") {
-    profile.updateProfile(user)
+  profile.updateProfile(user)
       .then(
         res => {
           commit('updateUserProfileSuccess', res);
@@ -191,9 +196,11 @@ const mutations = {
     state.dashboardData = user
   },
 
+  getSignLinkDocument(state, payload){
+    state.signLinkDocuments= payload
+  },
   updateUserProfileSuccess(state) {
     state.updated = true;
-
   },
   createSignature(state) {
     state.updating = true;

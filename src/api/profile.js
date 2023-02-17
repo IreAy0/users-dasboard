@@ -24,6 +24,9 @@ export default {
     return ToNote.get('/document-statistics')
   },
 
+  async getSignLinkDocuments(){
+    return ToNote.get('/signlink-documents')
+  },
   async getTransactions(){
     return ToNote.get('/transactions')
   }

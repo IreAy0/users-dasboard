@@ -115,7 +115,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                          
                            
-                            <div class="dropdown-item">
+                            <div @click="cancelSessionModal(result.id)" class="dropdown-item">
                               <Icon icon="mdi:cancel" />
                               Delete
                             </div>
@@ -167,14 +167,14 @@
     </template>
 
     <template #body>
-      <p class="text-center my-2">Are you sure you want to cancel this session?</p>
+      <p class="text-center my-2">Are you sure you want to cancel this Document?</p>
     </template>
 
     <template #footer>
-      <button class="btn btn-sm btn-secondary" @click="cancelSession(false)">
+      <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
         No
       </button>
-      <button class="btn btn-sm btn-primary" @click="cancelSession(true)">
+      <button class="btn btn-sm btn-primary" @click="deleteLockerDocument(true)">
         Yes
       </button>
     </template>
@@ -212,13 +212,13 @@ const {  allLockerDocuments, postLockerDocument } =
   });
 
 const {
-  getLockerDocuments
+  getLockerDocuments,
+  deleteDocument
 } = useActions({
   getLockerDocuments: "locker/getLockerDocuments",
- 
+  deleteDocument: "locker/deleteDocument"
 });
 
-console.log(postLockerDocument, 'post')
 
 const data = ref("");
 // data.value = request;
@@ -237,16 +237,16 @@ const cancelSessionModal = (id) => {
   cancelModal.value = true;
 };
 
-// const cancelSession = (params) => {
-//   if (params) {
-//     let formData = { id: sessionId.value};
-//     // console.log(formData);
-//     deleteSession(formData);
-//     cancelModal.value = false;
-//   } else {
-//     cancelModal.value = false;
-//   }
-// };
+const deleteLockerDocument = (params) => {
+  if (params) {
+    let formData = { id: sessionId.value};
+    // console.log(formData);
+    deleteDocument(formData);
+    cancelModal.value = false;
+  } else {
+    cancelModal.value = false;
+  }
+};
 
 
 const reschedule = ref({});
