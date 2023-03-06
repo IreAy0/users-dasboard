@@ -45,13 +45,31 @@
     </nav>
 
     <div class="tab-content tab-content col-12 col-md-9 bs-stepper-content">
+     
       <div class=" formstep step1 d-none">
+        <div class="content-header mb-1">
+          <h5 class="mb-0">Personal Info</h5>
+          <small class="text-muted">Update Your Personal Information.</small>
+        </div>
+
+        <div class="pb-2 d-flex gap-3 align-items-center">
+          <div class="rounded-3 border d-flex justify-content-center align-items-center"
+         style="width:100px;height:100px"
+      alt="Avatar">
+
+      <img v-if="userProfile.image" :src="userProfile.image" :alt="userProfile.first_name"/>
+        <i else class="fas fa-user-alt fa-3x text-primary"></i>
+        </div>
+        <div>
+          <h3>{{userProfile.first_name}} {{userProfile.last_name}}</h3>
+          <p>{{userProfile.email}} </p>
+        </div>
+        
+
+        </div>
         <Form autocomplete="off" @submit="handleSubmit" :validation-schema="simpleSchema" id="account-details-modern"
           novalidate>
-          <div class="content-header mb-1">
-            <h5 class="mb-0">Personal Info</h5>
-            <small class="text-muted">Enter Your Personal Information.</small>
-          </div>
+          
           <div class="row">
             <div class="mb-1 col-md-6">
               <label class="form-label" for="modern-first-name">First Name</label>
@@ -581,7 +599,7 @@ export default {
 
     this.$store.dispatch("ProfileModule/getUser");
 
-    console.log("ProfileModule", this.userProfile)
+    // console.log("ProfileModule", this.userProfile)
     // this.profile = this.userProfile
     this.validState = this.userProfile?.national_verification;
     this.state = this.userProfile?.state?.id

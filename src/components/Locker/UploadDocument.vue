@@ -93,17 +93,17 @@ let selectedFiles= ref("");
 const error = ref(true);
 const error_message = ref({
   file: null,
- 
 });
+
 const form_data = ref({
   title: "",
   files: [],
  
 });
 
-const close = () => {
-  console.log('close')
-}
+// const close = () => {
+//   console.log('close')
+// }
 
 
 const preparedFile = (file) => {

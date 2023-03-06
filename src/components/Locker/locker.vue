@@ -57,7 +57,7 @@
                       >
                         {{ result.title }}
                       </h6>
-                      <small
+                      <!-- <small
                         class="badge rounded-pill me-1"
                         :class="[
                           result.immediate == true
@@ -70,7 +70,7 @@
                             ? "Immediate Session"
                             : "Scheduled Session"
                         }}
-                      </small>
+                      </small> -->
                     </td>
 
                    <!-- <td>
@@ -119,7 +119,9 @@
                               <Icon icon="mdi:cancel" />
                               Delete
                             </div>
-                          
+                            <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
+                              <Icon icon="carbon:share" /> Share
+                            </div>
                             <div class="dropdown-item">
                               <Icon icon="carbon:download" /> Download
                             </div>
@@ -179,7 +181,30 @@
       </button>
     </template>
   </ModalComp>
+  <ModalComp :show="shareModal" :size="'modal-sm'" @close="shareModal = false">
+    <template #header>
+      <h4 class="text-primary mb-0">
+        <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
+        Share with others
+      </h4>
+    </template>
 
+    <template #body>
+      <!-- <p class="text-center my-2">Are you sure you want to cancel this Document?</p> -->
+      <input type="email" class="form-control" id="email" placeholder="Please Enter email"
+        :style="error_message.email && 'border: 1px solid red'"  v-model="email"
+        @change="error_message.email = null" />
+    </template>
+
+    <template #footer>
+      <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
+        cancel
+      </button>
+      <button class="btn btn-sm btn-primary" @click="shareLockerDocument(true)">
+        Share
+      </button>
+    </template>
+  </ModalComp>
   </div>
 </template>
 
@@ -194,9 +219,12 @@ import moment from "moment";
 import UploadDocument from './UploadDocument';
 import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-bs5";
+import { useToast } from "vue-toast-notification";
 import $ from "jquery";
 import { getToken } from "@/Services/helpers";
+import ToNote from "@/Services/Tonote";
 
+const toast = useToast();
 
 const today = moment().format("YYYY-MM-DD");
 
@@ -222,11 +250,16 @@ const {
 
 const data = ref("");
 // data.value = request;
-
+const email = ref("");
+const error_message =({
+  email: ""
+})
 const cancelModal = ref(false);
+const shareModal = ref(false);
 const questionModal = ref(false);
-
+const document_id= ref("")
 const sessionId = ref("");
+
 const openSessionModal = () => {
   // sessionId.value = id;
   questionModal.value = true;
@@ -235,6 +268,11 @@ const openSessionModal = () => {
 const cancelSessionModal = (id) => {
   sessionId.value = id;
   cancelModal.value = true;
+};
+
+const shareDocumentModal = (id) => {
+  document_id.value = id;
+  shareModal.value = true;
 };
 
 const deleteLockerDocument = (params) => {
@@ -247,7 +285,37 @@ const deleteLockerDocument = (params) => {
     cancelModal.value = false;
   }
 };
+const shareLockerDocument = (params) => {
+  if (params) {
+    let formData = { id: sessionId.value};
+    // console.log(formData);
+    // deleteDocument(formData);
+    let documents = [
+      {
+      "document_id": document_id.value,
+      "email": email.value
+      }
+    ]
+    ToNote.put(`/document-share/${document_id.value}`, {documents} )
+      .then(res => {
+        shareModal.value = false;
+        toast.success("shared successfully", {
+        timeout: 5000,
+        position: "top-right",
+      });
+      }).catch(err => {
+        shareModal.value = false;
+        toast.error(err.message, {
+        timeout: 5000,
+        position: "top-right",
+      });
+      })
 
+    
+  } else {
+    shareModal.value = false;
+  }
+};
 
 const reschedule = ref({});
 

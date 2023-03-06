@@ -92,7 +92,7 @@
   </div>
   <div class="col">
     <div class="card h-100 justify-content-center">
-      <a :href="`${getEnv}?status=sent&qt=${getToken}`"  >
+      <a :href="`${getEnv}?status=completed&qt=${getToken}`"  >
               <div class="card-header p-1 flex-nowrap">
                 <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>

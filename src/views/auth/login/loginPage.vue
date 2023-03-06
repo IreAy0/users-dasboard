@@ -146,7 +146,8 @@ export default {
 
       const loginDetails = {
         email: this.user.email.toLocaleLowerCase(),
-        password: this.user.password
+        password: this.user.password,
+        entry_point: 'User'
       }
       this.login(loginDetails)
     },
