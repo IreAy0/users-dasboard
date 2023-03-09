@@ -1,12 +1,12 @@
 <template>
    <div class="container-fluid">
     <div class="row p-0" id="basic-table ">
-      <div class="col col-12">
+      <!-- <div class="col col-12">
         <div class="card">
           <div class="card-body">
             <h3 class="">Next Scheduled Meeting Today</h3>
-            <!-- <p>You have no scheduled meeting for today</p> -->
-            <template v-if="filterDocByNextMeeting.length > 0">
+            <p>You have no scheduled meeting for today</p>
+            <template v-if="filterDocByNextMeeting">
               <template
                 v-for="(result, index) in filterDocByNextMeeting"
                 :key="index"
@@ -29,12 +29,10 @@
                 </div>
               </template>
             </template>
-            <template v-else>
-              You have no pending scheduled meeting today
-            </template>
+           
           </div>
         </div>
-      </div>
+      </div> -->
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <h4 class="card-title">Affidavit Requests</h4>
@@ -73,7 +71,7 @@
             <th>Action</th>
           </tr>
         </thead>
-
+        <!-- .filter((respond) => respond.entry_point == "Affidavit") -->
         <tbody>
           <tr v-for="(data, index) in filterDocByAffidavitRequests" :key="index">
            
@@ -124,26 +122,33 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
-import { onMounted, computed } from "vue";
+import { onMounted, computed, defineProps, toRefs, onUpdated  } from "vue";
+import { useStore } from 'vuex'
 import moment from "moment";
 // import Api from "@/api/Api";
 import { getToken } from "@/Services/helpers";
 import { useActions, useGetters } from "vuex-composition-helpers";
 
+const store = useStore()
+
 const dateTime = (value) => {
   return moment(value).format("Do MMM YYYY, hh:mm A");
 };
 
+defineProps({
+  data: { type: Array, default: [] },
+});
+
 const { affidavits, allSessionRecordToday } = useGetters({
   affidavits: "schedule/affidavits",
   allSessionRecordToday: "schedule/allSessionRecordToday",
-
 });
 
+
 const { getAffidavitRequest, getSessionRecordToday, } = useActions({
+  // getAffidavitRequest: "schedule/getAffidavitRequest",
   getAffidavitRequest: "schedule/getAffidavitRequest",
   getSessionRecordToday: "schedule/getSessionRecordToday",
-
 });
 
 
@@ -153,27 +158,31 @@ const token = computed(()  => {
 });
 
 const filterDocByAffidavitRequests = computed(() => {
-  return affidavits?.value?.filter(
-    (data) =>  data?.entry_point == "Affidavit",
-  );
+  return affidavits.value?.filter((respond) => respond.entry_point == "Affidavit");
 });
 
 const filterDocByNextMeeting = computed(() => {
-  return allSessionRecordToday?.value.filter(
+   if (allSessionRecordToday?.value?.data?.length == 0) {
+    return []
+  } else {
+    return allSessionRecordToday.value?.data?.filter(
     (res) =>
       res?.entry_point == "Affidavit" &&
       res?.immediate == false &&
       res?.status != "Completed",
   );
+  } 
 });
+
+console.log(allSessionRecordToday.value, 'record today')
 
 const virtualNotary = computed(() => {
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
     });
 
-onMounted(() => {
-  getAffidavitRequest();
-});
+// onMounted(() => {
+//   getAffidavitRequest();
+// });
 </script>
 
 <style lang="scss" scoped></style>

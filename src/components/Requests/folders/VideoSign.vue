@@ -6,7 +6,7 @@
           <div class="card-body">
             <h3 class="">Next Scheduled Meeting Today</h3>
             <!-- <p>You have no scheduled meeting for today</p> -->
-            <template v-if="filterDocByNextMeeting.length > 0">
+            <template v-if="filterDocByNextMeeting?.length > 0 ">
               <template
                 v-for="(result, index) in filterDocByNextMeeting"
                 :key="index"
@@ -317,7 +317,7 @@
 
 <script setup>
 import { request } from "../data.js";
-import { ref, onMounted, onUpdated, computed } from "vue";
+import { ref, onMounted, onUpdated, computed, defineProps } from "vue";
 import { Icon } from "@iconify/vue";
 import { useActions, useGetters } from "vuex-composition-helpers/dist";
 import ModalComp from "@/components/ModalComp.vue";
@@ -334,6 +334,11 @@ const today = moment().format("YYYY-MM-DD");
 const dateTime = (date) => {
   return moment(date).format("Do MMM YYYY · h:mm a");
 };
+
+const prop = defineProps({
+  data: Array
+})
+
 const token = getToken()
 const {  allSessionRecord, allSessionRecordToday, time_slots } =
   useGetters({
@@ -406,6 +411,7 @@ const getDocument = (params) => {
 //       return token;
 //     }
 
+
 const  getEnv =() =>{
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_PAGE_STAGING : process.env.VUE_APP_VIDEO_SIGN_PAGE_LIVE
 
@@ -458,13 +464,12 @@ const displayTimeSlot = computed(() => {
 });
 
 const filterDocByVideo = computed(() => {
-  return allSessionRecord.value.filter(
-    (respond) => respond.entry_point === "Video",
+  return allSessionRecord?.value?.filter((respond) => respond.entry_point === "Video",
   );
 });
 
 const filterDocByNextMeeting = computed(() => {
-  return allSessionRecordToday.value.filter(
+  return allSessionRecordToday?.value?.data?.filter(
     (res) =>
       res.entry_point === "Video" &&
       res.immediate == false &&
@@ -472,9 +477,11 @@ const filterDocByNextMeeting = computed(() => {
   );
 });
 
+console.log('videosign', allSessionRecordToday?.value )
+
 onMounted(() => {
-  getSessionRecords(token.value);
-  getSessionRecordToday({token: token.value,  entry_point: 'Video'});
+  getSessionRecords(token);
+  getSessionRecordToday({token: token,  entry_point: 'Video'});
   TimeSlotsAction();
 });
 
@@ -496,7 +503,7 @@ onUpdated(() => {
         });
       }
     }
-  }, 1000);
+  }, 100);
 });
 </script>
 

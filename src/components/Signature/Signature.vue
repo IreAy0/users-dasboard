@@ -66,7 +66,7 @@
           </table>
         </div>
 
-        <div class="col-12 p-0  mt-2 m-auto">
+        <div class="col-12 p-0  m-auto">
           <div>
 
             <span :class="{'d-none': selectedFont == '' }" class="d-inline-block">
@@ -77,7 +77,7 @@
             </span>
             <div :class="{'d-none': selectedFont !== '' }" v-show="getTyped" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview col-12 col-xl-6" :src=" getTyped" />
+              <img class="sign-preview col-12 col-xl-3"   :src=" getTyped" />
 
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
@@ -130,8 +130,7 @@
             </span>
             <div :class="{'d-none': selectedInitial !== '' }" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview" :style="{ width: '100%' }" :src="getInitials" />
-
+              <img class="sign-preview col-12 col-xl-3" :src="getInitials" />
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
           </div>

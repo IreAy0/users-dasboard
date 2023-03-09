@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid">
     <div class="row p-0" id="basic-table ">
-   <div class="col col-12">
+   <!-- <div class="col col-12">
         <div class="card">
           <div class="card-body">
             <h3 class="">Next Scheduled Meeting Today</h3>
-            <!-- <p>You have no scheduled meeting for today</p> -->
-            <template v-if="filterDocByNextMeeting?.length > 0">
+            <p>You have no scheduled meeting for today</p>
+            <template v-if="filterDocByNextMeeting">
               <template
                 v-for="(result, index) in filterDocByNextMeeting"
                 :key="index"
@@ -33,7 +33,7 @@
             </template>
           </div>
         </div>
-      </div>
+      </div> -->
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <h4 class="card-title">Notary Requests</h4>
@@ -125,7 +125,7 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
-import { onMounted,  computed } from "vue";
+import { onMounted,  computed, defineProps } from "vue";
 import moment from "moment";
 // import Api from "@/api/Api";
 import { getToken } from "@/Services/helpers";
@@ -134,6 +134,7 @@ import { useActions, useGetters } from "vuex-composition-helpers";
 const dateTime = (value) => {
   return moment(value).format("Do MMM YYYY, hh:mm A");
 };
+
 
 const { affidavits, allSessionRecordToday } = useGetters({
   affidavits: "schedule/affidavits",
@@ -154,7 +155,7 @@ const filterDocByNotaryRequests = computed(() => {
 });
 
 const filterDocByNextMeeting = computed(() => {
-  return allSessionRecordToday?.value.filter(
+  return allSessionRecordToday?.value.data?.filter(
     (res) =>
       res?.entry_point == "Notary" &&
       res?.immediate == false &&
@@ -162,7 +163,7 @@ const filterDocByNextMeeting = computed(() => {
   );
 });
 
-// console.log('affidavits', affidavits, filterDocByNextMeeting, filterDocByNotaryRequests);
+console.log('affidavits', affidavits, filterDocByNextMeeting, filterDocByNotaryRequests);
 
 const token = computed(()  => {
       const token = getToken();

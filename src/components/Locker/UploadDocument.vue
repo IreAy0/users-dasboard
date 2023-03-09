@@ -62,8 +62,9 @@
     <p v-if="preview" class="text-primary">{{ preview }}</p>
    
   <div class="modal-footer">
-    <button @click="SubmitHandler" type="button" class="btn btn-primary">
-      Proceed
+    <button  :disabled="loading" @click="SubmitHandler" type="button" class="btn btn-primary">
+      <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+      Upload
     </button>
   </div>
   </div>
@@ -83,7 +84,7 @@ const previewFile = ref([]);
 const dataFile = ref([]);
 dataFile.value = [];
 previewFile.value = [];
-
+const loading = ref(false);
 const preview = ref(null);
 const isSelected = ref(false);
 const isUpload = ref(false);
@@ -201,9 +202,11 @@ const SubmitHandler = () => {
     !error_message.value.title && 
     !error_message.value.file
   ) {
+    loading.value = true
     store.dispatch("locker/uploadDocument", {
       ...form_data.value,
     }).then((res) => {
+      loading.value = false;
       emits('close')
       // store.dispatch("locker/getLockerDocuments")
     }) ;

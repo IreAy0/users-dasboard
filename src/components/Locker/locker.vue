@@ -200,22 +200,55 @@
       <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
         cancel
       </button>
-      <button class="btn btn-sm btn-primary" @click="shareLockerDocument(true)">
+      <button :disabled="loading" class="btn btn-sm btn-primary" @click="shareLockerDocument(true)">
+        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
         Share
       </button>
     </template>
   </ModalComp>
+  <div>
+    <ModalComp :show="otpModal == false ? true : false"  :size="'modal-sm'" @close="otpModal = false">
+      <template #header>
+        <h4 class="text-primary mb-0">
+          <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
+          Enter OTP 
+        </h4>
+      </template>
+  
+      <template #body>
+
+        <a class="text-center my-2">We have sent an OTP to <span class="text-primary text-bold">{{profile?.email}}</span>  <br/>
+           If you don't get a code, please request another
+        </a>
+        <div>
+          <p  @click="resendOtp(true)" class="text-primary text-right mt-1 mb-0">Resend</p>
+        </div>
+        <input type="number" class="form-control" id="otp" placeholder="Please Enter Otp"
+          :style="error_message.otp && 'border: 1px solid red'"  v-model="otp"
+          @change="error_message.otp = null" />
+
+      </template>
+  
+      <template #footer>
+        <button :disabled="loading" class="btn btn-sm btn-primary" @click="otpLocker(true)">
+          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          Proceed
+        </button>
+      </template>
+    </ModalComp>
+  </div>
+  
   </div>
 </template>
 
 <script setup>
-// import { request } from "../data.js";
 import { ref, onMounted, onUpdated, computed } from "vue";
 import { Icon } from "@iconify/vue";
 import { useActions, useGetters } from "vuex-composition-helpers/dist";
 import ModalComp from "@/components/ModalComp.vue";
 import Datepicker from "vuejs3-datepicker";
 import moment from "moment";
+import { useStore } from 'vuex'
 import UploadDocument from './UploadDocument';
 import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-bs5";
@@ -225,26 +258,32 @@ import { getToken } from "@/Services/helpers";
 import ToNote from "@/Services/Tonote";
 
 const toast = useToast();
+const store = useStore()
 
 const today = moment().format("YYYY-MM-DD");
+
+const profile = computed(() => store.state.ProfileModule.userProfile)
 
 const dateTime = (date) => {
   return moment(date).format("Do MMM YYYY · h:mm a");
 };
+
 const token = getToken()
+
 const {  allLockerDocuments, postLockerDocument } =
   useGetters({
     allLockerDocuments: "locker/allLockerDocuments",
     postLockerDocument: "locker/postLockerDocument",
-
   });
 
 const {
   getLockerDocuments,
-  deleteDocument
+  deleteDocument,
+  getUser
 } = useActions({
   getLockerDocuments: "locker/getLockerDocuments",
-  deleteDocument: "locker/deleteDocument"
+  deleteDocument: "locker/deleteDocument",
+  getUser: "ProfileModule/getUser",
 });
 
 
@@ -252,14 +291,17 @@ const data = ref("");
 // data.value = request;
 const email = ref("");
 const error_message =({
-  email: ""
+  email: "",
+  otp: ""
 })
+const otp = ref("");
 const cancelModal = ref(false);
 const shareModal = ref(false);
+const otpModal = ref(profile.value.access_locker_documents)
 const questionModal = ref(false);
 const document_id= ref("")
 const sessionId = ref("");
-
+const loading = ref(false)
 const openSessionModal = () => {
   // sessionId.value = id;
   questionModal.value = true;
@@ -288,23 +330,24 @@ const deleteLockerDocument = (params) => {
 const shareLockerDocument = (params) => {
   if (params) {
     let formData = { id: sessionId.value};
-    // console.log(formData);
-    // deleteDocument(formData);
     let documents = [
       {
       "document_id": document_id.value,
       "email": email.value
       }
     ]
+    loading.value = true;
     ToNote.put(`/document-share/${document_id.value}`, {documents} )
       .then(res => {
         shareModal.value = false;
+        loading.value = false;
         toast.success("shared successfully", {
         timeout: 5000,
         position: "top-right",
       });
       }).catch(err => {
         shareModal.value = false;
+        loading.value = false;
         toast.error(err.message, {
         timeout: 5000,
         position: "top-right",
@@ -317,15 +360,56 @@ const shareLockerDocument = (params) => {
   }
 };
 
+const otpLocker = (params) => {
+  if (params) {
+    let documents = {
+      "email": profile.value.email,
+      "otp": `${otp.value}`
+      }
+      loading.value = true;
+    ToNote.post(`/document-otp-locker`, documents)
+      .then(res => {
+        otpModal.value = true;
+        getUser()
+        loading.value = false;
+        toast.success("updated successfully", {
+        timeout: 5000,
+        position: "top-right",
+      });
+      }).catch(err => {
+        loading.value = false;
+        toast.error(err.response.data.data.error, {
+        timeout: 5000,
+        position: "top-right",
+      });
+      })
+  } else {
+    otpModal.value = false;
+  }
+};
+
+const resendOtp = (params) => {
+  if(params){
+    ToNote.get('/document-otp-locker')
+        .then(res => {
+          toast.success(res?.data?.message, {
+        timeout: 5000,
+        position: "top-right",
+      });
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+  }
+
+}
 const reschedule = ref({});
 
 
-const  getEnv =() =>{
+const  getEnv = () =>{
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_PAGE_STAGING : process.env.VUE_APP_VIDEO_SIGN_PAGE_LIVE
-
     }
-  
-  
+ 
 const dateSelected = (data) => {
   reschedule.value.date = moment(data).format("YYYY-MM-DD");
 };
@@ -337,9 +421,24 @@ onMounted(() => {
   // getSessionRecords(token.value);
   // getSessionRecordToday({token: token.value,  entry_point: 'Video'});
   // TimeSlotsAction();
+  if(profile.value?.access_locker_documents === false){
+    // /api/v1/document-otp-locker
+      ToNote.get('/document-otp-locker')
+        .then(res => {
+          toast.success(res?.data?.message, {
+        timeout: 5000,
+        position: "top-right",
+      });
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        })
+    }
 });
 
 onUpdated(() => {
+  
+  
   setTimeout(() => {
     if ($.fn.dataTable.isDataTable("#allrecord")) {
       $("#allrecord").DataTable();
@@ -347,21 +446,33 @@ onUpdated(() => {
       if (allLockerDocuments.value.length > 0) {
         $("#allrecord").DataTable({
           columnDefs: [{ orderable: false, targets: [0, 4] }],
-          // order: [[3, "desc"]],
+          order: [[3, "desc"]],
           aaSorting: [],
+          // sPrevious: "Previous page", // This is the link to the previous page
+          // sNext: "Next page", // This is the link to the next page  
           lengthMenu: [
             [5, 10, 25, 50, -1],
             [5, 10, 25, 50, "All"],
           ],
-          pageLength: 15,
+         
+          pageLength: 5,
         });
       }
     }
-  }, 1000);
+  }, 100);
 });
+
 </script>
 
 <style>
+.text-right{
+  text-align: right;
+  cursor: pointer
+}
+.backdrop {
+  backdrop-filter: blur(4px);
+
+}
 .vuejs3-datepicker {
   display: block;
 }

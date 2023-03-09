@@ -25,7 +25,6 @@ let timeoutId;
 function handleInactive() {
   if (token) {
     store.dispatch("AuthModule/logout");
-   
   }
  
 }

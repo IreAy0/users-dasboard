@@ -65,7 +65,7 @@ export default {
 
   // agora
   agora: null,
-  affidavits: null,
+  affidavits: [],
   notary_request: null,
   video_sign: null,
 };

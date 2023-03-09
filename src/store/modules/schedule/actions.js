@@ -25,6 +25,7 @@ export const getSessionRecordToday = ({ commit }, payload) => {
   const {token, entry_point } = payload
   Schedule.showSessionRecordToday(token, entry_point)
     .then((response) => {
+      console.log(response, 'res')
       commit("SET_SESSION_RECORD_TODAY", response.data);
     })
     .catch((error) => {
@@ -256,7 +257,6 @@ export const getAffidavitRequest = ({ commit }) => {
  
   return Schedule.AffidavitRequest(token)
     .then((response) => {
-      
       commit("FETCH_AFFIDAVIT_REQUEST", response.data.data);
 
     })
@@ -282,7 +282,6 @@ export const getVideoSignRequest = ({ commit }) => {
   const token = getToken();
   return Schedule.VideoSignRequest(token)
     .then((response) => {
-      console.log('video sign', response)
       commit("FETCH_VIDEO_SIGN_REQUEST", response.data.data);
     })
     .catch(() => {
