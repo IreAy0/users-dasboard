@@ -29,7 +29,6 @@ return Locker.uploadLockerDocument(payload)
     //  dispatch("getLockerDocuments");
      Locker.getLockerDocuments()
      .then((response) => {
-       console.log(response, 'response')
        commit("SET_LOCKER_DOCUMENTS", response.data.data);
      })
      .catch((error) => {
@@ -39,7 +38,6 @@ return Locker.uploadLockerDocument(payload)
        }
      });
       commit("UPLOAD_LOCKER_DOCUMENT", true);
-      console.log(response, 'response')
       toast.success("Document  has been Updated successfully", {
         timeout: 5000,
         position: "top-right",

@@ -46,7 +46,6 @@ export const finishAnnotation = ({ commit }, formData) => {
 };
 
 export const getUserDocument = ({ commit }, docId) => {
-  console.log('docId', docId)
   Document.showDocument(docId)
     .then((response) => { commit("SET_DOCUMENT", response.data.data); })
     .catch((error) => {

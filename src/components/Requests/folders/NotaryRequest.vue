@@ -163,8 +163,6 @@ const filterDocByNextMeeting = computed(() => {
   );
 });
 
-console.log('affidavits', affidavits, filterDocByNextMeeting, filterDocByNotaryRequests);
-
 const token = computed(()  => {
       const token = getToken();
       return token;

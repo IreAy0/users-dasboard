@@ -477,8 +477,6 @@ const filterDocByNextMeeting = computed(() => {
   );
 });
 
-console.log('videosign', allSessionRecordToday?.value )
-
 onMounted(() => {
   getSessionRecords(token);
   getSessionRecordToday({token: token,  entry_point: 'Video'});

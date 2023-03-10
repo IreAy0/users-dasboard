@@ -174,8 +174,6 @@ const filterDocByNextMeeting = computed(() => {
   } 
 });
 
-console.log(allSessionRecordToday.value, 'record today')
-
 const virtualNotary = computed(() => {
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
     });
