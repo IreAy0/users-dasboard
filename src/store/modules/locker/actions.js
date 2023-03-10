@@ -5,7 +5,7 @@ import router from "@/router";
 import { useToast } from "vue-toast-notification";
 import { getToken } from "@/Services/helpers";
 
-const toast = useToast();
+const $toast = useToast();
 
 
 export const getLockerDocuments = ({ commit }) => {
@@ -38,7 +38,7 @@ return Locker.uploadLockerDocument(payload)
        }
      });
       commit("UPLOAD_LOCKER_DOCUMENT", true);
-      toast.success("Document  has been Updated successfully", {
+      $toast.success("Document  has been Updated successfully", {
         timeout: 5000,
         position: "top-right",
       });
@@ -68,7 +68,7 @@ export const deleteDocument = ({ commit, dispatch }, sessionData) => {
     })
       
 
-      toast.success("Document deleted successfully", {
+      $toast.success("Document deleted successfully", {
         timeout: 5000,
         position: "top-right",
       });

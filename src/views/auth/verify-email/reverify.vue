@@ -58,7 +58,7 @@ import { useToast } from 'vue-toast-notification';
 
 const otpInput = ref(null)
 const loading = ref(false);
-const toast = useToast()
+const $toast = useToast()
 export default {
   name: 'Re-Verify',
   components: {
@@ -88,7 +88,7 @@ export default {
 
       }).then(res => {
         this.loading = false;
-        toast.success('A verify link has been sent to your email address', {
+        $toast.success('A verify link has been sent to your email address', {
           duration: 10000,
           queue: false,
           position: "top-right",
@@ -101,7 +101,7 @@ export default {
         // eslint-disable-next-line no-unused-vars
       ).catch(error => {
         this.loading = false;
-        toast.error(error.response.data.message, {
+        $toast.error(error.response.data.message, {
           duration: 5000,
           queue: false,
           position: "top-right",

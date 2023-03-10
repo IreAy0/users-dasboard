@@ -6,7 +6,7 @@ import { useToast } from "vue-toast-notification";
 import store from "../index";
 
 // initial state
-const toast = useToast();
+const $toast = useToast();
 
 const state = () => ({
   accessToken: null,
@@ -44,7 +44,7 @@ const actions = {
        
         commit("registerFailure", error);
         if (error) {
-          toast.error('Registration failed, Please try again', {
+          $toast.error('Registration failed, Please try again', {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -65,7 +65,7 @@ const actions = {
         setTimeout(() => {
           router.push('/admin/dashboard');
         });
-        toast.success('Email Succesfully verified', {
+        $toast.success('Email Succesfully verified', {
           duration: 3000,
           queue: false,
           position: "top-right",
@@ -75,7 +75,7 @@ const actions = {
       },
       (error) => {
         commit("verifyFailure", error);
-        toast.error('Please try again', {
+        $toast.error('Please try again', {
           duration: 3000,
           queue: false,
           position: "top-right",

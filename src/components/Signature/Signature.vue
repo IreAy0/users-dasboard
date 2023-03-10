@@ -254,7 +254,7 @@ import domtoimage from "dom-to-image";
 import { useToast } from "vue-toast-notification";
 import SkeletonLoader from "../SkeletonLoader.vue";
 // import VueSignaturePad from 'vue-signature-pad';
-const toast = useToast();
+const $toast = useToast();
 
 export default {
   name: "SignatureLayout",
@@ -362,7 +362,7 @@ export default {
           newVal?.data?.data?.Signature?.length > 0 &&
           this.activeItem == "upload"
         ) {
-          toast.success("Profile setup Completed", {
+          $toast.success("Profile setup Completed", {
             position: "top-right",
             duration: 5000,
             closeButton: false,

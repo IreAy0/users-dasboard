@@ -257,7 +257,7 @@ import $ from "jquery";
 import { getToken } from "@/Services/helpers";
 import ToNote from "@/Services/Tonote";
 
-const toast = useToast();
+const $toast = useToast();
 const store = useStore()
 
 const today = moment().format("YYYY-MM-DD");
@@ -341,14 +341,14 @@ const shareLockerDocument = (params) => {
       .then(res => {
         shareModal.value = false;
         loading.value = false;
-        toast.success("shared successfully", {
+        $toast.success("shared successfully", {
         timeout: 5000,
         position: "top-right",
       });
       }).catch(err => {
         shareModal.value = false;
         loading.value = false;
-        toast.error(err.message, {
+        $toast.error(err.message, {
         timeout: 5000,
         position: "top-right",
       });
@@ -372,13 +372,13 @@ const otpLocker = (params) => {
         otpModal.value = true;
         getUser()
         loading.value = false;
-        toast.success("updated successfully", {
+        $toast.success("updated successfully", {
         timeout: 5000,
         position: "top-right",
       });
       }).catch(err => {
         loading.value = false;
-        toast.error(err.response.data.data.error, {
+        $toast.error(err.response.data.data.error, {
         timeout: 5000,
         position: "top-right",
       });
@@ -392,13 +392,13 @@ const resendOtp = (params) => {
   if(params){
     ToNote.get('/document-otp-locker')
         .then(res => {
-          toast.success(res?.data?.message, {
+          $toast.success(res?.data?.message, {
         timeout: 5000,
         position: "top-right",
       });
         })
         .catch((err) => {
-          toast.error(err.message);
+          $toast.error(err.message);
         })
   }
 
@@ -425,13 +425,13 @@ onMounted(() => {
     // /api/v1/document-otp-locker
       ToNote.get('/document-otp-locker')
         .then(res => {
-          toast.success(res?.data?.message, {
+          $toast.success(res?.data?.message, {
         timeout: 5000,
         position: "top-right",
       });
         })
         .catch((err) => {
-          toast.error(err.message);
+          $toast.error(err.message);
         })
     }
 });

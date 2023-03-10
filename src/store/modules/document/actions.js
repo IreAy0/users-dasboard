@@ -4,7 +4,7 @@ import router from "@/router";
 // import socket from "@/config/event";
 import { useToast } from "vue-toast-notification";
 
-const toast = useToast();
+const $toast = useToast();
 
 export const getUserDocuments = ({ commit }, token) => {
   Document.allDocuments(token)
@@ -63,7 +63,7 @@ export const fileUploads = ({ commit }, formData) => {
       router.push({ name: "document.prepare" });
     })
     .catch((error) => {
-      toast.error(`${error.response.data.data.error}`, {
+      $toast.error(`${error.response.data.data.error}`, {
         timeout: 5000,
         position: "top-right",
       });
@@ -76,13 +76,13 @@ export const removeDocument = ({ commit }, formData) => {
       commit("SET_DOCUMENTS", response.data.data);
       commit("SET_DOCUMENTS_BY_STATUS", response.data.data)
 
-      toast.success("Document deleted successfully", {
+      $toast.success("Document deleted successfully", {
         timeout: 5000,
         position: "top-right",
       });
     })
     .catch((error) => {
-      toast.error(`${error.message}`, {
+      $toast.error(`${error.message}`, {
         timeout: 5000,
         position: "top-right",
       });
@@ -94,13 +94,13 @@ export const addSelf = ({ commit }, formData) => {
     .then((response) => {
       commit("SET_DOCUMENT", response.data.data);
 
-      toast.success("You added yourself as a signer", {
+      $toast.success("You added yourself as a signer", {
         timeout: 5000,
         position: "top-right",
       });
     })
     .catch((error) => {
-      toast.error(`${error.response.data.data.error}`, {
+      $toast.error(`${error.response.data.data.error}`, {
         timeout: 5000,
         position: "top-right",
       });
@@ -111,13 +111,13 @@ export const addParticipant = ({ commit }, formData) => {
   Document.storeParticipant({ participants: formData })
     .then((response) => {
       commit("SET_DOCUMENT", response.data.data);
-      toast.success(`${response.data.message}`, {
+      $toast.success(`${response.data.message}`, {
         timeout: 5000,
         position: "top-right",
       });
     })
     .catch((error) => {
-      toast.error(`${error.message}`, {
+      $toast.error(`${error.message}`, {
         timeout: 5000,
         position: "top-right",
       });
@@ -128,7 +128,7 @@ export const doneEditing = ({ commit }, formData) => {
   Document.participantDone(formData)
     .then((response) => { commit("SET_DOCUMENT_DONE", response.data.data); })
     .catch((error) => {
-      toast.error(`${error.message}`, {
+      $toast.error(`${error.message}`, {
         timeout: 5000,
         position: "top-right",
       });
@@ -140,13 +140,13 @@ export const editParticipant = ({ commit }, formData) => {
     .then((response) => {
       commit("SET_DOCUMENT", response.data.data);
 
-      toast.success("Participant updated successfully", {
+      $toast.success("Participant updated successfully", {
         timeout: 5000,
         position: "top-right",
       });
     })
     .catch((error) => {
-      toast.error(`${error.message}`, {
+      $toast.error(`${error.message}`, {
         timeout: 5000,
         position: "top-right",
       });
@@ -162,7 +162,7 @@ export const invitationMail = ({ commit }, formData) => {
       commit("SET_NOTIFICATION", true);
     })
     .catch((error) => {
-      toast.error(`${error.message}`, {
+      $toast.error(`${error.message}`, {
         timeout: 5000,
         position: "top-right",
       });
@@ -174,13 +174,13 @@ export const removeParticipant = ({ commit }, formData) => {
     .then((response) => {
       commit("SET_DOCUMENT", response.data.data);
 
-      toast.success("Participant removed successfully", {
+      $toast.success("Participant removed successfully", {
         timeout: 5000,
         position: "top-right",
       });
     })
     .catch((error) => {
-      toast.error(`${error.message}`, {
+      $toast.error(`${error.message}`, {
         timeout: 5000,
         position: "top-right",
       });

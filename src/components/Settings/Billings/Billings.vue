@@ -228,7 +228,7 @@ const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.
 const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
 
-const toast = useToast();
+const $toast = useToast();
 export default {
   name: "BillingsPage",
 
@@ -344,7 +344,7 @@ export default {
 
           this.paymentConfirmation = true;
           this.individualSelected = " "
-          toast.success("Payment Successful", {
+          $toast.success("Payment Successful", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -356,7 +356,7 @@ export default {
           this.$store.dispatch("ProfileModule/getTransactions")
         })
         .catch((err) => {
-          toast.error("An error occurred", {
+          $toast.error("An error occurred", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -368,7 +368,7 @@ export default {
    },
     onCancelledPayment: function () {
       this.payment_gateway=""
-      toast.error("Payment Cancelled", {
+      $toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
         position: "top-right",
@@ -414,7 +414,7 @@ openFlutterwave() {
       phone_number: this?.userProfile?.phone,
     },
     onclose() {
-      toast.error("Payment Cancelled", {
+      $toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
         position: "top-right",

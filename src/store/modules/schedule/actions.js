@@ -5,7 +5,7 @@ import router from "@/router";
 import { useToast } from "vue-toast-notification";
 import { getToken } from "@/Services/helpers";
 
-const toast = useToast();
+const $toast = useToast();
 
 
 export const getSessionRecords = ({ commit }, token) => {
@@ -48,7 +48,7 @@ export const rescheduleSession = ({ commit }, sessionData) => {
 
       commit("SET_RESCHEDULE_SESSION", response.data.data);
 
-      toast.success("Session has been rescheduled successfully", {
+      $toast.success("Session has been rescheduled successfully", {
         timeout: 5000,
         position: "top-right",
       });
@@ -81,7 +81,7 @@ export const deleteSession = ({ commit }, sessionData) => {
         .then((response) => commit("SET_SESSION_RECORD_TODAY", response.data))
 
 
-      toast.success("Session cancelled successfully", {
+      $toast.success("Session cancelled successfully", {
         timeout: 5000,
         position: "top-right",
       });
@@ -182,7 +182,7 @@ export const ScheduleVirtualSessionAction = ({ commit }, formData) => {
         // if (error) {
         commit("SET_SCHEDULE_DETAILS", null);
         // Vue.$toast.error(`${error.response.data.message}`);
-        toast.error(`${error.response.data.message}`, {
+        $toast.error(`${error.response.data.message}`, {
           timeout: 5000,
           position: "top-right",
         });

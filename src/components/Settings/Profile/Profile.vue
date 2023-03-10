@@ -344,7 +344,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import { useToast } from "vue-toast-notification";
 import { mask} from '@/Services/helpers';
 
-const toast = useToast();
+const $toast = useToast();
 // const store = useStore()
 
 export default {
@@ -561,7 +561,7 @@ export default {
           if (res.status == 200) {
             this.validState = true;
             this.$store.dispatch("ProfileModule/getUser");
-            toast.success(`ID verified successfully`, {
+            $toast.success(`ID verified successfully`, {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -574,7 +574,7 @@ export default {
         .catch((err) => {
           this.verifyError = true
           this.verifying = false;
-          toast.error("Error verifying", {
+          $toast.error("Error verifying", {
             duration: 3000,
             queue: false,
             position: "top-right",

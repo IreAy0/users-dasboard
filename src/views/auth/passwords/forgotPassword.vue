@@ -64,7 +64,7 @@ import { useToast } from 'vue-toast-notification';
 import { mapMutations } from 'vuex';
 // const loading = ref(false);
 let passwordFieldType = ref("password");
-const toast = useToast()
+const $toast = useToast()
 export default {
   name: "ForgotPassword",
 
@@ -91,7 +91,7 @@ export default {
         email: this.user.email?.toLocaleLowerCase()
       }).then(res => {
         this.loading = false;
-        toast.success('A reset link has been sent to your email address', {
+        $toast.success('A reset link has been sent to your email address', {
           duration: 5000,
           queue: false,
           position: "top-right",
@@ -103,7 +103,7 @@ export default {
         // eslint-disable-next-line no-unused-vars
       ).catch(error => {
         this.loading = false;
-        toast.error(error.response.data.message, {
+        $toast.error(error.response.data.message, {
           duration: 5000,
           queue: false,
           position: "top-right",

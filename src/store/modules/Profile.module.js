@@ -3,7 +3,7 @@ import router from "@/router";
 // import router from "@/router";
 import { useToast } from "vue-toast-notification";
 
-const toast = useToast();
+const $toast = useToast();
 
 const state = () => ({
   userProfile: null,
@@ -89,7 +89,7 @@ const actions = {
           commit('getUserSuccess', res?.data?.data)
 
           if (res) {
-            toast.success('Updated successfully', {
+            $toast.success('Updated successfully', {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -102,7 +102,7 @@ const actions = {
         },
         error => {
           if (error) {
-            toast.error('Error updating profile', {
+            $toast.error('Error updating profile', {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -124,7 +124,7 @@ const actions = {
           commit('createSignatureSuccess', res);
           if (res) {
             dispatch('getPrints');
-            toast.success('Signature created successfully', {
+            $toast.success('Signature created successfully', {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -138,7 +138,7 @@ const actions = {
           commit('createSignatureFailed', error);
           if (error) {
             if (error.response.status === 422) {
-              toast.error('Please generate signature', {
+              $toast.error('Please generate signature', {
                 duration: 3000,
                 queue: false,
                 position: "top-right",

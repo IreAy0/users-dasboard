@@ -114,7 +114,7 @@ import { useToast } from 'vue-toast-notification';
 import { mapState, mapActions } from 'vuex'
 
 
-const toast = useToast()
+const $toast = useToast()
 export default {
   name: "NavBar",
   data() {
@@ -146,7 +146,7 @@ export default {
       ToNote.get('/team-switch/' + id).then(response => {
       
         this.getTeams();
-        toast.success('Team switched successfully', {
+        $toast.success('Team switched successfully', {
           position: 'center',
           duration: 3000,
           action: {
@@ -160,7 +160,7 @@ export default {
       })
         .catch(error => {
         
-          toast.error(error?.response?.data?.data?.error, {
+          $toast.error(error?.response?.data?.data?.error, {
             position: 'center',
             duration: 3000,
             action: {
