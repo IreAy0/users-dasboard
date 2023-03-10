@@ -415,7 +415,6 @@ export default {
       const finalRef = ref;
 
       const capture = this.$refs.capture;
-
       this.selectedFont = ref
       if (this.selectedFont != '') {
         const scale = 5;
