@@ -162,14 +162,16 @@
       class="text-center d-flex align-items-center justify-content-center"
       :class="isRTL ? ' ms-2' : 'me-1'"
     >
-    <svg style="{{
+    <!-- <svg style="{{
     height: '20px';
     font-size: '16px';
     margin-right: '0.5rem';
     height: '16px';
     width: '16px';
 }}
-" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash" data-v-af43c274="" data-v-b8d005c4=""><polyline points="3 6 5 6 21 6" data-v-b8d005c4=""></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" data-v-b8d005c4=""></path></svg>    </div>
+" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash" data-v-af43c274="" data-v-b8d005c4=""><polyline points="3 6 5 6 21 6" data-v-b8d005c4=""></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" data-v-b8d005c4=""></path></svg>  -->
+<svg  data-v-1a464b11="" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+</div>
     <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">            
     <span class="menu-title text-truncate fs-6 d-flex gap-3" >Sign Link   </span>
    

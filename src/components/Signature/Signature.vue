@@ -31,23 +31,27 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="font in fonts" :key="font + 1">
+              <tr >
                 <td>
-                  <!-- <label  :for="font" class="form-check-label"  >
-              <div class="me-3">
-                <input  @change="onCaptureSignature(font, 'Signature', 'Type')" type="radio" :name="font" v-model="selected" :value="font" class="form-check-input"
-                  style="margin-top: 7px" :id="font" />
-              </div>
-
-              <div  class="css-pl8xw2">
-                <div class="css-fv3lde">
-                  <span class="css-4x8v88 initials" :class="font" :style="{ fontFamily: font, fontSize: '30px' }">
-                    {{ generalData?.first_name }} {{ generalData?.last_name }}
-                  </span>
-                </div>
-              </div>
-            </label> -->
-                  <div v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000', fontWeight: 'bolder' }"
+                  <div class="col-md-6 hover px-2 mb-1" v-for="font in fonts" :key="font + 1">
+                    <div class="form-check p-1">
+                      <label :for="font" class="form-check-label"  @click="onCaptureSignature(font, 'Signature', 'Type')">
+                        <div class="me-0">
+                          <input type="radio" :name="font" v-model="selected" :value="font" class="form-check-input border-0"
+                            style="margin-top: 8px" :id="font" />
+                        </div>
+          
+                        <div class="css-pl8xw2">
+                          <div class="css-fv3lde">
+                            <span class="css-4x8v88 fullName" :class="font" :style="{ fontFamily: font, fontSize: '1.5rem' }">
+                              {{ userProfile?.first_name }} {{ userProfile?.last_name }}
+                            </span>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  <!-- <div v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000', fontWeight: 'bolder' }"
                     :class="font" class="form-check-label flex-grow-1  form-check d-flex align-items-center" :for="font"
                     @click="onCaptureSignature(font, 'Signature', 'Type')">
 
@@ -58,7 +62,7 @@
 
                       {{ userProfile?.first_name }} {{ userProfile?.last_name }}
                     </label>
-                  </div>
+                  </div> -->
                 </td>
 
               </tr>
@@ -66,7 +70,7 @@
           </table>
         </div>
 
-        <div class="col-12 p-0  m-auto">
+        <div class="col-12 p-0 px-2 m-auto">
           <div>
 
             <span :class="{'d-none': selectedFont == '' }" class="d-inline-block">
@@ -77,9 +81,8 @@
             </span>
             <div :class="{'d-none': selectedFont !== '' }" v-show="getTyped" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview col-12 col-xl-3"   :src=" getTyped" />
+              <img width="200" height="40" class="sign-preview col-12 col-xl-3"   :src=" getTyped" />
 
-              <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
           </div>
         </div>
@@ -96,20 +99,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="fontNew in fonts" :key="fontNew + 1">
-                <td>
-                  <div v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }" :class="fontNew"
+              <tr >
+                <td >
+                  <div class="col-md-6 hover px-2 mb-1" v-for="fontNew in fonts" :key="fontNew + 1">
+                    <div v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }" :class="[fontNew]"
                     class="form-check-label  flex-grow-1 form-check d-flex align-items-center"
                     @click="onCaptureInitials(fontNew, 'Initial', 'Type')" :for="fontNew+'_initials'">
-                    <input class="form-check-input flex-shrink-0" type="radio" name="initials" :id="fontNew+'_initials'"
+                    <input class="form-check-input border-0 flex-shrink-0" type="radio" name="initials" :id="fontNew+'_initials'"
                       :for="fontNew+'_initials'" />
                     <label v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }"
                       :class="fontNew+'initials'" class="form-check-label flex-grow-1 flex-grow-1 py-1 p-50"
                       :for="fontNew+'_initials'">
-
                       {{ userProfile?.initials }}
                     </label>
                   </div>
+                  </div>
+                  
                 </td>
 
               </tr>
@@ -412,7 +417,6 @@ export default {
       const capture = this.$refs.capture;
 
       this.selectedFont = ref
-
       if (this.selectedFont != '') {
         const scale = 5;
         this.capturing = true;
@@ -520,6 +524,30 @@ export default {
 <style scoped>
 @import "../../../public/app-assets/fonts/signature-font-face.css";
 
+.hover {
+  width: 48% !important;
+  margin: 0 5px;
+  outline: 1px solid #ccc !important;
+  border-radius: 20px;
+}
+
+.hover:hover {
+  outline: 2px solid #7367f0 !important;
+}
+
+.custom-fs-sm {
+  color: #000;
+  padding: 0 3px;
+  font-size: 46px;
+  font-size: clamp(1rem, 2vw, 2.875rem);
+}
+
+@media screen and (max-width: 991.5px) {
+  .hover {
+    width: 100% !important;
+    margin: 0;
+  }
+}
 .signature-container {
   border-radius: 5px;
   background-origin: border-box;
