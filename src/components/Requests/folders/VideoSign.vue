@@ -62,7 +62,7 @@
               </a>
             </div>
           </div>
-          <div class="card-body py-4">
+          <div class="card-body pt-2 pb-4">
             <div class="table-responsive">
               <table class="table table-hover" id="allrecord">
                 <thead>
@@ -138,7 +138,7 @@
                           result.status === 'Pending'
                         "
                       >
-                        <a :href="`${getEnv()}document/waiting-page/${result.id}}`"
+                        <a :href="`${getEnv()}document/waiting-page/${result.id}`"
                           class="btn btn-primary btn-sm"
                           >Join</a>
                       </template>
@@ -413,8 +413,7 @@ const getDocument = (params) => {
 
 
 const  getEnv =() =>{
-      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_PAGE_STAGING : process.env.VUE_APP_VIDEO_SIGN_PAGE_LIVE
-
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_STAGING : process.env.VUE_APP_VIDEO_SIGN_LIVE
     }
   
   

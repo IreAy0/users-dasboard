@@ -81,7 +81,7 @@
             </span>
             <div :class="{'d-none': selectedFont !== '' }" v-show="getTyped" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img width="200" height="40" class="sign-preview col-12 col-xl-3"   :src=" getTyped" />
+              <img class="sign-preview col-12 col-lg-2"   :src="getTyped" />
 
             </div>
           </div>

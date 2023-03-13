@@ -80,12 +80,10 @@ const actions = {
       }
     )
   },
-  userUpdate({ commit }, user = "") {
-  profile.updateProfile(user)
-      .then(
-        res => {
+ async userUpdate({ commit }, user = "") {
+  return profile.updateProfile(user)
+      .then(res => {
           commit('updateUserProfileSuccess', res);
-
           commit('getUserSuccess', res?.data?.data)
 
           if (res) {
@@ -97,23 +95,20 @@ const actions = {
               pauseOnHover: true,
             })
           }
-
-
-        },
-        error => {
-          if (error) {
-            $toast.error('Error updating profile', {
-              duration: 3000,
-              queue: false,
-              position: "top-right",
-              dismissible: true,
-              pauseOnHover: true,
-            })
-          }
-
-          commit('getUserFailed', error);
+        })
+      .catch(error => {
+        if (error) {
+          $toast.error('Error updating profile', {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          })
         }
-      );
+
+        commit('getUserFailed', error);
+      })
   },
 
   userSignature({ commit, dispatch }, user) {

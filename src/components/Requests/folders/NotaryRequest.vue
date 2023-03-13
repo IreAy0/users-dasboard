@@ -61,62 +61,65 @@
               </a>
             </div>
     </div>
-    <div class="card-body py-4">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>S/N</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="(data, index) in filterDocByNotaryRequests" :key="index">
-           
-              <td>{{ ++index }}</td>
-              <td>{{ data.title }}</td>
-              <td>
-                <span
-                  class="badge rounded-pill me-1"
-                  :class="[
-                          data.status == 'Pending'
-                            ? 'bg-warning'
-                            : 'bg-success',
-                        ]"
-                >
-                  {{ data.status }}
-                </span>
-              </td>
-              <td>{{ dateTime(data.created_at) }}</td>
-
-              <td>
-                <template v-if="data.status == 'Completed'">
-                  <div class="dropdown">
-                    <a
-                      class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      ><Icon
-                        icon="oi:ellipses"
-                        :rotate="1"
-                        :verticalFlip="true"
-                      />
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end" style="">
-                      <div class="dropdown-item">
-                        <Icon icon="carbon:download" /> Download
+    <div class="card-body pt-2 pb-4">
+      <div class="table-responsive">
+        <table class="table table-hover" id="all_notary_requests">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Created At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr v-for="(data, index) in filterDocByNotaryRequests" :key="index">
+             
+                <td>{{ ++index }}</td>
+                <td>{{ data.title }}</td>
+                <td>
+                  <span
+                    class="badge rounded-pill me-1"
+                    :class="[
+                            data.status == 'Pending'
+                              ? 'bg-warning'
+                              : 'bg-success',
+                          ]"
+                  >
+                    {{ data.status }}
+                  </span>
+                </td>
+                <td>{{ dateTime(data.created_at) }}</td>
+  
+                <td>
+                  <template v-if="data.status == 'Completed'">
+                    <div class="dropdown">
+                      <a
+                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        ><Icon
+                          icon="oi:ellipses"
+                          :rotate="1"
+                          :verticalFlip="true"
+                        />
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-end" style="">
+                        <div class="dropdown-item">
+                          <Icon icon="carbon:download" /> Download
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </template>
-              </td>
-           
-          </tr>
-        </tbody>
-      </table>
+                  </template>
+                </td>
+             
+            </tr>
+          </tbody>
+        </table>
+      </div>
+     
     </div>
   </div>
   </div>
@@ -125,8 +128,11 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
-import { onMounted,  computed, defineProps } from "vue";
+import { onMounted,  computed, defineProps, onUpdated } from "vue";
 import moment from "moment";
+import $ from "jquery";
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-bs5";
 // import Api from "@/api/Api";
 import { getToken } from "@/Services/helpers";
 import { useActions, useGetters } from "vuex-composition-helpers";
@@ -180,6 +186,27 @@ const  getEnv =() =>{
 onMounted(() => {
   getAffidavitRequest();
   getSessionRecordToday({token: token.value,  entry_point: 'Notary'});
+});
+
+onUpdated(() => {
+  setTimeout(() => {
+    if ($.fn.dataTable.isDataTable("#all_notary_requests")) {
+      $("#all_notary_requests").DataTable();
+    } else {
+      if (filterDocByNotaryRequests.value.length > 0) {
+        $("#all_notary_requests").DataTable({
+          columnDefs: [{ orderable: false, targets: [0, 4] }],
+          // order: [[3, "desc"]],
+          aaSorting: [],
+          lengthMenu: [
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, "All"],
+          ],
+          pageLength: 5,
+        });
+      }
+    }
+  }, 100);
 });
 </script>
 

@@ -60,60 +60,63 @@
               </a>
             </div>
     </div>
-    <div class="card-body py-4">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>S/N</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <!-- .filter((respond) => respond.entry_point == "Affidavit") -->
-        <tbody>
-          <tr v-for="(data, index) in filterDocByAffidavitRequests" :key="index">
-           
-              <td>{{ index + 1 }}</td>
-              <td>{{ data.title }}</td>
-              <td>
-                <span
-                  class="badge rounded-pill me-1"
-                  :class="[
-                    data.status == 'Awaiting' ? 'bg-warning' : 'bg-success',
-                  ]"
-                >
-                  {{ data.status }}
-                </span>
-              </td>
-              <td>{{ dateTime(data.created_at) }}</td>
-
-              <td>
-                <template v-if="data.status == 'Completed'">
-                  <div class="dropdown">
-                    <a
-                      class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      ><Icon
-                        icon="oi:ellipses"
-                        :rotate="1"
-                        :verticalFlip="true"
-                      />
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end" style="">
-                      <div class="dropdown-item">
-                        <Icon icon="carbon:download" /> Download
+    <div class="card-body pt-2 pb-4">
+      <div class="table-responsive">
+        <table class="table table-hover" id="allrequests">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Created At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <!-- .filter((respond) => respond.entry_point == "Affidavit") -->
+          <tbody>
+            <tr v-for="(data, index) in filterDocByAffidavitRequests" :key="index">
+             
+                <td>{{ index + 1 }}</td>
+                <td>{{ data.title }}</td>
+                <td>
+                  <span
+                    class="badge rounded-pill me-1"
+                    :class="[
+                      data.status == 'Awaiting' ? 'bg-warning' : 'bg-success',
+                    ]"
+                  >
+                    {{ data.status }}
+                  </span>
+                </td>
+                <td>{{ dateTime(data.created_at) }}</td>
+  
+                <td>
+                  <template v-if="data.status == 'Completed'">
+                    <div class="dropdown">
+                      <a
+                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        ><Icon
+                          icon="oi:ellipses"
+                          :rotate="1"
+                          :verticalFlip="true"
+                        />
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-end" style="">
+                        <div class="dropdown-item">
+                          <Icon icon="carbon:download" /> Download
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </template>
-              </td>
-            
-          </tr>
-        </tbody>
-      </table>
+                  </template>
+                </td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+     
     </div>
   </div>
 </div>
@@ -125,6 +128,9 @@ import { Icon } from "@iconify/vue";
 import { onMounted, computed, defineProps, toRefs, onUpdated  } from "vue";
 import { useStore } from 'vuex'
 import moment from "moment";
+import $ from "jquery";
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-bs5";
 // import Api from "@/api/Api";
 import { getToken } from "@/Services/helpers";
 import { useActions, useGetters } from "vuex-composition-helpers";
@@ -181,6 +187,26 @@ const virtualNotary = computed(() => {
 // onMounted(() => {
 //   getAffidavitRequest();
 // });
+onUpdated(() => {
+  setTimeout(() => {
+    if ($.fn.dataTable.isDataTable("#allrequests")) {
+      $("#allrequests").DataTable();
+    } else {
+      if (filterDocByAffidavitRequests.value.length > 0) {
+        $("#allrequests").DataTable({
+          columnDefs: [{ orderable: false, targets: [0, 4] }],
+          // order: [[3, "desc"]],
+          aaSorting: [],
+          lengthMenu: [
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, "All"],
+          ],
+          pageLength: 5,
+        });
+      }
+    }
+  }, 100);
+});
 </script>
 
 <style lang="scss" scoped></style>

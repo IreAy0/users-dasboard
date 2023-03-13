@@ -57,8 +57,8 @@
          style="width:100px;height:100px"
       alt="Avatar">
 
-      <img v-if="userProfile.image" :src="userProfile.image" :alt="userProfile.first_name"/>
-        <i else class="fas fa-user-alt fa-3x text-primary"></i>
+      <img v-if="userProfile.image" width="100" :src="userProfile.image" :alt="userProfile.first_name"/>
+        <i v-else class="fas fa-user-alt fa-3x text-primary"></i>
         </div>
         <div>
           <h3>{{userProfile.first_name}} {{userProfile.last_name}}</h3>
@@ -93,6 +93,7 @@
             </div>
             <div class="mb-1 col-md-6 ">
               <label class="form-label" for="modern-phone">Date of Birth</label>
+              
               <Field type="date" name="date_of_birth" id="modern-date_of_birth" class="form-control"
                 aria-label="date_of_birth" v-model="userProfile.dob" />
                 <ErrorMessage name="date_of_birth" class="text-danger " />
@@ -544,10 +545,12 @@ export default {
       };
 
       if (data) {
-        this.goNext();
-        this.userUpdate(data);
+        this.userUpdate(data).then(
+          this.goNext(),
+          this.tabIndexAdv1++
+        );
 
-        this.tabIndexAdv1++;
+        
       }
     },
 
