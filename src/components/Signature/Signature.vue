@@ -33,36 +33,18 @@
             <tbody>
               <tr >
                 <td>
-                  <div class="col-md-6 hover px-2 mb-1" v-for="font in fonts" :key="font + 1">
-                    <div class="form-check p-1">
-                      <label :for="font" class="form-check-label"  @click="onCaptureSignature(font, 'Signature', 'Type')">
-                        <div class="me-0">
-                          <input type="radio" :name="font" v-model="selected" :value="font" class="form-check-input border-0"
+                  <div class="col-md-6  mb-1 w-100" v-for="font in fonts" :key="font + 1">
+                   
+                    <label  @click="onCaptureSignature(font, 'Signature', 'Type')" v-bind:style="{ fontFamily: font, fontSize: '1.5rem', color: '#000' }"
+                      :class="font" class="form-check-label hover px-2 flex-grow-1 w-100 flex-grow-1 py-1 p-50"
+                      :for="font">
+                      <input @change="onCaptureSignature(font, 'Signature', 'Type')" type="radio" :name="font" v-model="selected" :value="font" class="form-check-input border-0 flex-shrink-0"
                             style="margin-top: 8px" :id="font" />
-                        </div>
-          
-                        <div class="css-pl8xw2">
-                          <div class="css-fv3lde">
-                            <span class="css-4x8v88 fullName" :class="font" :style="{ fontFamily: font, fontSize: '1.5rem' }">
-                              {{ userProfile?.first_name }} {{ userProfile?.last_name }}
-                            </span>
-                          </div>
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-                  <!-- <div v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000', fontWeight: 'bolder' }"
-                    :class="font" class="form-check-label flex-grow-1  form-check d-flex align-items-center" :for="font"
-                    @click="onCaptureSignature(font, 'Signature', 'Type')">
-
-                    <input class="form-check-input flex-shrink-0 typed" type="radio" name="sign" :id="font"
-                      v-model="selected" :value="font" />
-                    <label v-bind:style="{ fontFamily: font,fontSize: '20px', color: '#000' }" :class="font"
-                      class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50 " :for="font">
-
                       {{ userProfile?.first_name }} {{ userProfile?.last_name }}
                     </label>
-                  </div> -->
+
+                    </div>
+                
                 </td>
 
               </tr>
@@ -74,7 +56,7 @@
           <div>
 
             <span :class="{'d-none': selectedFont == '' }" class="d-inline-block">
-              <div ref="capture" class="d-inline-block fs-1" data-type="Signature" style="color: #000"
+              <div ref="capture" class="d-inline-block fs-1" data-type="Signature" style="color: #000;padding: 0 10px; "
                 :style="{ fontFamily: selectedFont }">
                 {{ userProfile?.first_name }} {{ userProfile?.last_name }}
               </div>
@@ -101,18 +83,16 @@
             <tbody>
               <tr >
                 <td >
-                  <div class="col-md-6 hover px-2 mb-1" v-for="fontNew in fonts" :key="fontNew + 1">
-                    <div v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }" :class="[fontNew]"
-                    class="form-check-label  flex-grow-1 form-check d-flex align-items-center"
-                    @click="onCaptureInitials(fontNew, 'Initial', 'Type')" :for="fontNew+'_initials'">
-                    <input class="form-check-input border-0 flex-shrink-0" type="radio" name="initials" :id="fontNew+'_initials'"
-                      :for="fontNew+'_initials'" />
-                    <label v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }"
-                      :class="fontNew+'initials'" class="form-check-label flex-grow-1 flex-grow-1 py-1 p-50"
+                  <div class="mb-1" v-for="(fontNew, index) in fonts" :key="index">
+                    
+                    <label  @click="onCaptureInitials(fontNew, 'Initial', 'Type')" v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }"
+                      :class="fontNew+'initials'" class="form-check-label hover px-2 flex-grow-1 w-100 flex-grow-1 py-1 p-50"
                       :for="fontNew+'_initials'">
+                      <input @change="onCaptureInitials(fontNew, 'Initial', 'Type')" class="form-check-input border-0 flex-shrink-0" type="radio" name="initials" :id="fontNew+'_initials'"
+                      :for="fontNew+'_initials'" />
                       {{ userProfile?.initials }}
                     </label>
-                  </div>
+                 
                   </div>
                   
                 </td>
@@ -430,11 +410,8 @@ export default {
         }
         )
           .then((dataUrl) => {
-
-            
             this.setImage({ file: dataUrl, type, category });
             this.capturing = false;
-
           })
           .catch(function (error) {
             console.error("oops, something went wrong!", error);
@@ -453,16 +430,16 @@ export default {
       this.selectedInitial = ref
 
       if(this.selectedInitial != '' ){
-        const scale = 2;
+        const scale = 5;
       domtoimage.toPng(capture, {
         quality: 1,
-        height: capture?.offsetHeight * scale,
+        height: capture?.clientHeight * scale,
         style: {
-          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
-            }px, ${capture?.offsetHeight / 2 / scale}px)`,
+          transform: 'scale(' + scale + ')',
+          transformOrigin: 'top left'
         },
 
-        width: capture?.offsetWidth * scale,
+        width: capture?.clientWidth * scale,
       },
       )
         .then((dataUrl) => {

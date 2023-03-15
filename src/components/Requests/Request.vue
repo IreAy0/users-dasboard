@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+   
     <TableSkeleton v-if="affidavits == null"/>
     <!-- <PuSkeleton  width="30px" height="20px" count="3"/> -->
     <div v-else>

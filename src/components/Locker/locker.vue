@@ -3,7 +3,7 @@
 
     <TableSkeleton v-if="allLockerDocuments == null"/>
 
-    <div class="row p-0" id="basic-table ">
+    <div v-else class="row p-0" id="basic-table ">
      
       <div class="col-12">
         <div class="card">
