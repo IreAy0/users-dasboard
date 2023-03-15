@@ -73,10 +73,8 @@
               <th>Action</th>
             </tr>
           </thead>
-  
           <tbody>
             <tr v-for="(data, index) in filterDocByNotaryRequests" :key="index">
-             
                 <td>{{ ++index }}</td>
                 <td>{{ data.title }}</td>
                 <td>
