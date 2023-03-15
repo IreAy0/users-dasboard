@@ -62,63 +62,6 @@
 
 </script>
 <style>
-.skeleton__wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-.skeleton__shimmer {
-  height: 42px;
-  min-width: 250px;
-  background: linear-gradient(to right, #eff1f3 4%, #f8f9fb 25%, #eff1f3 36%);
-  background-size: 1000px 100%;
-  animation: shimmer 3s infinite linear;
-  margin-bottom: 1rem;
-}
-.skeleton__shimmer--sm {
-  min-width: 60px;
-  margin-left: 1rem;
-}
-.skeleton__shimmer--lg {
-  max-width: 400px;
-  height: 24px;
-}
-.skeleton__shimmer--slim {
-  height: 24px;
-  max-width: 350px;
-}
-.skeleton__head {
-  height: 54px;
-  background: linear-gradient(to right, #eff1f3 4%, #f8f9fb 25%, #eff1f3 36%);
-  background-size: 1000px 100%;
-  animation: shimmer 1s infinite linear;
-  margin-bottom: 2rem;
-}
-.skeleton__row {
-  border-bottom: 1px solid #f8f9fb;
-  display: flex;
-  justify-content: stretch;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.skeleton__item {
-  height: 12px;
-  padding-bottom: 12px;
-  margin-bottom: 12px;
-  background: linear-gradient(to right, #eff1f3 4%, #f8f9fb 25%, #eff1f3 36%);
-  background-size: 1000px 100%;
-  flex-grow: 1;
-  animation: shimmer 2s infinite linear;
-}
-.skeleton__item:not(:last-of-type) {
-  margin-right: 50px;
-}
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
- }
-  100% {
-    background-position: 1000px 0;
- }
-}
+
 
 </style>

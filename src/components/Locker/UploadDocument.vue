@@ -146,7 +146,6 @@ const preparedFile = (file) => {
 
 const drop = (e) => {
   isUpload.value = true;
-
   let dropFiles = (dropzoneFile.value = e.dataTransfer.files);
   // form_data.value.title = dropzoneFile.value[0].name.split('.').slice(0, -1).join('.');
   preparedFile(dropFiles);
@@ -160,7 +159,6 @@ const selectedFile = (e) => {
   let dropFiles = (dropzoneFile.value = e.target.files);
   preparedFile(dropFiles);
   isSelected.value = true;
-
   isUpload.value = true;
   selectedFiles = e.target.files;
 
@@ -195,9 +193,6 @@ const SubmitHandler = () => {
     error_message.value.file = null;
     error.value = false;
   }
-
-
-
   if (
     !error_message.value.title && 
     !error_message.value.file
