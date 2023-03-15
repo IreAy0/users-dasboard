@@ -1,5 +1,5 @@
 export default {
-  lockerDocuments: [],
+  lockerDocuments: null,
   sessionRecordToday: [],
   errors: null,
   uploaded: false,

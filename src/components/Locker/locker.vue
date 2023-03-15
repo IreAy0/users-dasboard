@@ -1,5 +1,8 @@
 <template>
   <div class="container-fluid">
+
+    <TableSkeleton v-if="allLockerDocuments == null"/>
+
     <div class="row p-0" id="basic-table ">
      
       <div class="col-12">
@@ -46,7 +49,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(result, index) in allLockerDocuments.filter(result => result.status == 'Locked')" :key="index">
+                  <tr v-for="(result, index) in allLockerDocuments?.filter(result => result.status == 'Locked')" :key="index">
                     <!-- <template v-if="result.entry_point === 'Video'"> -->
                     <td>{{ ++index }}</td>
 
@@ -207,7 +210,7 @@
     </template>
   </ModalComp>
   <div>
-    <ModalComp :show="otpModal == false ? true : false"  :size="'modal-sm'" @close="otpModal = false">
+    <ModalComp :closeBtn="false" :show="otpModal == false ? true : false"  :size="'modal-sm'" @close="otpModal = false">
       <template #header>
         <h4 class="text-primary mb-0">
           <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
@@ -247,6 +250,7 @@ import { Icon } from "@iconify/vue";
 import { useActions, useGetters } from "vuex-composition-helpers/dist";
 import ModalComp from "@/components/ModalComp.vue";
 import Datepicker from "vuejs3-datepicker";
+import TableSkeleton from '@/components/Loader/TableSkeleton'
 import moment from "moment";
 import { useStore } from 'vuex'
 import UploadDocument from './UploadDocument';
@@ -443,7 +447,7 @@ onUpdated(() => {
     if ($.fn.dataTable.isDataTable("#allrecord")) {
       $("#allrecord").DataTable();
     } else {
-      if (allLockerDocuments.value.length > 0) {
+      if (allLockerDocuments?.value?.length > 0) {
         $("#allrecord").DataTable({
           columnDefs: [{ orderable: false, targets: [0, 4] }],
           order: [[3, "desc"]],

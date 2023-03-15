@@ -266,25 +266,29 @@
         <ul class="list-group ">
   <li class="list-group-item border-primary rounded mb-2  py-1 d-flex justify-content-between align-items-center">
     Verify Document
-    <span class="">
-      <a href="javascript:void(0)"
+    <span  class="">
+      <!-- <a href="javascript:void(0)"
                           class="text-primary">Verify Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
 </svg>
-                        </a>
+                        </a> -->
+                        <span title="Coming Soon" class="coming-soon  border border-warning text-warning" data-v-735b3461=""> Coming Soon</span>
+
                       </span>
   </li>
   <li class="list-group-item d-flex mb-2 rounded border-primary py-1 justify-content-between align-items-center">
    Verify Notary
    <span class="">
-    <a href="javascript:void(0)"
+    <!-- <a href="javascript:void(0)"
                           class="text-primary">Verify Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
 </svg>
 
-                        </a>
+                        </a> -->
+                        <span title="Coming Soon" class="coming-soon  border border-warning text-warning" data-v-735b3461=""> Coming Soon</span>
+
                       </span>
   </li>
  

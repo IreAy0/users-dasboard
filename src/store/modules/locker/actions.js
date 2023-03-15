@@ -11,7 +11,7 @@ const $toast = useToast();
 export const getLockerDocuments = ({ commit }) => {
   Locker.getLockerDocuments()
     .then((response) => {
-      commit("SET_LOCKER_DOCUMENTS", response.data.data);
+      commit("SET_LOCKER_DOCUMENTS", response?.data?.data);
     })
     .catch((error) => {
       if (error.status === 401 || error.status == 422) {

@@ -57,7 +57,7 @@
          style="width:100px;height:100px"
       alt="Avatar">
 
-      <img v-if="userProfile.image" width="100" :src="userProfile.image" :alt="userProfile.first_name"/>
+      <img v-if="userProfile.image.includes('user')" width="100" :src="userProfile.image" :alt="userProfile.first_name"/>
         <i v-else class="fas fa-user-alt fa-3x text-primary"></i>
         </div>
         <div>

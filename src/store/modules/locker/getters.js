@@ -1,6 +1,6 @@
 export const allLockerDocuments = (state) => {
   
-  return state.lockerDocuments;
+  return state?.lockerDocuments;
 };
 
 export const postLockerDocument = (state) => {

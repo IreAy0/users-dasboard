@@ -1,12 +1,12 @@
 <template>
    <div class="container-fluid">
     <div class="row p-0" id="basic-table ">
-      <!-- <div class="col col-12">
+      <div class="col col-12">
         <div class="card">
           <div class="card-body">
             <h3 class="">Next Scheduled Meeting Today</h3>
-            <p>You have no scheduled meeting for today</p>
-            <template v-if="filterDocByNextMeeting">
+            
+            <template v-if="filterDocByNextMeeting?.length > 0">
               <template
                 v-for="(result, index) in filterDocByNextMeeting"
                 :key="index"
@@ -29,10 +29,10 @@
                 </div>
               </template>
             </template>
-           
+            <p v-else>You have no scheduled meeting for today</p>
           </div>
         </div>
-      </div> -->
+      </div>
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <h4 class="card-title">Affidavit Requests</h4>
@@ -69,6 +69,7 @@
               <th>Title</th>
               <th>Status</th>
               <th>Created At</th>
+              <th>Connect</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -79,17 +80,34 @@
                 <td>{{ index + 1 }}</td>
                 <td>{{ data.title }}</td>
                 <td>
+                  
+                       
                   <span
                     class="badge rounded-pill me-1"
                     :class="[
-                      data.status == 'Awaiting' ? 'bg-warning' : 'bg-success',
+                      data.status == 'Pending' ? 'bg-warning' : data.status == 'Accepted' ? 'bg-success' : 'bg-primary',
                     ]"
                   >
                     {{ data.status }}
                   </span>
                 </td>
                 <td>{{ dateTime(data.created_at) }}</td>
-  
+                <td>
+                  <template
+                        v-if="
+                          data.immediate === 1 &&
+                          data.date === today &&
+                          data.status === 'Accepted'
+                        "
+                      >
+                      <!-- {`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row.id}?token=${getToken()}`} -->
+                        <a :href="`${virtualNotary}/session-prep/${data.id}?token=${token}`"
+                          class="btn btn-primary btn-sm"
+                          >Join</a>
+                      </template>
+                      <template v-else-if="data.date !== today && data.status === 'Accepted'" > Missed Session </template> 
+      
+              </td>
                 <td>
                   <template v-if="data.status == 'Completed'">
                     <div class="dropdown">
@@ -132,10 +150,13 @@ import $ from "jquery";
 import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-bs5";
 // import Api from "@/api/Api";
+// import TableSkeleton from "@/components/Loader/TableSkeleton.vue"
 import { getToken } from "@/Services/helpers";
 import { useActions, useGetters } from "vuex-composition-helpers";
 
 const store = useStore()
+
+const today = moment().format("YYYY-MM-DD");
 
 const dateTime = (value) => {
   return moment(value).format("Do MMM YYYY, hh:mm A");
@@ -175,7 +196,7 @@ const filterDocByNextMeeting = computed(() => {
     (res) =>
       res?.entry_point == "Affidavit" &&
       res?.immediate == false &&
-      res?.status != "Completed",
+      res?.status == "Accepted",
   );
   } 
 });
@@ -194,7 +215,7 @@ onUpdated(() => {
     } else {
       if (filterDocByAffidavitRequests.value.length > 0) {
         $("#allrequests").DataTable({
-          columnDefs: [{ orderable: false, targets: [0, 4] }],
+          columnDefs: [{ orderable: false, targets: [0, 5] }],
           // order: [[3, "desc"]],
           aaSorting: [],
           lengthMenu: [

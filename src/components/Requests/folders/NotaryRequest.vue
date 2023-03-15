@@ -1,12 +1,11 @@
 <template>
   <div class="container-fluid">
     <div class="row p-0" id="basic-table ">
-   <!-- <div class="col col-12">
+   <div class="col col-12">
         <div class="card">
           <div class="card-body">
             <h3 class="">Next Scheduled Meeting Today</h3>
-            <p>You have no scheduled meeting for today</p>
-            <template v-if="filterDocByNextMeeting">
+            <template v-if="filterDocByNextMeeting?.length > 0">
               <template
                 v-for="(result, index) in filterDocByNextMeeting"
                 :key="index"
@@ -33,7 +32,7 @@
             </template>
           </div>
         </div>
-      </div> -->
+      </div>
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <h4 class="card-title">Notary Requests</h4>
@@ -70,6 +69,7 @@
               <th>Title</th>
               <th>Status</th>
               <th>Created At</th>
+              <th>Connect</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -83,16 +83,28 @@
                   <span
                     class="badge rounded-pill me-1"
                     :class="[
-                            data.status == 'Pending'
-                              ? 'bg-warning'
-                              : 'bg-success',
+                      data.status == 'Pending' ? 'bg-warning' : data.status == 'Accepted' ? 'bg-success' : data.status == 'Awaiting' ? 'bg-warning' : 'bg-primary',
                           ]"
                   >
                     {{ data.status }}
                   </span>
                 </td>
                 <td>{{ dateTime(data.created_at) }}</td>
-  
+                <td>
+                  <template
+                        v-if="
+                          data.immediate === 1 &&
+                          data.date === today &&
+                          data.status === 'Accepted'
+                        "
+                      >
+                        <a :href="`${virtualNotary}/session-prep/${data.id}?token=${token}`"
+                          class="btn btn-primary btn-sm"
+                          >Join</a>
+                      </template>
+                      <template v-else-if="data.date !== today && data.status === 'Accepted'" > Missed Session </template> 
+      
+              </td>
                 <td>
                   <template v-if="data.status == 'Completed'">
                     <div class="dropdown">
@@ -161,18 +173,24 @@ const filterDocByNotaryRequests = computed(() => {
 });
 
 const filterDocByNextMeeting = computed(() => {
-  return allSessionRecordToday?.value.data?.filter(
+  if (allSessionRecordToday?.value?.data?.length == 0) {
+    return []
+  } else {
+  return allSessionRecordToday?.value?.data?.filter(
     (res) =>
       res?.entry_point == "Notary" &&
       res?.immediate == false &&
-      res?.status != "Completed",
+      res?.status == "Accepted",
   );
+  };
 });
 
 const token = computed(()  => {
       const token = getToken();
       return token;
 });
+
+const today = moment().format("YYYY-MM-DD");
 
 const virtualNotary = computed(() => {
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
@@ -195,7 +213,7 @@ onUpdated(() => {
     } else {
       if (filterDocByNotaryRequests.value.length > 0) {
         $("#all_notary_requests").DataTable({
-          columnDefs: [{ orderable: false, targets: [0, 4] }],
+          columnDefs: [{ orderable: false, targets: [0, 5] }],
           // order: [[3, "desc"]],
           aaSorting: [],
           lengthMenu: [

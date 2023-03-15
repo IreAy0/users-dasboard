@@ -1,6 +1,6 @@
 export default {
   sessionRecord: [],
-  sessionRecordToday: [],
+  sessionRecordToday: null,
   rescheduleSession: null,
   time_slots: [],
   errors: null,
@@ -65,7 +65,7 @@ export default {
 
   // agora
   agora: null,
-  affidavits: [],
+  affidavits: null,
   notary_request: null,
   video_sign: null,
 };

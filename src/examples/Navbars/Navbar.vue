@@ -52,7 +52,7 @@
               </div>
               
               <span class="avatar">
-                <img v-if="companyProfile?.logo || userProfile?.image" :src="companyProfile?.logo || userProfile?.image" :alt="userProfile?.initials"
+                <img v-if="companyProfile?.logo || userProfile?.image.includes('user')" :src="companyProfile?.logo || userProfile?.image" :alt="userProfile?.initials"
                   class="img d-flex align-items-center justify-content-center">
                 <span v-else  class="img d-flex align-items-center justify-content-center">
                 {{
@@ -70,7 +70,9 @@
               <li class="">
                 <div class="dropdown-item m-0 demo-inline-spacing d-flex justify-content-center">
                   <div class="avatar avatar-xl m-0">
-                    <span class="img d-flex align-items-center justify-content-center">{{ userProfile?.initials
+                    <img v-if="companyProfile?.logo || userProfile?.image.includes('user')" :src="companyProfile?.logo || userProfile?.image" :alt="userProfile?.initials"
+                    class="img d-flex align-items-center justify-content-center">
+                    <span v-else class="img d-flex align-items-center justify-content-center">{{ userProfile?.initials
                     }}</span>
                   </div>
                 </div>
