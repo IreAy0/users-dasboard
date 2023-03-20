@@ -5,7 +5,6 @@
         <div class="card">
           <div class="card-body">
             <h3 class="">Next Scheduled Meeting Today</h3>
-            <!-- <p>You have no scheduled meeting for today</p> -->
             <template v-if="filterDocByNextMeeting?.length > 0">
               <template
                 v-for="(result, index) in filterDocByNextMeeting"
@@ -20,7 +19,7 @@
                   </div>
                   <div>
                     <a
-                      :href="`${getEnv()}document/waiting-page/${result?.id}}`"
+                      :href="`${virtualNotary}session-prep/${result.id}?token=${getToken()}}`"
                       class="btn btn-primary btn-sm"
                       >Join now</a
                     >
@@ -61,62 +60,76 @@
               </a>
             </div>
     </div>
-    <div class="card-body py-4">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>S/N</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="(data, index) in filterDocByNotaryRequests" :key="index">
-           
-              <td>{{ ++index }}</td>
-              <td>{{ data.title }}</td>
-              <td>
-                <span
-                  class="badge rounded-pill me-1"
-                  :class="[
-                          data.status == 'Pending'
-                            ? 'bg-warning'
-                            : 'bg-success',
-                        ]"
-                >
-                  {{ data.status }}
-                </span>
+    <div class="card-body pt-2 pb-4">
+      <div class="table-responsive">
+        <table class="table table-hover" id="all_notary_requests">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Created At</th>
+              <th>Connect</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(data, index) in filterDocByNotaryRequests" :key="index">
+                <td>{{ ++index }}</td>
+                <td>{{ data.title }}</td>
+                <td>
+                  <span
+                    class="badge rounded-pill me-1"
+                    :class="[
+                      data.status == 'Pending' ? 'bg-warning' : data.status == 'Accepted' ? 'bg-success' : data.status == 'Awaiting' ? 'bg-warning' : 'bg-primary',
+                          ]"
+                  >
+                    {{ data.status }}
+                  </span>
+                </td>
+                <td>{{ dateTime(data.created_at) }}</td>
+                <td>
+                  <template
+                        v-if="
+                          data.immediate === 1 &&
+                          data.date === today &&
+                          data.status === 'Accepted'
+                        "
+                      >
+                        <a :href="`${virtualNotary}/session-prep/${data.id}?token=${token}`"
+                          class="btn btn-primary btn-sm"
+                          >Join</a>
+                      </template>
+                      <template v-else-if="data.date !== today && data.status === 'Accepted'" > Missed Session </template> 
+      
               </td>
-              <td>{{ dateTime(data.created_at) }}</td>
-
-              <td>
-                <template v-if="data.status == 'Completed'">
-                  <div class="dropdown">
-                    <a
-                      class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      ><Icon
-                        icon="oi:ellipses"
-                        :rotate="1"
-                        :verticalFlip="true"
-                      />
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end" style="">
-                      <div class="dropdown-item">
-                        <Icon icon="carbon:download" /> Download
+                <td>
+                  <template v-if="data.status == 'Completed'">
+                    <div class="dropdown">
+                      <a
+                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        ><Icon
+                          icon="oi:ellipses"
+                          :rotate="1"
+                          :verticalFlip="true"
+                        />
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-end" style="">
+                        <div class="dropdown-item">
+                          <Icon icon="carbon:download" /> Download
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </template>
-              </td>
-           
-          </tr>
-        </tbody>
-      </table>
+                  </template>
+                </td>
+             
+            </tr>
+          </tbody>
+        </table>
+      </div>
+     
     </div>
   </div>
   </div>
@@ -125,8 +138,11 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
-import { onMounted,  computed } from "vue";
+import { onMounted,  computed, defineProps, onUpdated } from "vue";
 import moment from "moment";
+import $ from "jquery";
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-bs5";
 // import Api from "@/api/Api";
 import { getToken } from "@/Services/helpers";
 import { useActions, useGetters } from "vuex-composition-helpers";
@@ -134,6 +150,7 @@ import { useActions, useGetters } from "vuex-composition-helpers";
 const dateTime = (value) => {
   return moment(value).format("Do MMM YYYY, hh:mm A");
 };
+
 
 const { affidavits, allSessionRecordToday } = useGetters({
   affidavits: "schedule/affidavits",
@@ -154,20 +171,24 @@ const filterDocByNotaryRequests = computed(() => {
 });
 
 const filterDocByNextMeeting = computed(() => {
-  return allSessionRecordToday?.value.filter(
+  if (allSessionRecordToday?.value?.data?.length == 0) {
+    return []
+  } else {
+  return allSessionRecordToday?.value?.data?.filter(
     (res) =>
       res?.entry_point == "Notary" &&
       res?.immediate == false &&
-      res?.status != "Completed",
+      res?.status == "Accepted",
   );
+  };
 });
-
-console.log('affidavits', affidavits, filterDocByNextMeeting, filterDocByNotaryRequests);
 
 const token = computed(()  => {
       const token = getToken();
       return token;
 });
+
+const today = moment().format("YYYY-MM-DD");
 
 const virtualNotary = computed(() => {
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
@@ -181,6 +202,27 @@ const  getEnv =() =>{
 onMounted(() => {
   getAffidavitRequest();
   getSessionRecordToday({token: token.value,  entry_point: 'Notary'});
+});
+
+onUpdated(() => {
+  setTimeout(() => {
+    if ($.fn.dataTable.isDataTable("#all_notary_requests")) {
+      $("#all_notary_requests").DataTable();
+    } else {
+      if (filterDocByNotaryRequests.value.length > 0) {
+        $("#all_notary_requests").DataTable({
+          columnDefs: [{ orderable: false, targets: [0, 5] }],
+          // order: [[3, "desc"]],
+          aaSorting: [],
+          lengthMenu: [
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, "All"],
+          ],
+          pageLength: 5,
+        });
+      }
+    }
+  }, 100);
 });
 </script>
 

@@ -1,23 +1,29 @@
 
 <template>
-  <div>
-    <div id="loading-bg">
-      <div class="loading">
-        <div class="effect-1 effects"></div>
-        <div class="effect-2 effects"></div>
-        <div class="effect-3 effects"></div>
-      </div>
+  
+    <div class="loader" >
+      <Preloader />
     </div>
-  </div>
+
 </template>
+
 <script>
-import { saveToken } from '@/Services/helpers'
-import { mapMutations } from 'vuex'
+
+import { saveToken, removeToken, getToken } from '@/Services/helpers'
+import Preloader from '@/components/PreLoader.vue'
+import { mapMutations, mapActions } from 'vuex'
+import { get } from 'lodash'
 export default {
   name: "RedirectPage",
   methods: {
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
-
+    ...mapActions('AuthModule', ['logout']),
+  },
+  components: {
+    Preloader
+  },
+  computed(){
+   const token = (() => getToken()) 
   },
   mounted() {
     if (this.$route.query.qt) {
@@ -25,9 +31,9 @@ export default {
       setTimeout(() => {
         this.$router.push('/admin/dashboard')
       }, 1000)
-
-    }
-
+    } else if (this.$route.query.action == 'logout')
+      removeToken()
+      window.location.href = "/"      
   },
 
   beforeMount() {
@@ -40,6 +46,25 @@ export default {
   },
 }
 </script>
-<style lang="">
-  
+
+<style scoped>
+.loader {
+  display: grid;
+  place-items: center;
+  position: relative;
+  height: 80vh;
+  width: 100%;
+}
+
+@media screen and (max-width: 640px) {
+  .loader {
+    width: 100vw;
+  }
+}
+
+@media screen and (max-width: 991.5px) {
+  .loader {
+    height: 60vh;
+  }
+}
 </style>

@@ -45,43 +45,62 @@
     </nav>
 
     <div class="tab-content tab-content col-12 col-md-9 bs-stepper-content">
+     
       <div class=" formstep step1 d-none">
+        <div class="content-header mb-1">
+          <h5 class="mb-0">Personal Info</h5>
+          <small class="text-muted">Update Your Personal Information.</small>
+        </div>
+
+        <div class="pb-2 d-flex gap-3 align-items-center">
+          <div class="rounded-3 border d-flex justify-content-center align-items-center"
+         style="width:100px;height:100px"
+      alt="Avatar">
+
+      <img v-if="userProfile.image.includes('user')" width="100" :src="userProfile.image" :alt="userProfile.first_name"/>
+        <i v-else class="fas fa-user-alt fa-3x text-primary"></i>
+        </div>
+        <div>
+          <h3>{{userProfile.first_name}} {{userProfile.last_name}}</h3>
+          <p>{{userProfile.email}} </p>
+        </div>
+        
+
+        </div>
         <Form autocomplete="off" @submit="handleSubmit" :validation-schema="simpleSchema" id="account-details-modern"
           novalidate>
-          <div class="content-header mb-1">
-            <h5 class="mb-0">Personal Info</h5>
-            <small class="text-muted">Enter Your Personal Information.</small>
-          </div>
+          
           <div class="row">
             <div class="mb-1 col-md-6">
               <label class="form-label" for="modern-first-name">First Name</label>
 
               <Field type="text" autocomplete="off" id="modern-first-name" class="form-control" placeholder="John"
-                name="first_name" v-model="profile.first_name" />
+                name="first_name" v-model="userProfile.first_name" />
               <ErrorMessage name="first_name" class="text-danger " />
             </div>
             <div class="mb-1 col-md-6">
               <label class="form-label" for="modern-last-name">Last Name</label>
               <Field type="text" id="modern-last-name" class="form-control" placeholder="Doe" name="last_name"
-                v-model="profile.last_name" />
+                v-model="userProfile.last_name" />
               <ErrorMessage name="last_name" class="text-danger " />
             </div>
             <div class="mb-1 col-md-6 ">
               <label class="form-label" for="email">Email</label>
               <Field disabled type="email" name="email" id="email" class="form-control"
                 :class="{ 'has-error': errorMessage }" placeholder="john.doe@email.com" aria-label="john.doe"
-                v-model="profile.email" />
+                v-model="userProfile.email" />
               <ErrorMessage name="email" class="text-danger " />
             </div>
             <div class="mb-1 col-md-6 ">
               <label class="form-label" for="modern-phone">Date of Birth</label>
+              
               <Field type="date" name="date_of_birth" id="modern-date_of_birth" class="form-control"
-                aria-label="date_of_birth" v-model="profile.dob" />
+                aria-label="date_of_birth" v-model="userProfile.dob" />
                 <ErrorMessage name="date_of_birth" class="text-danger " />
             </div>
             <div class="mb-1 col-md-6 ">
               <label class="form-label" for="id_type">Gender</label>
-              <select v-model="profile.gender" class="select2 w-100 form-select">
+              <select v-model="userProfile.gender" class="select2 w-100 form-select">
                 <option disabled>Please select a gender</option>
                 <option value="m">Male</option>
                 <option value="f">Female</option>
@@ -91,14 +110,14 @@
             <div class="mb-1 col-md-6 ">
               <label class="form-label" for="modern-phone">Address</label>
               <Field type="text" name="address" id="modern-address" class="form-control" placeholder="Address"
-                aria-label="phone_number" v-model="profile.address" />
+                aria-label="phone_number" v-model="userProfile.address" />
 
             </div>
             <div class="mb-1 col-md-6 ">
               <label class="form-label" for="modern-phone">Phone Number</label>
               <Field type="tel" name="phone" id="modern-phone" class="form-control"
                 :class="{ 'has-error': errorMessage }" placeholder="070 0000 000" aria-label="phone_number"
-                v-model="profile.phone" />
+                v-model="userProfile.phone" />
 
             </div>
             <div class="mb-1 col-md-6">
@@ -172,7 +191,8 @@
           <Form @submit="verifyId" :validation-schema="verificationSchema" class="mb-1 d-flex flex-column flex-lg-row  gx-5" style=" gap: 4%;">
             <div class="mb-1 col-md-5">
               <label class="form-label" for="id_type">Identification Type</label>
-              <Field as="select" :disabled="validState" v-model="profile.identity_type" name="id_type" class="select2 w-100 form-select">
+              <!--:disabled="validState"-->  
+              <Field as="select" :disabled="validState"  v-model="profile.identity_type" name="id_type" class="select2 w-100 form-select">
                 <option value="" disabled>Please select a form of Identity</option>
                 <option value="vnin">Virtual NIN</option>
                 <option value="drivers_license">Drivers License</option>
@@ -186,15 +206,16 @@
                  
               </div>
               <div class="input-group relative ">
-                <template v-if="profile.identity_number == null ">
+                <template v-if="userProfile.identity_number == null ">
 
                
-               <Field placeholder="12345678910" name="registration_company_number" v-model="profile.identity_number" :disabled="validState === true"
+               <Field placeholder="12345678910" name="registration_company_number" v-model="userProfile.identity_number" :disabled="validState === true"
                   id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" /> 
 
                 </template>
                 <template v-else>
-                  <Field placeholder="12345678910" name="registration_company_number" v-model="maskedNumber" :disabled="validState === true"
+                  <!--:disabled="validState === true"-->
+                  <Field :disabled="validState === true" placeholder="12345678910" name="registration_company_number" v-model="maskedNumber" 
                   id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" />
                 </template>
                 <span v-if="validState" class="position-absolute end-0  px-1" :style="{ top: '7px' }">
@@ -204,8 +225,7 @@
                       d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                   </svg>
                 </span>
-
-                <button type="submit" v-show="validState == false" 
+                <button type="submit" v-show="validState == false"
                   class="btn border mb-0 btn-primary-outline border-primary text-primary ms-1">
                   <span v-show="verifying" class="spinner-border spinner-border-sm"></span>
                   <span class="align-middle d-inline-block">Verify ID</span>
@@ -213,11 +233,9 @@
 
               </div>
               <ErrorMessage name="registration_company_number" class="text-danger " />
-
-
             </b-col>
           </Form>
-          <div v-show="profile.identity_type === 'vnin' && validState === false">
+          <div v-show="userProfile.identity_type === 'vnin' && validState === false">
             <div class="alert alert-danger d-flex align-items-center" role="alert">
   <svg width="16" height="17" viewBox="0 0 16 17" fill="none" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-1" xmlns="http://www.w3.org/2000/svg">
 <path d="M8.5 11.7654V7.76538H6.5V8.76538H7.5V11.7654H6V12.7654H10V11.7654H8.5ZM8 4.76538C7.85166 4.76538 7.70666 4.80937 7.58332 4.89178C7.45999 4.97419 7.36386 5.09132 7.30709 5.22837C7.25032 5.36541 7.23547 5.51621 7.26441 5.6617C7.29335 5.80718 7.36478 5.94082 7.46967 6.04571C7.57456 6.1506 7.7082 6.22203 7.85368 6.25097C7.99917 6.27991 8.14997 6.26506 8.28701 6.20829C8.42406 6.15152 8.54119 6.0554 8.6236 5.93206C8.70601 5.80872 8.75 5.66372 8.75 5.51538C8.75 5.31647 8.67098 5.1257 8.53033 4.98505C8.38968 4.8444 8.19891 4.76538 8 4.76538Z" fill="currentColor"/>
@@ -249,6 +267,7 @@
                       </div>
           <b-button-group class="mt-3 w-100 justify-content-end ">
             <div>
+              
               <button @click="goNext" id="nextbtn" :disabled="validState === false"
                 class="  rounded btn btn-primary btn-next">
                 <span class="align-middle d-inline-block ">Save and Continue</span>
@@ -270,17 +289,17 @@
             <div class="mb-1 col-md-6">
               <label class="form-label" for="modern-first-name">First Name</label>
               <Field type="text" id="modern-first-name" class="form-control" placeholder="John" name="first_name"
-                v-model="profile.first_name" />
+                v-model="userProfile.first_name" />
             </div>
             <div class="mb-1 col-md-6">
               <label class="form-label" for="modern-last-name">Last Name</label>
               <Field type="text" id="modern-last-name" class="form-control" placeholder="Doe" name="last_name"
-                v-model="profile.last_name" />
+                v-model="userProfile.last_name" />
             </div>
             <div class="mb-1 col-md-12">
               <label class="form-label" for="modern-landmark">Initials</label>
               <Field type="text" id="modern-initials" class="form-control" placeholder="Doe" name="initials"
-                v-model="profile.initials" />
+                v-model="userProfile.initials" />
             </div>
 
             <div class="col-md-12 mb-2">
@@ -326,7 +345,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import { useToast } from "vue-toast-notification";
 import { mask} from '@/Services/helpers';
 
-const toast = useToast();
+const $toast = useToast();
 // const store = useStore()
 
 export default {
@@ -490,14 +509,13 @@ export default {
     },
     maskedNumber(){
       // console.log(this.userProfile, this.profile)
-      if(this.profile?.identity_number){
-        return  mask(this.profile?.identity_number)
+      if(this.userProfile?.identity_number){
+        return  mask(this.userProfile?.identity_number)
         
       } 
-      return this.profile?.identity_number;
+      return this.userProfile?.identity_number;
     }
   },
-
   methods: {
 
     ...mapActions('ProfileModule', ['userUpdate']),
@@ -515,22 +533,24 @@ export default {
 
     handleSubmit() {
       let data = {
-        first_name: this.profile.first_name,
-        last_name: this.profile.last_name,
-        email: this.profile.email,
-        address: this.profile.address,
+        first_name: this.userProfile.first_name,
+        last_name: this.userProfile.last_name,
+        email: this.userProfile.email,
+        address: this.userProfile.address,
         country_id: this.country,
         state_id: this.state,
-        phone: this.profile.phone,
-        dob: this.profile.dob,
-        gender: this.profile.gender
+        phone: this.userProfile.phone,
+        dob: this.userProfile.dob,
+        gender: this.userProfile.gender
       };
 
       if (data) {
-        this.goNext();
-        this.userUpdate(data);
+        this.userUpdate(data).then(
+          this.goNext(),
+          this.tabIndexAdv1++
+        );
 
-        this.tabIndexAdv1++;
+        
       }
     },
 
@@ -544,7 +564,7 @@ export default {
           if (res.status == 200) {
             this.validState = true;
             this.$store.dispatch("ProfileModule/getUser");
-            toast.success(`ID verified successfully`, {
+            $toast.success(`ID verified successfully`, {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -557,7 +577,7 @@ export default {
         .catch((err) => {
           this.verifyError = true
           this.verifying = false;
-          toast.error("Error verifying", {
+          $toast.error("Error verifying", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -568,21 +588,32 @@ export default {
     },
   },
 
-  beforeCreate() {
-    ToNote.get("/user/profile").then((res) => {
-      this.profile = res?.data?.data;
-      this.validState = res?.data?.data?.national_verification;
-      this.state = res?.data?.data?.state?.id;
-      this.country = res?.data?.data?.country?.id;
 
-      this.getStates(this?.country)
-    });
+  mounted() {
+    // ToNote.get("/user/profile").then((res) => {
+    //   // this.profile = res?.data?.data;
+    //   this.validState = res?.data?.data?.national_verification;
+    //   this.state = res?.data?.data?.state?.id;
+    //   this.country = res?.data?.data?.country?.id;
 
+    //   this.getStates(this?.country)
+    // });
+
+
+    this.$store.dispatch("ProfileModule/getUser");
+
+    // console.log("ProfileModule", this.userProfile)
+    // this.profile = this.userProfile
+    this.validState = this.userProfile?.national_verification;
+    this.state = this.userProfile?.state?.id
+    this.country = this.userProfile?.country?.id;
+    this.getStates(this?.country)
     ToNote.get("/countries").then((res) => {
       this.countries = res?.data?.data;
     });
   },
   created() {
+    this.profile = this.userProfile
     if (this?.profile) {
       ToNote.get(`/countries/${this?.country}`).then((res) => {
         this.states = res?.data?.data;

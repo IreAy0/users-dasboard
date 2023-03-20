@@ -157,7 +157,7 @@ const deleteParticipant = () => {
   removeParticipantModal.value = false;
 };
 
-onMounted(() => {
-  console.log(userDocument.value.participants);
-});
+// onMounted(() => {
+//   console.log(userDocument.value.participants);
+// });
 </script>

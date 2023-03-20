@@ -1,25 +1,25 @@
 <template>
   <Transition name="modal">
-    <div v-if="show" class="modal-mask">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" :class="size">
-        <div class="modal-content">
-          <div class="modal-header">
-            <slot name="header">default header</slot>
-            <button v-if="closeBtn != false" type="button" class="btn-close" @click="$emit('close')"></button>
-          </div>
-
-          <div class="modal-body">
-            <slot name="body">default body</slot>
-          </div>
-
-          <div class="modal-footer" v-if="footer">
-            <slot name="footer">
-              <span @click="$emit('close')"></span>
-            </slot>
+      <div v-if="show"  :class="[style, 'modal-mask']" >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" :class="size">
+          <div class="modal-content">
+            <div class="modal-header">
+              <slot name="header">default header</slot>
+              <button v-if="closeBtn != false" type="button" class="btn-close" @click="$emit('close')"></button>
+            </div>
+  
+            <div class="modal-body">
+              <slot name="body">default body</slot>
+            </div>
+  
+            <div class="modal-footer" v-if="footer">
+              <slot name="footer">
+                <span @click="$emit('close')"></span>
+              </slot>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </Transition>
 </template>
 
@@ -27,6 +27,7 @@
 import { defineProps } from "vue";
 defineProps({
   show: Boolean,
+  style: { type: String, default: null },
   closeBtn: { type: Boolean, default: true },
   footer: { type: Boolean, default: true },
   size: { type: String, default: "modal-lg" },
@@ -34,9 +35,10 @@ defineProps({
 </script>
 
 <style scoped>
+
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 3;
   top: 0;
   left: 0;
   width: 100%;

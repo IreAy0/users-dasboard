@@ -55,7 +55,7 @@ import { useToast } from 'vue-toast-notification';
 
 const otpInput = ref(null)
 const loading = ref(false);
-const toast = useToast()
+const $toast = useToast()
 export default {
   name: 'VerifyPage',
   components: {
@@ -101,7 +101,7 @@ export default {
         email: this.$route.query.email
       }).then(res => {
         if (res) {
-          toast.success('OTP Sent successfully', {
+          $toast.success('OTP Sent successfully', {
             duration: 3000,
             queue: false,
             position: "top-right",

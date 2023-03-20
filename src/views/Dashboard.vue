@@ -92,7 +92,7 @@
   </div>
   <div class="col">
     <div class="card h-100 justify-content-center">
-      <a :href="`${getEnv}?status=sent&qt=${getToken}`"  >
+      <a :href="`${getEnv}?status=completed&qt=${getToken}`"  >
               <div class="card-header p-1 flex-nowrap">
                 <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>
@@ -178,7 +178,7 @@
   <li class="list-group-item d-flex mb-2 rounded border-primary py-1 justify-content-between align-items-center">
    Video Sign
    <span class="">
-      <a :href="`${getEnv}/document/video-signing-schedule?qt=${getToken}`"
+      <a :href="`${videoSign}document/video-signing-schedule?qt=${getToken}`"
                           class="text-primary">Sign Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
@@ -187,9 +187,9 @@
                       </span>
   </li>
   <li class="list-group-item d-flex mb-2 rounded border-primary py-1 justify-content-between align-items-center">
-    Easy Link
+    Sign Link
     <span class="">
-      <a :href="`${getEnv}/document/upload?qt=${getToken}`"
+      <a :href="`${signLink}document/upload?qt=${getToken}`"
                           class="text-primary">Get Link
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
@@ -266,25 +266,29 @@
         <ul class="list-group ">
   <li class="list-group-item border-primary rounded mb-2  py-1 d-flex justify-content-between align-items-center">
     Verify Document
-    <span class="">
-      <a href="javascript:void(0)"
+    <span  class="">
+      <!-- <a href="javascript:void(0)"
                           class="text-primary">Verify Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
 </svg>
-                        </a>
+                        </a> -->
+                        <span title="Coming Soon" class="coming-soon  border border-warning text-warning" data-v-735b3461=""> Coming Soon</span>
+
                       </span>
   </li>
   <li class="list-group-item d-flex mb-2 rounded border-primary py-1 justify-content-between align-items-center">
    Verify Notary
    <span class="">
-    <a href="javascript:void(0)"
+    <!-- <a href="javascript:void(0)"
                           class="text-primary">Verify Now
                           <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z" fill="#003BB3"/>
 </svg>
 
-                        </a>
+                        </a> -->
+                        <span title="Coming Soon" class="coming-soon  border border-warning text-warning" data-v-735b3461=""> Coming Soon</span>
+
                       </span>
   </li>
  
@@ -345,6 +349,14 @@ export default {
     },
     virtualNotary(){
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
+    },
+    signLink(){
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_SIGN_LINK_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_SIGN_LINK_STAGING : process.env.VUE_APP_SIGN_LINK_LIVE
+
+    },
+    videoSign(){
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_STAGING : process.env.VUE_APP_VIDEO_SIGN_LIVE
+
     }
   },
   methods: {

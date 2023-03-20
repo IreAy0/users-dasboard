@@ -132,7 +132,7 @@ import ToNote from "@/Services/Tonote";
 import { useToast } from "vue-toast-notification";
 import { mapState } from "vuex";
 
-const toast = useToast();
+const $toast = useToast();
 
 export default defineComponent({
   name: "TeamVue",
@@ -302,7 +302,7 @@ export default defineComponent({
           this.modalShow = false;
           // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
-          toast.success(`Team member invited successfully`, {
+          $toast.success(`Team member invited successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -316,7 +316,7 @@ export default defineComponent({
         })
         .catch((err) => {
           // this.modalShow = false;
-          toast.error(` ${err?.response?.data?.errors?.first_name ? err?.response?.data?.errors?.first_name.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.email ? err?.response?.data?.errors?.email.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.last_name ? err?.response?.data?.errors?.last_name?.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.permission ? err?.response?.data?.errors?.permission?.toString() : ''}`, {
+          $toast.error(` ${err?.response?.data?.errors?.first_name ? err?.response?.data?.errors?.first_name.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.email ? err?.response?.data?.errors?.email.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.last_name ? err?.response?.data?.errors?.last_name?.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.permission ? err?.response?.data?.errors?.permission?.toString() : ''}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -334,7 +334,7 @@ export default defineComponent({
         .then((_res) => {
           // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
-          toast.success(`Team member deleted successfully`, {
+          $toast.success(`Team member deleted successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -344,7 +344,7 @@ export default defineComponent({
         })
         .catch((err) => {
          
-          toast.error(`${err?.response?.data?.data?.error}`, {
+          $toast.error(`${err?.response?.data?.data?.error}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -361,7 +361,7 @@ export default defineComponent({
         .then((_res) => {
           this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
-          toast.success(`Team member restored successfully`, {
+          $toast.success(`Team member restored successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",

@@ -65,7 +65,7 @@ import { useStore } from "vuex";
 import { useToast } from "vue-toast-notification";
 import router from "@/router";
 
-const toast = useToast();
+const $toast = useToast();
 let store = useStore();
 const emits = defineEmits(["nextStep", "prevStep", "resetStep"]);
 
@@ -115,7 +115,7 @@ const onSuccessfulPayment = (response) => {
 };
 
 const onCancelledPayment = () => {
-  toast.error("Payment Cancelled", {
+  $toast.error("Payment Cancelled", {
     duration: 3000,
     queue: false,
     position: "top-right",
@@ -135,7 +135,7 @@ function openFlutterwave() {
       phone_number: phone,
     },
     onclose() {
-      toast.error("Payment Cancelled", {
+      $toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
         position: "top-right",
