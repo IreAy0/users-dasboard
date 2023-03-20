@@ -125,8 +125,9 @@
                             <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
                               <Icon icon="carbon:share" /> Share
                             </div>
-                            <div class="dropdown-item">
-                              <Icon icon="carbon:download" /> Download
+                            <div  class="dropdown-item">
+                              <Icon icon="carbon:download" />
+                               Download
                             </div>
                          
                         </div>
@@ -184,7 +185,7 @@
       </button>
     </template>
   </ModalComp>
-  <ModalComp :show="shareModal" :size="'modal-sm'" @close="shareModal = false">
+  <ModalComp :show="shareModal.open" :footer="false" :size="'modal-sm'" @close="shareModal.open = false">
     <template #header>
       <h4 class="text-primary mb-0">
         <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
@@ -193,10 +194,14 @@
     </template>
 
     <template #body>
+      <p class="text-center">
+        This document will be shared with the following people.
+      </p>
       <!-- <p class="text-center my-2">Are you sure you want to cancel this Document?</p> -->
-      <input type="email" class="form-control" id="email" placeholder="Please Enter email"
+      <MailToParticipant @close="shareModal.open = false" :id="shareModal.id" :isLoading="loading" />
+      <!-- <input type="email" class="form-control" id="email" placeholder="Please Enter email"
         :style="error_message.email && 'border: 1px solid red'"  v-model="email"
-        @change="error_message.email = null" />
+        @change="error_message.email = null" /> -->
     </template>
 
     <template #footer>
@@ -258,6 +263,7 @@ import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-bs5";
 import { useToast } from "vue-toast-notification";
 import $ from "jquery";
+import MailToParticipant from './MailToParticipant'
 import { getToken } from "@/Services/helpers";
 import ToNote from "@/Services/Tonote";
 
@@ -300,7 +306,7 @@ const error_message =({
 })
 const otp = ref("");
 const cancelModal = ref(false);
-const shareModal = ref(false);
+const shareModal = ref({open: false, id: ''});
 const otpModal = ref(profile.value.access_locker_documents)
 const questionModal = ref(false);
 const document_id= ref("")
@@ -318,7 +324,8 @@ const cancelSessionModal = (id) => {
 
 const shareDocumentModal = (id) => {
   document_id.value = id;
-  shareModal.value = true;
+  shareModal.value.open = true;
+  shareModal.value.id = id
 };
 
 const deleteLockerDocument = (params) => {
