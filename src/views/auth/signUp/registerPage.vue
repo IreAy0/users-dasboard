@@ -275,6 +275,7 @@ export default {
         email: this.user.email.toLocaleLowerCase(),
         password: this.user.password,
         role: this.user.role,
+        entry_point: "User"
       };
       if (
         (this.validated &&
