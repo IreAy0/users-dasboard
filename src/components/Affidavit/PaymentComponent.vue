@@ -7,36 +7,37 @@
       </div>
       <div class="shadow-lg text-center p-2 price__display">
         <span>Transaction cost</span>
-        <p class="h3 text-primary fw-bolder my-0 py-0">&#8358; {{getActive()?.subscription?.plan?.name == 'Business' || getActive?.subscription?.plan?.name == 'Pro' ? 3000 : 4000}}</p>
+        <p class="h3 text-primary fw-bolder my-0 py-0">&#8358; {{getActive()?.subscription?.plan?.name == 'Business' ||
+                  getActive?.subscription?.plan?.name == 'Pro' ? 3000 : 4000}}</p>
         <span class="small">per document</span>
       </div>
     </div>
-<div v-if="fetching == true">
+    <div v-if="fetching == true">
       <div class="fulfilling-bouncing-circle-spinner">
-  <div class="circle"></div>
-  <div class="orbit"></div>
-</div>
-    </div>
-   
-      <div v-if="fetching == false">
- <p class="h5 fw-bold my-2">Select payment option</p>
-
-    <div class="payment__options gap-2">
-      <label v-for="paymentGateway in paymentGateways" :key="paymentGateway.id" class="payment__option"
-        :for="paymentGateway.name">
-        <input name="payment_gateway" v-model="payment_gateway" :value="paymentGateway" type="radio"
-          :id="paymentGateway.name" />
-        <div class="payment__option-content">
-          <img loading="lazy" :src="paymentGateway.file" :alt="paymentGateway.name" />
-          <div class="payment__option-details">
-            <span> {{ paymentGateway.name }}</span>
-          </div>
-        </div>
-      </label>
-    </div>
-
+        <div class="circle"></div>
+        <div class="orbit"></div>
       </div>
-   
+    </div>
+
+    <div v-if="fetching == false">
+      <p class="h5 fw-bold my-2">Select payment option</p>
+
+      <div class="payment__options gap-2">
+        <label v-for="paymentGateway in paymentGateways" :key="paymentGateway.id" class="payment__option"
+          :for="paymentGateway.name">
+          <input name="payment_gateway" v-model="payment_gateway" :value="paymentGateway" type="radio"
+            :id="paymentGateway.name" />
+          <div class="payment__option-content">
+            <img loading="lazy" :src="paymentGateway.file" :alt="paymentGateway.name" />
+            <div class="payment__option-details">
+              <span> {{ paymentGateway.name }}</span>
+            </div>
+          </div>
+        </label>
+      </div>
+
+    </div>
+
 
     <!-- <div class="payment__button mt-2">
      
@@ -47,8 +48,8 @@
       Back
     </button>
     <paystack v-if="payment_gateway?.name === 'Paystack'" buttonText="Pay now" :publicKey="publicKey" :email="email"
-      :amount="payment_gateway?.total * 100" :reference="transactionable_id" :onSuccess="onSuccessfulPayment" :onCanel="onCancelledPayment"
-      class="btn btn-primary">
+      :amount="payment_gateway?.total * 100" :reference="transactionable_id" :onSuccess="onSuccessfulPayment"
+      :onCanel="onCancelledPayment" class="btn btn-primary">
     </paystack>
 
     <button v-if="payment_gateway?.name === 'Flutterwave'" type="button" class="btn btn-primary" @click="openFlutterwave">
@@ -78,9 +79,9 @@ const transactionable_id = computed(
 
 const Teams = computed(() => store.state.TeamsModule.Teams)
 
-const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
-const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
-const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
+const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
+const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
 const payment_gateway = ref({});
 const userProfile = computed(() => store.state.ProfileModule.userProfile);

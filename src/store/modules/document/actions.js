@@ -47,7 +47,13 @@ export const finishAnnotation = ({ commit }, formData) => {
 
 export const getUserDocument = ({ commit }, docId) => {
   Document.showDocument(docId)
-    .then((response) => { commit("SET_DOCUMENT", response.data.data); })
+    .then((response) => { 
+      commit("SET_DOCUMENT", response.data.data); 
+      // router.push({name: 'admin.preview', params:{ doc_id: docId}})/
+    })
+    // .then(() => {
+    //   router.push({name: 'admin.preview', params:{ doc_id: docId}})
+    // })
     .catch((error) => {
       if (error.response.status === 401 || error.response.status == 422) {
         commit("SET_TOKEN", null);
