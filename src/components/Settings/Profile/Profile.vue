@@ -6,7 +6,7 @@
       <ul
         class="nav nav-steps flex-nowrap overflow-auto    nav-tabs py-1 px-0  bs-stepper-header d-flex flex-row flex-lg-column nav nav-tabs align-items-baseline"
         id="myTab" role="tablist">
-        <li class="nav-item step " role="presentation">
+        <li @click="goToStep(0)" class="nav-item step " role="presentation">
           <button class="nav-link active indicator">
             <span class=" step-trigger ">
 
@@ -18,7 +18,7 @@
           </button>
 
         </li>
-        <li class="nav-item step  ">
+        <li @click="goToStep(1)" class="nav-item step  ">
           <button class="nav-link indicator">
 
             <span class=" step-trigger ">
@@ -30,7 +30,7 @@
             </span>
           </button>
         </li>
-        <li class="nav-item step" role="presentation">
+        <li @click="goToStep(2)" class="nav-item step" role="presentation">
           <button class="nav-link indicator">
             <span class=" step-trigger ">
 
@@ -403,7 +403,7 @@ export default {
       elem.classList.add("d-none");
     }
 
-    return { nextButton, prevButton, goNext, goPrev };
+    return { nextButton, prevButton, goNext, goPrev, goToStep };
   },
   data() {
     const simpleSchema = {

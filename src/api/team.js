@@ -11,6 +11,6 @@ export default {
   // },
 
   async getSubcriptions(){
-    return ToNote.get("/subscription-plans?type=Subscription&periodicity_type=Year");
+    return ToNote.get("/subscription-plans");
   }
 };

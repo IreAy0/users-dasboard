@@ -1,32 +1,19 @@
 <template>
   <div class="container-fluid">
 
-    <TableSkeleton v-if="allLockerDocuments == null"/>
+    <TableSkeleton v-if="allLockerDocuments == null" />
 
     <div v-else class="row p-0" id="basic-table ">
-     
+
       <div class="col-12">
         <div class="card">
           <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Locker Documents</h4>
             <div class="wrap">
-              <span
-              @click="openSessionModal()"
-              
-                class="btn btn-primary waves-effect"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-plus"
-                >
+              <span @click="openSessionModal()" class="btn btn-primary waves-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-plus">
                   <line x1="12" y1="5" x2="12" y2="19"></line>
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
@@ -41,25 +28,24 @@
                   <tr>
                     <th>S/N</th>
                     <th>Document Title</th>
-                    
+
                     <th>Time</th>
                     <th>Status</th>
-                   
+
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(result, index) in allLockerDocuments?.filter(result => result.status == 'Locked')" :key="index">
+                  <tr v-for="(result, index) in allLockerDocuments?.filter(result => result.status == 'Locked')"
+                    :key="index">
                     <!-- <template v-if="result.entry_point === 'Video'"> -->
                     <td>{{ ++index }}</td>
 
                     <td>
-                      <h6
-                        class="user-name text-truncate mb-0"
-                        style="width: 300px"
-                      >
+                      
+                      <router-link :to="`/admin/download/${result?.id}`" class="user-name text-truncate mb-0" style="width: 300px">
                         {{ result.title }}
-                      </h6>
+                      </router-link>
                       <!-- <small
                         class="badge rounded-pill me-1"
                         :class="[
@@ -76,7 +62,7 @@
                       </small> -->
                     </td>
 
-                   <!-- <td>
+                    <!-- <td>
                       <small class="badge badge-light-primary">
                         Participants {{ result.participants_count }}
                       </small>
@@ -90,51 +76,41 @@
                       </div>
                     </td>
                     <td>
-                      <span
-                        class="badge rounded-pill me-1"
-                        :class="[
-                          result.status == 'Pending'
-                            ? 'bg-warning'
-                            : 'bg-success',
-                        ]"
-                      >
+                      <span class="badge rounded-pill me-1" :class="[
+                                                  result.status == 'Pending'
+                                                    ? 'bg-warning'
+                                                    : 'bg-success',
+                                                ]">
                         {{ result.status }}
                       </span>
                     </td>
-                   
+
                     <td>
                       <div class="dropdown">
-                        <a
-                          class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <Icon
-                            icon="oi:ellipses"
-                            :rotate="1"
-                            :verticalFlip="true"
-                          />
+                        <a class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          <Icon icon="oi:ellipses" :rotate="1" :verticalFlip="true" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
-                         
-                           
-                            <div @click="cancelSessionModal(result.id)" class="dropdown-item">
-                              <Icon icon="mdi:cancel" />
-                              Delete
-                            </div>
-                            <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
-                              <Icon icon="carbon:share" /> Share
-                            </div>
-                            <div  class="dropdown-item">
-                              <Icon icon="carbon:download" />
-                               Download
-                            </div>
-                         
+
+
+                          <div @click="cancelSessionModal(result.id)" class="dropdown-item">
+                            <Icon icon="mdi:cancel" />
+                            Delete
+                          </div>
+                          <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
+                            <Icon icon="carbon:share" /> Share
+                          </div>
+                          <div class="dropdown-item">
+                            <Icon icon="carbon:download" />
+                            Download
+                          </div>
+
                         </div>
                       </div>
 
-                     
-                    </td> 
+
+                    </td>
                     <!-- </template> -->
                   </tr>
                 </tbody>
@@ -145,107 +121,101 @@
       </div>
     </div>
 
-    <ModalComp
-      :show="questionModal"
-      :size="modal - sm"
-      :footer="false"
-      :closeBtn="true"
-      @close="questionModal = false"
-    >
-    <template #header>
-      <h4 class="mb-0">
-       
-       Upload Locker Document
-      </h4>
-    </template>
+    <ModalComp :show="questionModal" :size="modal - sm" :footer="false" :closeBtn="true" @close="questionModal = false">
+      <template #header>
+        <h4 class="mb-0">
+
+          Upload Locker Document
+        </h4>
+      </template>
       <template #body>
-        <UploadDocument  @close="questionModal = false"/>
+        <UploadDocument @close="questionModal = false" />
       </template>
     </ModalComp>
 
 
     <ModalComp :show="cancelModal" :size="'modal-sm'" @close="cancelModal = false">
-    <template #header>
-      <h4 class="text-danger mb-0">
-        <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" />
-        Alert
-      </h4>
-    </template>
-
-    <template #body>
-      <p class="text-center my-2">Are you sure you want to cancel this Document?</p>
-    </template>
-
-    <template #footer>
-      <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
-        No
-      </button>
-      <button class="btn btn-sm btn-primary" @click="deleteLockerDocument(true)">
-        Yes
-      </button>
-    </template>
-  </ModalComp>
-  <ModalComp :show="shareModal.open" :footer="false" :size="'modal-sm'" @close="shareModal.open = false">
-    <template #header>
-      <h4 class="text-primary mb-0">
-        <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
-        Share with others
-      </h4>
-    </template>
-
-    <template #body>
-      <p class="text-center">
-        This document will be shared with the following people.
-      </p>
-      <!-- <p class="text-center my-2">Are you sure you want to cancel this Document?</p> -->
-      <MailToParticipant @close="shareModal.open = false" :id="shareModal.id" :isLoading="loading" />
-      <!-- <input type="email" class="form-control" id="email" placeholder="Please Enter email"
-        :style="error_message.email && 'border: 1px solid red'"  v-model="email"
-        @change="error_message.email = null" /> -->
-    </template>
-
-    <template #footer>
-      <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
-        cancel
-      </button>
-      <button :disabled="loading" class="btn btn-sm btn-primary" @click="shareLockerDocument(true)">
-        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-        Share
-      </button>
-    </template>
-  </ModalComp>
-  <div>
-    <ModalComp :closeBtn="false" :show="otpModal == false ? true : false"  :size="'modal-sm'" @close="otpModal = false">
       <template #header>
-        <h4 class="text-primary mb-0">
-          <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
-          Enter OTP 
+        <h4 class="text-danger mb-0">
+          <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" />
+          Alert
         </h4>
       </template>
-  
+
       <template #body>
-
-        <a class="text-center my-2">We have sent an OTP to <span class="text-primary text-bold">{{profile?.email}}</span>  <br/>
-           If you don't get a code, please request another
-        </a>
-        <div>
-          <p  @click="resendOtp(true)" class="text-primary text-right mt-1 mb-0">Resend</p>
-        </div>
-        <input type="number" class="form-control" id="otp" placeholder="Please Enter Otp"
-          :style="error_message.otp && 'border: 1px solid red'"  v-model="otp"
-          @change="error_message.otp = null" />
-
+        <p class="text-center my-2">Are you sure you want to cancel this Document?</p>
       </template>
-  
+
       <template #footer>
-        <button :disabled="loading" class="btn btn-sm btn-primary" @click="otpLocker(true)">
-          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-          Proceed
+        <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
+          No
+        </button>
+        <button class="btn btn-sm btn-primary" @click="deleteLockerDocument(true)">
+          Yes
         </button>
       </template>
     </ModalComp>
-  </div>
-  
+    <ModalComp :show="shareModal.open" :footer="false" :size="'modal-sm'" @close="shareModal.open = false">
+      <template #header>
+        <h4 class="text-primary mb-0">
+          <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
+          Share with others
+        </h4>
+      </template>
+
+      <template #body>
+        <p class="text-center">
+          This document will be shared with the following people.
+        </p>
+        <!-- <p class="text-center my-2">Are you sure you want to cancel this Document?</p> -->
+        <MailToParticipant @close="shareModal.open = false" :id="shareModal.id" :isLoading="loading" />
+        <!-- <input type="email" class="form-control" id="email" placeholder="Please Enter email"
+        :style="error_message.email && 'border: 1px solid red'"  v-model="email"
+        @change="error_message.email = null" /> -->
+      </template>
+
+      <template #footer>
+        <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
+          cancel
+        </button>
+        <button :disabled="loading" class="btn btn-sm btn-primary" @click="shareLockerDocument(true)">
+          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          Share
+        </button>
+      </template>
+    </ModalComp>
+    <div>
+      <ModalComp :closeBtn="false" :show="otpModal == false ? true : false" :size="'modal-sm'" @close="otpModal = false">
+        <template #header>
+          <h4 class="text-primary mb-0">
+            <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
+            Enter OTP
+          </h4>
+        </template>
+
+        <template #body>
+
+          <a class="text-center my-2">We have sent an OTP to <span
+              class="text-primary text-bold">{{profile?.email}}</span> <br />
+            If you don't get a code, please request another
+          </a>
+          <div>
+            <p @click="resendOtp(true)" class="text-primary text-right mt-1 mb-0">Resend</p>
+          </div>
+          <input type="number" class="form-control" id="otp" placeholder="Please Enter Otp"
+            :style="error_message.otp && 'border: 1px solid red'" v-model="otp" @change="error_message.otp = null" />
+
+        </template>
+
+        <template #footer>
+          <button :disabled="loading" class="btn btn-sm btn-primary" @click="otpLocker(true)">
+            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+            Proceed
+          </button>
+        </template>
+      </ModalComp>
+    </div>
+
   </div>
 </template>
 
@@ -418,7 +388,7 @@ const reschedule = ref({});
 
 
 const  getEnv = () =>{
-      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_PAGE_STAGING : process.env.VUE_APP_VIDEO_SIGN_PAGE_LIVE
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_PAGE_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_PAGE_STAGING : process.env.VUE_APP_VIDEO_SIGN_PAGE_LIVE
     }
  
 const dateSelected = (data) => {
@@ -476,14 +446,16 @@ onUpdated(() => {
 </script>
 
 <style>
-.text-right{
+.text-right {
   text-align: right;
   cursor: pointer
 }
+
 .backdrop {
   backdrop-filter: blur(4px);
 
 }
+
 .vuejs3-datepicker {
   display: block;
 }

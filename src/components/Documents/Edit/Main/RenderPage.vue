@@ -46,7 +46,7 @@ export default {
     setTimeout(() => {
       this.getPdf()
       this.isLoading = false
-    }, 2000);
+    }, 3000);
   },
 
   updated() {

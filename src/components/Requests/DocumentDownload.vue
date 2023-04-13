@@ -12,67 +12,51 @@
                 </button>
               </div> -->
             </div>
-            <div v-for="(doc, index) in userDocument.documentUploads" :key="index" class="position-relative border">
-              <RenderPage :file="doc.file_url" @click="$emit('docId', doc.id)" @documentHeight="getHeight" />
-            </div>
-            <!-- <div v-if="userDocument?.documentUploads?.find((item ) => item?.status == 'Completed'
-              )">
+            
+            <div v-if="userDocument?.documentUploads?.find((item ) => item?.status == 'Completed')">
               <div class="position-relative border">
                 <VuePdfEmbed
                 :key="files?.id"
                 :source="files?.file_url"
                 @loaded="handleDocumentRender"
               />              
-            </div> -->
+            </div>
              
             </div>
-            
-          
+            <div v-else >
+              <PreLoader />
+            </div>
+            <!-- <div v-for="(doc, index) in userDocument?.documentUploads?.find((item ) => item?.status == 'Completed')" :key="index" class="position-relative border">
+              <RenderPage :file="doc?.file_url" @click="$emit('docId', doc?.id)" @documentHeight="getHeight" />
+            </div> -->
+          </div>
           <div class="col-lg-5">
             <div class="card">
               <div class="card-body">
-                <div class="d-flex justify-content-between mb-2">
-                  <h3>Participants</h3>
+                <div class="d-flex gap-1 mb-2 ">
                   <div>
-                    <button class="btn btn-sm btn-primary" @click="addParticipantModal">
-                      <Icon icon="akar-icons:plus" /> Add
+                    <button class="btn btn-md btn-primary"  @click="exportHTMLToPDF"
+                    :disabled="isDownload">
+                    <template v-if="isDownload">
+                      <span class="spinner-border spinner-border-sm"></span>
+                      Downloading
+                    </template>
+                    <template v-else>
+                      <Icon icon="uil:file-download-alt" />
+                      Download Document
+                    </template>
+                    </button>
+                  </div>
+                  <div>
+                    <button class="btn btn-md btn-primary" @click="addParticipantModal">
+                      <Icon icon="carbon:share" /> Share Document
                     </button>
                   </div>
                 </div>
-                <div class="table-responsive">
-                  <table class="table table-sm">
-                    <thead>
-                      <tr>
-                        <th>Fullname</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(
-                          participant, index
-                        ) in userDocument.participants" :key="index">
-                        <td>
-                          {{
-                          participant.user.first_name +
-                          " " +
-                          participant.user.last_name
-                          }}
-                        </td>
-                        <td>{{ participant.user.email }}</td>
-                        <td>
-                          <button class="btn btn-sm btn-outline-danger" @click="remove(participant.id)">
-                            <Icon icon="codicon:trash" /> Remove
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+               
               </div>
             </div>
           </div>
-         
 
           <ModalComp :show="openModal" :size="'modal-lg'" :footer="true" @close="openModal = false">
             <template #header>
@@ -129,14 +113,15 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted , computed} from "vue";
 import { useRoute } from 'vue-router'
 import { useGetters, useActions } from "vuex-composition-helpers/dist";
 import RenderPage from "@/components/Documents/Edit/Main/RenderPage";
 import DropZone from "@/components/DropZone";
 import AddSigner from "@/components/Documents/Edit/Left/AddSigner";
-import VuePdfEmbed from "vue-pdf-embed";
 import { saveAs } from "file-saver";
+import PreLoader from "@/components/PreLoader.vue";
+import VuePdfEmbed from "vue-pdf-embed";
 
 import { Icon } from "@iconify/vue";
 import ModalComp from "@/components/ModalComp.vue";
@@ -155,12 +140,17 @@ const { removeParticipant, getUserDocument } = useActions({
 const route = useRoute()
 
 const openModal = ref(false);
+const isDownload = ref(false);
 const openAddParticipantModal = ref(false);
 const removeParticipantModal = ref(false);
 const participantId = ref("");
 
 const replaceModal = () => {
   openModal.value = true;
+};
+
+const handleDocumentRender = (e) => {
+  console.log("ob", e);
 };
 
 const addParticipantModal = () => {
@@ -171,8 +161,9 @@ const getDocument = (params) => {
   getUserDocument(params.id);
 };
 
-const handleDocumentRender = (e) => {
-  console.log("ob", e);
+const remove = (params) => {
+  removeParticipantModal.value = true;
+  participantId.value = params;
 };
 
 const files = computed(() => {
@@ -180,11 +171,6 @@ const files = computed(() => {
     return (item.status == "Completed" || item.status == 'Sent') ;
   });
 });
-
-const remove = (params) => {
-  removeParticipantModal.value = true;
-  participantId.value = params;
-};
 
 const exportHTMLToPDF = async () => {
   let url = files?.value?.file_url;

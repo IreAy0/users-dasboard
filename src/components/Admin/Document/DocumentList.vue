@@ -2,10 +2,10 @@
   <div class="col-12 mt-2">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title">Document List</h5>
+        <h5 class="card-title">Recent Documents</h5>
 
       </div>
-  
+
       <div class="card invoice-list-wrapper">
         <div class="card-datatable table-responsive">
           <table class="invoice-list-table table">
@@ -21,8 +21,7 @@
             <tbody>
               <tr v-for="document in documents?.data?.slice(0, 5)" :key="document.id">
                 <td>
-                  <a :href="`${getEnv}?di=${document.id}&qt=${token}`"
-                    class="my-0 py-0">{{ document.title }}</a>
+                  <a :href="`${getEnv}?di=${document.id}&qt=${token}`" class="my-0 py-0">{{ document.title }}</a>
                   <p v-if="document.participants_count !== 0" class="my-0 py-0">
                     <!-- To:
                     <span
@@ -64,12 +63,12 @@
               </tr>
             </tbody>
           </table>
-         
+
 
         </div>
       </div>
     </div>
-  <!--  <nav aria-label="page navigation example">
+    <!--  <nav aria-label="page navigation example">
       <ul class="pagination">
         <li class="page-item " :class="paginationLinks?.prev === null ? 'disabled' : ''" @click="prev" >
           <a class="page-link">Prev</a>
@@ -117,8 +116,7 @@ const goto = (pageNumber) => {
 const requests = computed(() => store.state.DocumentModule.requests);
 const meta = computed(() => documents.value.meta)
 const paginationLinks = computed(() => documents.value.links )
-const getEnv = computed(() => process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE)
+const getEnv = computed(() => process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE)
 const token = computed(() => getToken())
 </script>
-<style lang="css">
-</style>
+<style lang="css"></style>

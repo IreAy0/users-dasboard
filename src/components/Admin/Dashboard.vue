@@ -31,8 +31,8 @@
                     class="align-middle">Todo</span></a><a class="dropdown-item" href="app-chat.html"><i class="me-1"
                     data-feather="message-square"></i><span class="align-middle">Chat</span></a><a class="dropdown-item"
                   href="app-email.html"><i class="me-1" data-feather="mail"></i><span
-                    class="align-middle">Email</span></a><a class="dropdown-item" href="app-calendar.html"><i
-                    class="me-1" data-feather="calendar"></i><span class="align-middle">Calendar</span></a>
+                    class="align-middle">Email</span></a><a class="dropdown-item" href="app-calendar.html"><i class="me-1"
+                    data-feather="calendar"></i><span class="align-middle">Calendar</span></a>
               </div>
             </div>
           </div>
@@ -148,8 +148,8 @@
           </div>
         </div>
 
-       
-<div class="row">
+
+        <div class="row">
           <div class="col-12">
             <h4 class="card-title">What will you like to do?</h4>
             <div class="pt-0 me-0">
@@ -174,8 +174,7 @@
                       </p>
 
                       <div class="mt-auto">
-                        <a :href="`${getEnv}/document/upload?qt=${getToken}`"
-                          class="text-primary">Sign now
+                        <a :href="`${getEnv}/document/upload?qt=${getToken}`" class="text-primary">Sign now
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             class="bi bi-arrow-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -245,7 +244,7 @@
                     </div>
                   </div>
                 </div>
-               
+
               </div>
             </div>
           </div>
@@ -276,8 +275,7 @@
                       </p>
 
                       <div class="mt-auto">
-                        <a :href="`${getEnv}/document/upload?qt=${getToken}`"
-                          class="text-primary">Sign now
+                        <a :href="`${getEnv}/document/upload?qt=${getToken}`" class="text-primary">Sign now
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             class="bi bi-arrow-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -347,7 +345,7 @@
                     </div>
                   </div>
                 </div>
-               
+
               </div>
             </div>
           </div>
@@ -379,7 +377,6 @@
     aria-labelledby="NotaryRequestModalLabel" aria-hidden="true">
     <RequestNotaryModal />
   </div>
-
 </template>
 
 <script>
@@ -405,7 +402,7 @@ export default {
       return token;
     },
     getEnv(){
-      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
 
     }
   },

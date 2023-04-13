@@ -13,9 +13,7 @@
                 <img src="../../assets/logo.png" alt="ToNote Logo" class="my-1 confimation__logo" />
                 <h4 class="fw-bolder my-1">Payment Successful!</h4>
                 <p class="mb-1">
-                  Your request has been received and a member of the team will
-                  reach out to connect you with your notary shortly. Please keep
-                  an eye on your email.
+                  Your Account has been upgraded successfully.
                 </p>
                 <button class="btn my-1" data-bs-dismiss="modal" aria-label="Close" @click="dashboardHandler"
                   style="background: #e5e7e9">
@@ -42,7 +40,7 @@ import { onMounted } from "vue";
 
 const dashboardHandler = () => {
   // router.push({ name: "admin.dashboard" });
-  window.location.href = '/admin/dashboard';
+  window.location.href = '/admin/settings?tab=billing';
 };
 onMounted(() => {
   AOS.init({ duration: 500 });

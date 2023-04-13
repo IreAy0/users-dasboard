@@ -76,13 +76,6 @@
           <div class="table-responsive">
             <b-table :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
               <template #cell(action)="data">
-                <!-- <div>
-        <span >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg>
-        </span>
-      </div> -->
                 <a v-show="
                   getActiveUser?.permission === 'Admin' ||
                   getActiveUser?.isOwner === 'True'
@@ -315,8 +308,14 @@ export default defineComponent({
           this.email = "";
         })
         .catch((err) => {
-          // this.modalShow = false;
-          $toast.error(` ${err?.response?.data?.errors?.first_name ? err?.response?.data?.errors?.first_name.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.email ? err?.response?.data?.errors?.email.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.last_name ? err?.response?.data?.errors?.last_name?.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.permission ? err?.response?.data?.errors?.permission?.toString() : ''}`, {
+          this.modalShow = false;
+          this.first_name = "";
+          this.last_name = "";
+          this.permission = "";
+          this.email = "";
+          let values = Object.values(err?.response?.data?.data);
+          console.log('err', err?.response?.data?.data.error, values)
+          $toast.error(` ${err?.response?.data?.data.error}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
