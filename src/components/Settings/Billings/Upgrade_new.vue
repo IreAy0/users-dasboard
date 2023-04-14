@@ -1,6 +1,10 @@
 <template>
   <div>
-    <p class="primary">Back </p>
+    <p style="cursor: pointer" @click=" getSingleSubscription({})" class="text-primary">
+      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 12L3 7L8 2L7 0L0 7L7 14L8 12Z" fill="#003BB3"/>
+        </svg>        
+      Back </p>
     <!-- {{ active_team.users }} -->
     <!-- {{ current_plan }} -->
     <div class="d-flex pb-1 justify-content-between align-items-center">
@@ -245,7 +249,7 @@ const planData = ref({
   "plan_id": props.current_plan.id
 })
 const transactionDetails = ref({})
-const totalAmount = ref(props.current_plan.amount)
+const totalAmount = ref()
 
 
 const increaseValue = ref()
@@ -385,6 +389,10 @@ const openFlutterwave = () => {
     // redirect_url: redirect_url+'admin/settings?tab=billing'
   });
 }
+
+onMounted(()=> {
+ totalAmount.value = props.current_plan.amount * number_of_users.value
+})
 </script>
 <style >
   
