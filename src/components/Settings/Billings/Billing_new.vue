@@ -12,7 +12,7 @@
         </div>
         <div class="col border p-1 flex flex-col justify-content-betwee rounded-2">
           <p class="text-black">Active Users</p>
-          <p class="text-primary mb-0 h5">0 of 0</p>
+          <p class="text-primary mb-0 h5">{{active_team.users?.length}} of {{active_team?.users?.length}}</p>
         </div>
         <div class="col border p-1 flex flex-col justify-content-betwee rounded-2">
           <p class="text-black">Next Renewal Date</p>
@@ -103,7 +103,6 @@
                           <rect width="20" height="20" rx="4" fill="currentColor"/>
                           <path d="M8.66667 12.9332L6 10.2665L6.93333 9.33317L8.66667 11.0665L13.0667 6.6665L14 7.59984L8.66667 12.9332Z" fill="white"/>
                           </svg>
-                          
                       </div>
                     </div>
                     <h3 :style="{color: plan.name  == 'Custom' ? '#003BB3' : plan.name == 'Pro'  ? '#DB922B' : plan.name == 'Business'  ? 'black' : '#EBE9F1'}" class=" text-center text-2xl ">
@@ -148,20 +147,20 @@
                       <span class="mx-1  btn btn-outline-dark px-0 py-2 text-3xl font-weight-bolder text-black">₦{{plan.amount}}
                         <span class="text-md text-secondary">Per user</span>
                       </span>
-                      <p @click="addUsersModal(plan)" v-if="plan.name == 'Pro' && selected == plan.id" style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
+                      <p @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
                         Upgrade to Pro Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="#DB922B"/>
                           </svg>
                           
                       </p>
-                      <p @click="addUsersModal(plan)" v-if="plan.name == 'Business' && selected == plan.id" style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
+                      <p @click="addUsersModal(plan)" v-if="plan.name == 'Business' " style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
                         Upgrade to Business Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="black"/>
                           </svg>
                       </p>
-                      <p v-if="plan.name == 'Custom' && selected == plan.id" style="color:#003BB3" class="text-lg font-weight-bold text-center mt-2 mb-0 ">Default Plan</p>
+                      <p v-if="plan.name == 'Custom'" style="color:#003BB3" class="text-lg font-weight-bold text-center mt-2 mb-0 ">Default Plan</p>
 
                     </div>
                   </div>

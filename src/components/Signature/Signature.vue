@@ -63,7 +63,7 @@
             </span>
             <div :class="{'d-none': selectedFont !== '' }" v-show="getTyped" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview col-12 col-lg-2"   :src="getTyped" />
+              <img class="sign-preview w-auto" style="" height="50"   :src="getTyped" />
 
             </div>
           </div>
@@ -115,7 +115,7 @@
             </span>
             <div :class="{'d-none': selectedInitial !== '' }" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview col-12 col-xl-3" :src="getInitials" />
+              <img class="sign-preview w-auto" style="" height="50"  :src="getInitials" />
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
           </div>
@@ -501,7 +501,6 @@ export default {
 @import "../../../public/app-assets/fonts/signature-font-face.css";
 
 .hover {
-  width: 48% !important;
   margin: 0 5px;
   outline: 1px solid #ccc !important;
   border-radius: 20px;

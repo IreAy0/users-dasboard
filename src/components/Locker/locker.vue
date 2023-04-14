@@ -202,7 +202,7 @@
           <div>
             <p @click="resendOtp(true)" class="text-primary text-right mt-1 mb-0">Resend</p>
           </div>
-          <input type="number" class="form-control" id="otp" placeholder="Please Enter Otp"
+          <input type="tel" class="form-control" id="otp" placeholder="Please Enter Otp"
             :style="error_message.otp && 'border: 1px solid red'" v-model="otp" @change="error_message.otp = null" />
 
         </template>
