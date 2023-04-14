@@ -101,10 +101,10 @@
                           <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
                             <Icon icon="carbon:share" /> Share
                           </div>
-                          <div class="dropdown-item">
+                          <router-link :to="`/admin/download/${result?.id}`"  class="dropdown-item">
                             <Icon icon="carbon:download" />
                             Download
-                          </div>
+                          </router-link>
 
                         </div>
                       </div>
@@ -353,7 +353,7 @@ const otpLocker = (params) => {
         otpModal.value = true;
         getUser()
         loading.value = false;
-        $toast.success("updated successfully", {
+        $toast.success("Access Granted", {
         timeout: 5000,
         position: "top-right",
       });
