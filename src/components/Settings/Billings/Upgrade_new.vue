@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <h1>header</h1> -->
+    <p class="primary">Back </p>
     <!-- {{ active_team.users }} -->
     <!-- {{ current_plan }} -->
     <div class="d-flex pb-1 justify-content-between align-items-center">
