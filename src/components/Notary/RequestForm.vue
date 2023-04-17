@@ -149,6 +149,7 @@ const form_data = ref({
   delivery_address: "",
   platform_initiated: "Web",
   phone: "",
+  entry_point: "Notary"
 });
 
 const close = () => {
