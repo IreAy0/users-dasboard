@@ -148,7 +148,6 @@ export default {
     },
      getEnv(){
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
-
     },
     getUrl() {
       const url = process.env.VUE_APP_DOCUMENT_PAGE;

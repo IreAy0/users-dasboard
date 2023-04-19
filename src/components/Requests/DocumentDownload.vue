@@ -48,7 +48,7 @@
                     </button>
                   </div>
                   <div>
-                    <button class="btn btn-md btn-primary" @click="addParticipantModal">
+                    <button class="btn btn-md btn-primary" @click="$event => shareDocumentModal()">
                       <Icon icon="carbon:share" /> Share Document
                     </button>
                   </div>
@@ -107,6 +107,36 @@
               </div>
             </template>
           </ModalComp>
+
+          <ModalComp :show="shareModal.open" :footer="false" :size="'modal-sm'" @close="shareModal.open = false">
+            <template #header>
+              <h4 class="text-primary mb-0">
+                <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
+                Share with others
+              </h4>
+            </template>
+      
+            <template #body>
+              <p class="text-center">
+                This document will be shared with the following people.
+              </p>
+              <!-- <p class="text-center my-2">Are you sure you want to cancel this Document?</p> -->
+              <MailToParticipant @close="shareModal.open = false" :id="userDocument.id" :isLoading="loading" />
+              <!-- <input type="email" class="form-control" id="email" placeholder="Please Enter email"
+              :style="error_message.email && 'border: 1px solid red'"  v-model="email"
+              @change="error_message.email = null" /> -->
+            </template>
+      
+            <template #footer>
+              <button class="btn btn-sm btn-secondary" @click="deleteLockerDocument(false)">
+                cancel
+              </button>
+              <button :disabled="loading" class="btn btn-sm btn-primary" @click="shareLockerDocument(true)">
+                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                Share
+              </button>
+            </template>
+          </ModalComp>
         </div>
       </div>
     </div>
@@ -122,6 +152,9 @@ import AddSigner from "@/components/Documents/Edit/Left/AddSigner";
 import { saveAs } from "file-saver";
 import PreLoader from "@/components/PreLoader.vue";
 import VuePdfEmbed from "vue-pdf-embed";
+import ToNote from "@/Services/Tonote";
+import { useToast } from "vue-toast-notification";
+import MailToParticipant from '@/components/Locker/MailToParticipant'
 
 import { Icon } from "@iconify/vue";
 import ModalComp from "@/components/ModalComp.vue";
@@ -138,12 +171,18 @@ const { removeParticipant, getUserDocument } = useActions({
 });
 
 const route = useRoute()
+const $toast = useToast();
 
 const openModal = ref(false);
+const shareModal = ref({open: false, id: ''});
+const document_id= ref("")
 const isDownload = ref(false);
 const openAddParticipantModal = ref(false);
 const removeParticipantModal = ref(false);
 const participantId = ref("");
+const loading = ref(false)
+const sessionId = ref("");
+const email = ref("");
 
 const replaceModal = () => {
   openModal.value = true;
@@ -160,10 +199,48 @@ const addParticipantModal = () => {
 const getDocument = (params) => {
   getUserDocument(params.id);
 };
-
+const shareDocumentModal = (id) => {
+  // document_id.value = id;
+  shareModal.value.open = true;
+  shareModal.value.id = userDocument.id
+};
 const remove = (params) => {
   removeParticipantModal.value = true;
   participantId.value = params;
+};
+
+const shareLockerDocument = (params) => {
+  if (params) {
+    
+    let formData = { id: sessionId.value};
+    let documents = [
+      {
+      "document_id": userDocument.id,
+      "email": email.value
+      }
+    ]
+    loading.value = true;
+    ToNote.put(`/document-share/${userDocument.id}`, {documents} )
+      .then(res => {
+        shareModal.value = false;
+        loading.value = false;
+        $toast.success("shared successfully", {
+        timeout: 5000,
+        position: "top-right",
+      });
+      }).catch(err => {
+        shareModal.value = false;
+        loading.value = false;
+        $toast.error(err.message, {
+        timeout: 5000,
+        position: "top-right",
+      });
+      })
+
+    
+  } else {
+    shareModal.value = false;
+  }
 };
 
 const files = computed(() => {
