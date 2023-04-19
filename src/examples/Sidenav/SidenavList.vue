@@ -76,7 +76,7 @@
             </svg>
           </div>
           <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
-            <span class="menu-title text-truncate fs-6 d-flex "> <span>Received</span> </span>
+            <span class="menu-title text-truncate fs-6 d-flex "> <span>Need to Sign</span> </span>
 
           </span>
           <span class="badge rounded-pill badge-light-warning ms-auto "> {{dashboardData?.received ?
