@@ -11,7 +11,7 @@
       <h4 class="">
         Invite team members to your plan
       </h4>
-      <p :disabled="number_of_users <= 1" @click="openAddUserModal()" class="d-inline-flex text-primary align-items-center"> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <p :disabled="number_of_users <= 1" @click="addParticipantModal" class="d-inline-flex text-primary align-items-center"> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 6V0H8V6H14V8H8V14H6V8H0V6H6Z" fill="#003BB3"/>
         </svg>
        <span class="font-weight-bold ml-1">Add team member</span> </p>
@@ -20,16 +20,24 @@
     <p class="pb-1 font-weight-bold">You are about to upgrade to the pro plan, invite the team members and proceed to payment</p>
     <div class="px-1">
       <div class="row">
-        <div class="col ">
+        <div class="col">
           <div>
             <div :key="user" v-for="user in active_team?.users?.filter(user => user.isOwner == true)" class="d-flex text-primary justify-content-between pb-1 " >
               <p class="font-weight-bold mb-0">{{user.email}}</p>
               <p class="font-weight-bold mb-0"> ₦{{ current_plan.amount }} </p>
               <p class="font-weight-bold mb-0">{{user.isOwner == true ? 'Owner' : user.permission}}</p>
             </div>
-            <b-table show-empty :items="active_team?.users?.filter(user => user.isOwner == false)" :fields="fields" responsive="sm" >
+            <b-table show-empty :items="allMembers" :fields="fields" responsive="sm" >
               <template #empty>
                 <h4 class="text-center p-2">No Team Member</h4>
+              </template>
+
+              <template #cell(action)="data">
+                <div>
+                  <b-button type="button" @click="removeItem(data.index)" variant="outline-danger btn-sm">Remove</b-button>
+                </div>
+                <!-- <button type="button" class="outline-danger">Remove</button> -->
+                <!-- <h4 class="text-center p-2">{{ data.index }}  years old</h4> -->
               </template>
             </b-table>
           </div>
@@ -60,9 +68,9 @@
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center ">
-       
           <div class="ml-auto">
-            <button :disabled="number_of_users <= 1" @click="handleRegisterSubcription" class="rounded btn btn-primary">
+            <!-- :disabled="allMembers.length > number_of_users || number_of_users <= 1 " -->
+            <button  @click="handleRegisterSubcription" class="rounded btn btn-primary">
               <span class="align-middle d-inline-block">Proceed to Pay</span>
             </button>
           </div>
@@ -70,41 +78,18 @@
       </div>
     </div>
   </div>
-  
   <!-- @click="openAddUserModal()" -->
-  <b-modal id="modal-center" centered title="Invite your teammate" hide-footer v-model="addTeamModal">
-    <form @submit.prevent="inviteTeamMember" class="auth-register-form mt-2 row" novalidate>
-      <div class="mb-2 col-6">
-        <label class="form-label" for="first-name">First Name</label>
-        <input class="form-control" id="first-name" type="text" name="first_name" placeholder="Thomas"
-          aria-describedby="first-name" autofocus="" tabindex="1" v-model="first_name" />
-      </div>
+  <ModalComp :show="openAddParticipantModal" :size="'modal-lg'" :footer="false"
+  @close="openAddParticipantModal = false">
+  <template #header>
+    <h5 class="modal-title">Add Team Members</h5>
+  </template>
 
-      <div class="mb-2 col-6">
-        <label class="form-label" for="last-name">Last name</label>
-        <input class="form-control" id="last-name" type="text" name="last_name" placeholder="Edison"
-          aria-describedby="last-name" autofocus="" tabindex="1" v-model="last_name" />
-      </div>
+  <template #body>
+    <AddTeamMembers @close="openAddParticipantModal = false"/>
+  </template>
+</ModalComp>
 
-      <div class="mb-2 col-12">
-        <label class="form-label" for="register-email">Email</label>
-        <input class="form-control" id="register-email" type="text" name="email" v-model="email"
-          placeholder="john@example.com" aria-describedby="register-email" tabindex="2" />
-      </div>
-      <div>
-        <b-form-group class="permissions" label="Add Permissions">
-          <b-form-radio-group v-model="permission" :options="options" name="radios-stacked" stacked />
-        </b-form-group>
-      </div>
-      <div class="col-12">
-        <button class="btn btn-primary w-100" tabindex="5">
-          Invite
-        </button>
-        <img v-if="loggingIn"
-          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-      </div>
-    </form>
-  </b-modal>
   <ModalComp :closeBtn="true" :show="paymentModal" :size="'modal-md'" @close="paymentModal = false">
     <template #header>
       <h4 class=" mb-0">
@@ -120,10 +105,13 @@
         <b-col cols="12" class="border border-secondary rounded-3 p-2 mt-2">
           <div class="row">
             <div class="col-5 p-2">
-              <p>Team Members</p>
+              <div>
+                <p>Team Members</p>
               <h2 class="w-100 h2 text-black font-weight-bold ">
                 {{  number_of_users }}
               </h2>
+              </div>
+             
             </div>
             <div class=" col-1">
               <div style="width:2px; height:100%" class="border"/>
@@ -131,8 +119,26 @@
 
             <!-- <hr /> -->
             <div class="col-5 p-2">
-              <p>Total due</p>
-              <h2 class="font-weight-bold text-black"> ₦{{ transactionDetails.total }}</h2>
+              
+              
+              <div>
+                <p>Subtotal</p>
+              <h2 class="w-100 h2 text-black font-weight-bold ">
+                ₦{{  transactionDetails.subtotal                }}
+              </h2>
+              </div>
+              <hr />
+              <div>
+                <p>Total due</p>
+                <h2 class="font-weight-bold text-black"> ₦{{ transactionDetails.total }}</h2>
+              </div>
+              <hr />
+              <div>
+                <p>Next Billing Deduction</p>
+              <h2 class="w-100 h2 text-black font-weight-bold ">
+                ₦{{  transactionDetails.next_billing_cycle_deduction                }}
+              </h2>
+              </div>
             </div>
 
           </div>
@@ -205,18 +211,22 @@
   </b-modal>
 </template>
 <script setup>
-import { ref, onMounted, onUpdated, computed, defineProps } from "vue";
+import { ref, onMounted, onUpdated, computed, defineProps, watch } from "vue";
 import ToNote from "@/Services/Tonote";
 import ModalComp from "@/components/ModalComp.vue";
 import paystack from "vue3-paystack";
 import { useFlutterwave,  } from "flutterwave-vue3";
 import { useToast } from "vue-toast-notification";
-import { useState, useActions, useGetters } from 'vuex-composition-helpers';
+import AddTeamMembers from "@/components/Documents/Edit/Left/AddTeamMembers";
+import AddSigner from "@/components/Documents/Edit/Left/AddSigner";
+
+import { useState, useActions, useGetters, createNamespacedHelpers } from 'vuex-composition-helpers';
 import { useStore } from 'vuex'
 import SpinLoader from '@/components/Loader/SpinLoader.vue'
 
 
 const store = useStore()
+// const { useState } = createNamespacedHelpers(["document"]);
 
 
 const $toast = useToast();
@@ -236,14 +246,20 @@ const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.
 const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
 const userProfile = computed(() => (store.state.ProfileModule.userProfile))
-const singleData = computed(() => (store.state.TeamsModule.upgradePlan))
+const singleData= computed(() => (store.state.TeamsModule.upgradePlan))
+const teamData = computed(() => (store.state.document.teamMembers))
+const teamMembers = ref([])
+const owner = props.active_team?.users?.filter(user => user.isOwner == true)
+
+const allMembers = ref([])
 const number_of_users = ref(0)
-const addTeamModal = ref(false)
 const paymentModal = ref(false)
 const paymentConfirmation = ref(false)
 const payment_gateway = ref({})
 const loading = ref(false)
 const loadingModal = ref(false)
+const openAddParticipantModal = ref(false);
+
 const planData = ref({
   "number_of_users": number_of_users.value,
   "plan_id": props.current_plan.id
@@ -251,9 +267,12 @@ const planData = ref({
 const transactionDetails = ref({})
 const totalAmount = ref()
 
+const addParticipantModal = () => {
+  openAddParticipantModal.value = true;
+};
 
 const increaseValue = ref()
- number_of_users.value = props.active_team.users.length
+number_of_users.value = props.active_team.users.length
 
  const {
   getTeams,
@@ -262,6 +281,22 @@ const increaseValue = ref()
   getTeams: "TeamsModule/getTeams",
   getSingleSubscription: "TeamsModule/getSingleSubscription"
 });
+
+watch(teamData, (count, prevCount) => {
+  console.log('count, prevCount', count, prevCount)
+  allMembers.value = [...allMembers.value, ...count]
+})
+
+const  removeItem = (index) => {
+  // isRemove.value = true;
+  let newArray = allMembers.value
+  // const newIndex = newArray.indexOf(index)
+  allMembers.value.splice(index, 1);
+
+};
+
+// allMembers.value = [...allMembers, ...teamData.value]
+
 const handleIncrease = () => {
   number_of_users.value++
   totalAmount.value = props.current_plan.amount * number_of_users.value
@@ -275,8 +310,26 @@ const handleDecrease = () => {
   totalAmount.value = props.current_plan.amount * number_of_users.value
   // increaseValue.value = props.current_plan.amount * number_of_users.value;
 }
+
+
 const handleRegisterSubcription = () => {
+  // console.log('allMembers.value', allMembers.value)
+ const newMember = [...allMembers.value, ...owner]
+
+  console.log('allMembers', allMembers.value, newMember)
+
+  let formObj = []
+  newMember.forEach((obj) => {
+      formObj.push({
+        first_name: obj.first_name,
+        last_name: obj.last_name,
+        email: obj.email,
+        permission: obj.permission
+      });
+    });
+
   ToNote.post("/subscription-plans", {
+    "team": formObj,
   "number_of_users": number_of_users.value,
   "plan_id": props.current_plan.id
 })
@@ -284,7 +337,17 @@ const handleRegisterSubcription = () => {
       paymentModal.value=true
       transactionDetails.value=res.data.data
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err.response.data.data.error)
+
+      $toast.error(err.response.data.data.error, {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+    })
 }
 const onSuccessfulPayment = (response) => {
   // this.modalShow = false;
@@ -390,9 +453,14 @@ const openFlutterwave = () => {
   });
 }
 
+
 onMounted(()=> {
  totalAmount.value = props.current_plan.amount * number_of_users.value
+ teamMembers.value = props.active_team?.users?.filter(user => user.isOwner == false)
+  allMembers.value = [...teamMembers.value, ...teamData.value]
 })
+
+
 </script>
 <style >
   
