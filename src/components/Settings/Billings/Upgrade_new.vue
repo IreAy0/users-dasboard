@@ -168,6 +168,7 @@
             @click="openFlutterwave">
             Pay Now With Flutterwave
           </button>
+          
           <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="w-100 rounded btn btn-primary bg-primary"
             buttonText="Pay Now With Paystack" :publicKey="payStackKey" :email="userProfile.email" :amount="payment_gateway?.total * 100"
             :reference="transactionDetails?.id" :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
