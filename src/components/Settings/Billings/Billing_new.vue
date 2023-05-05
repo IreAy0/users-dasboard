@@ -1,6 +1,12 @@
 <template>
   <div>
     <div class="">
+      <div class="d-flex justify-content-between">
+        <p class="font-weight-bold">
+          Current Plan Details
+        </p>
+        <p class="text-danger text-md font-weight-bold">Cancel Subcription</p>
+      </div>
       <div class="row gap-2 mx-0">
         <div class="col border flex flex-col justify-content-between p-1 rounded-2">
           <p class="text-black">Plan</p>
@@ -30,16 +36,16 @@
         </div>
       </div>
       <hr />
-      <h2>Plans & Pricing</h2>
-      <div class="form-check form-switch flex-row my-1 d-flex ps-0">
-        <label class="form-check-label">Bill Monthly</label>
+      <h2 class="text-black font-weight-bold   mt-3">Plans & Pricing</h2>
+      <div class="form-check form-switch gap-1 flex-row my-1 d-flex ps-0">
+        <label class="form-check-label">Monthly</label>
         <div class="form-check form-switch">
           <input class="form-check-input " type="checkbox" id="flexSwitchCheckDefault">
-          <label class="form-check-label " for="flexSwitchCheckDefault">Bill Yearly</label>  
         </div>
+        <label class="form-check-label " for="flexSwitchCheckDefault">Annually</label>  
          </div> 
       <div v-if="!singleData?.id">
-        <div class="mt-2">
+        <div class="mt-1">
           <div class="row">
             <!-- <div class="col-lg-4 col-md-12 ">
               <label class="card-label">
@@ -173,12 +179,8 @@
             
           </div>    
           </div>
-          <div v-if="!selected" class="mt-2">
-            <h3 class="text-primary">You are currently on a Basic Plan</h3>
-            <p class="text-md">You can switch your plan by clicking on any other plans available above</p>
-            <p class="text-danger text-md">Cancel Subcription</p>
-          </div>
-          <div v-else>
+          
+          <div v-show="selected">
             <p class="font-weight-bold text-lg text-black">Plans include:</p>
             <ul v-for="feature in features" :key="feature" class="list-group border-0">
               <li class="list-group-item gap-1 border-0 d-flex  align-items-center">
@@ -366,7 +368,6 @@ const getPlanId = (id) => {
 single_plan.value =  subcriptions?.value?.subcriptions.find(element => element.id == id )
  plan_id.value = id
 features.value = single_plan?.value?.features
- console.log(id, 'id', features.value, single_plan.value)
 }
 // getTeams
 const addUsersModal = (id) => {
