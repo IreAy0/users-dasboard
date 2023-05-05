@@ -50,15 +50,20 @@
         </div>
       </template>
       <hr />
-    </div>
+      
 
-    <div class="d-flex justify-content-between align-items-center">
-      <button type="button" @click="addRow" class="btn btn-sm btn-warning waves-effect waves-float waves-light">
-        Add more
+
+    </div>
+    <div class="mb-3">
+      <button type="button" @click="addRow" class="d-inline-flex text-primary border-0  bg-transparent align-items-center gap-50 "> <Icon icon="material-symbols:add" class="" width="20" :inline="true" />Add More</button>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <button @click="emit('close')" type="button"  class="btn btn-md btn-secondary waves-effect waves-float waves-light">
+        Back
       </button>
 
-      <button type="submit" class="btn btn-sm btn-primary waves-effect waves-float waves-light">
-        Add participants
+      <button type="submit" class="btn btn-md btn-primary waves-effect waves-float waves-light">
+        Send Invite
       </button>
     </div>
   </form>
@@ -67,6 +72,7 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers/dist";
+import { Icon } from "@iconify/vue";
 
 const emit = defineEmits(["close"]);
 

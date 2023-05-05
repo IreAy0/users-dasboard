@@ -3,6 +3,8 @@ import createPersistedState from "vuex-persistedstate";
 import { TeamsModule } from "./modules/Teams.module";
 import { AuthModule } from './modules/Auth.module'
 import { AlertModule } from './modules/Alert.module'
+import { PaymentModule } from './modules/Payment'
+
 import { ProfileModule } from './modules/Profile.module'
 import { CompanyModule } from './modules/Company.module'
 import { AffidavitModule } from "./modules/Affidavit.module";
@@ -13,9 +15,6 @@ import locker from "@/store/modules/locker";
 import document from "@/store/modules/document"
 // import { TeamsModule } from "./modules/Teams.module";
 const debug = process.env.NODE_ENV !== "production";
-const modules = {
-  schedule
-};
 
 export default createStore({
   modules: {
@@ -29,7 +28,8 @@ export default createStore({
     MenuModule,
     schedule,
     document,
-    locker
+    locker,
+    PaymentModule
   },
   // strict: debug,
   plugins: debug ? [createLogger()] : [],

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="cursor: pointer" @click=" getSingleSubscription({})" class="text-primary">
+    <p style="cursor: pointer" @click=" goBack()" class="text-primary">
       <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M8 12L3 7L8 2L7 0L0 7L7 14L8 12Z" fill="#003BB3"/>
         </svg>        
@@ -50,8 +50,8 @@
                 <div class="border-3 d-flex rounded-3 border border-secondary-subtle">
                   <input type="number" v-model="number_of_users" name="num" min="1" style='width:100%'  class=" h2 border-0 mb-0 text-center" aria-label="number of users">
                   <div class="d-flex flex-column py-50">
-                    <span style="cursor: pointer" @click="handleIncrease" class="px-2 h4 border-0 mb-0 fs-3 p-0">+</span>
-                    <span style="cursor: pointer" @click="handleDecrease" class="px-2 h4 border-0 mb-0 fs-3 p-0">-</span>
+                    <button type="button" style="cursor: pointer" @click="handleIncrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="material-symbols:add" width="24" /></button>
+                    <button type="button" style="cursor: pointer" @click="handleDecrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="ic:baseline-minus" width="24" /></button>
                   </div>
                   
                 </div>
@@ -79,7 +79,7 @@
     </div>
   </div>
   <!-- @click="openAddUserModal()" -->
-  <ModalComp :show="openAddParticipantModal" :size="'modal-lg'" :footer="false"
+  <ModalComp :show="openAddParticipantModal" :size="'modal-md'" :footer="false"
   @close="openAddParticipantModal = false">
   <template #header>
     <h5 class="modal-title">Add Team Members</h5>
@@ -133,10 +133,11 @@
                 <h2 class="font-weight-bold text-black"> ₦{{ transactionDetails.total }}</h2>
               </div>
               <hr />
-              <div>
-                <p>Next Billing Deduction</p>
-              <h2 class="w-100 h2 text-black font-weight-bold ">
-                ₦{{  transactionDetails.next_billing_cycle_deduction                }}
+              <div v-show="transactionDetails.next_billing_cycle_date != null">
+                <p>Next Billing Date</p>
+              <h2 class="w-100 h6 text-primary font-weight-bold ">
+                <!-- ₦{{  transactionDetails.next_billing_cycle_date}} -->
+               {{ moment(transactionDetails.next_billing_cycle_date).format("Do MMM YYYY ")}}
               </h2>
               </div>
             </div>
@@ -219,6 +220,8 @@ import { useFlutterwave,  } from "flutterwave-vue3";
 import { useToast } from "vue-toast-notification";
 import AddTeamMembers from "@/components/Documents/Edit/Left/AddTeamMembers";
 import AddSigner from "@/components/Documents/Edit/Left/AddSigner";
+import { Icon } from "@iconify/vue";
+import moment from "moment";
 
 import { useState, useActions, useGetters, createNamespacedHelpers } from 'vuex-composition-helpers';
 import { useStore } from 'vuex'
@@ -250,7 +253,6 @@ const singleData= computed(() => (store.state.TeamsModule.upgradePlan))
 const teamData = computed(() => (store.state.document.teamMembers))
 const teamMembers = ref([])
 const owner = props.active_team?.users?.filter(user => user.isOwner == true)
-
 const allMembers = ref([])
 const number_of_users = ref(0)
 const paymentModal = ref(false)
@@ -281,9 +283,9 @@ number_of_users.value = props.active_team.users.length
   getTeams: "TeamsModule/getTeams",
   getSingleSubscription: "TeamsModule/getSingleSubscription"
 });
+const { addParticipant, addTeamMembers } = useActions({addTeamMembers: "document/addTeamMembers"});
 
 watch(teamData, (count, prevCount) => {
-  console.log('count, prevCount', count, prevCount)
   allMembers.value = [...allMembers.value, ...count]
 })
 
@@ -313,11 +315,7 @@ const handleDecrease = () => {
 
 
 const handleRegisterSubcription = () => {
-  // console.log('allMembers.value', allMembers.value)
  const newMember = [...allMembers.value, ...owner]
-
-  console.log('allMembers', allMembers.value, newMember)
-
   let formObj = []
   newMember.forEach((obj) => {
       formObj.push({
@@ -330,16 +328,14 @@ const handleRegisterSubcription = () => {
 
   ToNote.post("/subscription-plans", {
     "team": formObj,
-  "number_of_users": number_of_users.value,
-  "plan_id": props.current_plan.id
+    "number_of_users": number_of_users.value,
+    "plan_id": props.current_plan.id
 })
     .then(res => {
       paymentModal.value=true
       transactionDetails.value=res.data.data
     })
     .catch(err => {
-      console.log(err.response.data.data.error)
-
       $toast.error(err.response.data.data.error, {
             duration: 3000,
             queue: false,
@@ -366,9 +362,11 @@ const onSuccessfulPayment = (response) => {
       })
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
-          console.log('res.status', res.status)
+          // console.log('res.status', res.status)
           if (res.status == 200) {
-            store.dispatch("ProfileModule/getUser");
+            
+            
+          store.dispatch("ProfileModule/getUser");
           paymentConfirmation.value = true;
           $toast.success("Payment Successful", {
             duration: 3000,
@@ -381,13 +379,12 @@ const onSuccessfulPayment = (response) => {
           store.dispatch("TeamsModule/getTeams")
           store.dispatch("ProfileModule/getTransactions")
           getSingleSubscription({})
+          addTeamMembers([])
+          allMembers.value = []
           if (payment_gateway?.value?.name === "Paystack") {
               loadingModal.value = false
-
           }
           }
-         
-
         })
         .catch((err) => {
           $toast.error("An error occurred", {
@@ -432,10 +429,8 @@ const openFlutterwave = () => {
     // redirect_url: redirect_url+'admin/settings?tab=billing',
     tx_ref: transactionDetails?.value?.id,
     callback: function(data){
-      console.log('data here', data)
         onSuccessfulPayment(data)
         setTimeout(function() {
-        console.log('here redirect')
         // window.location.reload()
          window.location.href = redirect_url+ '/admin/payment-confirmation'
         }, 3000);
@@ -453,11 +448,18 @@ const openFlutterwave = () => {
   });
 }
 
+const goBack = () => {
+  getSingleSubscription({})
+  addTeamMembers([])
+  allMembers.value = []
+}
 
 onMounted(()=> {
  totalAmount.value = props.current_plan.amount * number_of_users.value
  teamMembers.value = props.active_team?.users?.filter(user => user.isOwner == false)
   allMembers.value = [...teamMembers.value, ...teamData.value]
+
+ 
 })
 
 
