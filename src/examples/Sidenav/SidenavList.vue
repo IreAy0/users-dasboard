@@ -363,9 +363,10 @@ export default {
       return active;
     },
     remainingEnvelops() {
-      const number = this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.remaining ;
 
+      const number = this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.remaining ;
       return number
+      
     }
   },
   methods: {

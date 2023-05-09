@@ -10,7 +10,7 @@ export default {
   //   return ToNote.get("/team-users");
   // },
 
-  async getSubcriptions(){
-    return ToNote.get("/subscription-plans");
+  async getSubcriptions(plan = 'Month'){
+    return ToNote.get(`/subscription-plans?periodicity_type=${plan}`);
   }
 };
