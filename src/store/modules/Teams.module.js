@@ -59,7 +59,6 @@ const actions = {
     },
       error => {
         commit('getSubcriptionsFailed', error)
-       
       }
 
     )

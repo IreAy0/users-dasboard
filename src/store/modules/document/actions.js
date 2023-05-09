@@ -132,10 +132,6 @@ export const addParticipant = ({ commit }, formData) => {
 
 export const addTeamMembers = ({ commit }, formData) => {
   commit("SET_TEAM_MEMBERS", formData);
-  $toast.success(`${'successful'}`, {
-          timeout: 5000,
-          position: "top-right",
-        });
 };
 
 export const doneEditing = ({ commit }, formData) => {

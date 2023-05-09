@@ -200,7 +200,7 @@
       <b-tab >
         <template #title>
           <button class="step-trigger">
-            <span class="bs-stepper-box d-none d-lg-block"> 4 </span>
+            <span class="bs-stepper-box d-none d-lg-block"> 3 </span>
             <span class="bs-stepper-label">
               <span class="bs-stepper-title">Cards </span>
             </span>

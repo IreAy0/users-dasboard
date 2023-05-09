@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="cursor: pointer" @click=" goBack()" class="text-primary">
+    <p style="cursor: pointer" @click="goBack()" class="text-primary">
       <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M8 12L3 7L8 2L7 0L0 7L7 14L8 12Z" fill="#003BB3"/>
         </svg>        
@@ -8,7 +8,7 @@
     <!-- {{ active_team.users }} -->
     <!-- {{ current_plan }} -->
     <div class="d-flex pb-1 justify-content-between align-items-center">
-      <h4 class="">
+      <h4 class="font-weight-bold text-black">
         Invite team members to your plan
       </h4>
       <p :disabled="number_of_users <= 1" @click="addParticipantModal" class="d-inline-flex text-primary align-items-center"> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +17,7 @@
        <span class="font-weight-bold ml-1">Add team member</span> </p>
     </div>
    
-    <p class="pb-1 font-weight-bold">You are about to upgrade to the pro plan, invite the team members and proceed to payment</p>
+    <p class="pb-1 font-weight-bold">You are about to upgrade to the {{current_plan?.name}} plan, invite the team members <br /> and proceed to payment</p>
     <div class="px-1">
       <div class="row">
         <div class="col">
@@ -168,7 +168,7 @@
             @click="openFlutterwave">
             Pay Now With Flutterwave
           </button>
-          
+
           <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="w-100 rounded btn btn-primary bg-primary"
             buttonText="Pay Now With Paystack" :publicKey="payStackKey" :email="userProfile.email" :amount="payment_gateway?.total * 100"
             :reference="transactionDetails?.id" :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
