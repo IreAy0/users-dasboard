@@ -22,7 +22,7 @@
         </div>
         <div class="col border p-1 flex flex-col justify-content-betwee rounded-2">
           <p class="text-black">Next Renewal Date</p>
-          <p class="text-primary mb-0 h5">N/A</p>
+          <p class="text-primary mb-0 h5">{{moment(active_team?.subscription?.plan?.expired_at).format("Do MMM YYYY")}}</p>
         </div>
       </div>
       <div class="row gap-2 mx-0 mt-2">
@@ -43,7 +43,11 @@
       <div class="form-check form-switch gap-1 flex-row my-1 d-flex ps-0">
         <label class="form-check-label">Monthly</label>
         <div class="form-check form-switch">
-          <input class="form-check-input " type="checkbox" id="flexSwitchCheckDefault">
+          <!-- <b-form-checkbox v-model="checked" name="check-button" switch>
+            <b>(Checked: {{ checked }})</b>
+          </b-form-checkbox> -->
+           
+          <input v-model="checked" @click="switchPlan()"  class="form-check-input " type="checkbox" id="flexSwitchCheckDefault">
         </div>
         <label class="form-check-label " for="flexSwitchCheckDefault">Annually</label>  
          </div> 
@@ -56,10 +60,10 @@
                 <!-- <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" :value="plan.id">Option A</b-form-radio> -->
                 <input type="radio" name="plans" v-model="selected" :value="plan?.id" class="card-input-element d-none" id="subscriptions">
                 <div :style="{border: single_plan.name  === 'Basic' && selected == plan.id ? '2px solid #003BB3' : single_plan.name == 'Pro' && selected == plan.id ? '2px solid #DB922B' : single_plan.name == 'Business' && selected == plan.id ? '2px solid black' :  '1px solid #EBE9F1 ' }" class="card shadow-none rounded-2 card1 h-100">
-                  <div class="card-body p-0 d-flex flex-column justify-content-center">
+                  <div class="card-body pt-2 pb-0 px-0  justify-content-center">
                     <!-- <small class='text-muted'>Individual</small> -->
                     <div class="d-flex pt-1 px-1 mb-1 flex-row justify-content-between align-items-center">
-                      <div v-show="plan.name == active_team?.subscription?.plan?.name" title="Current Plan" class="rounded-3 text-center px-1 border-none p-50 bg-success  bg-opacity-10 text-success" data-v-735b3461=""> Current Plan</div>
+                      <div v-show="plan.name == active_team?.subscription?.plan?.name" title="Current Plan" class="rounded-3 text-center position-absolute px-1 border-none p-25 bg-success  bg-opacity-10 text-success" data-v-735b3461=""> Current Plan</div>
                       <div :style="{color: plan.name  == 'Basic' ? '#003BB3' : plan.name == 'Pro'  ? '#DB922B' : plan.name == 'Business'  ? 'black' : '#EBE9F1'}" :class="[selected == plan.id && single_plan.name == 'Pro' ? 'd-block' : selected == plan.id && single_plan.name == 'Business'? 'd-block' : selected == plan.id && single_plan.name == 'Basic' ? 'd-block' : 'd-none', 'ms-auto' ]">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" >
                           <rect width="20" height="20" rx="4" fill="currentColor"/>
@@ -109,14 +113,14 @@
                       <span class="mx-1  btn btn-outline-dark px-0 py-2 text-3xl font-weight-bolder text-black">₦{{plan.amount}}
                         <span class="text-md text-secondary">Per user</span>
                       </span>
-                      <p @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
+                      <p v-show="plan.name !== active_team?.subscription?.plan?.name"  @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
                         Upgrade to Pro Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="#DB922B"/>
                           </svg>
                           
                       </p>
-                      <p @click="addUsersModal(plan)" v-if="plan.name == 'Business' " style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
+                      <p v-show="plan.name !== active_team?.subscription?.plan?.name" @click="addUsersModal(plan)" v-if="plan.name == 'Business' " style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
                         Upgrade to Business Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="black"/>
@@ -286,6 +290,7 @@ import { ref, onMounted, onUpdated, computed, defineProps } from "vue";
 import { useState, useActions, useGetters } from 'vuex-composition-helpers';
 import ModalComp from "@/components/ModalComp.vue";
 import { useStore } from 'vuex'
+import moment from "moment";
 // import { defineProps } from "vue";
 import Upgrade from './Upgrade_new'
 
@@ -301,6 +306,7 @@ const singleData = computed(() => (store.state.TeamsModule.upgradePlan))
 const selected = ref() 
 const plan_id = ref("")
 const single_plan = ref({})
+const checked = ref(false)
 let features = ref()
 const addTeamModal = ref(false)
 const activeTeam = ref({})
@@ -348,6 +354,13 @@ const openAddUserModal = () => {
   userModal.value.open = false;
 }
 
+const switchPlan = () => {
+  if(checked.value == false){
+    getSubcriptions('12')
+  }else {
+    getSubcriptions()
+  }
+}
 
 onMounted(() => {
   // features.value = computed(() => props.active_team?.subscription?.plan?.features) 

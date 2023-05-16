@@ -35,15 +35,31 @@ import Footer from "@/components/Footer.vue";
 import AOS from "aos";
 import { onMounted } from "vue";
 // import { useRouter } from "vue-router";
+import { useState, useActions, useGetters, createNamespacedHelpers } from 'vuex-composition-helpers';
+import { useStore } from 'vuex'
 
 // const router = useRouter();
+const store = useStore()
 
 const dashboardHandler = () => {
   // router.push({ name: "admin.dashboard" });
   window.location.href = '/admin/settings?tab=billing';
 };
+
+const {
+  getTeams,
+  getSingleSubscription
+} = useActions({
+  getTeams: "TeamsModule/getTeams",
+  getSingleSubscription: "TeamsModule/getSingleSubscription"
+});
+
 onMounted(() => {
   AOS.init({ duration: 500 });
+  store.dispatch("TeamsModule/getSubcriptions")
+          store.dispatch("TeamsModule/getTeams")
+          store.dispatch("ProfileModule/getTransactions")
+          getSingleSubscription({})
 });
 </script>
 

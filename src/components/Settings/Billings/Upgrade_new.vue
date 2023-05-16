@@ -8,9 +8,9 @@
     <!-- {{ active_team.users }} -->
     <!-- {{ current_plan }} -->
     <div class="d-flex pb-1 justify-content-between align-items-center">
-      <h4 class="font-weight-bold text-black">
+      <h2 class="font-weight-bold text-black">
         Invite team members to your plan
-      </h4>
+      </h2>
       <p :disabled="number_of_users <= 1" @click="addParticipantModal" class="d-inline-flex text-primary align-items-center"> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 6V0H8V6H14V8H8V14H6V8H0V6H6Z" fill="#003BB3"/>
         </svg>
@@ -31,6 +31,9 @@
               <template #empty>
                 <h4 class="text-center p-2">No Team Member</h4>
               </template>
+              <template #cell(cost) >
+                <h5>₦{{ current_plan.amount }}</h5>
+              </template>
 
               <template #cell(action)="data">
                 <div>
@@ -48,7 +51,7 @@
               <p class="mb-0">Team Members</p>
               <div class="w-100 pt-50">
                 <div class="border-3 d-flex rounded-3 border border-secondary-subtle">
-                  <input type="number" v-model="number_of_users" name="num" min="1" style='width:100%'  class=" h2 border-0 mb-0 text-center" aria-label="number of users">
+                  <input type="number" v-model="number_of_users" name="num" min="1" max="" style='width:100%'  class=" h2 border-0 mb-0 text-center" aria-label="number of users">
                   <div class="d-flex flex-column py-50">
                     <button type="button" style="cursor: pointer" @click="handleIncrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="material-symbols:add" width="24" /></button>
                     <button type="button" style="cursor: pointer" @click="handleDecrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="ic:baseline-minus" width="24" /></button>
@@ -314,7 +317,6 @@ const handleDecrease = () => {
   // increaseValue.value = props.current_plan.amount * number_of_users.value;
 }
 
-
 const handleRegisterSubcription = () => {
  const newMember = [...allMembers.value, ...owner]
   let formObj = []
@@ -352,8 +354,8 @@ const onSuccessfulPayment = (response) => {
       if (payment_gateway?.value?.name === "Paystack") {
         loadingModal.value = true
       }
-      
-      ToNote.put(`/transactions/${payment_gateway?.value?.name === "Paystack"
+
+     return ToNote.put(`/transactions/${payment_gateway?.value?.name === "Paystack"
         ? response.reference
         : payment_gateway?.value?.name === "Flutterwave"
         ? response.tx_ref
@@ -363,10 +365,7 @@ const onSuccessfulPayment = (response) => {
       })
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
-          // console.log('res.status', res.status)
           if (res.status == 200) {
-            
-            
           store.dispatch("ProfileModule/getUser");
           paymentConfirmation.value = true;
           $toast.success("Payment Successful", {
@@ -385,9 +384,13 @@ const onSuccessfulPayment = (response) => {
           if (payment_gateway?.value?.name === "Paystack") {
               loadingModal.value = false
           }
+          if(payment_gateway?.value?.name === 'Flutterwave'){
+            window.location.href = redirect_url+ '/admin/payment-confirmation'
+          }
           }
         })
         .catch((err) => {
+
           $toast.error("An error occurred", {
             duration: 3000,
             queue: false,
@@ -395,7 +398,7 @@ const onSuccessfulPayment = (response) => {
             dismissible: true,
             pauseOnHover: true,
           });
-         
+         return err
         });
 
 
@@ -431,10 +434,13 @@ const openFlutterwave = () => {
     tx_ref: transactionDetails?.value?.id,
     callback: function(data){
         onSuccessfulPayment(data)
-        setTimeout(function() {
-        // window.location.reload()
-         window.location.href = redirect_url+ '/admin/payment-confirmation'
-        }, 3000);
+        .then(() => {
+          window.location.href = redirect_url+ '/admin/payment-confirmation'
+        })
+        // setTimeout(function() {
+        // // window.location.reload()
+        //  window.location.href = redirect_url+ '/admin/payment-confirmation'
+        // }, 3000);
     },
     onclose() {
       $toast.error("Payment Cancelled", {
