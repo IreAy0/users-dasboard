@@ -50,11 +50,10 @@ const actions = {
   //       )
   //  },
    getSingleSubscription({commit}, data){
-      console.log('commit', data)
       commit('getSingleSubscription', data)
   },
+  
   async getSubcriptions({ commit }, plan) {
-    console.log('data',plan)
     await team.getSubcriptions(plan).then(user => {
       commit('getSubcriptionsSuccess', user?.data?.data)
     },

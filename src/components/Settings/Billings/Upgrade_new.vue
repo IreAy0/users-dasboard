@@ -14,20 +14,31 @@
       <p :disabled="number_of_users <= 1" @click="addParticipantModal" class="d-inline-flex text-primary align-items-center"> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 6V0H8V6H14V8H8V14H6V8H0V6H6Z" fill="#003BB3"/>
         </svg>
-       <span class="font-weight-bold ml-1">Add team member</span> </p>
+       <span class="font-weight-bold ml-1 ">Add team member</span> </p>
     </div>
    
     <p class="pb-1 font-weight-bold">You are about to upgrade to the {{current_plan?.name}} plan, invite the team members <br /> and proceed to payment</p>
     <div class="px-1">
       <div class="row">
-        <div class="col">
+        <div class="col-md-8">
           <div>
-            <div :key="user" v-for="user in active_team?.users?.filter(user => user.isOwner == true)" class="d-flex text-primary justify-content-between pb-1 " >
+            <!-- <div :key="user" v-for="user in active_team?.users?.filter(user => user.isOwner == true)" class="d-flex text-primary justify-content-between pb-1 " >
               <p class="font-weight-bold mb-0">{{user.email}}</p>
               <p class="font-weight-bold mb-0"> ₦{{ current_plan.amount }} </p>
               <p class="font-weight-bold mb-0">{{user.isOwner == true ? 'Owner' : user.permission}}</p>
-            </div>
-            <b-table show-empty :items="allMembers" :fields="fields" responsive="sm" >
+            </div> -->
+            <b-table  class="owner-table text-primary mb-0" :fields="owner_fields" borderless :items="owner" responsive="sm" >
+              <template #cell(email)="data">
+                <p class="font-weight-bold mb-0">{{data?.value}}</p>
+              </template>
+              <template #cell(amount)>
+                <p class="font-weight-bold mb-0">₦{{ current_plan.amount }}</p>
+              </template>
+              <template #cell(permission)="data">
+                <p class="font-weight-bold mb-0">{{data?.item.isOwner == true ? 'Owner' : data?.item?.permission}}</p>
+              </template>
+            </b-table>
+            <b-table class="members-table" show-empty :items="allMembers" :fields="fields" responsive="sm" >
               <template #empty>
                 <h4 class="text-center p-2">No Team Member</h4>
               </template>
@@ -37,7 +48,7 @@
 
               <template #cell(action)="data">
                 <div>
-                  <b-button type="button" @click="removeItem(data.index)" variant="outline-danger btn-sm">Remove</b-button>
+                  <b-button type="button" @click="removeItem(data.index)" variant="outline-danger btn-sm mb-0">Remove</b-button>
                 </div>
                 <!-- <button type="button" class="outline-danger">Remove</button> -->
                 <!-- <h4 class="text-center p-2">{{ data.index }}  years old</h4> -->
@@ -248,6 +259,10 @@ const fields  = ref([{
 
 }, "cost", "action"])
 
+// { email:user?.email, amount: '₦'+current_plan?.amount, owner: user?.isOwner == true ? 'Owner' : user?.permission }
+
+const owner_fields  = ref(["email", "amount", "permission"])
+
 const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
 const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
 const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
@@ -390,7 +405,7 @@ const onSuccessfulPayment = (response) => {
           }
         })
         .catch((err) => {
-
+          console.log('err', err)
           $toast.error("An error occurred", {
             duration: 3000,
             queue: false,
@@ -400,9 +415,6 @@ const onSuccessfulPayment = (response) => {
           });
          return err
         });
-
-
-
       }
 
 const onCancelledPayment =()=> {
@@ -434,8 +446,12 @@ const openFlutterwave = () => {
     tx_ref: transactionDetails?.value?.id,
     callback: function(data){
         onSuccessfulPayment(data)
-        .then(() => {
-          window.location.href = redirect_url+ '/admin/payment-confirmation'
+        .then((res) => {
+          if(res.status == 200){
+            console.log('res', res)
+            window.location.href = redirect_url+ '/admin/payment-confirmation'
+          }
+          
         })
         // setTimeout(function() {
         // // window.location.reload()
@@ -472,5 +488,19 @@ onMounted(()=> {
 
 </script>
 <style >
-  
+  .owner-table .table tbody{
+    color: #003bb3;
+  }
+  .owner-table .table thead {
+    display: none;
+  }
+ .owner-table .table > :not(:first-child) {
+    border-top: 0px solid currentColor;
+}
+.members-table .table thead th {
+  padding: 0.72rem 2rem;
+}
+
+
+
 </style>
