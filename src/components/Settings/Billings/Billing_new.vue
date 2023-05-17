@@ -62,8 +62,9 @@
                 <div :style="{border: single_plan.name  === 'Basic' && selected == plan.id ? '2px solid #003BB3' : single_plan.name == 'Pro' && selected == plan.id ? '2px solid #DB922B' : single_plan.name == 'Business' && selected == plan.id ? '2px solid black' :  '1px solid #EBE9F1 ' }" class="card shadow-none rounded-2 card1 h-100">
                   <div class="card-body pt-2 pb-0 px-0  justify-content-center">
                     <!-- <small class='text-muted'>Individual</small> -->
+                   
                     <div class="d-flex pt-1 px-1 mb-1 flex-row justify-content-between align-items-center">
-                      <div v-show="plan.name == active_team?.subscription?.plan?.name" title="Current Plan" class="rounded-3 text-center position-absolute px-1 border-none p-25 bg-success  bg-opacity-10 text-success" data-v-735b3461=""> Current Plan</div>
+                      <div v-show="plan.id == active_team?.subscription?.plan?.id" title="Current Plan" class="rounded-3 text-center position-absolute px-1 border-none p-25 bg-success  bg-opacity-10 text-success" data-v-735b3461=""> Current Plan</div>
                       <div :style="{color: plan.name  == 'Basic' ? '#003BB3' : plan.name == 'Pro'  ? '#DB922B' : plan.name == 'Business'  ? 'black' : '#EBE9F1'}" :class="[selected == plan.id && single_plan.name == 'Pro' ? 'd-block' : selected == plan.id && single_plan.name == 'Business'? 'd-block' : selected == plan.id && single_plan.name == 'Basic' ? 'd-block' : 'd-none', 'ms-auto' ]">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" >
                           <rect width="20" height="20" rx="4" fill="currentColor"/>
@@ -110,8 +111,8 @@
                     </h3>
                    
                     <div class="d-grid my-3">
-                      <span class="mx-1  btn btn-outline-dark px-0 py-2 text-3xl font-weight-bolder text-black">₦{{plan.amount}}
-                        <span class="text-md text-secondary">Per user</span>
+                      <span class="mx-1  btn btn-outline-dark px-0 py-2 text-3xl font-weight-bolder text-black">{{`${plan.amount == 0 ? 'FREE' : '₦'+plan.amount}` }}
+                     <span class="text-md text-secondary">Per user</span> 
                       </span>
                       <p v-show="plan.name !== active_team?.subscription?.plan?.name"  @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
                         Upgrade to Pro Plan
