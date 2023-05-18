@@ -14,11 +14,9 @@
         </button>
       </div>
     </b-modal>
-
     <b-modal id="modal-center-sum" centered title="Upgrade Plan" hide-footer ref="my-modal" v-model="modalShow">
       <b-col cols="12" class="p-0 mt-xl-1 mt-2 d-flex">
         <div>
-
           <h6 v-if="transactionSummary?.title?.includes('Pro')" class="mb-2">You are about to unlock more collaborative
             features by signing up for the pro plan</h6>
           <h6 v-if="transactionSummary?.title?.includes('Business')" class="mb-2">You are about to unlock more
@@ -30,7 +28,6 @@
                           100).toLocaleString()}}
             </p>
           </div>
-
         </div>
 
       </b-col>
