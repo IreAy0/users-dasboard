@@ -1,9 +1,9 @@
 export default {
-  lockerDocuments: [],
+  lockerDocuments: null,
   sessionRecordToday: [],
   errors: null,
   uploaded: false,
-  deleteSession: null,
+  deleteDocument: null,
   // schedule details form data
   schedule_formdata: {
     title: null,

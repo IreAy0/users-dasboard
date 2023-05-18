@@ -10,6 +10,10 @@ export const userDocument = (state) => {
   return state.document;
 };
 
+export const addTeamMembers = (state) => {
+  return state.teamMembers;
+}
+
 export const doneDocument = (state) => {
   return state.doneEditing;
 };

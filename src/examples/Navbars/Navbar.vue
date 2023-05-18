@@ -52,7 +52,7 @@
               </div>
               
               <span class="avatar">
-                <img v-if="companyProfile?.logo || userProfile?.image" :src="companyProfile?.logo || userProfile?.image" alt={{userProfile?.initials}}
+                <img v-if="companyProfile?.logo || userProfile?.image.includes('user')" :src="companyProfile?.logo || userProfile?.image" :alt="userProfile?.initials"
                   class="img d-flex align-items-center justify-content-center">
                 <span v-else  class="img d-flex align-items-center justify-content-center">
                 {{
@@ -70,7 +70,9 @@
               <li class="">
                 <div class="dropdown-item m-0 demo-inline-spacing d-flex justify-content-center">
                   <div class="avatar avatar-xl m-0">
-                    <span class="img d-flex align-items-center justify-content-center">{{ userProfile?.initials
+                    <img v-if="companyProfile?.logo || userProfile?.image.includes('user')" :src="companyProfile?.logo || userProfile?.image" :alt="userProfile?.initials"
+                    class="img d-flex align-items-center justify-content-center">
+                    <span v-else class="img d-flex align-items-center justify-content-center">{{ userProfile?.initials
                     }}</span>
                   </div>
                 </div>
@@ -138,7 +140,7 @@ import ToNote from '@/Services/Tonote';
 import { useToast } from 'vue-toast-notification';
 import { mapState, mapActions, mapMutations } from 'vuex'
 
-const toast = useToast()
+const $toast = useToast()
 
 export default {
   name: "navbarMain",
@@ -166,7 +168,7 @@ export default {
       ToNote.get('/team-switch/' + id).then(response => {
        
         this.getTeams();
-        toast.success('Team switched successfully', {
+        $toast.success('Team switched successfully', {
           position: 'top-right',
           duration: 3000,
           action: {
@@ -180,7 +182,7 @@ export default {
       })
         .catch(error => {
          
-          toast.error(error?.response?.data?.data?.error, {
+          $toast.error(error?.response?.data?.data?.error, {
             position: 'top-right',
             duration: 3000,
             action: {

@@ -13,9 +13,7 @@
                 <img src="../../assets/logo.png" alt="ToNote Logo" class="my-1 confimation__logo" />
                 <h4 class="fw-bolder my-1">Payment Successful!</h4>
                 <p class="mb-1">
-                  Your request has been received and a member of the team will
-                  reach out to connect you with your notary shortly. Please keep
-                  an eye on your email.
+                  Your Account has been upgraded successfully.
                 </p>
                 <button class="btn my-1" data-bs-dismiss="modal" aria-label="Close" @click="dashboardHandler"
                   style="background: #e5e7e9">
@@ -37,15 +35,31 @@ import Footer from "@/components/Footer.vue";
 import AOS from "aos";
 import { onMounted } from "vue";
 // import { useRouter } from "vue-router";
+import { useState, useActions, useGetters, createNamespacedHelpers } from 'vuex-composition-helpers';
+import { useStore } from 'vuex'
 
 // const router = useRouter();
+const store = useStore()
 
 const dashboardHandler = () => {
   // router.push({ name: "admin.dashboard" });
-  window.location.href = '/admin/dashboard';
+  window.location.href = '/admin/settings?tab=billing';
 };
+
+const {
+  getTeams,
+  getSingleSubscription
+} = useActions({
+  getTeams: "TeamsModule/getTeams",
+  getSingleSubscription: "TeamsModule/getSingleSubscription"
+});
+
 onMounted(() => {
   AOS.init({ duration: 500 });
+  store.dispatch("TeamsModule/getSubcriptions")
+          store.dispatch("TeamsModule/getTeams")
+          store.dispatch("ProfileModule/getTransactions")
+          getSingleSubscription({})
 });
 </script>
 

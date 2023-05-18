@@ -1,6 +1,6 @@
 export default {
   sessionRecord: [],
-  sessionRecordToday: [],
+  sessionRecordToday: null,
   rescheduleSession: null,
   time_slots: [],
   errors: null,

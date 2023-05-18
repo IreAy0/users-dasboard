@@ -267,7 +267,7 @@ import { useToast } from "vue-toast-notification";
 import SealTraditional from "./SealTraditional.vue";
 import StampCreate from "./StampCreate.vue";
 
-const toast = useToast();
+const $toast = useToast();
 
 export default {
   name: "CompanyDetails",
@@ -438,7 +438,7 @@ export default {
           this.activeItem == "stamp"
         ) {
           this.$store.dispatch("CompanyModule/listCompanyStamps");
-          toast.success("Company setup Completed", {
+          $toast.success("Company setup Completed", {
             position: "top-right",
             duration: 5000,
             closeButton: false,
@@ -503,7 +503,7 @@ export default {
               this.verifying = false;
               this.$store.dispatch("CompanyModule/getCompany");
               this.$store.dispatch("ProfileModule/getUser");
-              toast.success("Updated successfully", {
+              $toast.success("Updated successfully", {
                 duration: 3000,
                 queue: false,
                 position: "top-right",
@@ -516,7 +516,7 @@ export default {
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
             this.verifying = false;
-            toast.error(error.response.data.errors.logo, {
+            $toast.error(error.response.data.errors.logo, {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -536,7 +536,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.validState = true;
-            toast.success("ID verified successfully", {
+            $toast.success("ID verified successfully", {
               duration: 3000,
               queue: false,
               position:"top-right",
@@ -548,7 +548,7 @@ export default {
         })
         .catch((err) => {
           this.verifying = false;
-          toast.error("Error while verifying business", {
+          $toast.error("Error while verifying business", {
             duration: 3000,
             queue: false,
             position:"top-right",

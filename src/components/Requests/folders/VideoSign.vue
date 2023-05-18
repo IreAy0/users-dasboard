@@ -6,11 +6,8 @@
           <div class="card-body">
             <h3 class="">Next Scheduled Meeting Today</h3>
             <!-- <p>You have no scheduled meeting for today</p> -->
-            <template v-if="filterDocByNextMeeting.length > 0">
-              <template
-                v-for="(result, index) in filterDocByNextMeeting"
-                :key="index"
-              >
+            <template v-if="filterDocByNextMeeting?.length > 0 ">
+              <template v-for="(result, index) in filterDocByNextMeeting" :key="index">
                 <div class="border-bottom py-1 d-flex justify-content-between">
                   <div>
                     <div class="h5">Title: {{ result.title }}</div>
@@ -19,11 +16,8 @@
                     </div>
                   </div>
                   <div>
-                    <a
-                      :href="`${getEnv()}document/waiting-page/${result.id}}`"
-                      class="btn btn-primary btn-sm"
-                      >Join now</a
-                    >
+                    <a :href="`${getEnv()}document/waiting-page/${result.id}}`" class="btn btn-primary btn-sm">Join
+                      now</a>
                   </div>
                 </div>
               </template>
@@ -39,22 +33,10 @@
           <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Video Signed Document</h4>
             <div class="wrap">
-              <a
-               :href="`${getEnv()}document/video-signing-schedule?qt=${token}`"
-                class="btn btn-primary waves-effect"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-plus"
-                >
+              <a :href="`${getEnv()}document/video-signing-schedule?qt=${token}`" class="btn btn-primary waves-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-plus">
                   <line x1="12" y1="5" x2="12" y2="19"></line>
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
@@ -62,7 +44,7 @@
               </a>
             </div>
           </div>
-          <div class="card-body py-4">
+          <div class="card-body pt-2 pb-4">
             <div class="table-responsive">
               <table class="table table-hover" id="allrecord">
                 <thead>
@@ -82,25 +64,19 @@
                     <td>{{ ++index }}</td>
 
                     <td>
-                      <h6
-                        class="user-name text-truncate mb-0"
-                        style="width: 300px"
-                      >
+                      <h6 class="user-name text-truncate mb-0" style="width: 300px">
                         {{ result.title }}
                       </h6>
-                      <small
-                        class="badge rounded-pill me-1"
-                        :class="[
-                          result.immediate == true
-                            ? 'badge-light-danger'
-                            : 'badge-light-primary',
-                        ]"
-                      >
+                      <small class="badge rounded-pill me-1" :class="[
+                                                  result.immediate == true
+                                                    ? 'badge-light-danger'
+                                                    : 'badge-light-primary',
+                                                ]">
                         {{
-                          result.immediate == true
-                            ? "Immediate Session"
-                            : "Scheduled Session"
-                        }}
+                                                result.immediate == true
+                                                ? "Immediate Session"
+                                                : "Scheduled Session"
+                                                }}
                       </small>
                     </td>
 
@@ -118,62 +94,43 @@
                       </div>
                     </td>
                     <td>
-                      <span
-                        class="badge rounded-pill me-1"
-                        :class="[
-                          result.status == 'Pending'
-                            ? 'bg-warning'
-                            : 'bg-success',
-                        ]"
-                      >
+                      <span class="badge rounded-pill me-1" :class="[
+                                                  result.status == 'Pending'
+                                                    ? 'bg-warning'
+                                                    : 'bg-success',
+                                                ]">
                         {{ result.status }}
                       </span>
                     </td>
                     <td>
-                      <template
-                        v-if="
-                          result.immediate === 1 &&
-                          result.date === today &&
-                          result.end_session === 0 &&
-                          result.status === 'Pending'
-                        "
-                      >
-                        <a :href="`${getEnv()}document/waiting-page/${result.id}}`"
-                          class="btn btn-primary btn-sm"
-                          >Join</a>
+                      <template v-if="
+                                                  result.immediate === 1 &&
+                                                  result.date === today &&
+                                                  result.end_session === 0 &&
+                                                  result.status === 'Pending'
+                                                ">
+                        <a :href="`${getEnv()}document/waiting-page/${result.id}`" class="btn btn-primary btn-sm">Join</a>
                       </template>
                       <!-- <template v-else> Missed Session </template> -->
                     </td>
                     <td>
                       <div class="dropdown">
-                        <a
-                          class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <Icon
-                            icon="oi:ellipses"
-                            :rotate="1"
-                            :verticalFlip="true"
-                          />
+                        <a class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          <Icon icon="oi:ellipses" :rotate="1" :verticalFlip="true" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
-                          <router-link :to="{name: 'admin.preview'}" class="dropdown-item" @click="
-                            getDocument({
-                              id: result.document.id,
-                            })
-                          ">
+                          
+                          <template v-if="result.status !== 'Completed'">
+                            <router-link class="dropdown-item" :to="{name: 'admin.preview', params:{ doc_id: result?.document?.id}}" @click="getDocument({
+                              id: result?.document?.id
+                            })">
                             <Icon icon="fontisto:preview" />
                             Preview
-                          </router-link>
-                          <template v-if="result.status != 'Completed'">
+                            </router-link>
+                            
                             <div @click="openSessionModal(result.id)" class="dropdown-item">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-edit font-small-4 me-50">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                              </svg>
+                              <Icon icon="mdi:reschedule" />
                               Reschedule
                             </div>
                             <div @click="cancelSessionModal(result.id)" class="dropdown-item">
@@ -182,48 +139,25 @@
                             </div>
                           </template>
                           <template v-else>
-                            <div class="dropdown-item">
+                            <!-- <div  class="dropdown-item">
                               <Icon icon="carbon:download" /> Download
-                            </div>
+                            </div> -->
+                            <router-link :to="`/admin/download/${result?.document?.id}`" class="dropdown-item"  @click="getDocument({
+                              id: result?.document?.id
+                            })">
+                            <Icon icon="carbon:download" /> Download
+                            </router-link>
+                            <!-- <router-link :to="{name: 'admin.download' , params:{doc_id: result?.document?.id } }" class="dropdown-item" @click="getDocument({
+                              id: result?.document?.id
+                            })">
+                            <Icon icon="carbon:download" /> Download
+                            </router-link> -->
+                           
                           </template>
                         </div>
                       </div>
 
-                      <div class="d-none">
-                        <template v-if="result.status != 'completed'">
-                          <div class="text-center w-100">
-                            <button
-                              @click="openSessionModal(result.id)"
-                              class="btn btn-outline-warning btn-sm waves-effect waves-float center-block"
-                            >
-                              <Icon
-                                icon="healthicons:i-schedule-school-date-time-outline"
-                              />
-                              Reschedule
-                            </button>
-
-                            <router-link
-                              to="#"
-                              class="btn-outline-danger btn btn-sm my-1 ms-1"
-                              @click="
-                                getDocument({
-                                  id: result.document.id,
-                                })
-                              "
-                            >
-                              <Icon icon="fontisto:preview" />
-                              Preview
-                            </router-link>
-                          </div>
-                        </template>
-                        <template v-else>
-                          <div class="text-center w-100">
-                            <button class="btn btn-primary btn-sm">
-                              <Icon icon="carbon:download" /> Download
-                            </button>
-                          </div>
-                        </template>
-                      </div>
+                      
                     </td>
                     <!-- </template> -->
                   </tr>
@@ -235,13 +169,7 @@
       </div>
     </div>
 
-    <ModalComp
-      :show="questionModal"
-      :size="modal - sm"
-      :footer="false"
-      :closeBtn="true"
-      @close="questionModal = false"
-    >
+    <ModalComp :show="questionModal" :size="modal - sm" :footer="false" :closeBtn="true" @close="questionModal = false">
       <template #header>
         <h5 class="modal-title">Reschedule Session</h5>
       </template>
@@ -252,30 +180,20 @@
           <form @submit.prevent="submitReschedule">
             <div class="form-group mb-2">
               <label>Date</label>
-              <Datepicker
-                @selected="dateSelected"
-                :value="reschedule.date"
-                format="yyyy-MM-dd"
-                :iconHeight="0"
-                :iconWidth="0"
-                :disabled-dates="{
-                  to: new Date(
-                    new Date().getFullYear(),
-                    new Date().getMonth(),
-                    new Date().getDate(),
-                  ),
-                }"
-              />
+              <Datepicker @selected="dateSelected" :value="reschedule.date" format="yyyy-MM-dd" :iconHeight="0"
+                :iconWidth="0" :disabled-dates="{
+                                    to: new Date(
+                                      new Date().getFullYear(),
+                                      new Date().getMonth(),
+                                      new Date().getDate(),
+                                    ),
+                                  }" />
             </div>
 
             <div class="form-group mb-4">
               <label>Time</label>
               <select v-model="reschedule.start_time" class="form-select">
-                <option
-                  v-for="(time, index) in displayTimeSlot"
-                  :key="time + index"
-                  :value="time"
-                >
+                <option v-for="(time, index) in displayTimeSlot" :key="time + index" :value="time">
                   {{ time }}
                 </option>
               </select>
@@ -291,33 +209,33 @@
 
 
     <ModalComp :show="cancelModal" :size="'modal-sm'" @close="cancelModal = false">
-    <template #header>
-      <h4 class="text-danger mb-0">
-        <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" />
-        Alert
-      </h4>
-    </template>
+      <template #header>
+        <h4 class="text-danger mb-0">
+          <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" />
+          Alert
+        </h4>
+      </template>
 
-    <template #body>
-      <p class="text-center my-2">Are you sure you want to cancel this session?</p>
-    </template>
+      <template #body>
+        <p class="text-center my-2">Are you sure you want to cancel this session?</p>
+      </template>
 
-    <template #footer>
-      <button class="btn btn-sm btn-secondary" @click="cancelSession(false)">
-        No
-      </button>
-      <button class="btn btn-sm btn-primary" @click="cancelSession(true)">
-        Yes
-      </button>
-    </template>
-  </ModalComp>
+      <template #footer>
+        <button class="btn btn-sm btn-secondary" @click="cancelSession(false)">
+          No
+        </button>
+        <button class="btn btn-sm btn-primary" @click="cancelSession(true)">
+          Yes
+        </button>
+      </template>
+    </ModalComp>
 
   </div>
 </template>
 
 <script setup>
 import { request } from "../data.js";
-import { ref, onMounted, onUpdated, computed } from "vue";
+import { ref, onMounted, onUpdated, computed, defineProps } from "vue";
 import { Icon } from "@iconify/vue";
 import { useActions, useGetters } from "vuex-composition-helpers/dist";
 import ModalComp from "@/components/ModalComp.vue";
@@ -334,6 +252,11 @@ const today = moment().format("YYYY-MM-DD");
 const dateTime = (date) => {
   return moment(date).format("Do MMM YYYY · h:mm a");
 };
+
+const prop = defineProps({
+  data: Array
+})
+
 const token = getToken()
 const {  allSessionRecord, allSessionRecordToday, time_slots } =
   useGetters({
@@ -406,9 +329,9 @@ const getDocument = (params) => {
 //       return token;
 //     }
 
-const  getEnv =() =>{
-      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_PAGE_STAGING : process.env.VUE_APP_VIDEO_SIGN_PAGE_LIVE
 
+const  getEnv =() =>{
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIDEO_SIGN_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIDEO_SIGN_STAGING : process.env.VUE_APP_VIDEO_SIGN_LIVE
     }
   
   
@@ -458,13 +381,12 @@ const displayTimeSlot = computed(() => {
 });
 
 const filterDocByVideo = computed(() => {
-  return allSessionRecord.value.filter(
-    (respond) => respond.entry_point === "Video",
+  return allSessionRecord?.value?.filter((respond) => respond.entry_point === "Video",
   );
 });
 
 const filterDocByNextMeeting = computed(() => {
-  return allSessionRecordToday.value.filter(
+  return allSessionRecordToday?.value?.data?.filter(
     (res) =>
       res.entry_point === "Video" &&
       res.immediate == false &&
@@ -473,8 +395,8 @@ const filterDocByNextMeeting = computed(() => {
 });
 
 onMounted(() => {
-  getSessionRecords(token.value);
-  getSessionRecordToday({token: token.value,  entry_point: 'Video'});
+  getSessionRecords(token);
+  getSessionRecordToday({token: token,  entry_point: 'Video'});
   TimeSlotsAction();
 });
 
@@ -496,7 +418,7 @@ onUpdated(() => {
         });
       }
     }
-  }, 1000);
+  }, 100);
 });
 </script>
 

@@ -14,6 +14,7 @@ const state = () => ({
   updating: false,
   subcriptions: null,
   errors: [],
+  upgradePlan: {}
 })
 
 const getters = {
@@ -21,7 +22,6 @@ const getters = {
 }
 
 const actions = {
-
   async getTeams({ commit }) {
     await team.Teams()
       .then(
@@ -49,14 +49,16 @@ const actions = {
 
   //       )
   //  },
-
-  async getSubcriptions({ commit }) {
-    await team.getSubcriptions().then(user => {
+   getSingleSubscription({commit}, data){
+      commit('getSingleSubscription', data)
+  },
+  
+  async getSubcriptions({ commit }, plan) {
+    await team.getSubcriptions(plan).then(user => {
       commit('getSubcriptionsSuccess', user?.data?.data)
     },
       error => {
         commit('getSubcriptionsFailed', error)
-       
       }
 
     )
@@ -93,6 +95,9 @@ const mutations = {
   getSubcriptionsSuccess(state, user) {
     state.subcriptions = user
     // state.gettingTeams = true
+  },
+  getSingleSubscription(state, data){
+    state.upgradePlan = data
   }
 }
 

@@ -3,7 +3,7 @@ import profile from "@/api/profile";
 // import router from "@/router";
 import { useToast } from "vue-toast-notification";
 
-const toast = useToast();
+const $toast = useToast();
 
 const state = () => ({
   companyProfile: null,
@@ -61,7 +61,7 @@ const actions = {
       (res) => {
         commit("createSignatureSuccess", res);
         if (res) {
-          toast.success("Signature created successfully", {
+          $toast.success("Signature created successfully", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -73,7 +73,7 @@ const actions = {
       (error) => {
         commit("getUserFailed", error);
         if (error) {
-          toast.error("Error occured while creating signature", {
+          $toast.error("Error occured while creating signature", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -89,7 +89,7 @@ const actions = {
     company.createCompanySeal(payload).then(
       (res) => {
         if (res) {
-          toast.success("Seal has been created successfully", {
+          $toast.success("Seal has been created successfully", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -102,7 +102,7 @@ const actions = {
       (error) => {
         commit("getUserFailed", error);
         if (error) {
-          toast.error("Error occured while creating seal", {
+          $toast.error("Error occured while creating seal", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -117,7 +117,7 @@ const actions = {
     company.createCompanyStamp(payload).then(
       (res) => {
         if (res) {
-          toast.success("Stamp has been created successfully", {
+          $toast.success("Stamp has been created successfully", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -130,7 +130,7 @@ const actions = {
       (error) => {
         commit("getUserFailed", error);
         if (error) {
-          toast.error("Error occured while creating your stamp", {
+          $toast.error("Error occured while creating your stamp", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -149,7 +149,7 @@ const actions = {
       (error) => {
         commit("getUserFailed", error);
         if (error) {
-          toast.error("Error occured while creating signature", {
+          $toast.error("Error occured while creating signature", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -168,7 +168,7 @@ const actions = {
       (error) => {
         commit("getUserFailed", error);
         if (error) {
-          toast.error("Error occured while creating stamp", {
+          $toast.error("Error occured while creating stamp", {
             duration: 3000,
             queue: false,
             position: "top-right",

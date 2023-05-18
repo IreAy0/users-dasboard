@@ -134,9 +134,9 @@ const form_data = ref({
   phone: "",
 });
 
-const close = () => {
-  console.log('close')
-}
+// const close = () => {
+//   console.log('close')
+// }
 
 
 const preparedFile = (file) => {

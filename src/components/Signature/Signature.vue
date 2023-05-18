@@ -31,34 +31,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="font in fonts" :key="font + 1">
+              <tr >
                 <td>
-                  <!-- <label  :for="font" class="form-check-label"  >
-              <div class="me-3">
-                <input  @change="onCaptureSignature(font, 'Signature', 'Type')" type="radio" :name="font" v-model="selected" :value="font" class="form-check-input"
-                  style="margin-top: 7px" :id="font" />
-              </div>
-
-              <div  class="css-pl8xw2">
-                <div class="css-fv3lde">
-                  <span class="css-4x8v88 initials" :class="font" :style="{ fontFamily: font, fontSize: '30px' }">
-                    {{ generalData?.first_name }} {{ generalData?.last_name }}
-                  </span>
-                </div>
-              </div>
-            </label> -->
-                  <div v-bind:style="{ fontFamily: font, fontSize: '20px', color: '#000', fontWeight: 'bolder' }"
-                    :class="font" class="form-check-label flex-grow-1  form-check d-flex align-items-center" :for="font"
-                    @click="onCaptureSignature(font, 'Signature', 'Type')">
-
-                    <input class="form-check-input flex-shrink-0 typed" type="radio" name="sign" :id="font"
-                      v-model="selected" :value="font" />
-                    <label v-bind:style="{ fontFamily: font,fontSize: '20px', color: '#000' }" :class="font"
-                      class="form-check-label flex-grow-1 flex-grow-1 py-1 px-50 " :for="font">
-
-                      {{ generalData?.first_name }} {{ generalData?.last_name }}
+                  <div class="col-md-6  mb-1 w-100" v-for="font in fonts" :key="font + 1">
+                   
+                    <label  @click="onCaptureSignature(font, 'Signature', 'Type')" v-bind:style="{ fontFamily: font, fontSize: '1.5rem', color: '#000' }"
+                      :class="font" class="form-check-label hover px-2 flex-grow-1 w-100 flex-grow-1 py-1 p-50"
+                      :for="font">
+                      <input @change="onCaptureSignature(font, 'Signature', 'Type')" type="radio" :name="font" v-model="selected" :value="font" class="form-check-input border-0 flex-shrink-0"
+                            style="margin-top: 8px" :id="font" />
+                      {{ userProfile?.first_name }} {{ userProfile?.last_name }}
                     </label>
-                  </div>
+
+                    </div>
+                
                 </td>
 
               </tr>
@@ -66,20 +52,19 @@
           </table>
         </div>
 
-        <div class="col-12 p-0  mt-2 m-auto">
+        <div class="col-12 p-0 px-2 m-auto">
           <div>
 
             <span :class="{'d-none': selectedFont == '' }" class="d-inline-block">
-              <div ref="capture" class="d-inline-block fs-1" data-type="Signature" style="color: #000"
+              <div ref="capture" class="d-inline-block fs-1" data-type="Signature" style="color: #000;padding: 0 10px; "
                 :style="{ fontFamily: selectedFont }">
-                {{ generalData?.first_name }} {{ generalData?.last_name }}
+                {{ userProfile?.first_name }} {{ userProfile?.last_name }}
               </div>
             </span>
             <div :class="{'d-none': selectedFont !== '' }" v-show="getTyped" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview col-12 col-xl-6" :src=" getTyped" />
+              <img class="sign-preview w-auto" style="" height="50"   :src="getTyped" />
 
-              <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
           </div>
         </div>
@@ -96,20 +81,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="fontNew in fonts" :key="fontNew + 1">
-                <td>
-                  <div v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }" :class="fontNew"
-                    class="form-check-label  flex-grow-1 form-check d-flex align-items-center"
-                    @click="onCaptureInitials(fontNew, 'Initial', 'Type')" :for="fontNew+'_initials'">
-                    <input class="form-check-input flex-shrink-0" type="radio" name="initials" :id="fontNew+'_initials'"
-                      :for="fontNew+'_initials'" />
-                    <label v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }"
-                      :class="fontNew+'initials'" class="form-check-label flex-grow-1 flex-grow-1 py-1 p-50"
+              <tr >
+                <td >
+                  <div class="mb-1" v-for="(fontNew, index) in fonts" :key="index">
+                    
+                    <label  @click="onCaptureInitials(fontNew, 'Initial', 'Type')" v-bind:style="{ fontFamily: fontNew, fontSize: '20px', color: '#000' }"
+                      :class="fontNew+'initials'" class="form-check-label hover px-2 flex-grow-1 w-100 flex-grow-1 py-1 p-50"
                       :for="fontNew+'_initials'">
-
-                      {{ generalData?.initials }}
+                      <input @change="onCaptureInitials(fontNew, 'Initial', 'Type')" class="form-check-input border-0 flex-shrink-0" type="radio" name="initials" :id="fontNew+'_initials'"
+                      :for="fontNew+'_initials'" />
+                      {{ userProfile?.initials }}
                     </label>
+                 
                   </div>
+                  
                 </td>
 
               </tr>
@@ -125,13 +110,12 @@
             <span :class="{'d-none': selectedInitial == '' }" class="d-inline-block">
               <div ref="initials" class="d-inline-block fs-1" data-type="Signature"
                 style="padding: 0 10px; color: #000" :style="{ fontFamily: selectedInitial}">
-                {{ generalData?.initials }}
+                {{ userProfile?.initials }}
               </div>
             </span>
             <div :class="{'d-none': selectedInitial !== '' }" class="mt-1 ">
               <SkeletonLoader :loading="loadingSignature" />
-              <img class="sign-preview" :style="{ width: '100%' }" :src="getInitials" />
-
+              <img class="sign-preview w-auto" style="" height="50"  :src="getInitials" />
               <!-- <img :src="" class="sign-preview "  :style="{width: '100%'}"/> -->
             </div>
           </div>
@@ -160,8 +144,8 @@
                 class="border-2 border rounded-3"></VueSignaturePad>
             </div>
 
-            <div class="col-12 col-md-4 mt-2 mt-md-0">
-              <button @click="save" class="
+            <div class="col-12 col-md-4 mt-2 m-auto">
+              <!--<button @click="save" class="
                   btn
                   bg-primary
                   text-white
@@ -171,7 +155,7 @@
                   px-1
                 ">
                 Generate Signature
-              </button>
+              </button>-->
               <div class="mt-1">
                 <SkeletonLoader :loading="loadingSignature" />
                 <img :src="signature.length == 0 ? getDraw : imgSrc?.file" class="sign-preview"
@@ -250,7 +234,7 @@ import domtoimage from "dom-to-image";
 import { useToast } from "vue-toast-notification";
 import SkeletonLoader from "../SkeletonLoader.vue";
 // import VueSignaturePad from 'vue-signature-pad';
-const toast = useToast();
+const $toast = useToast();
 
 export default {
   name: "SignatureLayout",
@@ -280,6 +264,13 @@ export default {
         onBegin: () => {
           this.$refs.signaturePad.resizeCanvas();
         },
+        onEnd: () => {
+      // eslint-disable-next-line no-unused-vars
+      const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
+
+      this.setImage({ file: data, type: "Signature", category: "Draw" });
+        
+        }
       },
 
       disabled: false,
@@ -351,7 +342,7 @@ export default {
           newVal?.data?.data?.Signature?.length > 0 &&
           this.activeItem == "upload"
         ) {
-          toast.success("Profile setup Completed", {
+          $toast.success("Profile setup Completed", {
             position: "top-right",
             duration: 5000,
             closeButton: false,
@@ -404,9 +395,7 @@ export default {
       const finalRef = ref;
 
       const capture = this.$refs.capture;
-
       this.selectedFont = ref
-
       if (this.selectedFont != '') {
         const scale = 5;
         this.capturing = true;
@@ -421,11 +410,8 @@ export default {
         }
         )
           .then((dataUrl) => {
-
-            
             this.setImage({ file: dataUrl, type, category });
             this.capturing = false;
-
           })
           .catch(function (error) {
             console.error("oops, something went wrong!", error);
@@ -444,16 +430,16 @@ export default {
       this.selectedInitial = ref
 
       if(this.selectedInitial != '' ){
-        const scale = 2;
+        const scale = 5;
       domtoimage.toPng(capture, {
         quality: 1,
-        height: capture?.offsetHeight * scale,
+        height: capture?.clientHeight * scale,
         style: {
-          transform: `scale(${scale}) translate(${capture?.offsetWidth / 2 / scale
-            }px, ${capture?.offsetHeight / 2 / scale}px)`,
+          transform: 'scale(' + scale + ')',
+          transformOrigin: 'top left'
         },
 
-        width: capture?.offsetWidth * scale,
+        width: capture?.clientWidth * scale,
       },
       )
         .then((dataUrl) => {
@@ -490,6 +476,7 @@ export default {
       const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
       this.setImage({ file: data, type: "Signature", category: "Draw" });
     },
+
     onFileChange(e) {
       let image = e.target.files[0];
       let reader = new FileReader();
@@ -513,6 +500,29 @@ export default {
 <style scoped>
 @import "../../../public/app-assets/fonts/signature-font-face.css";
 
+.hover {
+  margin: 0 5px;
+  outline: 1px solid #ccc !important;
+  border-radius: 20px;
+}
+
+.hover:hover {
+  outline: 2px solid #7367f0 !important;
+}
+
+.custom-fs-sm {
+  color: #000;
+  padding: 0 3px;
+  font-size: 46px;
+  font-size: clamp(1rem, 2vw, 2.875rem);
+}
+
+@media screen and (max-width: 991.5px) {
+  .hover {
+    width: 100% !important;
+    margin: 0;
+  }
+}
 .signature-container {
   border-radius: 5px;
   background-origin: border-box;

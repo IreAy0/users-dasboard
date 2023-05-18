@@ -145,7 +145,7 @@ import ToNote from "@/Services/Tonote";
 import { useToast } from "vue-toast-notification";
 import { mapState } from "vuex";
 
-const toast = useToast();
+const $toast = useToast();
 export default {
   name: "SetupPage",
   inheritAttrs: false,
@@ -210,7 +210,7 @@ export default {
         .then((response) => {
           this.loading = false;
           this.$store.dispatch("TeamsModule/getTeams");
-          toast.success(`Notifications updated successfully`, {
+          $toast.success(`Notifications updated successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -232,7 +232,7 @@ export default {
       ToNote.post("/user/change/password", passwords)
         .then((res) => {
           this.loading = false;
-          toast.success(`Password updated successfully`, {
+          $toast.success(`Password updated successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -244,7 +244,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          toast.error(`${error.response.data.message} `, {
+          $toast.error(`${error.response.data.message} `, {
             duration: 3000,
             queue: false,
             position: "top-right",

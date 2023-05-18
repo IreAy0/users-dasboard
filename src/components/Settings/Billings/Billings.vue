@@ -25,76 +25,74 @@
           <div class="shadow-lg text-center p-2 price__display">
             <span>Total Due:</span>
             <p class="h3 text-primary fw-bolder my-0 py-0">&#8358;{{ (Math.round(transactionSummary?.total * 100) /
-                100).toLocaleString()
-            }}</p>
+                          100).toLocaleString()}}
+            </p>
           </div>
         </div>
-        
-      </b-col>
-        <b-col cols="12" class="p-0 mt-xl-1 mt-2 "> 
-           <p class="h5 fw-bold my-2">Select payment option</p>
-          <div  class="payment__options gap-2">
-            <label
-              v-for="paymentGateway in transactionSummary?.payment_methods"
-              :key="paymentGateway.id"
-              class="payment__option"
-              :for="paymentGateway?.name"
-            >
-              <input
-                name="payment_gateway"
-                v-model="payment_gateway"
-                :value="paymentGateway"
-                type="radio"
-                :id="paymentGateway?.name"
-              />
-        <div class="payment__option-content">
-          <img
-            loading="lazy"
-            :src="paymentGateway?.file"
-            :alt="paymentGateway?.name"
-          />
-          <div class="payment__option-details">
-            <span> {{ paymentGateway?.name }}</span>
-          </div>
-        </div>
-      </label>
-    </div>
-        </b-col>
-        
-      <div class="d-flex justify-content-center my-2">
-  <button
-      v-if="payment_gateway?.name === 'Flutterwave'"
-      type="button"
-      class="btn btn-primary"
-      @click="openFlutterwave"
-    >
-      Pay Now
-    </button>
-        <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'" buttonText="Pay Now" :publicKey="getPublicKey" :email="getEmail" 
-        :amount="payment_gateway?.total * 100" :reference="transactionSummary?.id"
-          :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
 
-      <button
-      v-if="payment_gateway?.name === 'Credo'"
-      type="button"
-      class="btn btn-primary"
-      @click="openCredo"
-    >
-      Pay Now
-    </button>
+      </b-col>
+      <b-col cols="12" class="p-0 mt-xl-1 mt-2 ">
+
+        <p class="h5 fw-bold my-2">Select payment option</p>
+        <div class="payment__options gap-2">
+          <label v-for="paymentGateway in transactionSummary?.payment_methods" :key="paymentGateway.id"
+            class="payment__option" :for="paymentGateway?.name">
+            <input name="payment_gateway" v-model="payment_gateway" :value="paymentGateway" type="radio"
+              :id="paymentGateway?.name" />
+            <div class="payment__option-content">
+              <img loading="lazy" :src="paymentGateway?.file" :alt="paymentGateway?.name" />
+              <div class="payment__option-details">
+                <span> {{ paymentGateway?.name }}</span>
+              </div>
+            </div>
+          </label>
+        </div>
+      </b-col>
+
+      <div class="d-flex justify-content-center my-2">
+        <button v-if="payment_gateway?.name === 'Flutterwave'" type="button" class="btn btn-primary"
+          @click="openFlutterwave">
+          Pay Now with Flutterwave
+        </button>
+        <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="' rounded btn btn-primary bg-primary'"
+          buttonText="Pay Now With Paystack" :publicKey="getPublicKey" :email="getEmail" :amount="payment_gateway?.total * 100"
+          :reference="transactionSummary?.id" :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
+
+        <button v-if="payment_gateway?.name === 'Credo'" type="button" class="btn btn-primary" @click="openCredo">
+          Pay Now with Credo
+        </button>
       </div>
     </b-modal>
 
-
-
     <b-tabs v-model="tabIndexAdv1"
       class="modern-horizontal-wizard bs-stepper wizard-modern modern-wizard-example d-flex flex-column flex-lg-row"
-      content-class=" tab-content col-12 col-md-7 bs-stepper-content"
+      content-class=" tab-content col-12 col-md-9 bs-stepper-content"
       nav-class=" step align-items-baseline flex-row flex-nowrap overflow-auto flex-lg-column"
       active-nav-item-class="nav-link step"
       nav-wrapper-class="py-1 px-0 col-12 col-md-3 bs-stepper-header d-flex flex-row flex-lg-column nav nav-tabs align-items-baseline">
 
       <b-tab active>
+        <template #title>
+          <button class="step-trigger">
+            <span class="bs-stepper-box d-none d-lg-block"> 1 </span>
+            <span class="bs-stepper-label">
+              <span class="bs-stepper-title">Plans </span>
+            </span>
+          </button>
+        </template>
+
+        <div class="tab-pane fade show " id="nav-teammates" role="tabpanel" aria-labelledby="nav-teammates-tab">
+        
+            <BillingNew :active_team="getActive" />
+
+         
+
+         
+         
+        </div>
+      </b-tab>
+
+      <!-- <b-tab>
         <template #title>
           <button class="step-trigger">
             <span class="bs-stepper-box d-none d-lg-block"> 1 </span>
@@ -114,9 +112,7 @@
             <div class="bg-white shadow-none mt-1 mb-1">
               <b-card-group v-for="plan in subcriptions" :key="plan" class="flex-column gap-3">
                 <b-card class="shadow rounded" v-if="plan?.name === 'Custom'">
-                  <!-- <div class="d-flex justify-content-between w-100">
-            <h3 class="mb-0 ms-1">{{plan.name}}</h3>
-        </div> -->
+                 
                   <b-card-text>
                     <p class="py-2 ps-1 fs-5 fw-bold">
                       For custom requests please send an email to
@@ -141,8 +137,8 @@
                       <li class="list-group-item border-0">
                         <span>{{ feature?.name }}:
                           <span class="fw-bold">{{
-                              feature?.limit_number
-                          }}</span>
+                                                      feature?.limit_number
+                                                      }}</span>
                         </span>
                       </li>
                     </ul>
@@ -159,9 +155,9 @@
             </div>
           </b-form>
         </div>
-      </b-tab>
+      </b-tab> -->
 
-      
+
       <b-tab>
         <template #title>
           <button class="step-trigger">
@@ -176,14 +172,7 @@
             <h5 class="mb-0">History</h5>
           </div>
           <div class="payment-card justify-content-between mb-1 mt-2">
-            <b-table 
-            striped 
-            hover 
-            per-page="10"
-            :current-page="currentPage"
-            :items="transactions|| []"
-            :fields="fields"
-            >
+            <b-table striped hover per-page="10" :current-page="currentPage" :items="transactions|| []" :fields="fields">
               <template #cell(created_at)="data">
                 <div>
                   <p class="mb-0">{{ formatDate(data?.item?.created_at) }}</p>
@@ -195,18 +184,38 @@
                 </div>
               </template>
             </b-table>
-           
-            <b-pagination
-              class="my-2"
-              v-model="currentPage"
-              :total-rows="transactions?.length"
-              :per-page="perPage"
-              aria-controls="myTable"
-            ></b-pagination>
+
+            <b-pagination class="my-2" v-model="currentPage" :total-rows="transactions?.length" :per-page="perPage"
+              aria-controls="myTable"></b-pagination>
           </div>
         </div>
       </b-tab>
+
+     
+
+     
+      <b-tab >
+        <template #title>
+          <button class="step-trigger">
+            <span class="bs-stepper-box d-none d-lg-block"> 3 </span>
+            <span class="bs-stepper-label">
+              <span class="bs-stepper-title">Cards </span>
+            </span>
+          </button>
+        </template>
+
+        <div class="tab-pane fade show" id="nav-cards" role="tabpanel" aria-labelledby="nav-cards-tab">
+        
+            <!-- <BillingNew :active_team="getActive" /> -->
+            <Cards  />
+         
+
+         
+         
+        </div>
+      </b-tab>
     </b-tabs>
+    <!-- {{ getActive}} -->
   </section>
 </template>
 <script>
@@ -217,21 +226,23 @@ import { useToast } from "vue-toast-notification";
 import { dateFormat } from "@/Services/helpers";
 import { mapActions, mapState } from "vuex";
 import store from "@/store";
+import BillingNew from "./Billing_new"
+import Cards from  './Cards'
+// import UpgradeNew from'./Upgrade'
 // const individualSelected = ref();
 
-const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
-const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
-const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
+const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
+const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
 
-const toast = useToast();
+const $toast = useToast();
 export default {
   name: "BillingsPage",
-
-
   components: {
     paystack,
-
+    BillingNew,
+    Cards
   },
   data() {
     return {
@@ -267,7 +278,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("TeamsModule", ["Teams", "subcriptions"]),
+    ...mapState("TeamsModule", ["Teams", "subcriptions", "upgradePlan"]),
     ...mapState('ProfileModule', ['userProfile', 'transactions']),
     ...mapState('AffidavitModule', ['paymentGateways']),
     rows() {
@@ -340,7 +351,7 @@ export default {
 
           this.paymentConfirmation = true;
           this.individualSelected = " "
-          toast.success("Payment Successful", {
+          $toast.success("Payment Successful", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -352,7 +363,7 @@ export default {
           this.$store.dispatch("ProfileModule/getTransactions")
         })
         .catch((err) => {
-          toast.error("An error occurred", {
+          $toast.error("An error occurred", {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -364,7 +375,7 @@ export default {
    },
     onCancelledPayment: function () {
       this.payment_gateway=""
-      toast.error("Payment Cancelled", {
+      $toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
         position: "top-right",
@@ -410,7 +421,7 @@ openFlutterwave() {
       phone_number: this?.userProfile?.phone,
     },
     onclose() {
-      toast.error("Payment Cancelled", {
+      $toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
         position: "top-right",
@@ -438,6 +449,7 @@ openFlutterwave() {
     // this.getTransactions();
     this.$store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS")
    this.$store.dispatch("ProfileModule/getTransactions");
+   this.$store.dispatch("TeamsModule/getTeams")
     this.to
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://www.credocentral.com/inline.js')
@@ -464,6 +476,7 @@ openFlutterwave() {
   height: 120px;
   width: 120px;
 }
+
 .price__display {
   border-radius: 5px;
   border: 1px solid #003bb3;
@@ -519,15 +532,13 @@ openFlutterwave() {
   font-size: 1rem;
   line-height: 24px;
 }
+
 .payment__options .payment__option .payment__option-content:hover {
   -webkit-box-shadow: 0px 3px 5px 0px #e8e8e8;
   box-shadow: 0px 3px 5px 0px #e8e8e8;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content:after {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content:after {
   content: "";
   position: absolute;
   height: 8px;
@@ -541,15 +552,11 @@ openFlutterwave() {
   box-shadow: 0px 0px 0px 2px #003bb3;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content {
   border: 2px solid #003bb3;
   background: #eaf1fe;
   -webkit-transition: ease-in 0.3s;
   -o-transition: ease-in 0.3s;
   transition: ease-in 0.3s;
 }
-
 </style>

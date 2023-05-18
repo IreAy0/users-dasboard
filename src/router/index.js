@@ -42,19 +42,26 @@ const SettingPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../components/Settings/Setting.vue"
   );
+
   const VideoSign = () =>
   import(
     /* webpackChunkName: "settings" */ "@/components/Requests/folders/VideoSign.vue"
   );
+
   const DocumentPreview = () =>
   import(
-    /* webpackChunkName: "edit-document" */ "@/components/Requests/DocumentPreview.vue"
+    /* webpackChunkName: "preview-document" */ "@/components/Requests/DocumentPreview.vue"
   );
 
-const ResetPassword = () =>
+  const DocumentDownload = () =>
   import(
-    /* webpackChunkName: "settings" */ "@/views/auth/passwords/resetPassword.vue"
+    /* webpackChunkName: "download-document" */ "@/components/Requests/DocumentDownload.vue"
   );
+
+  const ResetPassword = () =>
+    import(
+      /* webpackChunkName: "settings" */ "@/views/auth/passwords/resetPassword.vue"
+    );
   
 const verifyPage = () =>
   import(
@@ -137,7 +144,6 @@ const routes = [
         path: "requests",
         name: "admin.requests",
         component: RequestPage,
-
         meta: {
           title: " Requests | Tonote",
         }
@@ -160,42 +166,41 @@ const routes = [
         },
       },
       {
-        path: "preview",
+        path: "preview/:doc_id",
         name: "admin.preview",
         component: DocumentPreview,
         meta: {
           title: "Preview Document | ToNote",
-          
-          // metaTags: [
-          //   {
-          //     name: "description",
-          //     content: "The document preview page of ToNote.",
-          //   },
-          //   {
-          //     property: "og:description",
-          //     content: "The document preview page of ToNote.",
-          //   },
-          // ],
+         
         },
       },
-      {
-        path: "video-signing-schedule",
-        name: "document.video",
-        component: VideoSign,
-        meta: {
-          title: "Video Signing Schedule | ToNote",
-          // metaTags: [
-          //   {
-          //     name: "description",
-          //     content: "The document upload's page of ToNote.",
-          //   },
-          //   {
-          //     property: "og:description",
-          //     content: "The document upload's page of ToNote.",
-          //   },
-          // ],
-        },
+        {
+          path: "download/:doc_id",
+          name: "admin.download",
+          component: DocumentDownload,
+          meta: {
+            title: "Download Document | ToNote",
+           
+          },
       },
+      // {
+      //   path: "video-signing-schedule",
+      //   name: "admin.document",
+      //   component: VideoSign,
+      //   meta: {
+      //     title: "Video Signing Schedule | ToNote",
+      //     // metaTags: [
+      //     //   {
+      //     //     name: "description",
+      //     //     content: "The document upload's page of ToNote.",
+      //     //   },
+      //     //   {
+      //     //     property: "og:description",
+      //     //     content: "The document upload's page of ToNote.",
+      //     //   },
+      //     // ],
+      //   },
+      // },
     ]
   },
 
@@ -231,7 +236,6 @@ router.beforeEach(async (to, from, next) => {
       next("/admin/dashboard");
     }
   }
-
 
   const nearestWithTitle = to.matched
     .slice()

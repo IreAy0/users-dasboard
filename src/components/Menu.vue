@@ -1,12 +1,12 @@
 <template>
   <div class="
-      main-menu
-      vertical-layout
-      menu-expanded
-      vertical-menu-modern
-      main-menu
-      menu-fixed menu-light menu-accordion menu-shadow
-    ">
+        main-menu
+        vertical-layout
+        menu-expanded
+        vertical-menu-modern
+        main-menu
+        menu-fixed menu-light menu-accordion menu-shadow
+      ">
     <div class="navbar-header">
       <ul class="nav navbar-nav flex-row">
         <li class="nav-item me-auto">
@@ -17,11 +17,11 @@
         <li class="nav-item nav-toggle">
           <a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
               class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="
-                d-none d-xl-block
-                collapse-toggle-icon
-                font-medium-4
-                text-primary
-              " data-feather="disc" data-ticon="disc"></i></a>
+                  d-none d-xl-block
+                  collapse-toggle-icon
+                  font-medium-4
+                  text-primary
+                " data-feather="disc" data-ticon="disc"></i></a>
         </li>
       </ul>
     </div>
@@ -106,22 +106,22 @@
         <h5 class="mt-3">
           Your current plan is
           <span class="text-primary font-weight-bold">{{
-              getActive?.subscription?.plan?.name
-          }}</span>
+                      getActive?.subscription?.plan?.name
+                      }}</span>
         </h5>
         <hr />
         <div>Sends remaining: {{ remainingEnvelops }}</div>
         <hr />
 
         <div v-show="
-          getActive?.subscription?.plan?.name == 'Basic' ||
-          getActive?.subscription?.plan?.name == 'Pro'
-        ">
+                    getActive?.subscription?.plan?.name == 'Basic' ||
+                    getActive?.subscription?.plan?.name == 'Pro'
+                  ">
           <p class="mb-2">
             Upgrade to
             <span class="text-primary font-weight-bold">{{
-                getActive?.subscription?.plan?.next_suggested_plan
-            }}</span>
+                          getActive?.subscription?.plan?.next_suggested_plan
+                          }}</span>
             to share more documents.
           </p>
           <div class="text-center">
@@ -148,7 +148,6 @@ export default {
     },
      getEnv(){
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
-
     },
     getUrl() {
       const url = process.env.VUE_APP_DOCUMENT_PAGE;

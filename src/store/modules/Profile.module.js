@@ -3,7 +3,7 @@ import router from "@/router";
 // import router from "@/router";
 import { useToast } from "vue-toast-notification";
 
-const toast = useToast();
+const $toast = useToast();
 
 const state = () => ({
   userProfile: null,
@@ -12,6 +12,7 @@ const state = () => ({
   image: null,
   updated: false,
   signature: [],
+  signLinkDocuments: [],
   updating: false,
   dashboardData: null,
   changeValue: "",
@@ -47,6 +48,10 @@ const actions = {
     await profile.getDashboardData().then(
       (data) => {
         commit("getDashboardDataSuccess", data?.data)
+         profile.getSignLinkDocuments()
+        .then((res) => {
+          commit("getSignLinkDocument", res?.data?.data)
+        })
       },
       error => {
        
@@ -75,16 +80,14 @@ const actions = {
       }
     )
   },
-  userUpdate({ commit }, user = "") {
-    profile.updateProfile(user)
-      .then(
-        res => {
+ async userUpdate({ commit }, user = "") {
+  return profile.updateProfile(user)
+      .then(res => {
           commit('updateUserProfileSuccess', res);
-
           commit('getUserSuccess', res?.data?.data)
 
           if (res) {
-            toast.success('Updated successfully', {
+            $toast.success('Updated successfully', {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -92,23 +95,20 @@ const actions = {
               pauseOnHover: true,
             })
           }
-
-
-        },
-        error => {
-          if (error) {
-            toast.error('Error updating profile', {
-              duration: 3000,
-              queue: false,
-              position: "top-right",
-              dismissible: true,
-              pauseOnHover: true,
-            })
-          }
-
-          commit('getUserFailed', error);
+        })
+      .catch(error => {
+        if (error) {
+          $toast.error('Error updating profile', {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          })
         }
-      );
+
+        commit('getUserFailed', error);
+      })
   },
 
   userSignature({ commit, dispatch }, user) {
@@ -119,7 +119,7 @@ const actions = {
           commit('createSignatureSuccess', res);
           if (res) {
             dispatch('getPrints');
-            toast.success('Signature created successfully', {
+            $toast.success('Signature created successfully', {
               duration: 3000,
               queue: false,
               position: "top-right",
@@ -133,7 +133,7 @@ const actions = {
           commit('createSignatureFailed', error);
           if (error) {
             if (error.response.status === 422) {
-              toast.error('Please generate signature', {
+              $toast.error('Please generate signature', {
                 duration: 3000,
                 queue: false,
                 position: "top-right",
@@ -191,9 +191,11 @@ const mutations = {
     state.dashboardData = user
   },
 
+  getSignLinkDocument(state, payload){
+    state.signLinkDocuments= payload
+  },
   updateUserProfileSuccess(state) {
     state.updated = true;
-
   },
   createSignature(state) {
     state.updating = true;

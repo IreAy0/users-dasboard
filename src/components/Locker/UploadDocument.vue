@@ -62,8 +62,9 @@
     <p v-if="preview" class="text-primary">{{ preview }}</p>
    
   <div class="modal-footer">
-    <button @click="SubmitHandler" type="button" class="btn btn-primary">
-      Proceed
+    <button  :disabled="loading" @click="SubmitHandler" type="button" class="btn btn-primary">
+      <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+      Upload
     </button>
   </div>
   </div>
@@ -83,7 +84,7 @@ const previewFile = ref([]);
 const dataFile = ref([]);
 dataFile.value = [];
 previewFile.value = [];
-
+const loading = ref(false);
 const preview = ref(null);
 const isSelected = ref(false);
 const isUpload = ref(false);
@@ -93,17 +94,17 @@ let selectedFiles= ref("");
 const error = ref(true);
 const error_message = ref({
   file: null,
- 
 });
+
 const form_data = ref({
   title: "",
   files: [],
  
 });
 
-const close = () => {
-  console.log('close')
-}
+// const close = () => {
+//   console.log('close')
+// }
 
 
 const preparedFile = (file) => {
@@ -145,7 +146,6 @@ const preparedFile = (file) => {
 
 const drop = (e) => {
   isUpload.value = true;
-
   let dropFiles = (dropzoneFile.value = e.dataTransfer.files);
   // form_data.value.title = dropzoneFile.value[0].name.split('.').slice(0, -1).join('.');
   preparedFile(dropFiles);
@@ -159,7 +159,6 @@ const selectedFile = (e) => {
   let dropFiles = (dropzoneFile.value = e.target.files);
   preparedFile(dropFiles);
   isSelected.value = true;
-
   isUpload.value = true;
   selectedFiles = e.target.files;
 
@@ -194,16 +193,15 @@ const SubmitHandler = () => {
     error_message.value.file = null;
     error.value = false;
   }
-
-
-
   if (
     !error_message.value.title && 
     !error_message.value.file
   ) {
+    loading.value = true
     store.dispatch("locker/uploadDocument", {
       ...form_data.value,
     }).then((res) => {
+      loading.value = false;
       emits('close')
       // store.dispatch("locker/getLockerDocuments")
     }) ;

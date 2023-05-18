@@ -161,7 +161,7 @@ import { useToast } from 'vue-toast-notification';
 import { mapMutations } from 'vuex';
 import { passwordStrength } from '../passwordChecker';
 
-const toast = useToast()
+const $toast = useToast()
 export default {
   name: "ResetPassword",
 
@@ -213,7 +213,7 @@ export default {
       ToNote.post('/user/password/reset', formData).then(res => {
 
         this.loading = false
-        toast.success('Successfully updated password', {
+        $toast.success('Successfully updated password', {
           duration: 5000,
           queue: false,
           position: "top-right",
@@ -227,7 +227,7 @@ export default {
 
         this.loading = false
         if (error.response.data.data) {
-          toast.error('Link Expired', {
+          $toast.error('Link Expired', {
             duration: 5000,
             queue: false,
             position: "top-right",
@@ -235,7 +235,7 @@ export default {
             pauseOnHover: true,
           })
         } else {
-          toast.error(error.response.data.message, {
+          $toast.error(error.response.data.message, {
             duration: 5000,
             queue: false,
             position: "top-right",

@@ -13,6 +13,9 @@ import Vue3EasyDataTable from "vue3-easy-data-table";
 import "vue3-easy-data-table/dist/style.css";
 import "vue-toast-notification/dist/theme-sugar.css";
 import MaterialDashboard from "./material-dashboard";
+import Skeleton from 'vue-loading-skeleton';
+import "vue-loading-skeleton/dist/style.css"
+
 // import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
 
@@ -28,3 +31,4 @@ appInstance.use(ToastPlugin)
 appInstance.use(Flutterwave)
 // appInstance.component("EasyDataTable", Vue3EasyDataTable)
 appInstance.mount("#app");
+appInstance.use(Skeleton)

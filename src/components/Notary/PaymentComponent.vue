@@ -2,51 +2,40 @@
   <div class="modal-body">
     <div data-aos="zoom-in" class="d-flex justify-content-between align-items-center">
       <div class="col-md-6">
-        <p class="fw-bold mb-0"> Once we receive payment, your document will be securely passed on to the next available notary. We will connect you via email.</p>
+        <p class="fw-bold mb-0"> Once we receive payment, your document will be securely passed on to the next available
+          notary. We will connect you via email.</p>
       </div>
       <div class="shadow-lg text-center p-2 price__display">
         <span>Transaction cost</span>
-        <p class="h3 text-primary fw-bolder my-0 py-0">&#8358; {{getActive()?.subscription?.plan?.name == 'Business' || getActive?.subscription?.plan?.name == 'Pro' ? 5000 : 8000}}</p>
+        <p class="h3 text-primary fw-bolder my-0 py-0">&#8358; {{getActive()?.subscription?.plan?.name == 'Business' ||
+                  getActive?.subscription?.plan?.name == 'Pro' ? 5000 : 8000}}</p>
         <!-- <span class="small">per document</span> -->
       </div>
     </div>
     <div v-if="fetching == true">
       <div class="fulfilling-bouncing-circle-spinner">
-  <div class="circle"></div>
-  <div class="orbit"></div>
-</div>
+        <div class="circle"></div>
+        <div class="orbit"></div>
+      </div>
     </div>
-    
+
     <div v-if="fetching == false">
- <p class="h5 fw-bold my-2">Select payment option</p>
-    <div  class="payment__options gap-2">
-      <label
-        v-for="paymentGateway in paymentGateways"
-        :key="paymentGateway?.id"
-        class="payment__option"
-        :for="paymentGateway?.name"
-      >
-        <input
-          name="payment_gateway"
-          v-model="payment_gateway"
-          :value="paymentGateway"
-          type="radio"
-          :id="paymentGateway?.name"
-        />
-        <div class="payment__option-content">
-          <img
-            loading="lazy"
-            :src="paymentGateway?.file"
-            :alt="paymentGateway?.name"
-          />
-          <div class="payment__option-details">
-            <span> {{ paymentGateway?.name }}</span>
+      <p class="h5 fw-bold my-2">Select payment option</p>
+      <div class="payment__options gap-2">
+        <label v-for="paymentGateway in paymentGateways" :key="paymentGateway?.id" class="payment__option"
+          :for="paymentGateway?.name">
+          <input name="payment_gateway" v-model="payment_gateway" :value="paymentGateway" type="radio"
+            :id="paymentGateway?.name" />
+          <div class="payment__option-content">
+            <img loading="lazy" :src="paymentGateway?.file" :alt="paymentGateway?.name" />
+            <div class="payment__option-details">
+              <span> {{ paymentGateway?.name }}</span>
+            </div>
           </div>
-        </div>
-      </label>
+        </label>
+      </div>
     </div>
-    </div>
-   
+
 
     <!-- <div class="mt-2">
      
@@ -58,25 +47,12 @@
       Back
     </button>
 
-    <button
-      v-if="payment_gateway?.name === 'Flutterwave'"
-      type="button"
-      class="btn btn-primary"
-      @click="openFlutterwave"
-    >
+    <button v-if="payment_gateway?.name === 'Flutterwave'" type="button" class="btn btn-primary" @click="openFlutterwave">
       Pay now
     </button>
-    <paystack
-      v-if="payment_gateway?.name === 'Paystack'"
-      buttonText="Pay now"
-      :publicKey="publicKey"
-      :email="email"
-      :amount="payment_gateway?.total * 100"
-      :reference="transactionable_id"
-      :onSuccess="onSuccessfulPayment"
-      :onCanel="onCancelledPayment"
-      class="btn btn-primary"
-    >
+    <paystack v-if="payment_gateway?.name === 'Paystack'" buttonText="Pay now" :publicKey="publicKey" :email="email"
+      :amount="payment_gateway?.total * 100" :reference="transactionable_id" :onSuccess="onSuccessfulPayment"
+      :onCanel="onCancelledPayment" class="btn btn-primary">
     </paystack>
   </div>
 </template>
@@ -89,7 +65,7 @@ import { useStore } from "vuex";
 import { useToast } from "vue-toast-notification";
 import SkeletonLoader from "../SkeletonLoader.vue";
 
-const toast = useToast();
+const $toast = useToast();
 let store = useStore();
 const emits = defineEmits(["nextStep", "prevStep", "resetStep"]);
 const paymentGateways = computed(
@@ -102,9 +78,9 @@ const Teams = computed(() => store.state.TeamsModule.Teams)
 const transactionable_id = computed(
   () => store.state.AffidavitModule.transactionable_id
 );
-const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
-const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
-const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
+const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
+const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
 const payment_gateway = ref({});
 const userProfile = computed(() => store.state.ProfileModule.userProfile);
@@ -137,7 +113,7 @@ const onSuccessfulPayment = (response) => {
 };
 
 const onCancelledPayment = () => {
-  toast.error("Payment Cancelled", {
+  $toast.error("Payment Cancelled", {
     duration: 3000,
     queue: false,
     position: "top-right",
@@ -159,7 +135,7 @@ function openFlutterwave() {
       phone_number: phone,
     },
     onclose() {
-      toast.error("Payment Cancelled", {
+      $toast.error("Payment Cancelled", {
         duration: 3000,
         queue: false,
         position: "top-right",
@@ -241,15 +217,13 @@ onMounted(() => {
   font-size: 1rem;
   line-height: 24px;
 }
+
 .payment__options .payment__option .payment__option-content:hover {
   -webkit-box-shadow: 0px 3px 5px 0px #e8e8e8;
   box-shadow: 0px 3px 5px 0px #e8e8e8;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content:after {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content:after {
   content: "";
   position: absolute;
   height: 8px;
@@ -263,15 +237,11 @@ onMounted(() => {
   box-shadow: 0px 0px 0px 2px #003bb3;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content {
   border: 2px solid #003bb3;
   background: #eaf1fe;
   -webkit-transition: ease-in 0.3s;
   -o-transition: ease-in 0.3s;
   transition: ease-in 0.3s;
 }
-
 </style>

@@ -64,25 +64,19 @@
                 </b-form-group>
               </div>
               <div class="col-12">
-                <button class="btn btn-primary w-100" tabindex="5">
+                <button :disabled="saving == true || !first_name || !last_name || !email || !permission" class="btn btn-primary w-100" tabindex="5">
                   Invite
-                </button>
-                <img v-if="loggingIn"
+                  <img v-if="saving"
                   src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-              </div>
+              
+                </button>
+                </div>
             </form>
           </b-modal>
 
           <div class="table-responsive">
             <b-table :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
               <template #cell(action)="data">
-                <!-- <div>
-        <span >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg>
-        </span>
-      </div> -->
                 <a v-show="
                   getActiveUser?.permission === 'Admin' ||
                   getActiveUser?.isOwner === 'True'
@@ -132,7 +126,7 @@ import ToNote from "@/Services/Tonote";
 import { useToast } from "vue-toast-notification";
 import { mapState } from "vuex";
 
-const toast = useToast();
+const $toast = useToast();
 
 export default defineComponent({
   name: "TeamVue",
@@ -197,6 +191,7 @@ export default defineComponent({
       team_members: [],
       searchDeletedValue: "",
       deleted_members: [],
+      saving: false
     };
   },
   setup() {
@@ -294,15 +289,16 @@ export default defineComponent({
         permission: this.permission,
         email: this.email,
       };
-
+      this.saving = true
       // eslint-disable-next-line no-unused-vars
       ToNote.post("/team-users", data)
         // eslint-disable-next-line no-unused-vars
         .then((_res) => {
           this.modalShow = false;
+          this.saving = false;
           // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
-          toast.success(`Team member invited successfully`, {
+          $toast.success(`Team member invited successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -315,8 +311,14 @@ export default defineComponent({
           this.email = "";
         })
         .catch((err) => {
-          // this.modalShow = false;
-          toast.error(` ${err?.response?.data?.errors?.first_name ? err?.response?.data?.errors?.first_name.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.email ? err?.response?.data?.errors?.email.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.last_name ? err?.response?.data?.errors?.last_name?.toString() + '<br /> ' : ''} ${err?.response?.data?.errors?.permission ? err?.response?.data?.errors?.permission?.toString() : ''}`, {
+          this.modalShow = false;
+          this.first_name = "";
+          this.last_name = "";
+          this.permission = "";
+          this.email = "";
+          let values = Object.values(err?.response?.data?.data);
+          console.log('err', err?.response?.data?.data.error, values)
+          $toast.error(` ${err?.response?.data?.data.error}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -334,7 +336,7 @@ export default defineComponent({
         .then((_res) => {
           // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
-          toast.success(`Team member deleted successfully`, {
+          $toast.success(`Team member deleted successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -344,7 +346,7 @@ export default defineComponent({
         })
         .catch((err) => {
          
-          toast.error(`${err?.response?.data?.data?.error}`, {
+          $toast.error(`${err?.response?.data?.data?.error}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -361,7 +363,7 @@ export default defineComponent({
         .then((_res) => {
           this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
-          toast.success(`Team member restored successfully`, {
+          $toast.success(`Team member restored successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",

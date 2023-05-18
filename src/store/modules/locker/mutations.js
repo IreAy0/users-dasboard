@@ -22,8 +22,8 @@ export const SET_SCHEDULE_STATES = (state, payload) => {
   state.states = payload;
 };
 
-export const SET_CANCEL_SESSION = (state, payload) => {
-  state.deleteSession = payload;
+export const SET_DELETE_DOCUMENT = (state, payload) => {
+  state.deleteDocument = payload;
 };
 
 export const SET_SCHEDULE_STATUS = (state, payload) => {
@@ -85,30 +85,3 @@ export const UNSET_SCHEDULE_LOADER = (state) => {
   state.schedule_details_loading = false;
 };
 
-// schedule video signing form data
-//stage one (document title and upload file)
-export const SET_SCHEDULE_FORMDATA_1 = (state, payload) => {
-  // console.log(payload);
-  state.schedule_formdata.temDocData.push(payload.temDocData); // ? This is just for the UI 
-  state.schedule_formdata.documentFile.push(payload.documentFile);
-  state.schedule_formdata.title = payload.title;
-  state.schedule_formdata.documentTitle = payload.documentTitle;
-};
-
-export const UNSET_SCHEDULE_FORMDATA_1 = (state) => {
-  state.schedule_formdata.title = null;
-  state.schedule_formdata.documentTitle = null;
-  state.schedule_formdata.documentFile = [];
-  state.schedule_formdata.temDocData = [];
-};
-
-export const DELETE_SCHEDULE_FORMDATA_1 = (state, index) => {
-  state.schedule_formdata.temDocData.splice(index, 1);
-  state.schedule_formdata.documentFile.splice(index, 1);
-};
-
-
-
-export const FETCH_VIDEO_SIGN_REQUEST = (state, payload) => {
-  state.video_sign = payload;
-}; 
