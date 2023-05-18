@@ -165,9 +165,7 @@
                   </svg>
                   {{ feature?.name }} - {{feature?.limit_number}}
               </li>
-              
             </ul>
-            
             <div class="my-2 px-1 ">
               <div :style="{'background-color':'#F5F6F7', 'border-radius': '8px','padding': '24px 32px'}">            
                 <h5 class="font-weight-bolder text-dark">Notarization Cost:</h5>
