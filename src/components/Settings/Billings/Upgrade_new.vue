@@ -32,7 +32,7 @@
                 <p class="font-weight-bold mb-0">{{data?.value}}</p>
               </template>
               <template #cell(amount)>
-                <p class="font-weight-bold mb-0">₦{{ current_plan.amount }}</p>
+                <p class="font-weight-bold mb-0">₦{{ current_plan.amount?.toLocaleString() }}</p>
               </template>
               <template #cell(permission)="data">
                 <p class="font-weight-bold mb-0">{{data?.item.isOwner == true ? 'Owner' : data?.item?.permission}}</p>
@@ -43,7 +43,7 @@
                 <h4 class="text-center p-2">No Team Member</h4>
               </template>
               <template #cell(cost) >
-                <h5>₦{{ current_plan.amount }}</h5>
+                <h5>₦{{ current_plan.amount?.toLocaleString() }}</h5>
               </template>
 
               <template #cell(action)="data">
@@ -64,7 +64,7 @@
                 <div class="border-3 d-flex rounded-3 border border-secondary-subtle">
                   <input type="number" v-model="number_of_users" name="num" min="1" max="" style='width:100%'  class=" h2 border-0 mb-0 text-center" aria-label="number of users">
                   <div class="d-flex flex-column py-50">
-                    <button type="button" style="cursor: pointer" @click="handleIncrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="material-symbols:add" width="24" /></button>
+                    <button :disabled="current_plan.name == 'Pro' && number_of_users == 10" type="button" style="cursor: pointer" @click="handleIncrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="material-symbols:add" width="24" /></button>
                     <button type="button" style="cursor: pointer" @click="handleDecrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="ic:baseline-minus" width="24" /></button>
                   </div>
                   
@@ -75,7 +75,7 @@
             <hr />
             <div>
               <p class="mb-0">Total due</p>
-              <h2 class="font-weight-bold text-black">{{totalAmount}}</h2>
+              <h2 class="font-weight-bold text-black">{{totalAmount?.toLocaleString()}}</h2>
             </div>
 
           </div>
@@ -138,13 +138,13 @@
               <div>
                 <p>Subtotal</p>
               <h2 class="w-100 h2 text-black font-weight-bold ">
-                ₦{{  transactionDetails.subtotal                }}
+                ₦{{  transactionDetails.subtotal?.toLocaleString()                }}
               </h2>
               </div>
               <hr />
               <div>
                 <p>Total due</p>
-                <h2 class="font-weight-bold text-black"> ₦{{ transactionDetails.total }}</h2>
+                <h2 class="font-weight-bold text-black"> ₦{{ transactionDetails.total?.toLocaleString() }}</h2>
               </div>
               <hr />
               <div v-show="transactionDetails.next_billing_cycle_date != null">
