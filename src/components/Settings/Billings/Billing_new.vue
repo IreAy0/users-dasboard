@@ -5,7 +5,7 @@
         <p class="font-weight-bold">
           Current Plan Details
         </p>
-        <p class="text-danger text-md font-weight-bold">Cancel Subcription</p>
+        <!-- <p class="text-danger text-md font-weight-bold">Cancel Subcription</p> -->
       </div>
       <div class="row gap-2 mx-0">
         <div class="col border flex flex-col justify-content-between p-1 rounded-2">
@@ -40,18 +40,19 @@
       </div>
       <hr />
       <h2 class="text-black font-weight-bold   mt-3">Plans & Pricing</h2>
-      <div class="form-check form-switch gap-1 flex-row my-1 d-flex ps-0">
-        <label class="form-check-label">Monthly</label>
-        <div class="form-check form-switch">
-          <!-- <b-form-checkbox v-model="checked" name="check-button" switch>
-            <b>(Checked: {{ checked }})</b>
-          </b-form-checkbox> -->
-           
-          <input v-model="checked" @click="switchPlan()"  class="form-check-input " type="checkbox" id="flexSwitchCheckDefault">
-        </div>
-        <label class="form-check-label " for="flexSwitchCheckDefault">Annually</label>  
-         </div> 
+       
       <div v-if="!singleData?.id">
+        <div class="form-check form-switch gap-1 flex-row my-1 d-flex ps-0">
+          <label class="form-check-label">Monthly</label>
+          <div class="form-check form-switch">
+            <!-- <b-form-checkbox v-model="checked" name="check-button" switch>
+              <b>(Checked: {{ checked }})</b>
+            </b-form-checkbox> -->
+             
+            <input v-model="checked" @click="switchPlan()"  class="form-check-input " type="checkbox" id="flexSwitchCheckDefault">
+          </div>
+          <label class="form-check-label " for="flexSwitchCheckDefault">Annually</label>  
+           </div>
         <div class="mt-1 mb-2">
           <div class="row">
             <div v-show="plan?.name !== 'Custom'" v-for="plan in subcriptions.subcriptions" :key="plan" @click="getPlanId(plan.id)" class="col-lg-4 col-md-12 p-50">
@@ -111,7 +112,7 @@
                     </h3>
                    
                     <div class="d-grid my-3">
-                      <span class="mx-1  btn btn-outline-dark px-0 py-2 text-3xl font-weight-bolder text-black">{{`${plan.amount == 0 ? 'FREE' : '₦'+plan.amount}` }}
+                      <span class="mx-1  btn btn-outline-dark px-0 py-2 text-3xl font-weight-bolder text-black">{{`${plan.amount == 0 ? 'FREE' : '₦'+plan.amount.toLocaleString()}` }}
                      <span class="text-md text-secondary">Per user</span> 
                       </span>
                       <p v-show="plan.name !== active_team?.subscription?.plan?.name"  @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
@@ -121,7 +122,7 @@
                           </svg>
                           
                       </p>
-                      <p v-show="plan.name !== active_team?.subscription?.plan?.name" @click="addUsersModal(plan)" v-if="plan.name == 'Business' " style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
+                      <p v-show="plan.name !== active_team?.subscription?.plan?.name || active_team?.subscription?.plan?.trial == true" @click="addUsersModal(plan)" v-if="plan.name == 'Business' " style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
                         Upgrade to Business Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="black"/>
@@ -144,11 +145,12 @@
           <div :key="feature" v-for="feature in features">
             <p>{{feature?.name}}</p>
           </div>
-          {{single_plan}} -->
-          <div v-show="selected">
-            <p class="font-weight-bold text-lg text-black">Plans include:</p>
-            <ul v-for="feature in features" :key="feature" class="list-group border-0">
-              <li class="list-group-item gap-1 border-0 d-flex  align-items-center">
+          {{single_plan}} --> 
+        
+          <div class="features" v-show="selected || active_team?.subscription?.plan">
+            <p class="font-weight-bold text-lg text-black px-1">Plans include:</p>
+            <ul  class="border-0 multiple_columns row ">
+              <li v-for="feature in features || active_team?.subscription?.plan?.features" :key="feature"  class="list-group-item gap-1 border-0 d-flex  align-items-center col-12 col-md-6">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <rect width="20" height="20" rx="10" :fill="single_plan.name  == 'Pro'  ? '#DB922B' : single_plan.name == 'Business' ? 'black'  :  '#003BB3'"/>
                   <g clip-path="url(#clip0_4148_8100)">
@@ -164,6 +166,32 @@
               </li>
               
             </ul>
+            <div class="my-2 px-1 ">
+              <div :style="{'background-color':'#F5F6F7', 'border-radius': '8px','padding': '24px 32px'}">            
+                <h5 class="font-weight-bolder text-dark">Notarization Cost:</h5>
+                
+                <ul   class="list-group border-0 bg-transparent">
+                  <li class="list-group-item font-weight-bold gap-1 p-0 border-0 bg-transparent d-flex  align-items-center">
+                    
+                    ₦8,000 per Notary Session
+                  </li>
+                  <li class="list-group-item font-weight-bold gap-1 p-0 border-0 bg-transparent d-flex  align-items-center">
+                    
+                    ₦4,000 per Additional Seal
+                </li>
+                <li class="list-group-item gap-1 font-weight-bold p-0 border-0 bg-transparent d-flex  align-items-center">
+                    
+                  ₦4,000 per Affidavit
+              </li>
+              <li class="list-group-item gap-1 font-weight-bold p-0 border-0 d-flex bg-transparent align-items-center">
+                    
+                ₦10,000 per Custom Affidavit
+            </li>
+                </ul>
+              </div>
+
+            </div>
+            
           </div>
       </div>
 
@@ -408,5 +436,6 @@ label.card-label {
     transform: rotateZ(0deg);
   }
 }
+
 
 </style>
