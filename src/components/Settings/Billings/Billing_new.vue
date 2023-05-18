@@ -53,6 +53,7 @@
           </div>
           <label class="form-check-label " for="flexSwitchCheckDefault">Annually</label>  
            </div>
+           <small class="text-secondary">Get 10% discount when you pay for your plan annually</small>
         <div class="mt-1 mb-2">
           <div class="row">
             <div v-show="plan?.name !== 'Custom'" v-for="plan in subcriptions.subcriptions" :key="plan" @click="getPlanId(plan.id)" class="col-lg-4 col-md-12 p-50">
@@ -166,26 +167,45 @@
               </li>
               
             </ul>
+            
             <div class="my-2 px-1 ">
               <div :style="{'background-color':'#F5F6F7', 'border-radius': '8px','padding': '24px 32px'}">            
                 <h5 class="font-weight-bolder text-dark">Notarization Cost:</h5>
-                
-                <ul   class="list-group border-0 bg-transparent">
+                <!-- {{active_team?.subscription?.plan?.name ? active_team?.subscription?.plan?.name : active_team?.subscription?.plan?.name}} -->
+                <ul v-if="single_plan?.name !== 'Business' "  class="list-group border-0 bg-transparent">
                   <li class="list-group-item font-weight-bold gap-1 p-0 border-0 bg-transparent d-flex  align-items-center">
                     
-                    ₦8,000 per Notary Session
+                   ₦8,000 per Notary Session
                   </li>
                   <li class="list-group-item font-weight-bold gap-1 p-0 border-0 bg-transparent d-flex  align-items-center">
                     
-                    ₦4,000 per Additional Seal
+                   ₦4,000 per Additional Session
                 </li>
                 <li class="list-group-item gap-1 font-weight-bold p-0 border-0 bg-transparent d-flex  align-items-center">
                     
-                  ₦4,000 per Affidavit
+                ₦4,000 per Affidavit
               </li>
               <li class="list-group-item gap-1 font-weight-bold p-0 border-0 d-flex bg-transparent align-items-center">
                     
-                ₦10,000 per Custom Affidavit
+              ₦10,000 per Custom Affidavit
+            </li>
+                </ul>
+                <ul v-else  class="list-group border-0 bg-transparent">
+                  <li class="list-group-item font-weight-bold gap-1 p-0 border-0 bg-transparent d-flex  align-items-center">
+                    
+                   ₦6,500 per Notary Session
+                  </li>
+                  <li class="list-group-item font-weight-bold gap-1 p-0 border-0 bg-transparent d-flex  align-items-center">
+                    
+                   ₦3,500 per Additional Session
+                </li>
+                <li class="list-group-item gap-1 font-weight-bold p-0 border-0 bg-transparent d-flex  align-items-center">
+                    
+                ₦3,500 per Affidavit
+              </li>
+              <li class="list-group-item gap-1 font-weight-bold p-0 border-0 d-flex bg-transparent align-items-center">
+                    
+              ₦9,000 per Custom Affidavit
             </li>
                 </ul>
               </div>
@@ -394,7 +414,7 @@ const switchPlan = () => {
 onMounted(() => {
   // features.value = computed(() => props.active_team?.subscription?.plan?.features) 
   // selected.value = computed(() => props.active_team?.subscription?.plan?.id)
-  // single_plan.value = computed(() => props.active_team?.subscription?.plan) 
+  single_plan.value = computed(() => props.active_team?.subscription?.plan) 
   getTeams()
   // selected.value = props.active_team?.subscription?.plan?.id
 
