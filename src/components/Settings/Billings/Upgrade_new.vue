@@ -134,26 +134,11 @@
             <!-- <hr /> -->
             <div class="col-5 p-2">
               
-              
-              <div>
-                <p>Subtotal</p>
-              <h2 class="w-100 h2 text-black font-weight-bold ">
-                ₦{{  transactionDetails.subtotal?.toLocaleString()                }}
-              </h2>
-              </div>
-              <hr />
               <div>
                 <p>Total due</p>
                 <h2 class="font-weight-bold text-black"> ₦{{ transactionDetails.total?.toLocaleString() }}</h2>
               </div>
-              <hr />
-              <div v-show="transactionDetails.next_billing_cycle_date != null">
-                <p>Next Billing Date</p>
-              <h2 class="w-100 h6 text-primary font-weight-bold ">
-                <!-- ₦{{  transactionDetails.next_billing_cycle_date}} -->
-               {{ moment(transactionDetails.next_billing_cycle_date).format("Do MMM YYYY ")}}
-              </h2>
-              </div>
+             
             </div>
 
           </div>
