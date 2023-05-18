@@ -191,10 +191,7 @@
         </div>
       </b-tab>
 
-     
-
-     
-      <b-tab >
+      <!-- <b-tab >
         <template #title>
           <button class="step-trigger">
             <span class="bs-stepper-box d-none d-lg-block"> 3 </span>
@@ -206,14 +203,13 @@
 
         <div class="tab-pane fade show" id="nav-cards" role="tabpanel" aria-labelledby="nav-cards-tab">
         
-            <!-- <BillingNew :active_team="getActive" /> -->
             <Cards  />
          
 
          
          
         </div>
-      </b-tab>
+      </b-tab> -->
     </b-tabs>
     <!-- {{ getActive}} -->
   </section>
@@ -242,7 +238,7 @@ export default {
   components: {
     paystack,
     BillingNew,
-    Cards
+    // Cards
   },
   data() {
     return {
