@@ -12,7 +12,7 @@
           <p class="text-black">Plan</p>
           <p class="text-primary mb-0 h5">{{active_team?.subscription?.plan?.name}}</p>
         </div>
-        <div class="col border p-1 flex flex-col justify-content-betwee rounded-2">
+        <div class="col border p-1 flex flex-col justify-content-between rounded-2">
           <p class="text-black">Payment Duration</p>
           <p class="text-primary mb-0 h5">{{active_team?.subscription?.plan?.periodicity_type}}</p>
         </div>
@@ -20,7 +20,7 @@
           <p class="text-black">Active Users</p>
           <p class="text-primary mb-0 h5">{{active_team?.users?.length}} of {{active_team?.users?.length}}</p>
         </div>
-        <div class="col border p-1 flex flex-col justify-content-betwee rounded-2">
+        <div class="col border p-1 flex flex-col justify-content-between rounded-2">
           <p class="text-black">Next Renewal Date</p>
           <p class="text-primary mb-0 h5">{{moment(active_team?.subscription?.plan?.expired_at).format("Do MMM YYYY")}}</p>
         </div>
