@@ -39,8 +39,18 @@
             </div>
           </div>
           <!-- modal vertical center -->
-          <b-modal id="modal-center" centered title="Invite your teammate" hide-footer v-model="modalShow">
-            <form @submit.prevent="inviteTeamMember" class="auth-register-form mt-2 row" novalidate>
+          <ModalComp style="zindex-4" class="zindex-4 " :show="modalShow" :size="'modal-lg'" :footer="false"
+          @close="modalShow = false">
+          <template #header>
+            <h5 class="modal-title">Add Team Members</h5>
+          </template>
+        
+          <template #body>
+            <AddTeamMembers @close="modalShow= false"/>
+          </template>
+        </ModalComp>
+          <b-modal id="modal-scrollable" scrollable title="Invite your teammate" hide-footer >
+            <!-- <form @submit.prevent="inviteTeamMember" class="auth-register-form mt-2 row" novalidate>
               <div class="mb-2 col-6">
                 <label class="form-label" for="first-name">First Name</label>
                 <input class="form-control" id="first-name" type="text" name="first_name" placeholder="Thomas"
@@ -71,7 +81,8 @@
               
                 </button>
                 </div>
-            </form>
+            </form> -->
+            <AddTeamMembers @close="modalShow= false"/>
           </b-modal>
 
           <div class="table-responsive">
@@ -125,6 +136,8 @@ import { defineComponent, ref } from "vue";
 import ToNote from "@/Services/Tonote";
 import { useToast } from "vue-toast-notification";
 import { mapState } from "vuex";
+import AddTeamMembers from "@/components/Documents/Edit/Left/AddTeamMembers";
+import ModalComp from "@/components/ModalComp.vue";
 
 const $toast = useToast();
 
@@ -235,7 +248,10 @@ export default defineComponent({
     };
   },
 
-  components: {},
+  components: {
+    AddTeamMembers,
+    ModalComp
+  },
   computed: {
     ...mapState("ProfileModule", ["userProfile"]),
     ...mapState("TeamsModule", ["Teams", "teamsUsers"]),
@@ -312,13 +328,14 @@ export default defineComponent({
         })
         .catch((err) => {
           this.modalShow = false;
+          this.saving = false;
           this.first_name = "";
           this.last_name = "";
           this.permission = "";
           this.email = "";
           let values = Object.values(err?.response?.data?.data);
           console.log('err', err?.response?.data?.data.error, values)
-          $toast.error(` ${err?.response?.data?.data.error}`, {
+          $toast.error(`${err?.response?.data?.data.error}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
