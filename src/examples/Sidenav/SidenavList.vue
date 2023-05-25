@@ -170,7 +170,7 @@
 
 
       </li>
-      <li class="nav-item">
+      <li class="nav-item disabled">
         <!-- :href="`${signLink}?status=sign&qt=${getToken}`" -->
         <a class="nav-link" href="#">
           <div class="text-center d-flex align-items-center justify-content-center" :class="isRTL ? ' ms-2' : 'me-1'">
@@ -205,7 +205,7 @@
       </sidenav-collapse-item>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item" >
         <sidenav-collapse url="#" :aria-controls="''" v-bind:collapse="false" collapseRef="/admin/requests"
           navText="Requests">
           <template v-slot:icon>
@@ -221,7 +221,7 @@
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <sidenav-collapse url="#" :aria-controls="''" v-bind:collapse="false" collapseRef="/admin/locker"
           navText="Digital Locker">
           <template v-slot:icon>
@@ -249,7 +249,7 @@
 
           </template>
         </sidenav-collapse>
-      </li>
+      </li> -->
       <li class="nav-item">
         <sidenav-collapse url="#" :aria-controls="''" v-bind:collapse="false" collapseRef="/admin/settings"
           navText="Settings">
