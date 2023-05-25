@@ -155,13 +155,13 @@
         
         <b-col class=" my-2">
           <button v-if="payment_gateway?.name === 'Flutterwave'" type="button" class="btn btn-primary w-100"
-            @click="openFlutterwave">
+            @click="openFlutterwave" >
             Pay Now With Flutterwave
           </button>
 
           <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="w-100 rounded btn btn-primary bg-primary"
             buttonText="Pay Now With Paystack" :publicKey="payStackKey" :email="userProfile.email" :amount="payment_gateway?.total * 100"
-            :reference="transactionDetails?.id" :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
+            :reference="transactionDetails?.id" :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment" ></paystack>
   
           <button v-if="payment_gateway?.name === 'Credo'" type="button" class="btn btn-primary w-100" @click="openCredo">
             Pay Now With Credo
@@ -238,7 +238,7 @@ const fields  = ref([{
 // { email:user?.email, amount: '₦'+current_plan?.amount, owner: user?.isOwner == true ? 'Owner' : user?.permission }
 
 const owner_fields  = ref(["email", "amount", "permission"])
-
+const payment_channels = ref(["card", "bank", "ussd", "qr", "mobile_money"])
 const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
 const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
 const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
@@ -357,6 +357,7 @@ const onSuccessfulPayment = (response) => {
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
           if (res.status == 200) {
+            window.location.href = '/admin/settings?tab=team'
           store.dispatch("ProfileModule/getUser");
           paymentConfirmation.value = true;
           $toast.success("Payment Successful", {
@@ -372,6 +373,7 @@ const onSuccessfulPayment = (response) => {
           getSingleSubscription({})
           addTeamMembers([])
           allMembers.value = []
+          
           if (payment_gateway?.value?.name === "Paystack") {
               loadingModal.value = false
           }

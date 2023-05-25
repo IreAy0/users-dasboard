@@ -87,16 +87,25 @@
 
           <div class="table-responsive">
             <b-table :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
+              <template #cell(index)="data">
+                <div>
+                  {{data?.index + 1}}
+                </div>
+              </template>
               <template #cell(action)="data">
                 <a v-show="
                   getActiveUser?.permission === 'Admin' ||
                   getActiveUser?.isOwner === 'True'
-                " @click="deleteTeamMember(data?.item?.id)" class="text-danger">Delete</a>
+                " @click="openDeleteTeamModal(data?.item?.id)" class="text-danger">Delete</a>
+                <!-- deleteTeamMember(data?.item?.id) -->
               </template>
             </b-table>
           </div>
         </div>
       </b-tab>
+
+     
+
       <b-tab v-show="
         getActiveUser?.permission == 'Admin' ||
         getActiveUser?.isOwner === 'true'
@@ -121,6 +130,11 @@
           </div>
           <div></div>
           <b-table :items="filteredDeletedItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
+            <template #cell(index)="data">
+              <div>
+                {{data?.index + 1}}
+              </div>
+            </template>
             <template #cell(action)="data">
               <a type="button" @click="restoreDeletedMember(data?.item?.id)" class="text-success">Restore</a>
             </template>
@@ -129,6 +143,25 @@
       </b-tab>
     </b-tabs>
   </section>
+  <ModalComp style="zindex-4" class="zindex-4 " :show="deleteModalShow" :size="'modal-sm'" :footer="false"
+  @close="deleteModalShow=false">
+  <template #header>
+    <h5 class="modal-title">Delete Member</h5>
+  </template>
+
+  <template #body>
+    <div class="text-center p-2">
+      <Icon icon="ph:warning" width="42" />
+      <h4>Are you sure you want to delete this member?</h4>
+
+      <div class="gap-2 d-flex justify-content-center mt-2">
+        <button @click="deleteModalShow=false" class="btn-md btn btn-danger">Cancel</button>
+        <button @click="deleteTeamMember(userId)" class="btn-md btn btn-primary">Confirm</button>
+      </div>
+    </div>
+    
+  </template>
+</ModalComp>
 </template>
 
 <script>
@@ -192,7 +225,7 @@ export default defineComponent({
 
     };
     return {
-      fields: ["first_name", "last_name", "email", "permission", "action"],
+      fields: ['index',"first_name", "last_name", "email", "permission", "action"],
       localData: this.generalData,
       first_name: "",
       last_name: "",
@@ -200,7 +233,9 @@ export default defineComponent({
       simpleSchema,
       email: "",
       modalShow: false,
+      deleteModalShow: false,
       teams: [],
+      userId:"",
       team_members: [],
       searchDeletedValue: "",
       deleted_members: [],
@@ -252,6 +287,7 @@ export default defineComponent({
     AddTeamMembers,
     ModalComp
   },
+
   computed: {
     ...mapState("ProfileModule", ["userProfile"]),
     ...mapState("TeamsModule", ["Teams", "teamsUsers"]),
@@ -346,6 +382,11 @@ export default defineComponent({
         });
     },
 
+    openDeleteTeamModal(id){
+      this.deleteModalShow = !this.deleteModalShow
+      this.userId = id
+    },
+
     deleteTeamMember(id) {
       // eslint-disable-next-line no-unused-vars
       ToNote.delete(`/team-users/${id}`)
@@ -353,6 +394,7 @@ export default defineComponent({
         .then((_res) => {
           // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
+          this.deleteModalShow = false
           $toast.success(`Team member deleted successfully`, {
             duration: 3000,
             queue: false,
@@ -371,7 +413,11 @@ export default defineComponent({
             pauseOnHover: true,
           });
         });
-    },
+    
+    
+    
+      },
+
 
     restoreDeletedMember(id) {
       // eslint-disable-next-line no-unused-vars
