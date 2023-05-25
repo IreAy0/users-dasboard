@@ -79,8 +79,10 @@ import { ref, defineEmits } from "vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers/dist";
 import { Icon } from "@iconify/vue";
 import { useToast } from "vue-toast-notification";
+import { useStore } from 'vuex'
 
 import ToNote from "@/Services/Tonote";
+const store = useStore()
 
 const emit = defineEmits(["close"]);
 const $toast = useToast();
@@ -88,6 +90,7 @@ const $toast = useToast();
 const { useActions, useGetters } = createNamespacedHelpers(["document"]);
 const { userDocument } = useGetters(["userDocument"]);
 const { addParticipant, addTeamMembers } = useActions(["addParticipant", "addTeamMembers"]);
+
 
 const isRemove = ref(false);
 const saving = ref(false)
@@ -122,19 +125,22 @@ const onAddParticipant = () => {
   });
   saving.value = true
       // eslint-disable-next-line no-unused-vars
-      ToNote.post("/team-users", formObj)
+      ToNote.post("/team-users",{team: formObj, number_of_users: formObj.length})
         // eslint-disable-next-line no-unused-vars
         .then((_res) => {
           // this.modalShow = false;
           saving.value = false;
           // this.$store.dispatch("TeamsModule/getTeamUsers");
-          this.$store.dispatch("TeamsModule/getTeams");
+          // this.$store.dispatch("TeamsModule/getTeams");
+          store.dispatch("TeamsModule/getSubcriptions")
+          store.dispatch("TeamsModule/getTeams")
           $toast.success(`Team member invited successfully`, {
             duration: 3000,
             queue: false,
             position: "top-right",
             dismissible: true,
             pauseOnHover: true,
+            
           });
           emit('close');
           formObj = [];
@@ -158,12 +164,13 @@ const onAddParticipant = () => {
             formObj = [];
             emit('close');
             rows.value = [{ first_name: "", last_name: "", email: "", permission: "", action: "+" }];
-            $toast.error(`${err?.response?.data?.data?.error}`, {
+            $toast.info(`${err?.response?.data?.data?.error}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
             dismissible: true,
             pauseOnHover: true,
+
           });
           }
         });
@@ -229,5 +236,9 @@ const inviteTeamMember=() =>{
 <style scoped>
 .hover:hover {
   cursor: pointer;
+}
+
+.v-toast .v-toast__item.v-toast__item--info{
+  background-color: #003bb3 !important;
 }
 </style>

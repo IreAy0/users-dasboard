@@ -276,3 +276,7 @@ html body {
   transform: none;
   z-index: 1072;
 }
+
+.v-toast__item--info {
+  background-color: #003bb3 !important;
+}
