@@ -184,7 +184,7 @@
               </div>
             </div>
             <div class="col-12">
-              <button :disabled="!user.password || !confirm_password || !user.email  || !user.first_name || !user.last_name" class="btn btn-primary w-100" tabindex="5">
+              <button  class="btn btn-primary w-100" tabindex="5">
                 Sign up
               </button>
               <img v-if="loggingIn"
