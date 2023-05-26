@@ -155,7 +155,7 @@
       <h4>Are you sure you want to delete this member?</h4>
 
       <div class="gap-2 d-flex justify-content-center mt-2">
-        <button @click="deleteModalShow=false" class="btn-md btn btn-danger">Cancel</button>
+        <button @click="deleteModalShow=false" class="btn-md btn btn-outline-danger">Cancel</button>
         <button @click="deleteTeamMember(userId)" class="btn-md btn btn-primary">Confirm</button>
       </div>
     </div>

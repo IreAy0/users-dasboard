@@ -184,7 +184,7 @@
               </div>
             </div>
             <div class="col-12">
-              <button class="btn btn-primary w-100" tabindex="5">
+              <button :disabled="!user.password || !confirm_password || !user.email  || !user.first_name || !user.last_name" class="btn btn-primary w-100" tabindex="5">
                 Sign up
               </button>
               <img v-if="loggingIn"
@@ -275,7 +275,6 @@ export default {
         email: this.user.email.toLocaleLowerCase(),
         password: this.user.password,
         role: this.user.role,
-        
         entry_point: "User"
       };
       if (
