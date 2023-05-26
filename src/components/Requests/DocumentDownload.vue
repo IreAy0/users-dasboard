@@ -13,7 +13,7 @@
               </div> -->
             </div>
             
-            <div v-if="userDocument?.documentUploads?.find((item ) => item?.status == 'Completed')">
+            <div v-if="userDocument?.documentUploads?.find((item ) => item?.status == 'Completed' || 'Processing' )">
               <div class="position-relative border">
                 <VuePdfEmbed
                 :key="files?.id"
