@@ -213,7 +213,7 @@
           </template>
         </sidenav-collapse>
       </li>
-      <!-- <li class="nav-item">
+      <li class="nav-item">
         <sidenav-collapse url="#" :aria-controls="''" v-bind:collapse="false" collapseRef="/admin/locker"
           navText="Digital Locker">
           <template v-slot:icon>
@@ -241,7 +241,7 @@
 
           </template>
         </sidenav-collapse>
-      </li> -->
+      </li>
       <li class="nav-item">
         <sidenav-collapse url="#" :aria-controls="''" v-bind:collapse="false" collapseRef="/admin/settings"
           navText="Settings">
