@@ -175,7 +175,7 @@ const routes = [
         },
       },
         {
-          path: "download/:doc_id",
+          path: "download/:doc_id/document",
           name: "admin.download",
           component: DocumentDownload,
           meta: {

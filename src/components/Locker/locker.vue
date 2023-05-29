@@ -43,7 +43,7 @@
 
                     <td>
                       
-                      <router-link :to="`/admin/download/${result?.id}`" class="user-name text-truncate mb-0" style="width: 300px">
+                      <router-link :to="`/admin/download/${result?.id}/document`" class="user-name text-truncate mb-0" style="width: 300px">
                         {{ result.title }}
                       </router-link>
                       <!-- <small
@@ -101,7 +101,7 @@
                           <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
                             <Icon icon="carbon:share" /> Share
                           </div>
-                          <router-link :to="`/admin/download/${result?.id}`"  class="dropdown-item">
+                          <router-link :to="`/admin/download/${result?.id}/document`"  class="dropdown-item">
                             <Icon icon="carbon:download" />
                             Download
                           </router-link>

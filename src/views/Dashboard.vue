@@ -46,7 +46,7 @@
       <div class="card-header p-1 flex-nowrap">
                 <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.complete_sessions }}</h2>
-                  <p class="card-text text-dark">Complete sessions</p>
+                  <p class="card-text text-dark">Complete Requests</p>
                 </div>
                 <div class="avatar avatar-sm  bg-light-primary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -58,10 +58,10 @@
   </div>
   <div class="col">
     <div class="card h-100 justify-content-center">
-      <a :href="`${getEnv}?status=sent&qt=${getToken}`"  >
+      <a :href="`${getEnv}?status=completed&qt=${getToken}`"  >
               <div class="card-header p-1 flex-nowrap">
                 <div class="flex-shrink-1">
-                  <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>
+                  <h2 class="fw-bolder mb-0">{{ dashboardData?.completed_notes }}</h2>
                   <p class="card-text text-dark">Signed Notes</p>
                 </div>
                 <div class="avatar avatar-sm  bg-light-secondary p-25 p-lg-50 m-0">
@@ -79,7 +79,7 @@
               <div class="card-header p-1 flex-nowrap">
                 <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.received_notes }}</h2>
-                  <p class="card-text text-dark">Received Notes</p>
+                  <p class="card-text text-dark">Unsigned Notes</p>
                 </div>
                 <div class="avatar avatar-sm  bg-light-success p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -92,11 +92,11 @@
   </div>
   <div class="col">
     <div class="card h-100 justify-content-center">
-      <a :href="`${getEnv}?status=completed&qt=${getToken}`" >
+      <a :href="`${getEnv}?status=sent&qt=${getToken}`" >
             <div class="card-header p-1 flex-nowrap">
               <div class="flex-shrink-1">
-                <h2 class="fw-bolder mb-0">{{ dashboardData?.completed_notes }}</h2>
-                <p class="card-text text-dark ">Complete Notes</p>
+                <h2 class="fw-bolder mb-0">{{ dashboardData?.sent }}</h2>
+                <p class="card-text text-dark ">Sent Notes</p>
               </div>
               <div class="avatar avatar-sm bg-light-primary p-25 p-lg-50 m-0">
                 <div class="avatar-content">
