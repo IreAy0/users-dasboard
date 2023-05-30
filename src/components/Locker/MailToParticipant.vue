@@ -124,7 +124,6 @@ const addRow = () => {
   });
 };
 
-console.log('rows.value', rows.value)
 const removeRow = (index) => {
   isRemove.value = true;
   rows.value.splice(index, 1);

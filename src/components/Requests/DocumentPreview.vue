@@ -148,7 +148,6 @@ const { userDocument } = useGetters({
 const { removeParticipant, getUserDocument } = useActions({
   removeParticipant: "document/removeParticipant",
   getUserDocument: "document/getUserDocument",
-
   //   editParticipant: "document/editParticipant",
 });
 

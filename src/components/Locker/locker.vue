@@ -43,7 +43,7 @@
 
                     <td>
                       
-                      <router-link :to="`/admin/download/${result?.id}`" class="user-name text-truncate mb-0" style="width: 300px">
+                      <router-link :to="`/admin/download/${result?.id}/document`" class="user-name text-truncate mb-0" style="width: 300px">
                         {{ result.title }}
                       </router-link>
                       <!-- <small
@@ -101,10 +101,10 @@
                           <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
                             <Icon icon="carbon:share" /> Share
                           </div>
-                          <div class="dropdown-item">
+                          <router-link :to="`/admin/download/${result?.id}/document`"  class="dropdown-item">
                             <Icon icon="carbon:download" />
                             Download
-                          </div>
+                          </router-link>
 
                         </div>
                       </div>
@@ -202,7 +202,7 @@
           <div>
             <p @click="resendOtp(true)" class="text-primary text-right mt-1 mb-0">Resend</p>
           </div>
-          <input type="number" class="form-control" id="otp" placeholder="Please Enter Otp"
+          <input type="tel" class="form-control" id="otp" placeholder="Please Enter Otp"
             :style="error_message.otp && 'border: 1px solid red'" v-model="otp" @change="error_message.otp = null" />
 
         </template>
@@ -353,7 +353,7 @@ const otpLocker = (params) => {
         otpModal.value = true;
         getUser()
         loading.value = false;
-        $toast.success("updated successfully", {
+        $toast.success("Access Granted", {
         timeout: 5000,
         position: "top-right",
       });

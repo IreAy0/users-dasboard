@@ -14,11 +14,9 @@
         </button>
       </div>
     </b-modal>
-
     <b-modal id="modal-center-sum" centered title="Upgrade Plan" hide-footer ref="my-modal" v-model="modalShow">
       <b-col cols="12" class="p-0 mt-xl-1 mt-2 d-flex">
         <div>
-
           <h6 v-if="transactionSummary?.title?.includes('Pro')" class="mb-2">You are about to unlock more collaborative
             features by signing up for the pro plan</h6>
           <h6 v-if="transactionSummary?.title?.includes('Business')" class="mb-2">You are about to unlock more
@@ -30,7 +28,6 @@
                           100).toLocaleString()}}
             </p>
           </div>
-
         </div>
 
       </b-col>
@@ -74,7 +71,28 @@
       active-nav-item-class="nav-link step"
       nav-wrapper-class="py-1 px-0 col-12 col-md-3 bs-stepper-header d-flex flex-row flex-lg-column nav nav-tabs align-items-baseline">
 
-      <b-tab>
+      <b-tab active>
+        <template #title>
+          <button class="step-trigger">
+            <span class="bs-stepper-box d-none d-lg-block"> 1 </span>
+            <span class="bs-stepper-label">
+              <span class="bs-stepper-title">Plans </span>
+            </span>
+          </button>
+        </template>
+
+        <div class="tab-pane fade show " id="nav-teammates" role="tabpanel" aria-labelledby="nav-teammates-tab">
+        
+            <BillingNew :active_team="getActive" />
+
+         
+
+         
+         
+        </div>
+      </b-tab>
+
+      <!-- <b-tab>
         <template #title>
           <button class="step-trigger">
             <span class="bs-stepper-box d-none d-lg-block"> 1 </span>
@@ -94,9 +112,7 @@
             <div class="bg-white shadow-none mt-1 mb-1">
               <b-card-group v-for="plan in subcriptions" :key="plan" class="flex-column gap-3">
                 <b-card class="shadow rounded" v-if="plan?.name === 'Custom'">
-                  <!-- <div class="d-flex justify-content-between w-100">
-            <h3 class="mb-0 ms-1">{{plan.name}}</h3>
-        </div> -->
+                 
                   <b-card-text>
                     <p class="py-2 ps-1 fs-5 fw-bold">
                       For custom requests please send an email to
@@ -139,7 +155,7 @@
             </div>
           </b-form>
         </div>
-      </b-tab>
+      </b-tab> -->
 
 
       <b-tab>
@@ -175,26 +191,25 @@
         </div>
       </b-tab>
 
-      <b-tab active>
+      <!-- <b-tab >
         <template #title>
           <button class="step-trigger">
             <span class="bs-stepper-box d-none d-lg-block"> 3 </span>
             <span class="bs-stepper-label">
-              <span class="bs-stepper-title">New Billings </span>
+              <span class="bs-stepper-title">Cards </span>
             </span>
           </button>
         </template>
 
-        <div class="tab-pane fade show " id="nav-teammates" role="tabpanel" aria-labelledby="nav-teammates-tab">
+        <div class="tab-pane fade show" id="nav-cards" role="tabpanel" aria-labelledby="nav-cards-tab">
         
-            <BillingNew :active_team="getActive" />
-
+            <Cards  />
          
 
          
          
         </div>
-      </b-tab>
+      </b-tab> -->
     </b-tabs>
     <!-- {{ getActive}} -->
   </section>
@@ -208,6 +223,7 @@ import { dateFormat } from "@/Services/helpers";
 import { mapActions, mapState } from "vuex";
 import store from "@/store";
 import BillingNew from "./Billing_new"
+import Cards from  './Cards'
 // import UpgradeNew from'./Upgrade'
 // const individualSelected = ref();
 
@@ -222,6 +238,7 @@ export default {
   components: {
     paystack,
     BillingNew,
+    // Cards
   },
   data() {
     return {

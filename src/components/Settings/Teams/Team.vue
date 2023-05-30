@@ -39,8 +39,18 @@
             </div>
           </div>
           <!-- modal vertical center -->
-          <b-modal id="modal-center" centered title="Invite your teammate" hide-footer v-model="modalShow">
-            <form @submit.prevent="inviteTeamMember" class="auth-register-form mt-2 row" novalidate>
+          <ModalComp style="zindex-4" class="zindex-4 " :show="modalShow" :size="'modal-lg'" :footer="false"
+          @close="modalShow = false">
+          <template #header>
+            <h5 class="modal-title">Add Team Members</h5>
+          </template>
+        
+          <template #body>
+            <AddTeamMembers @close="modalShow= false"/>
+          </template>
+        </ModalComp>
+          <b-modal id="modal-scrollable" scrollable title="Invite your teammate" hide-footer >
+            <!-- <form @submit.prevent="inviteTeamMember" class="auth-register-form mt-2 row" novalidate>
               <div class="mb-2 col-6">
                 <label class="form-label" for="first-name">First Name</label>
                 <input class="form-control" id="first-name" type="text" name="first_name" placeholder="Thomas"
@@ -64,27 +74,38 @@
                 </b-form-group>
               </div>
               <div class="col-12">
-                <button class="btn btn-primary w-100" tabindex="5">
+                <button :disabled="saving == true || !first_name || !last_name || !email || !permission" class="btn btn-primary w-100" tabindex="5">
                   Invite
-                </button>
-                <img v-if="loggingIn"
+                  <img v-if="saving"
                   src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-              </div>
-            </form>
+              
+                </button>
+                </div>
+            </form> -->
+            <AddTeamMembers @close="modalShow= false"/>
           </b-modal>
 
           <div class="table-responsive">
             <b-table :items="filteredItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
+              <template #cell(index)="data">
+                <div>
+                  {{data?.index + 1}}
+                </div>
+              </template>
               <template #cell(action)="data">
                 <a v-show="
                   getActiveUser?.permission === 'Admin' ||
                   getActiveUser?.isOwner === 'True'
-                " @click="deleteTeamMember(data?.item?.id)" class="text-danger">Delete</a>
+                " @click="openDeleteTeamModal(data?.item?.id)" class="text-danger">Delete</a>
+                <!-- deleteTeamMember(data?.item?.id) -->
               </template>
             </b-table>
           </div>
         </div>
       </b-tab>
+
+     
+
       <b-tab v-show="
         getActiveUser?.permission == 'Admin' ||
         getActiveUser?.isOwner === 'true'
@@ -109,6 +130,11 @@
           </div>
           <div></div>
           <b-table :items="filteredDeletedItems" :key="filteredItems?.index" :fields="fields" responsive="sm">
+            <template #cell(index)="data">
+              <div>
+                {{data?.index + 1}}
+              </div>
+            </template>
             <template #cell(action)="data">
               <a type="button" @click="restoreDeletedMember(data?.item?.id)" class="text-success">Restore</a>
             </template>
@@ -117,6 +143,25 @@
       </b-tab>
     </b-tabs>
   </section>
+  <ModalComp style="zindex-4" class="zindex-4 " :show="deleteModalShow" :size="'modal-sm'" :footer="false"
+  @close="deleteModalShow=false">
+  <template #header>
+    <h5 class="modal-title">Delete Member</h5>
+  </template>
+
+  <template #body>
+    <div class="text-center p-2">
+      <Icon icon="ph:warning" width="42" />
+      <h4>Are you sure you want to delete this member?</h4>
+
+      <div class="gap-2 d-flex justify-content-center mt-2">
+        <button @click="deleteModalShow=false" class="btn-md btn btn-outline-danger">Cancel</button>
+        <button @click="deleteTeamMember(userId)" class="btn-md btn btn-primary">Confirm</button>
+      </div>
+    </div>
+    
+  </template>
+</ModalComp>
 </template>
 
 <script>
@@ -124,6 +169,8 @@ import { defineComponent, ref } from "vue";
 import ToNote from "@/Services/Tonote";
 import { useToast } from "vue-toast-notification";
 import { mapState } from "vuex";
+import AddTeamMembers from "@/components/Documents/Edit/Left/AddTeamMembers";
+import ModalComp from "@/components/ModalComp.vue";
 
 const $toast = useToast();
 
@@ -178,7 +225,7 @@ export default defineComponent({
 
     };
     return {
-      fields: ["first_name", "last_name", "email", "permission", "action"],
+      fields: ['index',"first_name", "last_name", "email", "permission", "action"],
       localData: this.generalData,
       first_name: "",
       last_name: "",
@@ -186,10 +233,13 @@ export default defineComponent({
       simpleSchema,
       email: "",
       modalShow: false,
+      deleteModalShow: false,
       teams: [],
+      userId:"",
       team_members: [],
       searchDeletedValue: "",
       deleted_members: [],
+      saving: false
     };
   },
   setup() {
@@ -233,7 +283,11 @@ export default defineComponent({
     };
   },
 
-  components: {},
+  components: {
+    AddTeamMembers,
+    ModalComp
+  },
+
   computed: {
     ...mapState("ProfileModule", ["userProfile"]),
     ...mapState("TeamsModule", ["Teams", "teamsUsers"]),
@@ -287,12 +341,13 @@ export default defineComponent({
         permission: this.permission,
         email: this.email,
       };
-
+      this.saving = true
       // eslint-disable-next-line no-unused-vars
       ToNote.post("/team-users", data)
         // eslint-disable-next-line no-unused-vars
         .then((_res) => {
           this.modalShow = false;
+          this.saving = false;
           // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
           $toast.success(`Team member invited successfully`, {
@@ -309,13 +364,14 @@ export default defineComponent({
         })
         .catch((err) => {
           this.modalShow = false;
+          this.saving = false;
           this.first_name = "";
           this.last_name = "";
           this.permission = "";
           this.email = "";
           let values = Object.values(err?.response?.data?.data);
           console.log('err', err?.response?.data?.data.error, values)
-          $toast.error(` ${err?.response?.data?.data.error}`, {
+          $toast.error(`${err?.response?.data?.data.error}`, {
             duration: 3000,
             queue: false,
             position: "top-right",
@@ -326,6 +382,11 @@ export default defineComponent({
         });
     },
 
+    openDeleteTeamModal(id){
+      this.deleteModalShow = !this.deleteModalShow
+      this.userId = id
+    },
+
     deleteTeamMember(id) {
       // eslint-disable-next-line no-unused-vars
       ToNote.delete(`/team-users/${id}`)
@@ -333,6 +394,7 @@ export default defineComponent({
         .then((_res) => {
           // this.$store.dispatch("TeamsModule/getTeamUsers");
           this.$store.dispatch("TeamsModule/getTeams");
+          this.deleteModalShow = false
           $toast.success(`Team member deleted successfully`, {
             duration: 3000,
             queue: false,
@@ -351,7 +413,11 @@ export default defineComponent({
             pauseOnHover: true,
           });
         });
-    },
+    
+    
+    
+      },
+
 
     restoreDeletedMember(id) {
       // eslint-disable-next-line no-unused-vars

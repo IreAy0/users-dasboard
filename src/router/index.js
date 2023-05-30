@@ -166,7 +166,7 @@ const routes = [
         },
       },
       {
-        path: "preview/:doc_id",
+        path: "preview/:doc_id/document",
         name: "admin.preview",
         component: DocumentPreview,
         meta: {
@@ -175,7 +175,7 @@ const routes = [
         },
       },
         {
-          path: "download/:doc_id",
+          path: "download/:doc_id/document",
           name: "admin.download",
           component: DocumentDownload,
           meta: {

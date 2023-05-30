@@ -76,7 +76,7 @@
             </svg>
           </div>
           <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
-            <span class="menu-title text-truncate fs-6 d-flex "> <span>Received</span> </span>
+            <span class="menu-title text-truncate fs-6 d-flex "> <span>Need to Sign</span> </span>
 
           </span>
           <span class="badge rounded-pill badge-light-warning ms-auto "> {{dashboardData?.received ?
@@ -351,7 +351,7 @@ export default {
     },
 
     getEnv() {
-      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ? process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ? process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
 
     },
     signLink() {
@@ -363,9 +363,10 @@ export default {
       return active;
     },
     remainingEnvelops() {
-      const number = this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.limit_number - this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.executed;
 
+      const number = this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.remaining ;
       return number
+      
     }
   },
   methods: {

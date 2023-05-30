@@ -130,6 +130,10 @@ export const addParticipant = ({ commit }, formData) => {
     });
 };
 
+export const addTeamMembers = ({ commit }, formData) => {
+  commit("SET_TEAM_MEMBERS", formData);
+};
+
 export const doneEditing = ({ commit }, formData) => {
   Document.participantDone(formData)
     .then((response) => { commit("SET_DOCUMENT_DONE", response.data.data); })

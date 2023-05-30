@@ -1,7 +1,9 @@
 export const SET_DOCUMENTS = (state, docs) => {
   state.documents = docs;
 };
-
+export const SET_TEAM_MEMBERS = (state, data) => {
+  state.teamMembers = data
+}
 export const SET_DOCUMENTS_BY_STATUS = (state, docs) => {
   state.documentsByStatus = docs;
 };

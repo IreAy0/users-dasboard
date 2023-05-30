@@ -7,4 +7,5 @@ export default {
   resourceToolWithAsset: [],
   isOpenModal: false,
   message: null,
+  teamMembers: []
 };

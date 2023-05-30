@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="row row-cols-2 row-cols-md-5 g-2 mb-3">
+        <div class="row row-cols-2 row-cols-md-4 g-2 mb-3">
           <div class="col">
             <div class="card h-100 justify-content-center">
               <router-link to="/admin/requests" class="">
@@ -84,7 +84,7 @@
               <div class="card-header p-1 flex-nowrap">
                 <div class="flex-shrink-1">
                   <h2 class="fw-bolder mb-0">{{ dashboardData?.complete_sessions }}</h2>
-                  <p class="card-text text-dark">Complete sessions</p>
+                  <p class="card-text text-dark">Complete Video-Sign sessions</p>
                 </div>
                 <div class="avatar avatar-sm  bg-light-primary p-25 p-lg-50 m-0">
                   <div class="avatar-content">
@@ -105,7 +105,7 @@
                 <div class="card-header p-1 flex-nowrap">
                   <div class="flex-shrink-1">
                     <h2 class="fw-bolder mb-0">{{ dashboardData?.signed_notes }}</h2>
-                    <p class="card-text text-dark">Signed Notes</p>
+                    <p class="card-text text-dark">Completed Sign Document</p>
                   </div>
                   <div class="avatar avatar-sm  bg-light-secondary p-25 p-lg-50 m-0">
                     <div class="avatar-content">
@@ -137,8 +137,8 @@
               <a :href="`${getEnv}?status=received&qt=${getToken}`" class="">
                 <div class="card-header p-1 flex-nowrap">
                   <div class="flex-shrink-1">
-                    <h2 class="fw-bolder mb-0">{{ dashboardData?.received_notes }}</h2>
-                    <p class="card-text text-dark">Received Notes</p>
+                    <h2 class="fw-bolder mb-0">{{ dashboardData?.deleted }}</h2>
+                    <p class="card-text text-dark">Cancelled/Declined sessions</p>
                   </div>
                   <div class="avatar avatar-sm  bg-light-success p-25 p-lg-50 m-0">
                     <div class="avatar-content">
@@ -154,7 +154,7 @@
               </a>
             </div>
           </div>
-          <div class="col">
+          <!-- <div class="col">
             <div class="card h-100 justify-content-center">
               <a :href="`${getEnv}?status=completed&qt=${getToken}`">
                 <div class="card-header p-1 flex-nowrap">
@@ -173,7 +173,7 @@
                 </div>
               </a>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="action-area">
           <h4 class="card-title">What will you like to do?</h4>
@@ -408,7 +408,7 @@ export default {
       return token;
     },
      getEnv(){
-      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
+      return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
     },
     virtualNotary(){
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
