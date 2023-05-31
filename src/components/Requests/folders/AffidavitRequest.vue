@@ -62,14 +62,14 @@
                   <td>{{ index + 1 }}</td>
                   <td>
                     <template v-if="data?.status == 'Completed'">
-                      <router-link :to="`/admin/download/${data?.document?.id}`" @click="getDocument({
+                      <router-link :to="`/admin/download/${data?.document?.id}/preview`" @click="getDocument({
                         id: data?.document?.id
                       })">
                       {{ data.title }}
                       </router-link>
                     </template>
                     <template v-else>
-                      <router-link :to="`/admin/preview/${data?.document?.id}`" @click="getDocument({
+                      <router-link :to="`/admin/preview/${data?.document?.id}/preview`" @click="getDocument({
                         id: data?.document?.id
                       })">
                       {{ data.title }}
@@ -111,7 +111,7 @@
                             <Icon icon="carbon:download" /> Download
                           </router-link> -->
                          
-                          <router-link :to="`/admin/download/${data?.document?.id}`" @click="getDocument({
+                          <router-link :to="`/admin/download/${data?.document?.id}/preview`" @click="getDocument({
                             id: data?.document?.id
                           })"  class="dropdown-item" >
                             <Icon icon="fontisto:preview" />

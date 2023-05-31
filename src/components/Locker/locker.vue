@@ -43,7 +43,7 @@
 
                     <td>
                       
-                      <router-link :to="`/admin/download/${result?.id}/document`" class="user-name text-truncate mb-0" style="width: 300px">
+                      <router-link :to="`/admin/download/${result?.id}/preview`" class="user-name text-truncate mb-0" style="width: 300px">
                         {{ result.title }}
                       </router-link>
                       <!-- <small
@@ -101,7 +101,7 @@
                           <div class="dropdown-item" @click="$event => shareDocumentModal(result.id)">
                             <Icon icon="carbon:share" /> Share
                           </div>
-                          <router-link :to="`/admin/download/${result?.id}/document`"  class="dropdown-item">
+                          <router-link :to="`/admin/download/${result?.id}/preview`"  class="dropdown-item">
                             <Icon icon="carbon:download" />
                             Download
                           </router-link>
@@ -143,7 +143,7 @@
       </template>
 
       <template #body>
-        <p class="text-center my-2">Are you sure you want to cancel this Document?</p>
+        <p class="text-center my-2">Are you sure you want to delete this Document?</p>
       </template>
 
       <template #footer>
@@ -188,7 +188,6 @@
       <ModalComp :closeBtn="false" :show="otpModal == false ? true : false" :size="'modal-sm'" @close="otpModal = false">
         <template #header>
           <h4 class="text-primary mb-0">
-            <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
             Enter OTP
           </h4>
         </template>
