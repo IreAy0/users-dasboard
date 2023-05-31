@@ -19,9 +19,10 @@
             </thead>
 
             <tbody>
-              <tr v-for="document in documents?.data?.slice(0, 5)" :key="document.id">
+              <tr v-for="document in documents?.data" :key="document.id">
                 <td>
-                  <a :href="`${getEnv}?di=${document.id}&qt=${token}`" class="my-0 py-0">{{ document.title }}</a>
+                  <a :href="`${getEnv}?document_id=${document.id}&ed=1&qt=${token}`" class="my-0 py-0">{{ document.title }}</a>
+                 
                   <p v-if="document.participants_count !== 0" class="my-0 py-0">
                     <!-- To:
                     <span
@@ -91,7 +92,7 @@ import { useStore } from "vuex";
 import { getToken, timeFormat } from "@/Services/helpers";
 
 onBeforeMount(() => {
-  store.dispatch("DocumentModule/DocumentsList");
+  store.dispatch("DocumentModule/DocumentsList", );
   store.dispatch("DocumentModule/RequestsList");
 });
 

@@ -188,7 +188,6 @@
       <ModalComp :closeBtn="false" :show="otpModal == false ? true : false" :size="'modal-sm'" @close="otpModal = false">
         <template #header>
           <h4 class="text-primary mb-0">
-            <!-- <Icon icon="eva:alert-triangle-outline" style="margin-bottom: 3px" /> -->
             Enter OTP
           </h4>
         </template>

@@ -1,10 +1,11 @@
 <template>
-  <div class="conatiner-fluid">
+  <div class="container-fluid">
     <div class="card">
       <div class="card-body">
         <div class="row">
           <div class="col-lg-7">
-            <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex gap-2 mb-2 align-item-center">
+              <a @click="goBack()" ><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 1024 1024"><path fill="currentColor" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"/><path fill="currentColor" d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"/></svg></a>
               <h4>Title: {{ userDocument.title }} </h4>
               <!-- <div class="">
                 <button class="btn btn-sm btn-warning" @click="replaceModal">
@@ -13,7 +14,7 @@
               </div> -->
             </div>
             
-            <div v-if="userDocument?.documentUploads?.find((item ) => item?.status == 'Completed')">
+            <div v-if="userDocument?.documentUploads?.find((item ) => item?.status == 'Completed' || 'Processing' )">
               <div class="position-relative border">
                 <VuePdfEmbed
                 :key="files?.id"
@@ -35,7 +36,7 @@
               <div class="card-body">
                 <div class="d-flex gap-1 mb-2 ">
                   <div>
-                    <button class="btn btn-md btn-primary"  @click="exportHTMLToPDF"
+                    <button class="btn btn-sm py-1 btn-primary"  @click="exportHTMLToPDF"
                     :disabled="isDownload">
                     <template v-if="isDownload">
                       <span class="spinner-border spinner-border-sm"></span>
@@ -48,7 +49,7 @@
                     </button>
                   </div>
                   <div>
-                    <button class="btn btn-md btn-primary" @click="$event => shareDocumentModal()">
+                    <button class="btn btn-sm btn-primary py-1 " @click="$event => shareDocumentModal()">
                       <Icon icon="carbon:share" /> Share Document
                     </button>
                   </div>
@@ -195,7 +196,9 @@ const handleDocumentRender = (e) => {
 const addParticipantModal = () => {
   openAddParticipantModal.value = true;
 };
-
+const goBack = () =>{
+ return window.history.back()
+}
 const getDocument = (params) => {
   getUserDocument(params.id);
 };
