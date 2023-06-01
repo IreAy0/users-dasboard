@@ -13,7 +13,11 @@
                 </a>
               </div>
             </div>
-            <div v-for="(doc, index) in userDocument?.documentUploads" :key="index" class="position-relative border">
+            
+            <!-- {{userDocument?.documentUploads?.map((file, index) => <RenderPage :file="doc.file_url" @click="$emit('docId', doc.id)" @documentHeight="getHeight" />)}} -->
+            <div v-for="(doc, index) in sortedDocumentUpload" :key="index" class="position-relative border">
+        
+              <!-- {{ doc.number_ordering }} -->
               <RenderPage :file="doc.file_url" @click="$emit('docId', doc.id)" @documentHeight="getHeight" />
             </div>
             <!-- <div v-if="userDocument?.documentUploads?.find((item ) => item?.status == 'Completed'
@@ -51,7 +55,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useRoute } from 'vue-router'
 import { useGetters, useActions } from "vuex-composition-helpers/dist";
 import RenderPage from "@/components/Documents/Edit/Main/RenderPage";
@@ -81,10 +85,39 @@ const removeParticipantModal = ref(false);
 const participantId = ref("");
 const getEnv = computed(() => process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE)
 const token = computed(() => getToken())
-
+const sortedDocumentUpload = ref()
+const theDoc = ref("");
+const documentfiles = ref ([])
 const replaceModal = () => {
   openModal.value = true;
 };
+
+watch(
+  () => [userDocument.value],
+  ([newUserDoc], [oldUserDoc]) => {
+    if (newUserDoc != oldUserDoc) {
+      theDoc.value = newUserDoc;
+      if (
+        theDoc.value.documentUploads.length > 0 
+      ) {
+        theDoc.value.documentUploads.forEach(element => {
+          documentfiles.value.push({
+            id: element.id,
+            file_url: element.file_url,
+            number_ordering: element.number_ordering,
+      })
+        });
+        return sortedUploads(documentfiles.value);
+      }
+    }
+  }
+);
+
+const sortedUploads = (params) => {
+  if (params.length > 0 ) {
+    return  sortedDocumentUpload.value = params.sort((a, b) =>  a.number_ordering > b.number_ordering ? 1 : -1)
+  }}
+
 
 const addParticipantModal = () => {
   openAddParticipantModal.value = true;

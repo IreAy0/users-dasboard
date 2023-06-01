@@ -38,6 +38,10 @@ const ForgotPassword = () =>
   import(
     /* webpackChunkName: "forgotPassword" */ "../views/auth/passwords/forgotPassword.vue"
   );
+  const EmailSent = () =>
+  import(
+    /* webpackChunkName: "emailSent" */ "../views/auth/emailSent.vue"
+  );
 const SettingPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../components/Settings/Setting.vue"
@@ -105,6 +109,11 @@ const routes = [
     path: "/forgot-password",
     name: "forgot-password",
     component: ForgotPassword,
+  },
+  {
+    path: "/email-sent",
+    name: "email-sent",
+    component: EmailSent,
   },
   {
     path: "/reset-password",
