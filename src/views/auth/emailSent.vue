@@ -1,68 +1,56 @@
 <template lang="">
   <div>
     <b-navbar type="dark" variant="light">
-      <div class="container px-3 ">
+      <div class="container px-3 py-1">
         <b-navbar-brand href="/"><img src="/app-assets/images/logo/betaLogo.png" class="img-fluid " width="150" />      </b-navbar-brand>
   
         <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
         <b-navbar-nav class="ml-auto">
-          
-          
-          <b-nav-item href="#" class="text-primary">Sign up</b-nav-item>
-  
-  
-          
+          <b-nav-item exact to="/register" link-classes="text-primary">Sign up</b-nav-item>
         </b-navbar-nav>
       </div>
      
     
     </b-navbar>
+   
   </div>
-    <div class="auth-wrapper auth-cover">
+    <div style="display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 35px;
+    " class="">
       <!-- <router-link class="brand-logo" to="/">
         <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mt-2" width="150" />
       </router-link> -->
-    <div class="auth-inner row m-0">
-     
-      <div class="d-flex col-lg-12 align-items-center auth-bg px-2 ">
-        <div class="col-12 col-sm-8 col-md-6 shadow-lg  col-lg-8 px-xl-2 mx-auto">
-          <h2 class="card-title fw-bold mb-1">Welcome to ToNote! 👋</h2>
+    <div class=" m-0">
+      <div class="  align-items-center auth-bg ">
+        <div class="col-12 col-sm-8 col-md-6 shadow-lg  col-lg-12 mx-auto p-xl-5 text-center">
+          <div style="background-color: rgba(0,59,179,0.2);width: 40px; height:40px;margin: auto" class="p-50 text-primary mb-1 rounded-circle d-flex align-items-center">
+
+            <span  class="iconify " data-icon="carbon:email" data-width="24"></span>
+          </div>
+          <h2 class="card-title fw-bold mb-1">Password Reset</h2>
           <p class="card-text mb-2">
-            Please enter the email registered, a reset password link will be sent to you.
-          </p>
+Please kindly  check your recovery email for further instructions on how <br /> to reset your password  </p>
+<p class="text-center mt-2">
+  <span>Didn't receive the email?</span>
+  <button :disabled="loading == true" type="button" @click="resetPassword" class="btn mb-0 p-0 text-primary"><span>&nbsp;Click to resend</span></button>
+</p>
 
-          <form @submit.prevent="resetPassword" >
-           
-            <div class="mb-2">
-              <label class="form-label" for="login-email">Email</label>
-              <input 
-              class="form-control" 
-              type="text" 
-              name="email" 
-              tabindex="1" 
-              placeholder="john@example.com"
-              v-model="user.email"
-              />
-              <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
-            </div>
+<router-link to="/" class="btn btn-outline-primary btn-block w-40" >
+  <span> <span class="iconify" data-icon="ep:back" data-width="24"></span>
+    Back to Sign in</span>
+</router-link>
+          
 
-            <div class="form-group">
-              <button class="btn btn-primary btn-block w-100" :disabled="loading">
-                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                <span>Confirm</span>
-              </button>
-            </div>
+          
 
-          </form>
 
-          <p class="text-center mt-2">
-            <span>New on our platform?</span>
-            <router-link to="/register"><span>&nbsp;Create an account</span></router-link>
-          </p>
-         <p class="text-center mt-2">
+         <!-- <p class="text-center mt-2">
             <span>Already have an account?</span>
             <router-link to="/"><span>&nbsp;Sign in instead</span></router-link>
-          </p>
+          </p> -->
         </div>
       </div>
     </div>
@@ -74,7 +62,7 @@
 import ToNote from '@/Services/Tonote';
 import { ref } from 'vue';
 import { useToast } from 'vue-toast-notification';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 // const loading = ref(false);
 let passwordFieldType = ref("password");
 const $toast = useToast()
@@ -93,7 +81,7 @@ export default {
     }
   },
   computed: {
-    // ...mapState('AuthModule',['loggingIn', 'loginError']),
+    ...mapState('AuthModule',['loggingIn', 'loginError', 'email']),
   },
   methods: {
     // ...mapActions('AuthModule',['login']),
@@ -101,10 +89,10 @@ export default {
     resetPassword() {
       this.loading = true;
       ToNote.post('/user/password/email', {
-        email: this.user.email?.toLocaleLowerCase()
+        email: this.email?.toLocaleLowerCase()
       }).then(res => {
         this.loading = false;
-        $toast.success('A reset link has been sent to your email address', {
+        $toast.success('A reset link has been sent to your email address again', {
           duration: 5000,
           queue: false,
           position: "top-right",
@@ -135,6 +123,9 @@ export default {
   beforeMount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
+    if (!this.email) {
+      this.$router.push({path: '/forgot-password'})
+    }
   },
   beforeUnmount() {
     this.toggleEveryDisplay();

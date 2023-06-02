@@ -61,7 +61,7 @@
 import ToNote from '@/Services/Tonote';
 import { ref } from 'vue';
 import { useToast } from 'vue-toast-notification';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 // const loading = ref(false);
 let passwordFieldType = ref("password");
 const $toast = useToast()
@@ -83,7 +83,7 @@ export default {
     // ...mapState('AuthModule',['loggingIn', 'loginError']),
   },
   methods: {
-    // ...mapActions('AuthModule',['login']),
+    ...mapActions('AuthModule',['login', 'forgotPasswordEmail']),
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     resetPassword() {
       this.loading = true;
@@ -91,6 +91,8 @@ export default {
         email: this.user.email?.toLocaleLowerCase()
       }).then(res => {
         this.loading = false;
+        this.forgotPasswordEmail(this.user.email?.toLocaleLowerCase())
+        this.$router.push({ path: '/email-sent' })
         $toast.success('A reset link has been sent to your email address', {
           duration: 5000,
           queue: false,

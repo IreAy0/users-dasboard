@@ -114,6 +114,7 @@ const routes = [
     path: "/email-sent",
     name: "email-sent",
     component: EmailSent,
+    meta: { transition: 'fade' },
   },
   {
     path: "/reset-password",
