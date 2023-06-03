@@ -12,7 +12,7 @@
       </div>
 
       <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
-        <div v-if="successful == false" class="col-12 col-sm-8 col-md-6 col-lg-10 px-xl-2 mx-auto">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-10 px-xl-2 mx-auto">
           <h2 class="card-title fw-bold mb-1">Welcome to ToNote! 👋</h2>
           <p class="card-text mb-2">
             Please enter the email registered, a reset password link will be sent to you.
@@ -51,10 +51,10 @@
             <router-link to="/"><span>&nbsp;Sign in instead</span></router-link>
           </p>
         </div>
-        <div v-else class="d-flex justify-content-center gap-2 flex-column align-items-center m-auto">
+        <!-- <div v-else class="d-flex justify-content-center gap-2 flex-column align-items-center m-auto">
           <Icon class="text-primary" icon="ep:success-filled" width="100" />
           <h4>A reset link has been sent to your email address</h4>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -65,8 +65,9 @@
 import ToNote from "@/Services/Tonote";
 import { ref } from "vue";
 import { useToast } from "vue-toast-notification";
-import { mapMutations } from "vuex";
+// import { mapMutations } from "vuex";
 import { Icon } from '@iconify/vue';
+import { mapMutations, mapActions } from 'vuex';
 // const loading = ref(false);
 let passwordFieldType = ref("password");
 const $toast = useToast();
@@ -83,45 +84,42 @@ export default {
       successful: false,
     };
   },
-  components:{
-    Icon
-  },
+  
   computed: {
     // ...mapState('AuthModule',['loggingIn', 'loginError']),
   },
   methods: {
-    // ...mapActions('AuthModule',['login']),
+    ...mapActions('AuthModule',['login', 'forgotPasswordEmail']),
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     resetPassword() {
       this.loading = true;
-      ToNote.post("/user/password/email", {
-        email: this.user.email?.toLocaleLowerCase(),
+      ToNote.post('/user/password/email', {
+        email: this.user.email?.toLocaleLowerCase()
+      }).then(res => {
+        this.loading = false;
+        this.forgotPasswordEmail(this.user.email?.toLocaleLowerCase())
+        this.$router.push({ path: '/email-sent' })
+        $toast.success('A reset link has been sent to your email address', {
+          duration: 5000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        })
+        this.user.email = " "
+      }
+        // eslint-disable-next-line no-unused-vars
+      ).catch(error => {
+        this.loading = false;
+        $toast.error(error.response.data.message, {
+          duration: 5000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        })
       })
-        .then(
-          (res) => {
-            this.loading = false;
-            this.successful = true;
-            $toast.success("A reset link has been sent to your email address", {
-              duration: 5000,
-              queue: false,
-              position: "top-right",
-              dismissible: true,
-              pauseOnHover: true,
-            });
-            this.user.email = " ";
-          }
-          // eslint-disable-next-line no-unused-vars
-        )
-        .catch((error) => {
-          this.loading = false;
-          $toast.error(error.response.data.message, {
-            duration: 5000,
-            queue: false,
-            position: "top-right",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
+       
     },
     isVisible() {
       return (passwordFieldType.value =

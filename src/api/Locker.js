@@ -2,7 +2,7 @@ import ToNote from "@/Services/Tonote";
 
 export default {
   getLockerDocuments() {
-    return ToNote.get(`/document-locker`);
+    return ToNote.get(`/document-locker?sort_by_desc=updated_at`);
   },
 
   uploadLockerDocument(payload){

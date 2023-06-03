@@ -2,7 +2,7 @@
   <div class="col-12 mt-2">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title">Recent Documents</h5>
+        <h5 class="card-title">Action Required</h5>
 
       </div>
 
@@ -21,8 +21,9 @@
             <tbody>
               <tr v-for="document in documents?.data" :key="document.id">
                 <td>
-                  <a :href="`${getEnv}?document_id=${document.id}&ed=1&qt=${token}`" class="my-0 py-0">{{ document.title }}</a>
-                 
+                  <router-link class="my-0 py-0" :to="`document/${document.id}/preview`">{{ document.title }}</router-link>
+                  <!-- <a :href="`${getEnv}?di=${document.id}&qt=${token}`" class="my-0 py-0">{{ document.title }}</a> -->
+                  
                   <p v-if="document.participants_count !== 0" class="my-0 py-0">
                     <!-- To:
                     <span

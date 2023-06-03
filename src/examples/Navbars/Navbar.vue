@@ -65,7 +65,7 @@
               </span>
               <!-- <i class="material-icons cursor-pointer"> notifications </i> -->
             </a>
-            <ul class=" dropdown-menu dropdown-menu-end me-sm-n4" :class="showMenu ? 'show' : ''"
+            <ul style="max-height: 70vh" class=" dropdown-menu dropdown-menu-end me-sm-n4 overflow-auto" :class="showMenu ? 'show' : ''"
               aria-labelledby="dropdownMenuButton">
               <li class="">
                 <div class="dropdown-item m-0 demo-inline-spacing d-flex justify-content-center">

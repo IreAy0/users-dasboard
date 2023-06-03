@@ -1,8 +1,8 @@
 import ToNote from "@/Services/Tonote";
 const END_POINT = "documents";
 
-const getDocuments = async (pageNumber = 1, status='New') => {
-  return ToNote.get(`/documents?per_page=5&page=${pageNumber}&status=${status}`);
+const getDocuments = async (pageNumber = 1) => {
+  return ToNote.get(`/documents?per_page=5&page=${pageNumber}&status=New&sort_by_desc=updated_at`);
 };
 
 const getRequests = async () => {

@@ -149,7 +149,8 @@ const data = ref({
   delivery_channel: "",
   delivery_address: "",
   platform_initiated: "Web",
-  phone: ""
+  phone: "",
+  entry_point: "Affidavit"
 });
 const error = ref(true);
 const error_message = ref({

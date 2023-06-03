@@ -60,7 +60,7 @@
                   <td>{{ ++index }}</td>
                   <td>
                     <template v-if="data?.status == 'Completed'">
-                      <router-link :to="`/admin/download/${data?.document?.id}/document`" @click="getDocument({
+                      <router-link :to="`/admin/download/${data?.document?.id}/preview`" @click="getDocument({
                         id: data?.document?.id
                       })">
                       {{ data.title }}
@@ -102,7 +102,7 @@
                           <Icon icon="oi:ellipses" :rotate="1" :verticalFlip="true" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" style="">
-                          <router-link :to="`/admin/download/${data?.document?.id}/document`" class="dropdown-item">
+                          <router-link :to="`/admin/download/${data?.document?.id}/preview`" class="dropdown-item">
                             <Icon icon="carbon:download" /> Download
                           </router-link>
                         </div>

@@ -16,7 +16,7 @@ import isAuthenticated from "@/Services/isAuthenticated";
 
 const RequestPage = () =>
   import(
-    /* webpackChunkName: "requests" */ "@/components/Requests/Request.vue"
+    /* webpackChunkName: "requests" */ "@/components/Requests/NewRequest.vue"
   );
 
 const LockerPage = () => import( /* webpackChunkName: "locker" */ "@/components/Locker/locker.vue");
@@ -38,6 +38,10 @@ const ForgotPassword = () =>
   import(
     /* webpackChunkName: "forgotPassword" */ "../views/auth/passwords/forgotPassword.vue"
   );
+  const EmailSent = () =>
+  import(
+    /* webpackChunkName: "emailSent" */ "../views/auth/emailSent.vue"
+  );
 const SettingPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../components/Settings/Setting.vue"
@@ -53,6 +57,11 @@ const SettingPage = () =>
     /* webpackChunkName: "preview-document" */ "@/components/Requests/DocumentPreview.vue"
   );
 
+  const NewDocumentPreview = () => 
+    import(
+      /* webpackChunkName: "preview-dashboard-document" */ "@/components/Admin/Document/ViewDocument.vue"
+    );
+  
   const DocumentDownload = () =>
   import(
     /* webpackChunkName: "download-document" */ "@/components/Requests/DocumentDownload.vue"
@@ -100,6 +109,12 @@ const routes = [
     path: "/forgot-password",
     name: "forgot-password",
     component: ForgotPassword,
+  },
+  {
+    path: "/email-sent",
+    name: "email-sent",
+    component: EmailSent,
+    meta: { transition: 'fade' },
   },
   {
     path: "/reset-password",
@@ -166,7 +181,7 @@ const routes = [
         },
       },
       {
-        path: "preview/:doc_id/document",
+        path: "preview/:doc_id/preview",
         name: "admin.preview",
         component: DocumentPreview,
         meta: {
@@ -174,8 +189,17 @@ const routes = [
          
         },
       },
+      {
+        path: "document/:doc_id/preview",
+        name: "admin.preview-dashboard-document",
+        component: NewDocumentPreview,
+        meta: {
+          title: "Preview Document | ToNote",
+         
+        },
+      },
         {
-          path: "download/:doc_id/document",
+          path: "download/:doc_id/preview",
           name: "admin.download",
           component: DocumentDownload,
           meta: {
