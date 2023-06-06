@@ -191,7 +191,7 @@
         </div>
       </b-tab>
 
-      <!-- <b-tab >
+      <b-tab >
         <template #title>
           <button class="step-trigger">
             <span class="bs-stepper-box d-none d-lg-block"> 3 </span>
@@ -209,7 +209,7 @@
          
          
         </div>
-      </b-tab> -->
+      </b-tab>
     </b-tabs>
     <!-- {{ getActive}} -->
   </section>
@@ -238,7 +238,7 @@ export default {
   components: {
     paystack,
     BillingNew,
-    // Cards
+    Cards
   },
   data() {
     return {
