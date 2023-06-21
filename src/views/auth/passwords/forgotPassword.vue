@@ -51,39 +51,45 @@
             <router-link to="/"><span>&nbsp;Sign in instead</span></router-link>
           </p>
         </div>
+        <!-- <div v-else class="d-flex justify-content-center gap-2 flex-column align-items-center m-auto">
+          <Icon class="text-primary" icon="ep:success-filled" width="100" />
+          <h4>A reset link has been sent to your email address</h4>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 <script>
-// eslint-disable no-unused-vars 
+// eslint-disable no-unused-vars
 
-import ToNote from '@/Services/Tonote';
-import { ref } from 'vue';
-import { useToast } from 'vue-toast-notification';
-import { mapMutations } from 'vuex';
+import ToNote from "@/Services/Tonote";
+import { ref } from "vue";
+import { useToast } from "vue-toast-notification";
+// import { mapMutations } from "vuex";
+import { Icon } from '@iconify/vue';
+import { mapMutations, mapActions } from 'vuex';
 // const loading = ref(false);
 let passwordFieldType = ref("password");
-const $toast = useToast()
+const $toast = useToast();
 export default {
   name: "ForgotPassword",
-
 
   data() {
     return {
       user: {
-        email: '',
-
+        email: "",
       },
       loading: false,
-      passwordFieldType: 'password'
-    }
+      passwordFieldType: "password",
+      successful: false,
+    };
   },
+  
   computed: {
     // ...mapState('AuthModule',['loggingIn', 'loginError']),
   },
   methods: {
-    // ...mapActions('AuthModule',['login']),
+    ...mapActions('AuthModule',['login', 'forgotPasswordEmail']),
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     resetPassword() {
       this.loading = true;
@@ -91,6 +97,8 @@ export default {
         email: this.user.email?.toLocaleLowerCase()
       }).then(res => {
         this.loading = false;
+        this.forgotPasswordEmail(this.user.email?.toLocaleLowerCase())
+        this.$router.push({ path: '/email-sent' })
         $toast.success('A reset link has been sent to your email address', {
           duration: 5000,
           queue: false,
@@ -111,13 +119,12 @@ export default {
           pauseOnHover: true,
         })
       })
-
-
+       
     },
     isVisible() {
-      return passwordFieldType.value = passwordFieldType.value === "password" ? "text" : "password";
-
-    }
+      return (passwordFieldType.value =
+        passwordFieldType.value === "password" ? "text" : "password");
+    },
   },
   beforeMount() {
     this.toggleEveryDisplay();
@@ -127,10 +134,7 @@ export default {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
   },
-}
-
-
+};
 </script>
 <style lang="">
-  
 </style>

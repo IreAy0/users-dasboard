@@ -170,18 +170,10 @@
 
 
       </li>
-      <li class="nav-item">
+      <li class="nav-item disabled">
         <!-- :href="`${signLink}?status=sign&qt=${getToken}`" -->
         <a class="nav-link" href="#">
           <div class="text-center d-flex align-items-center justify-content-center" :class="isRTL ? ' ms-2' : 'me-1'">
-            <!-- <svg style="{{
-    height: '20px';
-    font-size: '16px';
-    margin-right: '0.5rem';
-    height: '16px';
-    width: '16px';
-}}
-" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash" data-v-af43c274="" data-v-b8d005c4=""><polyline points="3 6 5 6 21 6" data-v-b8d005c4=""></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" data-v-b8d005c4=""></path></svg>  -->
             <svg data-v-1a464b11="" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
               class="feather feather-link">
@@ -206,6 +198,68 @@
       </li>
 
       <li class="nav-item">
+        <sidenav-collapse-item url="#" :aria-controls="''" v-bind:collapse="true" collapseRef="forms" text=" Requests">
+          <template v-slot:miniIcon>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="feather feather-file-text">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+
+          </template>
+          <template v-slot:nav-child-item>
+      <li class="nav-item">
+        <router-link to="/admin/affidavit-requests" class="nav-link" >
+          
+          <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+            <span class="menu-title text-truncate fs-6 d-flex "> <span>Affidavits</span> </span>
+
+          </span>
+          <span class="badge bg-transparent border border-secondary  badge-light-secondary ms-auto "> 
+            {{ countAffidavit ? countAffidavit?.length : 0 }}
+          </span>
+        </router-link>
+
+
+      </li>
+      <li class="nav-item">
+        <router-link to="/admin/notary-requests" class="nav-link" >
+          <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+            <span class="menu-title text-truncate fs-6 d-flex "> <span>Notary Requests</span> </span>
+
+          </span>
+          <span class="badge bg-transparent border border-secondary  badge-light-secondary ms-auto "> 
+            {{ countNotaryRequest ? countNotaryRequest?.length : 0 }}
+          </span>
+        </router-link>
+
+
+      </li>
+      <li class="nav-item nav-sm ">
+        <router-link to="/admin/video-sign" class="nav-link" >
+          
+          <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+            <span class="menu-title text-truncate fs-6 d-flex gap-3">Video Sign </span>
+
+          </span>
+          <span class="badge bg-transparent border border-secondary  badge-light-secondary ms-auto"> 
+            {{ countVideoSign  ? countVideoSign?.length : 0 }}
+          
+          </span>
+        </router-link>
+
+
+      </li>
+     
+     
+      </template>
+      </sidenav-collapse-item>
+      </li>
+      <!-- <li class="nav-item" >
         <sidenav-collapse url="#" :aria-controls="''" v-bind:collapse="false" collapseRef="/admin/requests"
           navText="Requests">
           <template v-slot:icon>
@@ -220,7 +274,7 @@
             </svg>
           </template>
         </sidenav-collapse>
-      </li>
+      </li> -->
       <li class="nav-item">
         <sidenav-collapse url="#" :aria-controls="''" v-bind:collapse="false" collapseRef="/admin/locker"
           navText="Digital Locker">
@@ -320,36 +374,47 @@ import { timeFormat } from "@/Services/helpers";
 
 export default {
   name: "SidenavList",
+//   setup(){
+//     const countAffidavit = computed(() => {
+//   return affidavits.value?.filter((respond) => respond.entry_point == "Affidavit");
+// });
+
+// const countNotaryRequest = computed(() => {
+//   return affidavits?.value?.filter((respond) => respond.entry_point == "Notary");
+// });
+
+// const tableRecord = computed(() => {
+//   return allSessionRecord?.value?.filter((respond) => respond.entry_point == "Video");
+// });
+//   },
   props: {
     cardBg: String
   },
   data() {
     return {
-      title: "Soft UI Dashboard PRO",
+      title: "Tonote Dashoard",
       controls: "dashboardsExamples",
       isActive: "active"
     };
   },
+
   components: {
     SidenavCollapse,
     SidenavCollapseItem
-
-
   },
   computed: {
     ...mapState("ProfileModule", ["userProfile", "dashboardData", "signLinkDocuments"]),
     ...mapState("TeamsModule", ["Teams"]),
     ...mapState("MenuModule", ["openMenu"]),
     ...mapState("DocumentModule", ["counter"]),
+    ...mapState("schedule", ["affidavits", "allSessionRecord"]),
     getToken() {
       const token = getToken();
       return token;
     },
     formateDate(data) {
-
       return timeFormat(data)
     },
-
     getEnv() {
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_DOCUMENT_PAGE_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ? process.env.VUE_APP_DOCUMENT_PAGE_STAGING : process.env.VUE_APP_DOCUMENT_PAGE_LIVE
 
@@ -363,10 +428,17 @@ export default {
       return active;
     },
     remainingEnvelops() {
-
       const number = this.getActive?.subscription?.plan?.features?.find(feat => feat?.name?.includes('Envelops'))?.remaining ;
       return number
-      
+    },
+    countAffidavit(){
+      return this.affidavits?.filter((respond) => respond.entry_point == "Affidavit")
+    },
+    countNotaryRequest(){
+      return this.affidavits?.filter((respond) => respond.entry_point == "Notary");
+    },
+    countVideoSign(){
+      return this.affidavits?.filter((respond) => respond.entry_point == "Video");
     }
   },
   methods: {
@@ -374,13 +446,15 @@ export default {
     ...mapActions("TeamsModule", ["getTeams"]),
     ...mapActions("TeamsModule", ["logout"]),
     ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', '']),
-
+    ...mapActions('schedule', ['getAffidavitRequest', 'getSessionRecords']),
     openNav() {
       this.navOpen = !this.navOpen;
     },
   },
   mounted: function () {
     this.getDashboardData();
+    this.getAffidavitRequest();
+    this.getSessionRecords()
   }
 };
 </script>

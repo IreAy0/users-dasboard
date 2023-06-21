@@ -16,6 +16,7 @@ const state = () => ({
   verifyError: null,
   user: null,
   loggedIn: false,
+  email: ''
 });
 const actions = {
   logout() {
@@ -103,6 +104,10 @@ const actions = {
     })
      
   },
+
+  forgotPasswordEmail({commit}, data){
+    commit("passwordEmailSent", data)
+  }
 };
 
 const mutations = {
@@ -143,6 +148,9 @@ const mutations = {
   },
   emptyLoginError(state) {
     state.loginError = null;
+  },
+  passwordEmailSent(state, email){
+    state.email = email
   }
   
 };

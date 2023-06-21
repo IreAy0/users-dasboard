@@ -12,7 +12,7 @@
 
 <script>
 import pdfvuer from "pdfvuer";
-// import "pdfjs-dist/build/pdf.worker.entry";
+import "pdfjs-dist/build/pdf.worker.entry";
 import PreLoader from "@/components/PreLoader.vue";
 
 export default {

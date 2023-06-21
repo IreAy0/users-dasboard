@@ -142,7 +142,7 @@
                             <!-- <div  class="dropdown-item">
                               <Icon icon="carbon:download" /> Download
                             </div> -->
-                            <router-link :to="`/admin/download/${result?.document?.id}`" class="dropdown-item"  @click="getDocument({
+                            <router-link :to="`/admin/download/${result?.document?.id}/preview`" class="dropdown-item"  @click="getDocument({
                               id: result?.document?.id
                             })">
                             <Icon icon="carbon:download" /> Download
@@ -414,7 +414,7 @@ onUpdated(() => {
             [5, 10, 25, 50, -1],
             [5, 10, 25, 50, "All"],
           ],
-          pageLength: 5,
+          pageLength: 10,
         });
       }
     }

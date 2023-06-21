@@ -92,12 +92,14 @@
                   {{data?.index + 1}}
                 </div>
               </template>
+              <template #cell(permission)="data">
+                <p class="mb-0 font-weight-bold">
+                  {{data.item.isOwner === true ? 'Owner' : data.item.permission }}
+                </p>
+              </template>
               <template #cell(action)="data">
-                <a v-show="
-                  getActiveUser?.permission === 'Admin' ||
-                  getActiveUser?.isOwner === 'True'
-                " @click="openDeleteTeamModal(data?.item?.id)" class="text-danger">Delete</a>
-                <!-- deleteTeamMember(data?.item?.id) -->
+                <a v-show="getActiveUser?.permission === 'Admin' && data.item.isOwner === false && getActiveUser.id !== data.item.id" @click="openDeleteTeamModal(data?.item?.id)" class="text-danger">Delete </a>
+
               </template>
             </b-table>
           </div>
@@ -155,7 +157,7 @@
       <h4>Are you sure you want to delete this member?</h4>
 
       <div class="gap-2 d-flex justify-content-center mt-2">
-        <button @click="deleteModalShow=false" class="btn-md btn btn-danger">Cancel</button>
+        <button @click="deleteModalShow=false" class="btn-md btn btn-outline-danger">Cancel</button>
         <button @click="deleteTeamMember(userId)" class="btn-md btn btn-primary">Confirm</button>
       </div>
     </div>
