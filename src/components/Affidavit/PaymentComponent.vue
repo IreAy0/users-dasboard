@@ -73,6 +73,7 @@ const emits = defineEmits(["nextStep", "prevStep", "resetStep"]);
 const paymentGateways = computed(
   () => store.state.AffidavitModule.paymentGateways
 );
+
 const transactionable_id = computed(
   () => store.state.AffidavitModule.transactionable_id
 );

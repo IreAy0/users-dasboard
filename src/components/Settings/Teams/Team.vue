@@ -92,12 +92,14 @@
                   {{data?.index + 1}}
                 </div>
               </template>
+              <template #cell(permission)="data">
+                <p class="mb-0 font-weight-bold">
+                  {{data.item.isOwner === true ? 'Owner' : data.item.permission }}
+                </p>
+              </template>
               <template #cell(action)="data">
-                <a v-show="
-                  getActiveUser?.permission === 'Admin' ||
-                  getActiveUser?.isOwner === 'True'
-                " @click="openDeleteTeamModal(data?.item?.id)" class="text-danger">Delete</a>
-                <!-- deleteTeamMember(data?.item?.id) -->
+                <a v-show="getActiveUser?.permission === 'Admin' && data.item.isOwner === false && getActiveUser.id !== data.item.id" @click="openDeleteTeamModal(data?.item?.id)" class="text-danger">Delete </a>
+
               </template>
             </b-table>
           </div>

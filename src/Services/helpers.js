@@ -32,7 +32,36 @@ export const removeToken = () => {
   sessionStorage.removeItem("token");
   window.location.reload(false);
 };
+export const platformInitiated = () => {
+  let mobilePlatforms = [
+    "iPhone",
+    "iPod",
+    "iPad",
+    "Android",
+    "BlackBerry",
+    "Opera",
+  ];
+  let typeOfOS = window.navigator.platform;
+  if (mobilePlatforms.includes(typeOfOS)) {
+    return "Mobile";
+  } else {
+    return "Web";
+  }
+};
 
+export const randomId = (leng) => {
+  if (!leng) {
+    return;
+  }
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < leng; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
 // export const getToken = () => {
 //   const authHash = getCookie("token");
 //   if (authHash) {

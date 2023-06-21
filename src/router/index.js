@@ -52,6 +52,14 @@ const SettingPage = () =>
     /* webpackChunkName: "settings" */ "@/components/Requests/folders/VideoSign.vue"
   );
 
+  const NotaryRequest = () =>
+  import(
+    /* webpackChunkName: "settings" */ "@/components/Requests/folders/NotaryRequest.vue"
+  );
+  const AffidavitRequest = () =>
+  import(
+    /* webpackChunkName: "settings" */ "@/components/Requests/folders/AffidavitRequest.vue"
+  );
   const DocumentPreview = () =>
   import(
     /* webpackChunkName: "preview-document" */ "@/components/Requests/DocumentPreview.vue"
@@ -161,6 +169,30 @@ const routes = [
         component: RequestPage,
         meta: {
           title: " Requests | Tonote",
+        }
+      },
+      {
+        path: "affidavit-requests",
+        name: "admin.affidavit-requests",
+        component: AffidavitRequest,
+        meta: {
+          title: "Affidavit Requests | Tonote",
+        }
+      },
+      {
+        path: "notary-requests",
+        name: "admin.notary-requests",
+        component: NotaryRequest,
+        meta: {
+          title: "Notary Requests | Tonote",
+        }
+      },
+      {
+        path: "video-sign",
+        name: "admin.video-sign",
+        component: VideoSign,
+        meta: {
+          title: " Video Sign | Tonote",
         }
       },
       {
