@@ -440,6 +440,8 @@ const SuccessfulPaymentCallback = (response) => {
           store.dispatch("TeamsModule/getSubcriptions")
           store.dispatch("TeamsModule/getTeams")
           store.dispatch("ProfileModule/getTransactions")
+          store.dispatch("schedule/getAffidavitRequest")
+          // this.getAffidavitRequest();
           // getSingleSubscription({})
           // addTeamMembers([])
           // allMembers.value = []
