@@ -9,7 +9,7 @@
         <p class="font-weight-bold">
           Current Plan Details
         </p>
-        <!-- <p class="text-danger text-md font-weight-bold">Cancel Subcription</p> -->
+        <a @click="cancelSubscription()" class="text-danger text-md font-weight-bold">Cancel Subcription</a>
       </div>
       <div class="row gap-2 mx-0">
         <div class="col border flex flex-col justify-content-between p-1 rounded-2">
@@ -342,6 +342,8 @@ import ModalComp from "@/components/ModalComp.vue";
 import { useStore } from 'vuex'
 import moment from "moment";
 // import { defineProps } from "vue";
+import ToNote from "@/Services/Tonote";
+import { useToast } from "vue-toast-notification";
 import Upgrade from './Upgrade_new'
 
 const props = defineProps({
@@ -349,6 +351,7 @@ const props = defineProps({
 });
 
 const store = useStore()
+const $toast = useToast();
 
 // const { subscriptions } = useState('TeamsModule', ['subcriptions']);
 const teams  = computed(() => (store.state.TeamsModule.Teams))
@@ -414,6 +417,31 @@ const switchPlan = () => {
   }
 }
 
+const cancelSubscription = () => {
+  // /api/v1/cancel-subscription
+  return ToNote.get(`/cancel-subscription`)
+              .then(res =>{
+                getTeams()
+                console.log('res.data', res.data)
+                $toast.success(res.data.data.message, {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+              })
+              .catch(err => {
+                $toast.error("An error occurred", {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+         return err
+              })
+}
 onMounted(() => {
   // features.value = computed(() => props.active_team?.subscription?.plan?.features) 
   // selected.value = computed(() => props.active_team?.subscription?.plan?.id)

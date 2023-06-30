@@ -56,7 +56,6 @@ const actions = {
   ALL_PAYMENTGATEWAYS({ commit }) {
     getPaymentGatways()
       .then((res) => {
-        console.log(res.data, 'res')
         commit("setPaymentGateways", res.data.data);
       })
       .catch(function () {
