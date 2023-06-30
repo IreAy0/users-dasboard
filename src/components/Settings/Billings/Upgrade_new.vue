@@ -7,26 +7,21 @@
       Back </p>
     <!-- {{ active_team.users }} -->
     <!-- {{ current_plan }} -->
-    <div class="d-flex pb-1 justify-content-between align-items-center">
-      <h2 class="font-weight-bold text-black">
-        Invite team members to your plan
-      </h2>
-      <p :disabled="number_of_users <= 1" @click="addParticipantModal" class="d-inline-flex text-primary align-items-center"> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="d-flex pt-2 justify-content-between align-items-center">
+      <h4 class="font-weight-bold text-black">
+          Indicate the number of team members you want on your plan     
+      </h4>
+      <!-- <p :disabled="number_of_users <= 1" @click="addParticipantModal" class="d-inline-flex text-primary align-items-center"> <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 6V0H8V6H14V8H8V14H6V8H0V6H6Z" fill="#003BB3"/>
         </svg>
-       <span class="font-weight-bold ml-1 ">Add team member</span> </p>
+       <span class="font-weight-bold ml-1 ">Add team member</span> </p> -->
     </div>
    
-    <p class="pb-1 font-weight-bold">You are about to upgrade to the {{current_plan?.name}} plan, invite the team members <br /> and proceed to payment</p>
+    <!-- <p class="pb-1 font-weight-bold">You are about to upgrade to the {{current_plan?.name}} plan, invite the team members <br /> and proceed to payment</p> -->
     <div class="px-1">
       <div class="row">
-        <div class="col-md-8">
+        <!-- <div class="col-md-8">
           <div>
-            <!-- <div :key="user" v-for="user in active_team?.users?.filter(user => user.isOwner == true)" class="d-flex text-primary justify-content-between pb-1 " >
-              <p class="font-weight-bold mb-0">{{user.email}}</p>
-              <p class="font-weight-bold mb-0"> ₦{{ current_plan.amount }} </p>
-              <p class="font-weight-bold mb-0">{{user.isOwner == true ? 'Owner' : user.permission}}</p>
-            </div> -->
             <b-table  class="owner-table text-primary mb-0" :fields="owner_fields" borderless :items="owner" responsive="sm" >
               <template #cell(email)="data">
                 <p class="font-weight-bold mb-0">{{data?.value}}</p>
@@ -50,18 +45,16 @@
                 <div>
                   <b-button type="button" @click="removeItem(data.index)" variant="outline-danger btn-sm mb-0">Remove</b-button>
                 </div>
-                <!-- <button type="button" class="outline-danger">Remove</button> -->
-                <!-- <h4 class="text-center p-2">{{ data.index }}  years old</h4> -->
               </template>
             </b-table>
           </div>
-        </div>
-        <div class="col-md-4  p-2">
-          <div class="border text-center p-2 rounded-3">
-            <div class="d-flex flex-column w-100">
+        </div> -->
+        <div class="col-md-6  p-2">
+          <div class="border d-lg-flex align-items-end gap-2 text-center p-2 rounded-3">
+            <div class="d-lg-flex  flex-column ">
               <p class="mb-0">Team Members</p>
               <div class="w-100 pt-50">
-                <div class="border-3 d-flex rounded-3 border border-secondary-subtle">
+                <div class="border-3 d-flex rounded-3 border border-secondary-subtle" style="width: 150px;margin: auto;">
                   <input type="number" v-model="number_of_users" name="num" min="1" max="" style='width:100%'  class=" h2 border-0 mb-0 text-center" aria-label="number of users">
                   <div class="d-flex flex-column py-50">
                     <button :disabled="current_plan.name == 'Pro' && number_of_users == 10" type="button" style="cursor: pointer" @click="handleIncrease" class="px-2 h4 border-0 mb-0 fs-3 p-0 bg-transparent text-primary"><Icon icon="material-symbols:add" width="24" /></button>
@@ -69,11 +62,9 @@
                   </div>
                   
                 </div>
-                <!-- <input v-model="number_of_users" @blur="totalAmount = totalAmount * number_of_users" :size="number_of_users" style='width:100%;margin:-3px,border:2px inset #eee'  type="number" min="1" name="num" class="font-weight-bold text-black h2  " /> -->
               </div>
             </div>
-            <hr />
-            <div>
+            <div class="mx-auto ">
               <p class="mb-0">Total due</p>
               <h2 class="font-weight-bold text-black">{{totalAmount?.toLocaleString()}}</h2>
             </div>
@@ -81,7 +72,7 @@
           </div>
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center ">
+      <div class="d-flex pe-3 justify-content-between align-items-center ">
           <div class="ml-auto">
             <!-- :disabled="allMembers.length > number_of_users || number_of_users <= 1 " -->
             <button  @click="handleRegisterSubcription" class="rounded btn btn-primary">
@@ -164,13 +155,13 @@
         
         <b-col class=" my-2">
           <button v-if="payment_gateway?.name === 'Flutterwave'" type="button" class="btn btn-primary w-100"
-            @click="openFlutterwave">
+            @click="openFlutterwave" >
             Pay Now With Flutterwave
           </button>
 
           <paystack v-if=" payment_gateway?.name === 'Paystack'" buttonClass="w-100 rounded btn btn-primary bg-primary"
             buttonText="Pay Now With Paystack" :publicKey="payStackKey" :email="userProfile.email" :amount="payment_gateway?.total * 100"
-            :reference="transactionDetails?.id" :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"></paystack>
+            :reference="transactionDetails?.id" :onSuccess="onSuccessfulPayment" :onCancel="onCancelledPayment"  :channels="['card', 'bank', 'bank_transfer']"></paystack>
   
           <button v-if="payment_gateway?.name === 'Credo'" type="button" class="btn btn-primary w-100" @click="openCredo">
             Pay Now With Credo
@@ -247,10 +238,10 @@ const fields  = ref([{
 // { email:user?.email, amount: '₦'+current_plan?.amount, owner: user?.isOwner == true ? 'Owner' : user?.permission }
 
 const owner_fields  = ref(["email", "amount", "permission"])
-
+const payment_channels = ref(["card", "bank", "ussd", "qr", "mobile_money"])
 const payStackKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE
 const flutterwaveKey = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE
-const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
+const redirect_url = process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_BASE_URL_LOCAL : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_BASE_URL_STAGING : process.env.VUE_APP_BASE_URL_LIVE
 
 const userProfile = computed(() => (store.state.ProfileModule.userProfile))
 const singleData= computed(() => (store.state.TeamsModule.upgradePlan))
@@ -366,6 +357,7 @@ const onSuccessfulPayment = (response) => {
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
           if (res.status == 200) {
+            window.location.href = '/admin/settings?tab=team'
           store.dispatch("ProfileModule/getUser");
           paymentConfirmation.value = true;
           $toast.success("Payment Successful", {
@@ -381,6 +373,7 @@ const onSuccessfulPayment = (response) => {
           getSingleSubscription({})
           addTeamMembers([])
           allMembers.value = []
+          
           if (payment_gateway?.value?.name === "Paystack") {
               loadingModal.value = false
           }

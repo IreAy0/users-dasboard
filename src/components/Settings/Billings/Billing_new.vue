@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="">
+      <!-- {{active_team?.subscription?.plan?.id}} -->
+      <!-- {{subcriptions?.subcriptions?.filter(({id}) => id === active_team?.subscription?.plan?.id)}} -->
+      <!-- {{subcriptions?.subcriptions}} -->
+
       <div class="d-flex justify-content-between">
         <p class="font-weight-bold">
           Current Plan Details
@@ -12,7 +16,7 @@
           <p class="text-black">Plan</p>
           <p class="text-primary mb-0 h5">{{active_team?.subscription?.plan?.name}}</p>
         </div>
-        <div class="col border p-1 flex flex-col justify-content-betwee rounded-2">
+        <div class="col border p-1 flex flex-col justify-content-between rounded-2">
           <p class="text-black">Payment Duration</p>
           <p class="text-primary mb-0 h5">{{active_team?.subscription?.plan?.periodicity_type}}</p>
         </div>
@@ -20,7 +24,7 @@
           <p class="text-black">Active Users</p>
           <p class="text-primary mb-0 h5">{{active_team?.users?.length}} of {{active_team?.users?.length}}</p>
         </div>
-        <div class="col border p-1 flex flex-col justify-content-betwee rounded-2">
+        <div class="col border p-1 flex flex-col justify-content-between rounded-2">
           <p class="text-black">Next Renewal Date</p>
           <p class="text-primary mb-0 h5">{{moment(active_team?.subscription?.plan?.expired_at).format("Do MMM YYYY")}}</p>
         </div>
@@ -147,12 +151,13 @@
             <p>{{feature?.name}}</p>
           </div>
           {{single_plan}} --> 
-        
-          <div class="features" v-show="selected || active_team?.subscription?.plan">
+          <!-- || active_team?.subscription?.plan -->
+          <!-- || active_team?.subscription?.plan?.features -->
+          <div class="features" v-show="selected ">
             <p class="font-weight-bold text-lg text-black px-1">Plans include:</p>
             <ul  class="border-0 multiple_columns row ">
-              <li v-for="feature in features || active_team?.subscription?.plan?.features" :key="feature"  class="list-group-item gap-1 border-0 d-flex  align-items-center col-12 col-md-6">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <li v-for="feature in features " :key="feature"  class="list-group-item gap-1 border-0 d-flex  align-items-center col-12 col-md-6">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="flex-shrink-0">
                   <rect width="20" height="20" rx="10" :fill="single_plan.name  == 'Pro'  ? '#DB922B' : single_plan.name == 'Business' ? 'black'  :  '#003BB3'"/>
                   <g clip-path="url(#clip0_4148_8100)">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M16.7217 5.65326C16.7703 5.70172 16.8089 5.75929 16.8352 5.82266C16.8615 5.88604 16.875 5.95398 16.875 6.0226C16.875 6.09122 16.8615 6.15916 16.8352 6.22254C16.8089 6.28592 16.7703 6.34349 16.7217 6.39194L9.41836 13.6953C9.3699 13.7439 9.31234 13.7824 9.24896 13.8087C9.18558 13.835 9.11764 13.8486 9.04902 13.8486C8.9804 13.8486 8.91246 13.835 8.84908 13.8087C8.7857 13.7824 8.72814 13.7439 8.67968 13.6953L5.02799 10.0436C4.93003 9.94568 4.875 9.81282 4.875 9.67429C4.875 9.53576 4.93003 9.40291 5.02799 9.30495C5.12594 9.20699 5.2588 9.15196 5.39733 9.15196C5.53586 9.15196 5.66872 9.20699 5.76667 9.30495L9.04902 12.5883L15.9831 5.65326C16.0315 5.60468 16.0891 5.56613 16.1525 5.53984C16.2158 5.51354 16.2838 5.5 16.3524 5.5C16.421 5.5 16.489 5.51354 16.5523 5.53984C16.6157 5.56613 16.6733 5.60468 16.7217 5.65326Z" fill="white"/>
@@ -163,13 +168,12 @@
                   </clipPath>
                   </defs>
                   </svg>
-                  {{ feature?.name }} - {{feature?.limit_number}}
+                  {{ feature?.description }} 
               </li>
             </ul>
-            <div class="my-2 px-1 ">
+            <!-- <div class="my-2 px-1 ">
               <div :style="{'background-color':'#F5F6F7', 'border-radius': '8px','padding': '24px 32px'}">            
                 <h5 class="font-weight-bolder text-dark">Notarization Cost:</h5>
-                <!-- {{active_team?.subscription?.plan?.name ? active_team?.subscription?.plan?.name : active_team?.subscription?.plan?.name}} -->
                 <ul v-if="single_plan?.name !== 'Business' "  class="list-group border-0 bg-transparent">
                   <li class="list-group-item font-weight-bold gap-1 p-0 border-0 bg-transparent d-flex  align-items-center">
                     
@@ -208,7 +212,7 @@
                 </ul>
               </div>
 
-            </div>
+            </div> -->
             
           </div>
       </div>
@@ -223,7 +227,6 @@
         For custom requests please send an email to <a target="_blanket" href="mailto:ask@gettonote.com">ask@gettonote.com</a>
       </p>
     </div>
-
   </div>
 
   <ModalComp :show="userModal.open" :footer="false" :size="'modal-lg'" @close="userModal.open = false">
@@ -333,7 +336,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, computed, defineProps } from "vue";
+import { ref, onMounted, onUpdated, computed, defineProps, watch, watchEffect } from "vue";
 import { useState, useActions, useGetters } from 'vuex-composition-helpers';
 import ModalComp from "@/components/ModalComp.vue";
 import { useStore } from 'vuex'
@@ -380,11 +383,13 @@ const {
   getSingleSubscription: "TeamsModule/getSingleSubscription",
   getSubcriptions: "TeamsModule/getSubcriptions"
 });
-
+// ?.value?.filter(({id}) => id == props.active_team?.subscription?.plan?.id
+// activeFeatures.value = computed(()=> subcriptions?.subscriptions) 
+let activeFeatures = ref(subcriptions?.subscriptions)
 const getPlanId = (id) => {
 single_plan.value =  subcriptions?.value?.subcriptions.find(element => element.id == id )
 plan_id.value = id
-features.value = single_plan?.value?.features
+features.value = single_plan?.value?.benefits
 }
 // getTeams
 const addUsersModal = (id) => {

@@ -201,13 +201,10 @@
           </button>
         </template>
 
+
         <div class="tab-pane fade show" id="nav-cards" role="tabpanel" aria-labelledby="nav-cards-tab">
         
             <Cards  />
-         
-
-         
-         
         </div>
       </b-tab> -->
     </b-tabs>
