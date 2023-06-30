@@ -53,6 +53,11 @@ const SettingPage = () =>
     /* webpackChunkName: "preview-document" */ "@/components/Requests/DocumentPreview.vue"
   );
 
+  const NewDocumentPreview = () => 
+    import(
+      /* webpackChunkName: "preview-dashboard-document" */ "@/components/Admin/Document/ViewDocument.vue"
+    );
+
   const DocumentDownload = () =>
   import(
     /* webpackChunkName: "download-document" */ "@/components/Requests/DocumentDownload.vue"
@@ -169,6 +174,15 @@ const routes = [
         path: "preview/:doc_id",
         name: "admin.preview",
         component: DocumentPreview,
+        meta: {
+          title: "Preview Document | ToNote",
+         
+        },
+      },
+       {
+        path: "document/:doc_id/preview",
+        name: "admin.preview-dashboard-document",
+        component: NewDocumentPreview,
         meta: {
           title: "Preview Document | ToNote",
          

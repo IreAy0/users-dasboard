@@ -188,10 +188,73 @@
             <h5 class="mb-0">Identity Verification</h5>
             <small>Verify your ID.</small>
           </div>
-          <Form @submit="verifyId" :validation-schema="verificationSchema" class="mb-1 d-flex flex-column flex-lg-row  gx-5" style=" gap: 4%;">
+          <Form  @submit="verifyId" :validation-schema="verificationSchema" class="d-flex gap-lg-2  mb-1 flex-column flex-lg-row">
+            <div class="flex-grow-1">
+              <div class="mb-1 ">
+                <label class="form-label" for="id_type">Identification Type</label>
+                <!--:disabled="validState"-->  
+                <Field as="select" :disabled="validState"  v-model="profile.identity_type" name="id_type" class="select2 w-100 form-select text-sm">
+                  <option value="" disabled>Please select a form of Identity</option>
+                  <option value="vnin">Virtual NIN</option>
+                  <option value="drivers_license">Drivers License</option>
+                  <option value="bvn">BVN</option>
+                </Field>
+                <ErrorMessage name="id_type" class="text-danger " />
+              </div>
+            </div>
+             <div>
+              <div class="mb-1">
+                <label class="form-label" for="bvn">ID Number</label>
+              
+                <div class="input-group relative ">
+                  <template v-if="userProfile.identity_number == null ">
+    
+                 
+                 <Field placeholder="12345678910" name="registration_company_number" v-model="userProfile.identity_number" :disabled="validState === true"
+                    id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" /> 
+    
+                  </template>
+                  <template v-else>
+                    <!--:disabled="validState === true"-->
+                    <Field :disabled="validState === true" placeholder="12345678910" name="registration_company_number" v-model="maskedNumber" 
+                    id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" />
+                  </template>
+                  
+                  <span v-if="validState" class="position-absolute end-0  px-1" :style="{ top: '7px' }">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                      class="bi bi-check-lg text-success" viewBox="0 0 16 16">
+                      <path
+                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                    </svg>
+                  </span>
+                
+    
+                </div>
+                <ErrorMessage name="registration_company_number" class="text-danger " />
+              </div>
+              
+            </div>
+             <div>
+              <div class="mb-1 ">
+                <label class="form-label" for="modern-phone">Date of Birth</label>
+                
+                <Field :disabled="validState === true" type="date" name="date_of_birth" id="modern-date_of_birth" class="form-control"
+                  aria-label="date_of_birth" v-model="userProfile.dob" />
+                  <ErrorMessage name="date_of_birth" class="text-danger " />
+              </div>
+             </div>
+             <div>
+              <br />
+              <button style="padding: 8px 14px" type="submit" v-show="validState == false"
+              class="btn btn-md border mb-0 btn-primary-outline border-primary text-primary ">
+              <span v-show="verifying" class="spinner-border spinner-border-sm"></span>
+              <span class="align-middle d-inline-block">Verify ID</span>
+            </button>
+             </div>
+          </Form>
+          <!-- <Form @submit="verifyId" :validation-schema="verificationSchema" class="mb-1 d-flex flex-column flex-lg-row  gx-5" style=" gap: 4%;">
             <div class="mb-1 col-md-5">
-              <label class="form-label" for="id_type">Identification Type</label>
-              <!--:disabled="validState"-->  
+              <label class="form-label" for="id_type">Identification Type</label> 
               <Field as="select" :disabled="validState"  v-model="profile.identity_type" name="id_type" class="select2 w-100 form-select">
                 <option value="" disabled>Please select a form of Identity</option>
                 <option value="vnin">Virtual NIN</option>
@@ -214,10 +277,10 @@
 
                 </template>
                 <template v-else>
-                  <!--:disabled="validState === true"-->
                   <Field :disabled="validState === true" placeholder="12345678910" name="registration_company_number" v-model="maskedNumber" 
                   id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" />
                 </template>
+                
                 <span v-if="validState" class="position-absolute end-0  px-1" :style="{ top: '7px' }">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                     class="bi bi-check-lg text-success" viewBox="0 0 16 16">
@@ -225,17 +288,25 @@
                       d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                   </svg>
                 </span>
-                <button type="submit" v-show="validState == false"
-                  class="btn border mb-0 btn-primary-outline border-primary text-primary ms-1">
-                  <span v-show="verifying" class="spinner-border spinner-border-sm"></span>
-                  <span class="align-middle d-inline-block">Verify ID</span>
-                </button>
+              
 
               </div>
               <ErrorMessage name="registration_company_number" class="text-danger " />
             </b-col>
-          </Form>
-          <div v-show="userProfile.identity_type === 'vnin' && validState === false">
+            <div class="mb-1 col ">
+              <label class="form-label" for="modern-phone">Date of Birth</label>
+              
+              <Field type="date" name="date_of_birth" id="modern-date_of_birth" class="form-control"
+                aria-label="date_of_birth" v-model="userProfile.dob" />
+                <ErrorMessage name="date_of_birth" class="text-danger " />
+            </div>
+            <button type="submit" v-show="validState == false"
+            class="btn border mb-0 btn-primary-outline border-primary text-primary ms-1">
+            <span v-show="verifying" class="spinner-border spinner-border-sm"></span>
+            <span class="align-middle d-inline-block">Verify ID</span>
+          </button>
+          </Form> -->
+          <div v-show="userProfile.identity_type === 'vnin' || profile.identity_type == 'vnin' && validState === false">
             <div class="alert alert-danger d-flex align-items-center" role="alert">
   <svg width="16" height="17" viewBox="0 0 16 17" fill="none" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-1" xmlns="http://www.w3.org/2000/svg">
 <path d="M8.5 11.7654V7.76538H6.5V8.76538H7.5V11.7654H6V12.7654H10V11.7654H8.5ZM8 4.76538C7.85166 4.76538 7.70666 4.80937 7.58332 4.89178C7.45999 4.97419 7.36386 5.09132 7.30709 5.22837C7.25032 5.36541 7.23547 5.51621 7.26441 5.6617C7.29335 5.80718 7.36478 5.94082 7.46967 6.04571C7.57456 6.1506 7.7082 6.22203 7.85368 6.25097C7.99917 6.27991 8.14997 6.26506 8.28701 6.20829C8.42406 6.15152 8.54119 6.0554 8.6236 5.93206C8.70601 5.80872 8.75 5.66372 8.75 5.51538C8.75 5.31647 8.67098 5.1257 8.53033 4.98505C8.38968 4.8444 8.19891 4.76538 8 4.76538Z" fill="currentColor"/>
@@ -482,7 +553,6 @@ export default {
       country: "",
       validState: "",
       ID: "",
-
       verifying: false,
       currentStep: 1,
       verifyError: false,
@@ -558,7 +628,8 @@ export default {
       this.verifying = true;
       ToNote.post("/verify/user", {
         type: this.profile.identity_type,
-        value: this.maskedNumber,
+        value: this.userProfile?.identity_number,
+        dob: this.userProfile.dob
       })
         .then((res) => {
           if (res.status == 200) {
