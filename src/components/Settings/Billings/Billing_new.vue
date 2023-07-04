@@ -420,18 +420,19 @@ const switchPlan = () => {
 const cancelSubscription = () => {
   // /api/v1/cancel-subscription
   return ToNote.get(`/cancel-subscription`)
-              .then(res =>{
-                getTeams()
-                console.log('res.data', res.data)
-                $toast.success(res.data.data.message, {
-            duration: 3000,
-            queue: false,
-            position: "top-right",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+              .then(res => {
+      getTeams()
+      console.log('res.data', res.data)
+      $toast.success(res.data.data.message, {
+        duration: 3000,
+        queue: false,
+        position: "top-right",
+        dismissible: true,
+        pauseOnHover: true,
+      });
               })
               .catch(err => {
+                console.log(err.response, 'err')
                 $toast.error("An error occurred", {
             duration: 3000,
             queue: false,
