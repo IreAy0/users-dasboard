@@ -121,7 +121,7 @@
                      <span class="text-md text-secondary">Per user</span> 
                       </span>
                       <p v-show="plan.name !== active_team?.subscription?.plan?.name"  @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
-                        Upgrade to Pro Plan
+                       {{active_team?.subscription?.plan?.name == 'Business' ? 'Downgrade' : 'Upgrade'}} to Pro Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="#DB922B"/>
                           </svg>
