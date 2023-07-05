@@ -9,7 +9,7 @@
         <p class="font-weight-bold">
           Current Plan Details
         </p>
-        <!-- <p class="text-danger text-md font-weight-bold">Cancel Subcription</p> -->
+        <a @click="cancelSubscription()" class="text-danger text-md font-weight-bold">Cancel Subcription</a>
       </div>
       <div class="row gap-2 mx-0">
         <div class="col border flex flex-col justify-content-between p-1 rounded-2">
@@ -121,7 +121,7 @@
                      <span class="text-md text-secondary">Per user</span> 
                       </span>
                       <p v-show="plan.name !== active_team?.subscription?.plan?.name"  @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
-                        Upgrade to Pro Plan
+                       {{active_team?.subscription?.plan?.name == 'Business' ? 'Downgrade' : 'Upgrade'}} to Pro Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="#DB922B"/>
                           </svg>
@@ -342,6 +342,8 @@ import ModalComp from "@/components/ModalComp.vue";
 import { useStore } from 'vuex'
 import moment from "moment";
 // import { defineProps } from "vue";
+import ToNote from "@/Services/Tonote";
+import { useToast } from "vue-toast-notification";
 import Upgrade from './Upgrade_new'
 
 const props = defineProps({
@@ -349,6 +351,7 @@ const props = defineProps({
 });
 
 const store = useStore()
+const $toast = useToast();
 
 // const { subscriptions } = useState('TeamsModule', ['subcriptions']);
 const teams  = computed(() => (store.state.TeamsModule.Teams))
@@ -414,6 +417,32 @@ const switchPlan = () => {
   }
 }
 
+const cancelSubscription = () => {
+  // /api/v1/cancel-subscription
+  return ToNote.get(`/cancel-subscription`)
+              .then(res => {
+      getTeams()
+      console.log('res.data', res.data)
+      $toast.success(res.data.data.message, {
+        duration: 3000,
+        queue: false,
+        position: "top-right",
+        dismissible: true,
+        pauseOnHover: true,
+      });
+              })
+              .catch(err => {
+                console.log(err.response, 'err')
+                $toast.error("An error occurred", {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+         return err
+              })
+}
 onMounted(() => {
   // features.value = computed(() => props.active_team?.subscription?.plan?.features) 
   // selected.value = computed(() => props.active_team?.subscription?.plan?.id)

@@ -105,7 +105,7 @@
 
     <template #body>
       <div class="p-2">
-        <p class="font-weight-bold">You are about to unlock more collaborative features by upgrading your plan to the {{current_plan.name}} Plan</p>
+        <p class="font-weight-bold">You are about to unlock more collaborative features by {{active_team?.subscription?.plan?.name == 'Business' ? 'Downgrading' : 'Upgrading'}} your plan to the {{current_plan.name}} Plan</p>
 
         <b-col cols="12" class="border border-secondary rounded-3 p-2 mt-2">
           <div class="row">
@@ -179,7 +179,7 @@
 
       <h4 class="fw-bolder my-1">Payment Successful!</h4>
       <p class="mb-1">
-        Your plan has been successfully upgraded
+        Your plan has been successfully {{active_team?.subscription?.plan?.name == 'Business' ? 'Downgraded' : 'Upgraded'}}
       </p>
       <button class="btn my-1" data-bs-dismiss="modal" aria-label="Close" @click="!paymentConfirmation"
         style="background: #e5e7e9">

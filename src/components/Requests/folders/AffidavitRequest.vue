@@ -64,9 +64,9 @@
                   <tr v-for="(data, index) in filterDocByAffidavitRequests?.filter(request => request.status !== 'Pending')" :key="index">
   
                     <td>{{ index + 1 }}</td>
-                    <td :class="{ disabled: data.status == 'Completed' && data.anyOutstandingPayments !== 0 && data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status !== 'Paid' }">
+                    <td :class="{ disabled: data.status == 'Completed' && data.any_outstanding_payments !== 0 && data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status !== 'Paid' }">
                       <template  v-if="data?.status == 'Completed'">
-                        <!-- :class="{ disabled: data.status == 'Completed' && data.anyOutstandingPayments !== 0 }" -->
+                        <!-- :class="{ disabled: data.status == 'Completed' && data.any_outstanding_payments !== 0 }" -->
                         <router-link  :to="`/admin/download/${data?.document?.id}/preview`" @click="getDocument({
                           id: data?.document?.id
                         })">
@@ -106,9 +106,9 @@
   
                     </td>
                     <td class="d-flex align-items-center">
-                      <template v-if="data.anyOutstandingPayments !== 0 && data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status !== 'Paid' ">
+                      <template v-if="data.status == 'Completed' && data.any_outstanding_payments !== 0 && data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status !== 'Paid' ">
                         
-                        {{ data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status }}
+                        <!-- {{ data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status }} -->
                         
                         <div>
                           <!-- 
@@ -120,7 +120,7 @@
                         </div>
                       </template>
                       <template  v-else >
-                        <button disabled class="btn mb-0 btn-sm btn-secondary py-1 " @click="getPaymentGateways(data)">
+                        <button disabled class="btn mb-0 btn-sm btn-secondary py-1 " >
                           <Icon icon="mdi:unlocked" width="18" /> Paid
                         </button>
                         <div class="ms-50">
@@ -130,7 +130,7 @@
                     </td>
                     <td>
                       
-                      <template v-if="data.status == 'Completed' && data.anyOutstandingPayments == 0 ">
+                      <template v-if="data.status == 'Completed' && data.any_outstanding_payments == 0 ">
                         <div class="dropdown">
                           <a class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -379,6 +379,7 @@ const token = computed(()  => {
 const filterDocByAffidavitRequests = computed(() => {
   return affidavits.value?.filter((respond) => respond.entry_point == "Affidavit");
 });
+
 const getDocument = (params) => {
   getUserDocument(params.id);
 };
@@ -402,14 +403,6 @@ const filterDocByNextMeeting = computed(() => {
 });
 
 const SuccessfulPaymentCallback = (response) => {
-  // ToNote.put(`/transactions/${this.payment_gateway?.name === "Paystack"
-  //       ? response.reference
-  //       : this.payment_gateway?.name === "Flutterwave"
-  //       ? response.tx_ref
-  //       : null}`,
-  //       {
-  //       payment_gateway: this.payment_gateway?.name,
-  //     })
   loadingModal.value = true
   openPaymentModal.value = false
   return ToNote.put(`/transactions/${selectedPayment_gateway?.value?.name === "Paystack"
@@ -440,16 +433,7 @@ const SuccessfulPaymentCallback = (response) => {
           store.dispatch("TeamsModule/getSubcriptions")
           store.dispatch("TeamsModule/getTeams")
           store.dispatch("ProfileModule/getTransactions")
-          // getSingleSubscription({})
-          // addTeamMembers([])
-          // allMembers.value = []
-          
-          // if (payment_gateway?.value?.name === "Paystack") {
-          //     loadingModal.value = false
-          // }
-          // if(payment_gateway?.value?.name === 'Flutterwave'){
-          //   window.location.href = redirect_url+ '/admin/payment-confirmation'
-          // }
+          store.dispatch("schedule/getAffidavitRequest")
           }
         })
         .catch((err) => {
@@ -468,7 +452,6 @@ const SuccessfulPaymentCallback = (response) => {
 
 const getPaymentGateways = (data) => {
   // openPaymentModal.value = true
-  
   requestDetails.value = data
   const planData = {
           transactionable_type: "ExtraSeal",
@@ -480,8 +463,6 @@ const getPaymentGateways = (data) => {
 
       ToNote.post("/transactions", planData)
         .then((res) => {
-          // this.transactionSummary = res?.data?.data;
-          // this.modalShow = true;
           requestDetails.value = data
           store.dispatch("AffidavitModule/ALL_PAYMENTGATEWAYS");
           openPaymentModal.value = true
