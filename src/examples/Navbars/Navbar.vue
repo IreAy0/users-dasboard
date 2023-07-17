@@ -112,6 +112,19 @@
                   </div>
                 </a>
               </li>
+              <!-- <li class="">
+                <a class="dropdown-item py-1" href="javascript:;">
+                  <div @click="emitSocket" class="text-center">
+                    <a class="btn btn-outline-seconday mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="14"
+                        height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-power me-50">
+                        <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                        <line x1="12" y1="2" x2="12" y2="12"></line>
+                      </svg>
+                      Disconnect</a>
+                  </div>
+                </a>
+              </li> -->
               <li class="">
                 <a class="dropdown-item py-1" href="javascript:;">
                   <div @click="logout" class="text-center">
@@ -137,8 +150,10 @@
 // import MaterialInput from "@/components/MaterialInput.vue";
 // import Breadcrumbs from "../Breadcrumbs.vue";
 import ToNote from '@/Services/Tonote';
+import socket from '@/socket';
 import { useToast } from 'vue-toast-notification';
 import { mapState, mapActions, mapMutations } from 'vuex'
+import { getToken } from '@/Services/helpers';
 
 const $toast = useToast()
 
@@ -150,19 +165,15 @@ export default {
     };
   },
   props: ["minNav", "color"],
-  created() {
-    this.minNav;
-  },
   methods: {
     ...mapMutations("MenuModule", ["navbarMinimize", "toggleConfigurator"]),
     ...mapActions('ProfileModule', ['getUser']),
-
+    ...mapActions('schedule', ['getAffidavitRequest']),
     ...mapActions('AuthModule', ['logout']),
     ...mapActions('TeamsModule', ['getTeams']),
     // ...mapActions('MenuModule', ['toggleMenu']),
     openNav() {
       this.navOpen = !this.navOpen;
-
     },
     switchTeam(id) {
       ToNote.get('/team-switch/' + id).then(response => {
@@ -200,10 +211,16 @@ export default {
     toggleSidebar() {
       this.navbarMinimize();
     },
+    emitSocket() {
+      const data = this.userProfile.email
+      socket.emit('request_sent', data )
+    },
+    playSound(){
+    var audio = new Audio(require('@/assets/sounds/notify.mp3'));
+    audio.play();
+  },
   },
   components: {
-
-
   },
   computed: {
     ...mapState("MenuModule", ["isRTL", "isAbsolute", "isPinned"]),
@@ -223,16 +240,78 @@ export default {
       const path = this.$route.path;
       // get the last part of the path
       const lastPart = path.split('/').pop();
-     
-
       return lastPart;
-     
-
     }
+  
   },
   mounted: function () {
     this.getUser();
     // this.getTeams()
+    socket.auth = {
+  username: `${this.userProfile?.first_name}-${this.userProfile?.last_name}`,
+  token: getToken(),
+  sessionRoom: `video-sign-notification`,
+  sessionTitle: `session-title`,
+  };
+  socket.connect();
+ 
+  socket.on("connect_message", (data) => {
+    console.log(data, 'data');
+  });
+
+    socket.on("request_sent", (data) => {
+      console.log('data', data)
+      // const request = JSON.parse(data);
+      // this.getAffidavitRequest()
+      //   $toast.success(`you have a new request`,  {
+      //     duration: 5000,
+      //     queue: false,
+      //     position: "top-right",
+      //     dismissible: true,
+      //     pauseOnHover: true,
+      //   })
+      // if (data === this.userProfile.email) {
+      //   this.playSound();
+      //   $toast.success(`${data} invited you to a session`,  {
+      //     duration: 5000,
+      //     queue: false,
+      //     position: "top-right",
+      //     dismissible: true,
+      //     pauseOnHover: true,
+      //   });
+      // }
+
+      const tryReconnect = () => {
+      setTimeout(() => {
+        socket.io.open((err) => {
+          if (err) {
+            tryReconnect();
+          }
+        });
+      }, 2000);
+    };
+    socket.io.on("close", tryReconnect);
+    });
+    console.log('mounted')
+  },
+
+
+  created: function () {
+    this.minNav;
+    console.log('getToken()', getToken())
+    
+ 
+    // socket.connect();
+    // socket.on('connected', () => {
+    //   // eslint-disable-next-line no-console
+    //   console.log('socket connected new');
+    // });
+
+    
+  
+    // jakel67956@ngopy.com
+
+
   },
 };
 </script>
