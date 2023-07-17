@@ -20,7 +20,7 @@
                     </div>
                     <div>
   
-                      <a :href="`${virtualNotary}session-prep/${result.id}?token=${getToken()}}`"
+                      <a :href="`${virtualNotary}/session-prep/${result.id}?token=${getToken()}`"
                         class="btn btn-primary btn-sm">Join now</a>
                     </div>
                   </div>
@@ -484,9 +484,11 @@ const virtualNotary = computed(() => {
       return process.env.VUE_APP_ENVIRONMENT == 'local' ? process.env.VUE_APP_VIRTUAL_NOTARY_DEV : process.env.VUE_APP_ENVIRONMENT == 'staging' ?  process.env.VUE_APP_VIRTUAL_NOTARY_STAGING : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE
     });
 
-// onMounted(() => {
-//   getAffidavitRequest();
-// });
+onMounted(() => {
+  getSessionRecordToday({token: token.value,  entry_point: 'Notary'});
+
+  // getAffidavitRequest();
+});
 onUpdated(() => {
   setTimeout(() => {
     if ($.fn.dataTable.isDataTable("#all_notary_requests")) {

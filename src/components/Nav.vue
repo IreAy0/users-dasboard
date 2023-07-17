@@ -144,7 +144,6 @@ export default {
     },
     switchTeam(id) {
       ToNote.get('/team-switch/' + id).then(response => {
-      
         this.getTeams();
         $toast.success('Team switched successfully', {
           position: 'center',

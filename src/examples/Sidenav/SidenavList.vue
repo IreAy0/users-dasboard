@@ -442,7 +442,6 @@ export default {
     }
   },
   methods: {
-
     ...mapActions("TeamsModule", ["getTeams"]),
     ...mapActions("TeamsModule", ["logout"]),
     ...mapActions('ProfileModule', ['getUser', 'getPrints', 'getDashboardData', '']),

@@ -15,7 +15,7 @@
                     </div>
                   </div>
                   <div>
-                    <a :href="`${virtualNotary}session-prep/${result.id}?token=${getToken()}}`"
+                    <a :href="`${virtualNotary}/session-prep/${result.id}?token=${getToken()}`"
                       class="btn btn-primary btn-sm">Join now</a>
                   </div>
                 </div>

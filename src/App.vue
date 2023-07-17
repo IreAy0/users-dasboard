@@ -1,5 +1,5 @@
 <template>
-
+ 
   <router-view v-slot="{ Component }">
     <transition-page>
       <component :is="Component" />
@@ -8,26 +8,44 @@
 </template>
 <script setup>
 // import { beforeMount, store } from 'vue3-paystack';
-import { mapActions, mapMutations, useStore } from "vuex";
-import { onMounted } from 'vue';
-// import { useActions } from "vuex-composition-helpers/dist";
+import { mapActions, mapMutations, useStore, computed } from "vuex";
+import { onMounted, onBeforeUnmount, onUpdated, ref } from 'vue';
+import { useActions, useState } from "vuex-composition-helpers";
 import { getToken } from "@/Services/helpers";
+import socket from '@/socket';
 
 const store = useStore()
 // const { token } = useGetters({
 //   token: "auth/token",
 // });
+// const { userProfile } = useState({
+//   userProfile: "ProfileModule/userProfile",
+// });
+
+
+const userProfile = ref("")
 
 const token = getToken();
 
 const timeoutInMS = 420000; //? 5 minutes -> 7 * 60 * 1000
+
 let timeoutId;
+
 function handleInactive() {
   if (token) {
     store.dispatch("AuthModule/logout");
   }
  
 }
+
+setTimeout(() => {
+  // console.log('first', store.state?.ProfileModule.userProfile)
+  userProfile.value = store.state.ProfileModule.userProfile
+  console.log('userProfile checking', store.state.ProfileModule.userProfile
+)
+}, 10000);
+
+console.log('userProfile checking before timeout', store.state.ProfileModule.userProfile)
 
 function startTimer() {
   timeoutId = setTimeout(handleInactive, timeoutInMS);
@@ -45,42 +63,36 @@ function setupTimers() {
 }
 
 onMounted(() => {
-  setupTimers();
-  (function () {
-    const propertyId = process.env.VUE_APP_TAWK_PROPERTY_ID;
-    const widgetId = process.env.VUE_APP_TAWK_WIDGET_ID;
-    const s1 = document.createElement("script"),
-      s0 = document.getElementsByTagName("script")[0];
-    s1.async = true;
-    s1.src = "https://embed.tawk.to/" + propertyId + "/" + widgetId;
-    s1.charset = "UTF-8";
-    s1.setAttribute("crossorigin", "*");
-    s0.parentNode.insertBefore(s1, s0);
-  })();
+
+  // socket.on("connect_message", (data) => {
+  //   console.log(data, 'data');
+  // });
+
+  // socket.on('VIDEO_SIGN_REQUEST_SENT', (res) => {
+  //     console.log('data video request send', res)
+  //     // const request = JSON.parse(data);
+  //     // this.getAffidavitRequest()
+  //       // $toast.success('You have a new request',  {
+  //       //   duration: 5000,
+  //       //   queue: false,
+  //       //   position: "top-right",
+  //       //   dismissible: true,
+  //       //   pauseOnHover: true,
+  //       // })
+  //     // if (request.id === this.userProfile.id) {
+       
+  //     //   $toast.success('You have a new request',  {
+  //     //     duration: 5000,
+  //     //     queue: false,
+  //     //     position: "top-right",
+  //     //     dismissible: true,
+  //     //     pauseOnHover: true,
+  //     //   });
+  //     // }
+  //   });
 })
-// export default {
-//   components: {
 
-//   },
-//   methods: {
-    
 
-//   },
-//   mounted() {
-//     // await store.dispatch('getUser');
-    
-//     (function () {
-//       const s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-//       s1.async = true;
-//       s1.src = 'https://embed.tawk.to/6257cf987b967b11798ab0e5/1g0jg5rf5';
-//       s1.charset = 'UTF-8';
-//       s1.setAttribute('crossorigin', '*');
-//       s0.parentNode.insertBefore(s1, s0);
-//     })();
-    
-//   },
-
-// }
 </script>
 <style>
 </style>

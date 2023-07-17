@@ -10,6 +10,7 @@ export default {
   },
   showSessionRecordToday(token, entry_point) {
     // Video
+    console.log('token, entry_point', token, entry_point)
     return ToNote.get(`${REQUEST_VIRTUAL_SESSION_TODAY}?entry_point=${entry_point}`, token);
   },
   // get all the time slots

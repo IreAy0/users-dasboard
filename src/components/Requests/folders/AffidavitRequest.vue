@@ -20,7 +20,7 @@
                     </div>
                     <div>
   
-                      <a :href="`${virtualNotary}session-prep/${result.id}?token=${getToken()}}`"
+                      <a :href="`${virtualNotary}/session-prep/${result.id}?token=${getToken()}`"
                         class="btn btn-primary btn-sm">Join now</a>
                     </div>
                   </div>
@@ -402,6 +402,8 @@ const filterDocByNextMeeting = computed(() => {
   } 
 });
 
+console.log(allSessionRecordToday.value, 'today')
+
 const SuccessfulPaymentCallback = (response) => {
   loadingModal.value = true
   openPaymentModal.value = false
@@ -485,8 +487,14 @@ const virtualNotary = computed(() => {
     });
 
 // onMounted(() => {
-//   getAffidavitRequest();
+  
+//   // getAffidavitRequest();
 // });
+onMounted(() => {
+  getSessionRecordToday({token: token.value,  entry_point: 'Affidavit'});
+
+  // getAffidavitRequest();
+});
 onUpdated(() => {
   setTimeout(() => {
     if ($.fn.dataTable.isDataTable("#allrequests")) {
