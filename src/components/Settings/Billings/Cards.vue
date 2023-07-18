@@ -10,7 +10,7 @@
           <b-card   no-body class="overflow-hidden shadow-none mb-1" style="max-width: 450px;" :key="index + 1" v-for="(card, index) in cards">
           
             <div class="d-flex justify-content-between ">
-              <a class="text-primary mb-50 font-weight-bold">Set as default card</a>
+              <a  @click="setDefaultCard(card.id)" class="text-primary mb-50 font-weight-bold">Set as default card</a>
               <a @click="deleteCard(card.id)" class="text-danger mb-50 font-weight-bold">Remove card</a>
             </div>
             
@@ -95,6 +95,27 @@ const deleteCard = (id) => {
           });
          return err
               })
+}
+
+const setDefaultCard = (id) => {
+  // /api/v1/card-default/{id}
+  return ToNote.get(`/card-default/${id}`)
+                .then(res => {
+                  GetCard()
+
+                $toast.success(res.data.data.message, {
+            duration: 3000,
+            queue: false,
+            position: "top-right",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+                })
+                .catch(err => {
+                  
+                  console.log('err', err)
+                  return err
+                })
 }
 onMounted(() => {
   GetCard()
