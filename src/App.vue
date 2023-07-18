@@ -41,8 +41,7 @@ function handleInactive() {
 setTimeout(() => {
   // console.log('first', store.state?.ProfileModule.userProfile)
   userProfile.value = store.state.ProfileModule.userProfile
-  console.log('userProfile checking', store.state.ProfileModule.userProfile
-)
+
 }, 10000);
 
 console.log('userProfile checking before timeout', store.state.ProfileModule.userProfile)

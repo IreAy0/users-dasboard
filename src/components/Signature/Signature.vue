@@ -393,16 +393,15 @@ export default {
 
     onCaptureSignature(ref, type, category) {
       const finalRef = ref;
-
       const capture = this.$refs.capture;
       this.selectedFont = ref
       if (this.selectedFont != '') {
-        const scale = 5;
+        const scale = 7;
         this.capturing = true;
         domtoimage.toPng(capture, {
           quality: 1,
-          width: capture?.clientWidth * scale,
-          height: capture?.clientHeight * scale,
+          width: capture?.clientWidth * scale ,
+          height: capture?.clientHeight * scale ,
           style: {
             transform: 'scale(' + scale + ')',
             transformOrigin: 'top left'
@@ -430,10 +429,10 @@ export default {
       this.selectedInitial = ref
 
       if(this.selectedInitial != '' ){
-        const scale = 5;
+        const scale = 2;
       domtoimage.toPng(capture, {
         quality: 1,
-        height: capture?.clientHeight * scale,
+        height: capture?.clientHeight * scale / 2,
         style: {
           transform: 'scale(' + scale + ')',
           transformOrigin: 'top left'

@@ -20,12 +20,7 @@ const userProfile = computed(() => store.state.ProfileModule.userProfile)
 
 // const fetching = computed(() => store.state.AffidavitModule.fetching)
 
-console.log('userProfile', userProfile)
-
-
 onMounted(() => {
-  
-
   socket.on('VIDEO_SIGN_REQUEST_SENT', () => {
       console.log('data')
       // const request = JSON.parse(data);

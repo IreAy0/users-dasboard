@@ -112,7 +112,7 @@
                   </div>
                 </a>
               </li>
-              <!-- <li class="">
+              <li class="">
                 <a class="dropdown-item py-1" href="javascript:;">
                   <div @click="emitSocket" class="text-center">
                     <a class="btn btn-outline-seconday mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="14"
@@ -124,7 +124,7 @@
                       Disconnect</a>
                   </div>
                 </a>
-              </li> -->
+              </li>
               <li class="">
                 <a class="dropdown-item py-1" href="javascript:;">
                   <div @click="logout" class="text-center">
@@ -259,29 +259,7 @@ export default {
     console.log(data, 'data');
   });
 
-    socket.on("request_sent", (data) => {
-      console.log('data', data)
-      // const request = JSON.parse(data);
-      // this.getAffidavitRequest()
-      //   $toast.success(`you have a new request`,  {
-      //     duration: 5000,
-      //     queue: false,
-      //     position: "top-right",
-      //     dismissible: true,
-      //     pauseOnHover: true,
-      //   })
-      // if (data === this.userProfile.email) {
-      //   this.playSound();
-      //   $toast.success(`${data} invited you to a session`,  {
-      //     duration: 5000,
-      //     queue: false,
-      //     position: "top-right",
-      //     dismissible: true,
-      //     pauseOnHover: true,
-      //   });
-      // }
-
-      const tryReconnect = () => {
+  const tryReconnect = () => {
       setTimeout(() => {
         socket.io.open((err) => {
           if (err) {
@@ -291,15 +269,28 @@ export default {
       }, 2000);
     };
     socket.io.on("close", tryReconnect);
-    });
-    console.log('mounted')
+
+
   },
 
 
   created: function () {
     this.minNav;
     console.log('getToken()', getToken())
-    
+    socket.on("request_sent", (data) => {
+      if (data === this.userProfile.email) {
+        this.playSound();
+        $toast.success(`You've been invited you to a session`,  {
+          duration: 5000,
+          queue: false,
+          position: "top-right",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      }
+
+      
+    });
  
     // socket.connect();
     // socket.on('connected', () => {
