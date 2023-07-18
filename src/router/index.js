@@ -69,7 +69,6 @@ const SettingPage = () =>
     import(
       /* webpackChunkName: "preview-dashboard-document" */ "@/components/Admin/Document/ViewDocument.vue"
     );
-  
   const DocumentDownload = () =>
   import(
     /* webpackChunkName: "download-document" */ "@/components/Requests/DocumentDownload.vue"
@@ -221,7 +220,8 @@ const routes = [
          
         },
       },
-      {
+
+       {
         path: "document/:doc_id/preview",
         name: "admin.preview-dashboard-document",
         component: NewDocumentPreview,

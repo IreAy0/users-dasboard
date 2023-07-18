@@ -31,8 +31,13 @@
             <select name="permission" id="permission" v-model="row.permission" class="form-select form-control-sm py-0" required>
               <option value="" selected>select role</option>
               <!-- <option>Sign</option> -->
+
               <option value="Member">Member</option>
               <!-- <option value="View">Viewer</option> -->
+
+              <!-- <option value="Send">Sender</option> -->
+            
+
               <!-- <option>Send</option> -->
               <option value="Admin">Admin</option>
             </select>
