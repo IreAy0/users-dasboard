@@ -29,7 +29,10 @@ import Navbar from "@/examples/Navbars/Navbar.vue";
 import Preloader from './components/PreLoader.vue';
 import { mapMutations, mapState } from "vuex";
 import { mapActions } from "vuex";
+import socket from '@/socket';
 import router from "./router";
+import { getToken } from '@/Services/helpers';
+
 
 export default {
   name: "App",
@@ -56,6 +59,10 @@ export default {
     toggleSidebar() {
       this.navbarMinimize();
     },
+    playSound(){
+    var audio = new Audio(require('@/assets/sounds/notify.mp3'));
+    audio.play();
+  },
   },
   computed: {
     ...mapState('TeamsModule', ['Teams']),
@@ -110,7 +117,54 @@ export default {
 
     setTimeout(() => {
       this.loading = false;
+
     }, 3000);
+
+    // socket.auth = {
+    //   username: `${this.userProfile?.first_name}-${this.userProfile?.last_name}`,
+    //   token: getToken(),
+    //   sessionRoom: `video-sign-notification`,
+    //   sessionTitle: `session-title`,
+    //   };
+    //   socket.connect();
+ 
+    //   socket.on("connect_message", (data) => {
+    //     console.log(data, 'data');
+    //   });
+
+    // socket.on("request_sent", (data) => {
+    //   console.log('data', data)
+    //   // const request = JSON.parse(data);
+    //   // this.getAffidavitRequest()
+    //   //   $toast.success(`you have a new request`,  {
+    //   //     duration: 5000,
+    //   //     queue: false,
+    //   //     position: "top-right",
+    //   //     dismissible: true,
+    //   //     pauseOnHover: true,
+    //   //   })
+    //   // if (data === this.userProfile.email) {
+    //   //   this.playSound();
+    //   //   $toast.success(`${data} invited you to a session`,  {
+    //   //     duration: 5000,
+    //   //     queue: false,
+    //   //     position: "top-right",
+    //   //     dismissible: true,
+    //   //     pauseOnHover: true,
+    //   //   });
+    //   // }
+
+    //   const tryReconnect = () => {
+    //   setTimeout(() => {
+    //     socket.io.open((err) => {
+    //       if (err) {
+    //         tryReconnect();
+    //       }
+    //     });
+    //   }, 2000);
+    // };
+    // socket.io.on("close", tryReconnect);
+    // });
   },
 
 };

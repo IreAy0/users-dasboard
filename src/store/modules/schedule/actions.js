@@ -25,7 +25,6 @@ export const getSessionRecordToday = ({ commit }, payload) => {
   const {token, entry_point } = payload
   Schedule.showSessionRecordToday(token, entry_point)
     .then((response) => {
-      console.log(response, 'getSessionRecordToday')
       commit("SET_SESSION_RECORD_TODAY", response.data);
     })
     .catch((error) => {
