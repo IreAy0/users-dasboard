@@ -92,7 +92,7 @@
             </template>
           </ModalComp>
 
-          <ModalComp :show="openAddParticipantModal" :size="'modal-lg'" :footer="false"
+          <ModalComp style="zindex-4" class="zindex-4 " :show="openAddParticipantModal" :size="'modal-lg'" :footer="false"
             @close="openAddParticipantModal = false">
             <template #header>
               <h5 class="modal-title">Add Participants</h5>

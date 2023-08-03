@@ -3,6 +3,9 @@ export const allSessionRecord = (state) => {
   return state.sessionRecord;
 };
 
+export const sessionsLoading = (state) => {
+  return state.sessionsLoading
+}
 export const allSessionRecordToday = (state) => {
   return state.sessionRecordToday;
 };

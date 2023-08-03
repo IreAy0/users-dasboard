@@ -33,7 +33,7 @@
       <div class="col-md-3 col-12">
         <div class="mb-1">
           <label class="form-label" for="role-column">Role</label>
-          <select name="role" id="role" v-model="row.role" class="form-select form-control-sm" required>
+          <select name="role" id="role" v-model="row.role" class="form-select form-control-sm py-0" required>
             <option value="" selected>select role</option>
             <option>Signer</option>
             <option>Viewer</option>
@@ -42,10 +42,15 @@
       </div>
 
       <template v-if="row.action != '+'">
-        <div class="col-md-12">
+        <div class="col-md-3 col-12">
           <small class="hover" :class="['text-danger', isRemove]" @click="removeRow(index)">
             Remove
           </small>
+          <div>
+            <small class="hover" :class="['text-danger', isRemove]" @click="removeRow(index)">
+              <Icon icon="ph:x-light" width="24"/>
+            </small>
+          </div>
         </div>
       </template>
       <hr />
@@ -66,6 +71,7 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers/dist";
+import { Icon } from "@iconify/vue";
 
 const emit = defineEmits(["close"]);
 

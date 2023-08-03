@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TableSkeleton v-if="affidavits == null"/>
+    <TableSkeleton v-if="sessionsLoading == true"/>
 
     <div v-else class="container">
       <div class="row p-0" id="basic-table ">
@@ -47,7 +47,7 @@
           </div>
           <div class="card-body pt-2 pb-4">
             <div class="table-responsive">
-              <table class="table table-hover" id="allrequests">
+              <!-- <table class="table table-hover" id="allrequests">
                 <thead>
                   <tr>
                     <th>S/N</th>
@@ -59,14 +59,12 @@
                     <th>Action</th>
                   </tr>
                 </thead>
-                <!-- .filter((respond) => respond.entry_point == "Affidavit") -->
                 <tbody>
                   <tr v-for="(data, index) in filterDocByAffidavitRequests?.filter(request => request.status !== 'Pending')" :key="index">
   
                     <td>{{ index + 1 }}</td>
                     <td :class="{ disabled: data.status == 'Completed' && data.any_outstanding_payments !== 0 && data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status !== 'Paid' }">
                       <template  v-if="data?.status == 'Completed'">
-                        <!-- :class="{ disabled: data.status == 'Completed' && data.any_outstanding_payments !== 0 }" -->
                         <router-link  :to="`/admin/download/${data?.document?.id}/preview`" @click="getDocument({
                           id: data?.document?.id
                         })">
@@ -98,7 +96,6 @@
                                                   data.date === today &&
                                                   data.status === 'Accepted'
                                                 ">
-                        <!-- {`${process.env.REACT_APP_VIRTUAL_NOTARY}notary/session-prep/${row.id}?token=${getToken()}`} -->
                         <a :href="`${virtualNotary}/session-prep/${data.id}?token=${token}`"
                           class="btn btn-primary btn-sm">Join</a>
                       </template>
@@ -108,12 +105,8 @@
                     <td class="d-flex align-items-center">
                       <template v-if="data.status == 'Completed' && data.any_outstanding_payments !== 0 && data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status !== 'Paid' ">
                         
-                        <!-- {{ data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status }} -->
-                        
                         <div>
-                          <!-- 
-                            v-show="userDocument?.outstanding_amount !== 0" 
-                          -->
+                          
                           <button  class="btn btn-sm mb-0 btn-primary py-1 " @click="getPaymentGateways(data)">
                             <Icon icon="material-symbols:lock-outline" width="18"/> Pay Now
                           </button>
@@ -151,7 +144,188 @@
   
                   </tr>
                 </tbody>
-              </table>
+              </table> -->
+
+
+              <b-form @submit="submitSearch" @reset="resetSearch">
+                <b-row align-h="end">
+              
+                  <b-col lg="4" align-self="end">
+                  
+                   <b-form-group
+                   class="mb-1"
+                     label="Search"
+                     label-for="search-input"
+                   >
+                     <b-input-group size="md">
+                       <b-form-input
+                         id="search-input"
+                         v-model="search"
+                         type="search"
+                         placeholder="Type to Search"
+                         trim
+                       ></b-form-input>
+                     </b-input-group>
+                   </b-form-group>
+   
+                 </b-col>
+                 </b-row>
+              </b-form>
+
+              <b-table striped hover per-page="10"  :current-page="currentPage" :items="allSessionRecord?.data|| []" :fields="fields">
+                <template #cell(s_n)="data">
+                  {{  data.index + 1 }}
+                </template>
+                <template #cell(document_title)="data">
+                  <div :class="{ disabled: data.item.status == 'Completed' && data.item.any_outstanding_payments !== 0 && data?.item?.transactions?.find(transaction => transaction.parent_id == data.item.id)?.status !== 'Paid' }">
+                    <template  v-if="data?.item?.status == 'Completed'">
+                      <!-- :class="{ disabled: data.status == 'Completed' && data.any_outstanding_payments !== 0 }" -->
+                      <router-link  :to="`/admin/download/${data?.item?.document?.id}/preview`" @click="getDocument({
+                        id: data?.item?.document?.id
+                      })">
+                      {{ data?.item.title }}
+                      </router-link>
+                    </template>
+                    <template v-else>
+                      <router-link :to="`/admin/preview/${data?.item?.document?.id}/preview`" @click="getDocument({
+                        id: data?.item?.document?.id
+                      })">
+                      {{ data?.item.title }}
+                      </router-link>
+                    </template>
+                    </div>
+                 <div>
+              
+                 </div>
+               </template>
+             
+               <template #cell(time)="data">
+                 <div class="d-flex flex-column">
+                   <h6 class="user-name text-truncate mb-0">
+
+                    <!-- {{ data.item.immediate }} -->
+                    <small v-if="data.item.immediate == true" class="badge rounded-pill me-1" :class="[
+                                               data.item.immediate == true
+                                                 ? 'badge-light-danger'
+                                                 : 'badge-light-primary',
+                                             ]">
+                     {{
+                                             data.item.immediate == true
+                                             ? "Immediate Session"
+                                             : "Scheduled Session"
+                                             }}
+                   </small>
+                   <small v-else>
+            
+                    {{ time(data.item.date + " " + data.item.start_time) }}
+                    <!-- {{ time(data.item.start_time) }} -->
+                   </small>
+                     
+                   </h6>
+                 </div>
+                 </template>
+                 <template #cell(date)="data">
+                  <div class="d-flex flex-column">
+                    <h6 class="user-name text-truncate mb-0">
+                      {{ date(data.item.date ) }}
+                    </h6>
+                  </div>
+                 </template>
+                 <template #cell(status)="data">
+                   <span class="badge rounded-pill me-1" :class="[
+                                                 data.item.status == 'Pending'
+                                                   ? 'bg-warning' : data.item.status === 'Accepted' ? 'bg-success'
+                                                   : 'bg-success',
+                                               ]">
+                       {{ data.item.status }}
+                     </span>
+                   </template>
+                   <template #cell(connect)="data">
+                     <template v-if="
+                                                data.item.immediate === 1 &&
+                                                 data.item.date === today &&
+                                                 data.item.end_session === 0 
+                                               
+                                               ">
+                       <a :href="`${getEnv()}document/waiting-page/${data.item.id}`" class="btn btn-primary btn-sm">Join</a>
+                     </template>
+                     <template v-else-if="data.item.status == 'Completed'"> Completed Session </template>
+                     <template v-else>Missed Session</template>
+                     </template>
+                     <template #cell(payment_status)="data">
+                      <div class="d-flex align-items-center">
+                        <template v-if="data.item.status == 'Completed' && data.item.any_outstanding_payments !== 0 && data?.item?.transactions?.find(transaction => transaction.parent_id == data?.item.id)?.status !== 'Paid' ">
+                          
+                          <!-- {{ data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status }} -->
+                          
+                          <div>
+                            <!-- 
+                              v-show="userDocument?.outstanding_amount !== 0" 
+                            -->
+                            <button  class="btn btn-sm mb-0 btn-primary py-1 " @click="getPaymentGateways(data.item)">
+                              <Icon icon="material-symbols:lock-outline" width="18"/> Pay Now
+                            </button>
+                          </div>
+                        </template>
+                        <template  v-else >
+                          <button disabled class="btn mb-0 btn-sm btn-secondary py-1 " >
+                            <Icon icon="mdi:unlocked" width="18" /> Paid
+                          </button>
+                          <div class="ms-50">
+                            <Icon icon="mdi:tick-circle" width="24" class="text-success" />
+                          </div>
+                        </template>
+                      </div>
+                     </template>
+                     <template #cell(actions)="data">
+                      <td>
+                      
+                        <template v-if="data.item.status == 'Completed' && data.item.any_outstanding_payments == 0 ">
+                          <div class="dropdown">
+                            <a class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                              <Icon icon="oi:ellipses" :rotate="1" :verticalFlip="true" />
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" style="">
+                              <router-link :to="`/admin/download/${data?.item?.document?.id}/preview`" @click="getDocument({
+                                id: data?.item?.document?.id
+                              })"  class="dropdown-item" >
+                                <Icon icon="fontisto:preview" />
+                                Preview
+                            </router-link>
+                            </div>
+                          </div>
+                        </template>
+                        
+                      </td>
+                       </template>
+                      
+             </b-table>
+             <b-col class="my-1">  
+           <div class="d-flex justify-content-between align-items-center ">
+            <p class="fw-bold text-secondary disable">Showing {{ allSessionRecord?.meta?.from }} to {{ allSessionRecord?.meta?.to }} of {{ allSessionRecord?.meta?.total }} entries
+            </p>
+             <ul class="pagination justify-content-start my-2" role="menubar" aria-disabled="false" aria-label="Pagination">
+               <li :key="index+1" v-for="(link, index) in allSessionRecord?.meta?.links " :class="{'active': link.active, 'disabled' : link.url == null }" class="page-item " :disabled="link.url == null" role="presentation">
+                 <button v-html="link.label" @click="changePagination(link.url)" class="page-link no-whitespace" aria-controls="myTable"  role="menuitemradio" type="button" :disabled="link.url == null" tabindex="0" />
+               </li>
+               
+             </ul>
+             
+             <!-- <b-col md="2" class="my-1">
+              
+                 <b-form-select
+                   id="per-page-select"
+                   v-model="perPage"
+                   :options="pageOptions"
+                   size="md"
+                   class="mb-0"
+                   @input="changePerPage"
+                 ></b-form-select>
+           
+             </b-col> -->
+             </div> 
+             </b-col>
             </div>
   
           </div>
@@ -331,7 +505,14 @@ const today = moment().format("YYYY-MM-DD");
 const dateTime = (value) => {
   return moment(value).format("Do MMM YYYY, hh:mm A");
 };
+const date= (value) => {
+  console.log('value', value)
+  return moment(value).format("Do MMM YYYY")
+}
 
+const time = (value) => {
+  return moment(value).format("h:mm a")
+}
 defineProps({
   data: { type: Array, default: [] },
 });
@@ -349,9 +530,11 @@ const requestDetails = ref({})
 const openPaymentModal = ref(false)
 const paymentConfirmation = ref(false)
 const loadingModal = ref(false)
-const { affidavits, allSessionRecordToday } = useGetters({
+const { affidavits, allSessionRecordToday, allSessionRecord, sessionsLoading } = useGetters({
   affidavits: "schedule/affidavits",
   allSessionRecordToday: "schedule/allSessionRecordToday",
+  allSessionRecord: "schedule/allSessionRecord",
+  sessionsLoading: 'schedule/sessionsLoading'
 });
 
 const paymentGateways = computed(
@@ -359,11 +542,12 @@ const paymentGateways = computed(
 );
 const fetching = computed(() => store.state.AffidavitModule.fetching)
 
-const { getAffidavitRequest, getSessionRecordToday, getUserDocument, } = useActions({
+const { getAffidavitRequest, getSessionRecordToday, getUserDocument, getSessionRecords} = useActions({
   // getAffidavitRequest: "schedule/getAffidavitRequest",
   getAffidavitRequest: "schedule/getAffidavitRequest",
   getSessionRecordToday: "schedule/getSessionRecordToday",
   getUserDocument: "document/getUserDocument",
+  getSessionRecords: "schedule/getSessionRecords",
 
 });
 
@@ -387,7 +571,6 @@ const userProfile = computed(() => store.state.ProfileModule.userProfile)
 const reference = computed(() => {
   return requestDetails.value.document.id + randomId(5);
 });
-console.log(filterDocByAffidavitRequests, 'requests')
 
 const filterDocByNextMeeting = computed(() => {
    if (allSessionRecordToday?.value?.data?.length == 0) {
@@ -401,8 +584,36 @@ const filterDocByNextMeeting = computed(() => {
   );
   } 
 });
+const currentPage = ref()
+const fields = ref(['s_n', 'document_title', 'status', 'date', 'time', 'connect','payment_status'])
+const perPage = ref(10)
+const  pageOptions= ref([
+          { value: null, text: 'Per page' },
+          { value: '5', text: '5' },
+          { value: '10', text: '10' },
+          { value: '20', text: '20' }
+        ])
+const search = ref('')
+let page = ref()
 
-console.log(allSessionRecordToday.value, 'today')
+const changePagination = (page_number) => {
+   page.value = page_number.split('&').pop().split('=').pop()
+  getSessionRecords({entry_point: 'Affidavit', page: page.value, name: search.value, per_page: perPage.value})
+}
+
+const changePerPage = () => {
+  getSessionRecords({entry_point: 'Affidavit', page: page.value, name: search.value, per_page: perPage.value})
+}
+const submitSearch = (event) => {
+  event.preventDefault()
+  getSessionRecords({entry_point: 'Affidavit', name: search.value, per_page: perPage.value})
+}
+
+const resetSearch = (event) => {
+  event.preventDefault()
+  getSessionRecords({entry_point: 'Affidavit', per_page: perPage.value})
+
+}
 
 const SuccessfulPaymentCallback = (response) => {
   loadingModal.value = true
@@ -492,27 +703,30 @@ const virtualNotary = computed(() => {
 // });
 onMounted(() => {
   getSessionRecordToday({token: token.value,  entry_point: 'Affidavit'});
+  getSessionRecords({token: token, entry_point: 'Affidavit', page: 1});
 
   // getAffidavitRequest();
 });
 onUpdated(() => {
   setTimeout(() => {
-    if ($.fn.dataTable.isDataTable("#allrequests")) {
-      $("#allrequests").DataTable();
-    } else {
-      if (filterDocByAffidavitRequests.value.length > 0) {
-        $("#allrequests").DataTable({
-          columnDefs: [{ orderable: false, targets: [0, 6] }],
-          // order: [[3, "desc"]],
-          aaSorting: [],
-          lengthMenu: [
-            [5, 10, 25, 50, -1],
-            [5, 10, 25, 50, "All"],
-          ],
-          pageLength: 10,
-        });
-      }
-    }
+    currentPage.value = allSessionRecord?.value?.meta?.current_page
+
+    // if ($.fn.dataTable.isDataTable("#allrequests")) {
+    //   $("#allrequests").DataTable();
+    // } else {
+    //   if (filterDocByAffidavitRequests.value.length > 0) {
+    //     $("#allrequests").DataTable({
+    //       columnDefs: [{ orderable: false, targets: [0, 6] }],
+    //       // order: [[3, "desc"]],
+    //       aaSorting: [],
+    //       lengthMenu: [
+    //         [5, 10, 25, 50, -1],
+    //         [5, 10, 25, 50, "All"],
+    //       ],
+    //       pageLength: 10,
+    //     });
+    //   }
+    // }
   }, 100);
 });
 </script>

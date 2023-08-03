@@ -14,7 +14,6 @@ const allDocuments = (token) => {
 };
 
 const showDocument = (documentId) => {
-  console.log('documentId', documentId)
   return ToNote.get(`${END_POINT}/${documentId}`);
 }
 

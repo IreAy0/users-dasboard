@@ -8,14 +8,18 @@ import { getToken } from "@/Services/helpers";
 const $toast = useToast();
 
 
-export const getSessionRecords = ({ commit }, token) => {
-  Schedule.showSessionRecord(token)
+export const getSessionRecords = ({ commit }, data) => {
+  const { token, entry_point, page, name, per_page} = data
+  commit('SET_SESSION_LOADING', true)
+  Schedule.showSessionRecord(token, entry_point, page, name, per_page)
     .then((response) => {
-      commit("SET_SESSION_RECORD", response.data.data);
+      commit("SET_SESSION_RECORD", response.data);
+      commit('SET_SESSION_LOADING', false)
     })
     .catch((error) => {
       if (error.response.status === 401 || error.response.status == 422) {
         commit("SET_TOKEN", null);
+        commit('SET_SESSION_LOADING', false)
         router.push({ name: "Login" });
       }
     });

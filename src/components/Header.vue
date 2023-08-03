@@ -20,30 +20,6 @@ const userProfile = computed(() => store.state.ProfileModule.userProfile)
 
 // const fetching = computed(() => store.state.AffidavitModule.fetching)
 
-onMounted(() => {
-  socket.on('VIDEO_SIGN_REQUEST_SENT', () => {
-      console.log('data')
-      // const request = JSON.parse(data);
-      // this.getAffidavitRequest()
-        // $toast.success('You have a new request',  {
-        //   duration: 5000,
-        //   queue: false,
-        //   position: "top-right",
-        //   dismissible: true,
-        //   pauseOnHover: true,
-        // })
-      // if (request.id === this.userProfile.id) {
-       
-      //   $toast.success('You have a new request',  {
-      //     duration: 5000,
-      //     queue: false,
-      //     position: "top-right",
-      //     dismissible: true,
-      //     pauseOnHover: true,
-      //   });
-      // }
-    });
-})
 
 
 </script>

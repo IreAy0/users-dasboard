@@ -112,7 +112,19 @@
                   </div>
                 </a>
               </li>
-             
+              <!-- <li class="">
+                <a class="dropdown-item py-1" href="javascript:;">
+                  <div @click="emitSocket" class="text-center">
+                    <a class="btn btn-outline-seconday mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="14"
+                        height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-power me-50">
+                        <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                        <line x1="12" y1="2" x2="12" y2="12"></line>
+                      </svg>
+                     Disconnect</a>
+                  </div>
+                </a>
+              </li> -->
               <li class="">
                 <a class="dropdown-item py-1" href="javascript:;">
                   <div @click="logout" class="text-center">
@@ -142,6 +154,8 @@ import socket from '@/socket';
 import { useToast } from 'vue-toast-notification';
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { getToken } from '@/Services/helpers';
+import {Howl, Howler} from 'howler';
+import { ref } from 'vue';
 
 const $toast = useToast()
 
@@ -151,6 +165,20 @@ export default {
     return {
       showMenu: false,
     };
+  },
+  setup() {
+
+    var sound = new Howl({
+                      src: [require('@/assets/sounds/notify.mp3')]
+                    });
+// sound.play();
+console.log(sound, 'sound')
+    const count = ref(0)
+
+    // expose to template and other options API hooks
+    return {
+      count, sound
+    }
   },
   props: ["minNav", "color"],
   methods: {
@@ -204,8 +232,7 @@ export default {
       socket.emit('request_sent', data )
     },
     playSound(){
-    var audio = new Audio(require('@/assets/sounds/notify.mp3'));
-    audio.play();
+    this.sound.play()
   },
   },
   components: {
@@ -230,9 +257,9 @@ export default {
       const lastPart = path.split('/').pop();
       return lastPart;
     }
-  
   },
   mounted: function () {
+    // this.playSound();
     this.getUser();
     // this.getTeams()
     socket.auth = {
@@ -242,7 +269,6 @@ export default {
   sessionTitle: `session-title`,
   };
   socket.connect();
- 
   socket.on("connect_message", (data) => {
     console.log(data, 'data');
   });
@@ -266,8 +292,8 @@ export default {
     this.minNav;
     socket.on("request_sent", (data) => {
       if (data === this.userProfile.email) {
-        this.playSound();
-        $toast.success(`You've been invited you to a session`,  {
+        this.sound.play()
+        $toast.success(`New request! You've been invited to a session`,  {
           duration: 5000,
           queue: false,
           position: "top-right",
