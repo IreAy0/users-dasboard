@@ -44,8 +44,6 @@ setTimeout(() => {
 
 }, 10000);
 
-console.log('userProfile checking before timeout', store.state.ProfileModule.userProfile)
-
 function startTimer() {
   timeoutId = setTimeout(handleInactive, timeoutInMS);
 }

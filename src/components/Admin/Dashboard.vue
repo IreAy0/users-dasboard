@@ -409,9 +409,9 @@ export default {
   methods: {
     ...mapActions("ProfileModule", ["getUser"]),
     ...mapActions("AuthModule", ["logout"]),
-    close(){
-      console.log('logout')
-    },
+    // close(){
+    //   console.log('logout')
+    // },
     openNav() {
       this.navOpen = !this.navOpen;
     },

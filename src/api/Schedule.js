@@ -5,8 +5,9 @@ const REQUEST_VIRTUAL_SESSION_TODAY = "request-virtual-session-today";
 const SCHEDULE = "schedules";
 
 export default {
-  showSessionRecord(token) {
-    return ToNote.get(`${REQUEST_VIRTUAL_SESSION}?entry_point=Video`, token);
+  showSessionRecord(token, entry_point, page, name, per_page = 10) {
+    // https://dev-api.gettonote.com/api/v1/request-virtual-session?per_page=10&entry_point=Notary
+    return ToNote.get(`${REQUEST_VIRTUAL_SESSION}?${per_page ? `&per_page=${per_page}` : ''}&entry_point=${entry_point}${page ? `&page=${page}` : ''}${name ? `&title=${name}` : ''}`, token);
   },
   showSessionRecordToday(token, entry_point) {
     // Video
@@ -54,7 +55,7 @@ export default {
   },
   // 
   AffidavitRequest(data) {
-    return ToNote.get("request-virtual-session", data);
+    return ToNote.get("request-virtual-session?sort_by_desc=updated_at", data);
   },
   NotaryRequest(data) {
     return ToNote.get("document", data);

@@ -124,8 +124,8 @@ const tableRecord = computed(() => {
 });
 
 onMounted(() => {
-  getAffidavitRequest();
-  getSessionRecords(token);
+  // getAffidavitRequest();
+  // getSessionRecords(token, );
   uri.value = route.currentRoute.value.query;
   isAffidavitActive.value = uri.value.page === undefined ? true : false;
   isNotaryActive.value = uri.value.page === "notary-request" ? true : false;

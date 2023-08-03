@@ -453,7 +453,7 @@ export default {
   mounted: function () {
     this.getDashboardData();
     this.getAffidavitRequest();
-    this.getSessionRecords()
+    // this.getSessionRecords()
   }
 };
 </script>

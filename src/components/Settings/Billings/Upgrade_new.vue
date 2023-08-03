@@ -202,6 +202,7 @@
     </div>
   </b-modal>
 </template>
+
 <script setup>
 import { ref, onMounted, onUpdated, computed, defineProps, watch } from "vue";
 import ToNote from "@/Services/Tonote";
@@ -455,6 +456,29 @@ const goBack = () => {
   allMembers.value = []
 }
 
+const openCredo = () => {
+  console.log('credo', transactionDetails.value, payment_gateway.value)
+       const transRef = transactionDetails?.value?.id
+      window.CredoCheckout({
+              transRef, //Please generate your own transRef (20 characters max) that is unique for each transaction
+              amount: payment_gateway?.value?.total,
+              // redirectUrl: "https://merchant-test-line.netlify.app/successful",
+              paymentOptions: ["CARDS", "BANK"],
+              currency: "NGN",
+              customerName:  `${userProfile?.value?.first_name} ${userProfile?.value?.last_name}`,
+              customerEmail: userProfile.value?.email ,
+              customerPhoneNo: userProfile?.value?.phone,
+              onClose: function(){
+                  console.log("Modal closed")
+              },
+              
+              callback: function(){
+                  console.log("Payment Successful");
+              },
+              publicKey: "0PRI0623uYoPTOMnwG7acoRmK5Fw5kcz" // You should store your API key as an environment variable
+            })
+    }
+  
 onMounted(()=> {
  totalAmount.value = props.current_plan.amount * number_of_users.value
  teamMembers.value = props.active_team?.users?.filter(user => user.isOwner == false)

@@ -280,3 +280,7 @@ html body {
 .v-toast__item--info {
   background-color: #003bb3 !important;
 }
+
+.no-whitespace{
+  white-space: nowrap;
+}

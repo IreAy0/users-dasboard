@@ -3,6 +3,7 @@ export default {
   sessionRecordToday: null,
   rescheduleSession: null,
   time_slots: [],
+  sessionsLoading: false,
   errors: null,
   deleteSession: null,
   // schedule details form data

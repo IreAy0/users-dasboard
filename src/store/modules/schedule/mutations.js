@@ -2,6 +2,9 @@ export const SET_SESSION_RECORD = (state, doc) => {
   state.sessionRecord = doc;
 };
 
+export const SET_SESSION_LOADING = (state, payload) => {
+  state.sessionsLoading = payload
+}
 export const SET_SESSION_RECORD_TODAY = (state, doc) => {
   state.sessionRecordToday = doc;
 };
