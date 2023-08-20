@@ -18,7 +18,7 @@
   &,
   .input-group-text {
     transition: $input-transition;
-    border: none;
+    // border: none;
   }
 
   & > :not(:first-child):not(.dropdown-menu) {

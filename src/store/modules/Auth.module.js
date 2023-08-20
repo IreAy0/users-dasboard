@@ -10,6 +10,8 @@ const $toast = useToast();
 
 const state = () => ({
   accessToken: null,
+  porcessing:false,
+  siginError: false,
   loggingIn: false,
   loginError: null,
   verifying: false,
@@ -112,14 +114,14 @@ const actions = {
 
 const mutations = {
   registerRequest(state) {
-    state.loggingIn = true;
+    state.processing = true;
   },
   registerSuccess(state) {
-    state.loggedIn = false;
+    state.processing = false;
   },
   registerFailure(state, error) {
     state.loginError = error?.response?.data?.errors;
-    state.loggingIn = false;
+    state.processing = false;
   },
   verifyRequest(state) {
     state.verifying = true;

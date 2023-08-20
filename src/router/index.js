@@ -28,11 +28,11 @@ const Dashboard = () =>
 
 const SignIn = () =>
   import(
-    /* webpackChunkName: "signIn" */ "../views/auth/login/loginPage.vue"
+    /* webpackChunkName: "signIn" */ "../views/auth/login/newLogin.vue"
   );
 const RegisterPage = () =>
   import(
-    /* webpackChunkName: "register" */ "../views/auth/signUp/registerPage.vue"
+    /* webpackChunkName: "register" */ "../views/auth/signUp/newRegister.vue"
   );
 const ForgotPassword = () =>
   import(

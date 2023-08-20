@@ -303,7 +303,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 ul.hint {
   font-size: 12px;
   line-height: 21px;
