@@ -15,6 +15,7 @@ import "vue-toast-notification/dist/theme-sugar.css";
 import MaterialDashboard from "./material-dashboard";
 import Skeleton from 'vue-loading-skeleton';
 import "vue-loading-skeleton/dist/style.css"
+import vue3GoogleLogin from 'vue3-google-login'
 
 // import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
@@ -29,6 +30,9 @@ appInstance.use(BootstrapVue3)
 appInstance.use(VueSignaturePad)
 appInstance.use(ToastPlugin)
 appInstance.use(Flutterwave)
+appInstance.use(vue3GoogleLogin, {
+  clientId: '443466841189-k0psi6pvm3uiag6c3aj4gt95o98kp8pl.apps.googleusercontent.com'
+})
 // appInstance.component("EasyDataTable", Vue3EasyDataTable)
 appInstance.mount("#app");
 appInstance.use(Skeleton)
