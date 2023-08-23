@@ -3,7 +3,7 @@
       <div v-if="show"  :class="[style, 'modal-mask']" >
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " :class="size">
           <div class="modal-content" style="overflow: hidden; position:initial">
-            <div class="modal-header">
+            <div v-if="header" class="modal-header">
               <slot name="header">default header</slot>
             </div>
             <button v-if="closeBtn != false" type="button" class="btn-close" @click="$emit('close')"></button>
@@ -31,6 +31,7 @@ defineProps({
   closeBtn: { type: Boolean, default: true },
   footer: { type: Boolean, default: true },
   size: { type: String, default: "modal-lg" },
+  header:{type:String, default: true}
 });
 </script>
 

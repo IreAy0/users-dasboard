@@ -7,16 +7,7 @@
   </div>
   <div class="vector-3"></div>
     <b-row class="auth-inner m-0">
-      <!-- <div class="bg-primary"></div>
-      <div class="bg-info"></div> -->
-      <!-- Brand logo-->
-      <!-- <b-link class="brand-logo">
-        <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mt-2" width="100" />
-      </b-link> -->
-      <!-- /Brand logo-->
-
-
-      <!-- Login-->
+     
       
       <b-col
         lg="6"
@@ -87,15 +78,18 @@
                 />
               </b-input-group>
 
-              <div class="mt-50">
+              <div class="mt-50 d-flex justify-content-between">
                 <b-form-checkbox
                 @change="togglePasswordVisibility"
                 class="fs-small text-dark">
                 Show password
               </b-form-checkbox>
+              <router-link to="/forgot-password"><small>Forgot
+                Password?</small></router-link>
               </div>
             </div>
-            
+            <!-- <router-link to="/forgot-password"><small>Forgot
+              Password?</small></router-link> -->
             <!-- <div class="mb-2">
               <div class="form-check">
                 <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
@@ -144,29 +138,21 @@
           />
           </div>
          
-          <!-- :autoplay="2000" -->
-          <Carousel  :wrap-around="true"  :transition="700">
-            <Slide v-for="slide in slides"  :key="slide">
-              <div class="carousel__item">
-                <p>
-                  {{ slide }}
-                </p>
-                <a class="text-primary" href="http://"> Learn More <Icon icon="ph:arrow-right-light" />                </a>
+          <SwiperComponent :items="slideItems" />
 
-              </div>
-
-            </Slide>
-        
-            <template #addons>
-              <Pagination />
-            </template>
-          </Carousel>
         </div>
       </b-col>
       <!-- /Left Text-->
 
     </b-row>
   </div>
+
+  <ModalComp :header="false" style=" zindex " class="zindex-4 changeModalBackground" :show="openModal" :size="'modal-sm'" :footer="false"
+            @close="openModal = false">
+            <template #body>
+              <ForgotPassword />
+            </template>
+          </ModalComp>
 </template>
 
 <script>
@@ -179,19 +165,21 @@ import { Icon } from '@iconify/vue';
 // import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { togglePasswordVisibility } from '../../../@core/mixins/ui/forms'
 import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-
+import SwiperComponent from '../../../components/SwiperComponent.vue';
+import ModalComp from "@/components/ModalComp.vue";
+import ForgotPassword from '../passwords/forgotPassword.vue';
 
 const loading = ref(false);
+
 let passwordFieldType = ref("password");
 export default {
   name: 'LoginPage',
   components: {
 		Icon,
-    Carousel,
-    Slide,
-    Pagination,
-    // Navigation,
+    SwiperComponent,
+    ModalComp,
+    ForgotPassword,
+    
 	},
   data() {
     return {
@@ -199,12 +187,15 @@ export default {
         email: '',
         password: ''
       },
+      openModal: false,
       close: false,
       passwordFieldType: 'password',
-      slides: [
-        "1 We aim to streamline the process of reaching agreements and cultivate trust",
-        "2 We aim to streamline the process of reaching agreements and cultivate trust",
-        "3 We aim to streamline the process of reaching agreements and cultivate trust"
+      slideItems: [
+       'We aim to streamline the process of reaching agreements and cultivate trust',
+        'Say goodbye to the traditional hassles of finding a Notary.' ,
+        'We promote a sense of confidence and security in all your dealings.',
+        'We save valuable time and ensures the highest level of accuracy in legal documentation.',
+
       ]
     }
   },
@@ -229,7 +220,6 @@ export default {
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     handleLogin() {
       loading.value = true;
-
       const loginDetails = {
         email: this.user.email.toLocaleLowerCase(),
         password: this.user.password,
@@ -242,7 +232,9 @@ export default {
       this.passwordFieldType = this.passwordFieldType === 'text' ? 'password' : 'text';
 
     },
-
+    openForgotPasswordModal(){
+      this.openModal = true;
+    },
     //set alert timeout
     setAlertTimeout() {
       setTimeout(() => {
@@ -267,69 +259,8 @@ export default {
 
 </script>
 
-<style>
-
-.carousel__viewport{
-  background-color: #fff;
-  border-radius: 8px;
-  margin : 10px 0;
-}
-.carousel__item {
-  padding: 30px 40px;
-  
-  width: 100%;
-  color: #000;
-  font-size: 18px;
-  display: flex;
-  flex-direction: column;
-  text-align: initial;
-}
-
-.carousel__item p {
-  font-size: 18px;
-  line-height: 28px;
-  font-weight: 400;
-  color: #000
-}
-
-.carousel__item a {
-  font-size: 15px
-}
-.carousel__slide {
-  padding: 10px;
-}
-
-.carousel__prev,
-.carousel__next {
-  box-sizing: content-box;
-  border: 5px solid white;
-}
-.carousel__pagination-button::after {
-    display: block;
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #CCD8F0;
-    
-}
-.carousel__pagination-button--active::after {
-  background: #003BB3;
-
-}
-
-.carousel__pagination-button:hover::after,
-.carousel__pagination-button--active::after {
-  background-color: #003BB3;
-}
-
-.carousel-slide {
-  flex: 0 0 100%;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.carousel-slide.active {
-  opacity: 1;
+<style lang="scss">
+.changeModalBackground{
+  background: red !important;
 }
 </style>

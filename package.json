@@ -36,6 +36,7 @@
     "pdfvuer": "^2.0.1",
     "regenerator-runtime": "^0.13.9",
     "socket.io-client": "^4.7.1",
+    "swiper": "^10.2.0",
     "vee-validate": "^4.6.4",
     "vue": "^3.2.40",
     "vue-good-table": "^2.21.11",

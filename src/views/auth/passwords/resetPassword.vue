@@ -1,155 +1,278 @@
 <template lang="">
-    <div class="auth-wrapper auth-cover">
+    <div class="auth-wrapper auth-v2">
+      <div class="vector-1">
+
+      </div>
+    <div class="vector-2 ">
+    </div>
+    <div class="vector-3"></div>
     <div class="auth-inner row m-0">
-      <router-link class="brand-logo" to="/">
-        <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mt-2" width="150" />
-      </router-link>
+      
+      <div style="display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 35px;
+      " class="">
+        <!-- <router-link class="brand-logo" to="/">
+          <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mt-2" width="150" />
+        </router-link> -->
+      <div class=" m-0  bg-white shadow zindex-2 rounded-2 px-xl-3 new-auth-inner">
+        <div class="  align-items-center  ">
+          <div class="col-12 col-sm-8 col-md-6  col-lg-12 mx-auto py-3 px-2 p-xl-5 ">
+           
+            <h2 class="card-title text-gray-900 font-weight-bold mb-1 text-center">Forgot password</h2>
+            <p class="card-text mb-2 text-center">
+              Set up a new password
+            </p>
 
-      <div class="d-none d-lg-block col-lg-6 align-items-center p-0">
-        <div class=" align-items-center justify-content-center ">
-          <img class="w-100" src="/app-assets/images/pages/login_noLogo.jpg" alt="Login V2" />
-        </div>
-      </div>
-
-      <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-10 px-xl-2 mx-auto">
-          <h2 class="card-title fw-bold mb-1">Welcome to ToNote! 👋</h2>
-          <p class="card-text mb-2">
-            Please create your password.
-          </p>
-
-          <form @submit.prevent="resetPassword" >
+       
+            <form @submit.prevent="resetPassword" >
             
-            <div class="mb-2">
-              <label class="form-label" for="login-email">Email</label>
-              <input 
-              class="form-control" 
-              type="text" 
-              name="email" 
-              tabindex="1" 
-              placeholder="john@example.com"
-              v-model="resetForm.email"
-              disabled
-              />
-              <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
-            </div>
- <div class="mb-2 position-relative ">
-              <label class="form-label" for="login-email">Password</label>
-              <input 
-              class="form-control" 
-              :type="passwordFieldType" 
-              name="password" 
-              tabindex="1" 
-              placeholder="*******"
-              v-model="password"
+              <div class="mb-2">
+                <input 
+                class="form-control py-2" 
+                type="text" 
+                name="email" 
+                tabindex="1" 
+                placeholder="john@example.com"
+                v-model="resetForm.email"
+                disabled
+                />
+                <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
+              </div>
+                <div class="mb-2 position-relative ">
+                <input 
+                class="form-control py-2" 
+                :type="passwordFieldType" 
+                name="password" 
+                tabindex="1" 
+                placeholder="Create New Password"
+                v-model="password"
+                
+                />
               
-              />
-              <a type="button" class="position-absolute top-50 end-0  px-1" @click="isVisible">
-                
-                <svg v-show="passwordFieldType === 'password'"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-</svg>
-
-<svg v-show="passwordFieldType === 'text'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
-  <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
-  <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
-  <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
-</svg>
-              </a>
-              <div v-if="passwordError === true" class="text-danger text-sm">
-                "Passwords do not Match"
+                <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
               </div>
-              <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
-            </div>
-             <div class="mb-2 position-relative">
-              <label class="form-label" for="login-email">Confirm Password</label>
-              <input 
-              class="form-control" 
-              :type="passwordFieldType" 
-              name="confirm"
-              tabindex="1" 
-              placeholder="*******"
-              v-model="confirm_password"
-              />
-                  <a type="button" class="position-absolute top-50 end-0  px-1" @click="isVisible">
+               <div class="position-relative">
+                <input 
+                class="form-control py-2" 
+                :type="passwordFieldType" 
+                name="confirm"
+                tabindex="1" 
+                placeholder="Confirm New Password"
+                v-model="confirm_password"
+                />
                 
-                <svg v-show="passwordFieldType === 'password'"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-</svg>
-
-<svg v-show="passwordFieldType === 'text'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
-  <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
-  <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
-  <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
-</svg>
-              </a>
-              <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
-              <div v-if="passwordError === true" class="text-danger text-sm">
-                "Passwords do not Match"
               </div>
-            </div>
-            <div>
-              <ul class="hint">
-                <li :class="{
-                  'text--red': !pws().length < 8,
-                  'text--green': pws().length > 8,
-                }">
-                  At least 8 characters
-                </li>
-                <li :class="{
-                  'text--red': !pws().contains.includes('uppercase'),
-                  'text--green': pws().contains.includes('uppercase'),
-                }">
-                  At least 1 capital letter
-                </li>
-                <li :class="{
-                  'text--red': !pws().contains.includes('lowercase'),
-                  'text--green': pws().contains.includes('lowercase'),
-                }">
-                  At least 1 small letter
-                </li>
-                <li :class="{
-                  'text--red': !pws().contains.includes('number'),
-                  'text--green': pws().contains.includes('number'),
-                }">
-                  At least 1 number
-                </li>
-                <li :class="{
-                  'text--red': !pws().contains.includes('symbol'),
-                  'text--green': pws().contains.includes('symbol'),
-                }">
-                  At least 1 special character
-                </li>
-
-                <li class="text--red" :class="{
-                  'text--red': pws().value !== 'Too weak',
-                  'text--red': pws().value == 'Weak',
-                  'text-warning': pws().value == 'Medium',
-                  'text--green': pws().value == 'Strong',
-                }">
-                  {{ pws().value }}
-                </li>
-                <!-- <li :class="{'text--red' : passwordError === true, 'text--green' : passwordError == false , 'text--red' : !user.password } " >Passwords match</li> -->
-              </ul>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary btn-block w-100" :disabled="loading || passwordError === true || (!password &&  !confirm_password)  || pws().value == 'Too weak' || pws().value == 'Weak '">
-                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                <span>Submit</span>
-              </button>
-            </div>
-
-          </form>
-
-          <p class="text-center mt-2">
-            <span>New on our platform?</span>
-            <router-link to="/register"><span>&nbsp;Create an account</span></router-link>
-          </p>
-         
+              <!-- v-show="user.password.length > 0" -->
+              <div v-show="password.length > 0" class="mt-50">
+                <b-form-checkbox
+                  @change="togglePasswordVisibility"
+                  class="fs-small text-dark"
+                >
+                  Show password
+                </b-form-checkbox>
+              </div>
+              <!-- v-show="user.password.length > 0" -->
+              <div v-show="password.length > 0" class="progress" >
+                <div
+                  class="progress-bar"
+                  :style="{
+                    width: `${
+                      pws().value == 'Too weak'
+                        ? '20%'
+                        : pws().value == 'Weak'
+                        ? '40%'
+                        : pws().value == 'Medium'
+                        ? '60%'
+                        : pws().value == 'Strong'
+                        ? '100%'
+                        : '0%'
+                    }`,
+                    backgroundColor: `${
+                      pws().value == 'Strong'
+                        ? '#5BCC7A'
+                        : pws().value == 'Medium'
+                        ? '#25CCD7'
+                        : pws().value == 'Weak'
+                        ? '#FBDC00'
+                        : pws().value == 'Too weak'
+                        ? '#FB0066'
+                        : ''
+                    }`,
+                  }"
+                ></div>
+              </div>
+              <p class="text--black mb-50" v-show="password.length > 0">
+                Password Strength:
+                <span
+                  class="mb-0 d-inline-flex"
+                  :class="{
+                    'text--red': pws().value == 'Too weak',
+                    'text--yellow': pws().value == 'Weak',
+                    'text--teal': pws().value == 'Medium',
+                    'text--green': pws().value == 'Strong',
+                  }"
+                >
+                  {{
+                    pws().value == "Too weak"
+                      ? "Weak 😖"
+                      : pws().value == "Weak"
+                      ? "Fair 😟"
+                      : pws().value == "Medium"
+                      ? "Almost there 😉"
+                      : pws().value == "Strong"
+                      ? "Strong 😎💪"
+                      : ""
+                  }}
+                </span>
+              </p>
+              
+              <div v-show="password.length > 0">
+                <ul class="hint">
+                  <li
+                    :class="{
+                      'text--red': !pws().length < 8,
+                      'text--green': pws().length > 8,
+                    }"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    At least 8 characters
+                  </li>
+                  <li
+                    :class="{
+                      'text--red': !pws().contains.includes('uppercase'),
+                      'text--green': pws().contains.includes('uppercase'),
+                    }"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    At least 1 capital letter
+                  </li>
+                  <li
+                    :class="{
+                      'text--red': !pws().contains.includes('lowercase'),
+                      'text--green': pws().contains.includes('lowercase'),
+                    }"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    At least 1 small letter
+                  </li>
+                  <li
+                    :class="{
+                      'text--red': !pws().contains.includes('number'),
+                      'text--green': pws().contains.includes('number'),
+                    }"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    At least 1 number
+                  </li>
+                  <li
+                    :class="{
+                      'text--red': !pws().contains.includes('symbol'),
+                      'text--green': pws().contains.includes('symbol'),
+                    }"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    At least 1 special character
+                  </li>
+  
+                  <li
+                    :class="{
+                      'text--red': passwordError == true || password !== confirm_password,
+                      'text--green': passwordError === false,
+                    }"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Passwords match
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group mt-2 ">
+                <button class="btn btn-primary btn-block w-100" :disabled="loading || passwordError === true || (password.length == 0 &&  confirm_password.length==0) || ( password !== confirm_password)  || pws().value == 'Too weak' || pws().value == 'Weak ' ">
+                  <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                  <span>Reset Password</span>
+                </button>
+              </div>
+  
+            </form>
+  <p class="text-center mt-2">
+    <span>Return to</span>
+    <b-link to="/">
+      <span class="font-weight-bold">&nbsp;Sign in</span>
+    </b-link>
+    </p>
+  
+          </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -160,6 +283,7 @@ import ToNote from '@/Services/Tonote';
 import { useToast } from 'vue-toast-notification';
 import { mapMutations } from 'vuex';
 import { passwordStrength } from '../passwordChecker';
+import { togglePasswordVisibility } from "../../../@core/mixins/ui/forms";
 
 const $toast = useToast()
 export default {
@@ -170,7 +294,7 @@ export default {
     return {
       passwordFieldType: 'password',
       loading: false,
-      passwordError: false,
+      passwordError: true,
       showPass: false,
       confirm_password: "",
       password: "",
@@ -189,10 +313,15 @@ export default {
       return resetForm
     }
   },
-
+  mixins: [togglePasswordVisibility],
   watch: {
 
     confirm_password: {
+      handler(newConfirm_password, oldConfirm_password) {
+        this.checkPasswords(newConfirm_password);
+      },
+    },
+    password: {
       handler(newConfirm_password, oldConfirm_password) {
         this.checkPasswords(newConfirm_password);
       },
@@ -211,7 +340,6 @@ export default {
       // console.log(formData),
       // eslint-disable-next-line no-unused-vars
       ToNote.post('/user/password/reset', formData).then(res => {
-
         this.loading = false
         $toast.success('Successfully updated password', {
           duration: 5000,
@@ -262,11 +390,7 @@ export default {
     },
 
     checkPasswords(e) {
-      const password = document.querySelector("input[name=password]");
-      // const confirm = document.querySelector("input[name=confirm]");
-
-      if (e === password.value) {
-
+      if (this.password === this.confirm_password) {
         this.passwordError = false;
       } else {
         this.passwordError = true;
@@ -289,28 +413,59 @@ export default {
 
 </script>
 <style lang="scss" scoped>
-  ul.hint {
-    font-size: 12px;
-    line-height: 21px;
-    // list-style-type: "\1F44D" !important;
-    color: #434343;
-    padding: 0;
-  }
-  
-  ul li::before {
-    display: list-item;
-  }
-  
-  ul.hint li {
-    padding: 0 0 0 1em;
-    margin-bottom: 2px;
-  }
-  
-  .text--red {
-    color: #ee0004;
-  }
-  
-  .text--green {
-    color: #2fa36b;
-  }
+ul.hint {
+  font-size: 12px;
+  line-height: 21px;
+  list-style-type: none;
+  color: #434343;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+ul.hint li {
+  margin-bottom: 2px;
+  width: 50%;
+}
+
+.text--red {
+  color: #fb0066;
+}
+
+.text--yellow {
+  color: #fbdc00;
+}
+
+.text--teal {
+  color: #25ccd7;
+}
+.text--green {
+  color: #5bcc7a;
+}
+
+
+.text--black {
+  color: #000;
+  font-weight: 400;
+}
+.progress {
+  overflow: hidden;
+  height: 6px;
+  margin: 10px 0px;
+  background-color: #f5f6f7;
+  border-radius: 20px;
+}
+
+.progress-bar {
+  float: left;
+  width: 0%;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: #ffffff;
+  text-align: center;
+  -webkit-transition: width 0.6s ease;
+  -o-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+}
   </style>

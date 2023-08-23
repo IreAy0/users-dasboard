@@ -1,9 +1,9 @@
 <template>
  
   <router-view v-slot="{ Component }">
-    <transition-page>
+    <transition :name=" 'fade'">
       <component :is="Component" />
-    </transition-page>
+    </transition>
   </router-view>
 </template>
 <script setup>
@@ -92,4 +92,13 @@ onMounted(() => {
 
 </script>
 <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
