@@ -33,6 +33,8 @@ appInstance.use(Flutterwave)
 appInstance.use(vue3GoogleLogin, {
   clientId: '443466841189-k0psi6pvm3uiag6c3aj4gt95o98kp8pl.apps.googleusercontent.com'
 })
+// 887717241670-ad7fbn5akg68uojteieilqp5p5s0l7hp.apps.googleusercontent.com
+// 443466841189-k0psi6pvm3uiag6c3aj4gt95o98kp8pl.apps.googleusercontent.com
 // appInstance.component("EasyDataTable", Vue3EasyDataTable)
 appInstance.mount("#app");
 appInstance.use(Skeleton)

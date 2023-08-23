@@ -8,7 +8,15 @@
   overflow: hidden;
 }
 
+.newBackground{
+  background-image: url('../../images/banner/authbg.png');
+  background-repeat: no-repeat;
+  background-position: center ;
+}
 
+.new-auth-inner{
+  width: 608px;
+}
 .auth-wrapper .auth-inner {
   width: 100%; }
 
