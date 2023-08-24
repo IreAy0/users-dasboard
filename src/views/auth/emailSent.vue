@@ -20,6 +20,12 @@
     <div class="m-0 bg-white shadow zindex-2 rounded-2 px-xl-3 new-auth-inner">
       <div class="  align-items-center ">
         <div class="col-12 col-sm-8 col-md-6  col-lg-12 mx-auto py-3 px-2 p-xl-3 text-center">
+          <div class="brand-logo">
+            <router-link to="/">
+              <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mb-2" width="150" />
+              <h2 class="brand-text text-primary ms-1"></h2>
+            </router-link>
+          </div>
           <div style="background-color: rgba(0,59,179,0.2);width: 40px; height:40px;margin: auto" class="p-50 text-primary mb-1 rounded-circle d-flex align-items-center">
 
             <span  class="iconify " data-icon="carbon:email" data-width="24"></span>
@@ -119,9 +125,9 @@ export default {
   beforeMount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
-    if (!this.email) {
-      this.$router.push({path: '/forgot-password'})
-    }
+    // if (!this.email) {
+    //   this.$router.push({path: '/forgot-password'})
+    // }
   },
   beforeUnmount() {
     this.toggleEveryDisplay();

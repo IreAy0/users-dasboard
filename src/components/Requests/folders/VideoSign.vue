@@ -190,7 +190,7 @@
                           type="search"
                           placeholder="Type to Search"
                           trim
-                          @update:model-value="submitSearch"
+                          @input="submitSearch"
                         ></b-form-input>
                       </b-input-group>
                     </b-form-group>

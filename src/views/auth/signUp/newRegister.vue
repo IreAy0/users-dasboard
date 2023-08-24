@@ -35,9 +35,9 @@
           >
             Get started with us
           </b-card-title>
-          <!-- <GoogleLogin :callback="callback">
+          <!-- <GoogleLogin  :callback="loginCallback" /> -->
             
-          </GoogleLogin> -->
+            
           <b-button
             variant="outline-button"
             block
@@ -592,11 +592,16 @@ export default {
       // his Google account from the popup
       googleAuthCodeLogin().then((response) => {
         //  const userData = decodeCredential(response.credential)
-        console.log("Handle the response", response);
+        console.log("Handle the response", response );
       });
       // const userData = decodeCredential(response.credential)
       // console.log("Handle the userData", userData)
       // console.log("Handle the response", response)
+    },
+    loginCallback(response){
+       const userData = decodeCredential(response.credential)
+      console.log("Handle the userData", userData)
+      console.log("Handle the response", response)
     },
     termsError() {
       return this.validated && !this.termsState;
