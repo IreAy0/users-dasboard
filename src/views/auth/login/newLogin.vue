@@ -35,7 +35,7 @@
           class="w-100 text-gray-700 outline-button"
         >
         <Icon icon="flat-color-icons:google" class="me-50" width="24" />
-          <span class="align-middle">Sign up with Google</span>
+          <span class="align-middle">Sign in with Google</span>
         </b-button>
           <!-- divider -->
           <div class="divider m-0">
@@ -113,9 +113,9 @@
 
           <b-card-text class="text-center">
             <span>New on our platform? </span>
-            <b-link  to="/register">
-              <span class="font-weight-bold">&nbsp;Create an account</span>
-            </b-link>
+            <router-link  class="font-weight-bold" to="/register">
+             &nbsp;Create an account
+            </router-link>
           </b-card-text>
 
          
@@ -138,25 +138,73 @@
           />
           </div>
          
-          <SwiperComponent :items="slideItems" />
-
+            <div ref="loginSwiper"  class="loginSwiper swiper-container mySwiper myswiper-container">
+                <div class="swiper-wrapper ">
+                  <div class="swiper-slide bg-white " v-for="(item, index) in items" :key="index">
+                    <!-- <img :src="item" alt="Slide Image" /> -->
+                    <p>
+                      {{ item }}
+                    </p>
+                  </div>
+                  
+                </div>
+                <a class="text-primary" href="http://">
+                  Learn More <Icon icon="ph:arrow-right-light" />
+                </a> 
+            </div>
+          
+            <div class="m-auto d-flex align-items-center justify-content-center mt-2 gap-3 ">
+              <div >
+                 <svg
+              class="swiper-button-prev"
+              :class="customClassName + '__prev'"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+            >
+              <path
+                d="M12.5 15.24L7.5 10.24L12.5 5.23999"
+                stroke="currentColor"
+                stroke-width="1.67"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+              </div>
+               <div class="swiper-pagination swiper-login-pagination"></div>
+              <div >
+                <svg
+              class="swiper-button-next"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+            >
+              <path
+                d="M7.5 15.24L12.5 10.24L7.5 5.23999"
+                stroke="currentColor"
+                stroke-width="1.67"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+              </div>
+            </div>
+          
         </div>
       </b-col>
-      <!-- /Left Text-->
 
     </b-row>
   </div>
 
-  <ModalComp :header="false" style=" zindex " class="zindex-4 changeModalBackground" :show="openModal" :size="'modal-sm'" :footer="false"
-            @close="openModal = false">
-            <template #body>
-              <ForgotPassword />
-            </template>
-          </ModalComp>
+  
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mapState, mapActions } from 'vuex'
 import { mapMutations } from "vuex";
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
@@ -164,10 +212,9 @@ import { Icon } from '@iconify/vue';
 // import { required, email } from '../../../@core/validations'
 // import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { togglePasswordVisibility } from '../../../@core/mixins/ui/forms'
-import 'vue3-carousel/dist/carousel.css'
-import SwiperComponent from '../../../components/SwiperComponent.vue';
 import ModalComp from "@/components/ModalComp.vue";
 import ForgotPassword from '../passwords/forgotPassword.vue';
+import { initSwiper, destroySwiper } from '../../../components/SwiperInstance.js';
 
 const loading = ref(false);
 
@@ -176,9 +223,9 @@ export default {
   name: 'LoginPage',
   components: {
 		Icon,
-    SwiperComponent,
-    ModalComp,
-    ForgotPassword,
+    // SwiperComponent,
+    // ModalComp,
+    // ForgotPassword,
     
 	},
   data() {
@@ -190,13 +237,13 @@ export default {
       openModal: false,
       close: false,
       passwordFieldType: 'password',
-      slideItems: [
+     items: [
        'We aim to streamline the process of reaching agreements and cultivate trust',
         'Say goodbye to the traditional hassles of finding a Notary.' ,
         'We promote a sense of confidence and security in all your dealings.',
         'We save valuable time and ensures the highest level of accuracy in legal documentation.',
 
-      ]
+      ],
     }
   },
   mixins: [togglePasswordVisibility],
@@ -207,6 +254,27 @@ export default {
     },
 
   },
+  mounted() {
+      initSwiper(this.$refs.loginSwiper, {
+        spaceBetween: 50,
+        loop: true,
+        // speed:500,
+        effect: 'fade',
+        pagination: {
+          el: '.swiper-login-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+      
+    });
+  },
   beforeMount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
@@ -214,7 +282,10 @@ export default {
   beforeUnmount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
+    destroySwiper();
+    
   },
+
   methods: {
     ...mapActions('AuthModule', ['login']),
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
@@ -227,7 +298,6 @@ export default {
       }
       this.login(loginDetails)
     },
-
     isVisible() {
       this.passwordFieldType = this.passwordFieldType === 'text' ? 'password' : 'text';
 
@@ -253,14 +323,84 @@ export default {
     }
   
   },
-  deep: true
-
+  deep: true,
+  
 }
 
 </script>
 
 <style lang="scss">
-.changeModalBackground{
-  background: red !important;
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+}
+
+.myswiper-container {
+  padding: 30px 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin: 10px 0;
+  width: 100%;
+  color: #000;
+  font-size: 18px;
+ // display: flex;
+ // flex-direction: column;
+  text-align: initial;
+}
+
+.myswiper-container p {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #000;
+}
+
+.myswiper-container a {
+  font-size: 15px;
+}
+
+.swiper-slide{
+  opacity:0 !important;
+}
+.swiper-slide-active{
+  opacity: 1 !important;
+}
+.swiper-pagination {
+  position: relative;
+}
+
+.swiper-pagination .swiper-pagination-bullet {
+  margin: 0 6px;
+}
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+   top: 0;
+   width: auto;
+}
+.swiper-button-prev {
+  // display: none;
+  display: block;
+  margin-top: 0;
+  position: relative;
+  // top: 83.5%;
+  left: auto;
+  z-index: 2;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.swiper-button-next {
+  //display: none;
+  position: relative;
+  display: block;
+  margin-top: 0;
+  // top: 83.5%;
+  right: auto;
+  z-index: 2;
+
+  &:focus {
+    outline: none;
+  }
 }
 </style>

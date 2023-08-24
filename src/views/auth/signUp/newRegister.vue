@@ -372,7 +372,61 @@
             />
           </div>
          
-        <SwiperComponent :items="slideItems" />
+          <div ref="signSwiper" class="swiper-container mySwiper myswiper-container">
+            <div class="swiper-wrapper ">
+              <div class="swiper-slide bg-white " v-for="(item, index) in items" :key="index">
+                <!-- <img :src="item" alt="Slide Image" /> -->
+                <p>
+                  {{ item }}
+                </p>
+              </div>
+              
+            </div>
+            <a class="text-primary" href="http://">
+              Learn More <Icon icon="ph:arrow-right-light" />
+            </a> 
+        </div>
+      
+        <div class="m-auto d-flex align-items-center justify-content-center mt-2 gap-3 ">
+          <div  >
+             <svg
+          class="swiper-button-prev swiper-sign-prev"
+          :class="customClassName + '__prev'"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+        >
+          <path
+            d="M12.5 15.24L7.5 10.24L12.5 5.23999"
+            stroke="currentColor"
+            stroke-width="1.67"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+          </div>
+           <div class="swiper-pagination swiper-sign-pagination"></div>
+          <div >
+            <svg
+          class="swiper-button-next swiper-sign-next"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+        >
+          <path
+            d="M7.5 15.24L12.5 10.24L7.5 5.23999"
+            stroke="currentColor"
+            stroke-width="1.67"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+          </div>
+        </div>
      
           <!-- :autoplay="2000" -->
         
@@ -394,7 +448,7 @@ import * as yup from "yup";
 import { decodeCredential, googleAuthCodeLogin, googleTokenLogin } from "vue3-google-login";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { togglePasswordVisibility } from "../../../@core/mixins/ui/forms";
-import SwiperComponent from '../../../components/SwiperComponent.vue';
+import { initSwiper, destroySwiper } from '../../../components/SwiperInstance.js';
 
 export default {
   name: "RegisterPage",
@@ -402,7 +456,7 @@ export default {
     Icon,
     Form,
     Field,
-    SwiperComponent
+    // SwiperComponent
   },
   data() {
     return {
@@ -421,13 +475,13 @@ export default {
       confirm_password: "",
       passwordFieldType: "password",
       // passwordFieldType: 'password',
-      slideItems: [
+      items: [
        'We aim to streamline the process of reaching agreements and cultivate trust',
         'Say goodbye to the traditional hassles of finding a Notary.' ,
         'We promote a sense of confidence and security in all your dealings.',
         'We save valuable time and ensures the highest level of accuracy in legal documentation.',
 
-      ]
+      ],
     };
   },
 
@@ -465,10 +519,29 @@ export default {
       },
     },
   },
-
+  mounted() {
+    initSwiper(this.$refs.signSwiper, {
+        spaceBetween: 50,
+        loop: true,
+        // speed:500,
+        effect: 'fade',
+        pagination: {
+          el: '.swiper-sign-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+      
+    });
+  },
   methods: {
     onSubmit(values) {
-      console.log(JSON.stringify(values, null, 2));
       this.submitted = true;
       const registerDetails = {
         first_name: values.first_name,
@@ -488,7 +561,7 @@ export default {
     pws() {
       return passwordStrength(this.user.password);
     },
-
+   
     checkPasswords(e) {
       if (this.user.password === this.confirm_password) {
         this.passwordError = false;
@@ -537,7 +610,9 @@ export default {
   beforeUnmount() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
+    destroySwiper()
   },
+ 
   // },
 };
 </script>
@@ -599,5 +674,77 @@ ul.hint li {
   transition: width 0.6s ease;
 }
 
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+}
 
+.myswiper-container {
+  padding: 30px 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin: 10px 0;
+  width: 100%;
+  color: #000;
+  font-size: 18px;
+ // display: flex;
+ // flex-direction: column;
+  text-align: initial;
+}
+
+.myswiper-container p {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #000;
+}
+
+.myswiper-container a {
+  font-size: 15px;
+}
+
+.swiper-slide{
+  opacity:0 !important;
+}
+.swiper-slide-active{
+  opacity: 1 !important;
+}
+.swiper-pagination {
+  position: relative;
+}
+
+.swiper-pagination .swiper-pagination-bullet {
+  margin: 0 6px;
+}
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+   top: 0;
+   width: auto;
+}
+.swiper-button-prev {
+  // display: none;
+  display: block;
+  margin-top: 0;
+  position: relative;
+  // top: 83.5%;
+  left: auto;
+  z-index: 2;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.swiper-button-next {
+  //display: none;
+  position: relative;
+  display: block;
+  margin-top: 0;
+  // top: 83.5%;
+  right: auto;
+  z-index: 2;
+
+  &:focus {
+    outline: none;
+  }
+}
 </style>
