@@ -180,7 +180,7 @@
                           v-model="search"
                           type="search"
                           placeholder="Type to Search"
-                          @update:model-value="submitSearch"
+                          @input="submitSearch"
                           trim
                         ></b-form-input>
                       </b-input-group>

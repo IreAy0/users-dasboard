@@ -9,13 +9,8 @@
               <h3 class="">Next Scheduled Meeting Today</h3>
 
               <template v-if="filterDocByNextMeeting?.length > 0">
-                <template
-                  v-for="(result, index) in filterDocByNextMeeting"
-                  :key="index"
-                >
-                  <div
-                    class="border-bottom py-1 d-flex justify-content-between"
-                  >
+                <template v-for="(result, index) in filterDocByNextMeeting" :key="index">
+                  <div class="border-bottom py-1 d-flex justify-content-between">
                     <div>
                       <div class="h5">Title: {{ result.title }}</div>
                       <div class="text-mute">
@@ -23,13 +18,8 @@
                       </div>
                     </div>
                     <div>
-                      <a
-                        :href="`${virtualNotary}/session-prep/${
-                          result.id
-                        }?token=${getToken()}`"
-                        class="btn btn-primary btn-sm"
-                        >Join now</a
-                      >
+                      <a :href="`${virtualNotary}/session-prep/${result.id
+                        }?token=${getToken()}`" class="btn btn-primary btn-sm">Join now</a>
                     </div>
                   </div>
                 </template>
@@ -42,22 +32,11 @@
           <div class="card-header d-flex justify-content-between">
             <h4 class="card-title">Affidavit Requests</h4>
             <div class="wrap">
-              <a
-                :href="`${virtualNotary}/schedule?session=affidavit&token=${token}`"
-                class="btn btn-primary waves-effect"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-plus"
-                >
+              <a :href="`${virtualNotary}/schedule?session=affidavit&token=${token}`"
+                class="btn btn-primary waves-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-plus">
                   <line x1="12" y1="5" x2="12" y2="19"></line>
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
@@ -166,23 +145,15 @@
                 </tbody>
               </table> -->
 
-              <b-form  @submit="submitSearch" @reset="resetSearch">
+              <b-form @submit="submitSearch" @reset="resetSearch">
                 <b-row align-h="end">
                   <b-col lg="4" align-self="end">
-                    <b-form-group
-                      class="mb-1"
-                      label="Search"
-                      label-for="search-input"
-                    >
+                    <b-form-group class="mb-1" label="Search" label-for="search-input">
                       <b-input-group size="md">
-                        <b-form-input
-                          id="search-input"
-                          v-model="search"
-                          type="search"
-                          placeholder="Type to Search"
-                          trim
-                          @update:model-value="submitSearch"
-                        ></b-form-input>
+                        <b-form-input  @input="submitSearch" id="search-input" v-model="search" type="search" placeholder="Type to Search"
+                          ></b-form-input>
+                        <!-- <b-button type="submit" class="btn btn-primary">Search</b-button>
+                        <b-button type="button" @click="resetSearch" class="btn btn-primary">Reset</b-button> -->
                       </b-input-group>
                     </b-form-group>
                   </b-col>
@@ -190,51 +161,36 @@
               </b-form>
               <TableSkeleton v-if="sessionsLoading == true" />
 
-              <b-table
-                v-else
-                striped
-                hover
-                per-page="10"
-                :current-page="currentPage"
-                :items="allSessionRecord?.data || []"
-                :fields="fields"
-              >
+              <b-table v-else striped hover per-page="10" :current-page="currentPage"
+                :items="allSessionRecord?.data || []" :fields="fields">
                 <template #cell(s_n)="data">
                   {{ data.index + 1 }}
                 </template>
                 <template #cell(document_title)="data">
-                  <div
-                    :class="{
-                      disabled:
-                        data.item.status == 'Completed' &&
-                        data.item.any_outstanding_payments !== 0 &&
-                        data?.item?.transactions?.find(
-                          (transaction) => transaction.parent_id == data.item.id
-                        )?.status !== 'Paid',
-                    }"
-                  >
+                  <div :class="{
+                    disabled:
+                      data.item.status == 'Completed' &&
+                      data.item.any_outstanding_payments !== 0 &&
+                      data?.item?.transactions?.find(
+                        (transaction) => transaction.parent_id == data.item.id
+                      )?.status !== 'Paid',
+                  }">
                     <template v-if="data?.item?.status == 'Completed'">
                       <!-- :class="{ disabled: data.status == 'Completed' && data.any_outstanding_payments !== 0 }" -->
-                      <router-link
-                        :to="`/admin/download/${data?.item?.document?.id}/preview`"
-                        @click="
-                          getDocument({
-                            id: data?.item?.document?.id,
-                          })
-                        "
-                      >
+                      <router-link :to="`/admin/download/${data?.item?.document?.id}/preview`" @click="
+                        getDocument({
+                          id: data?.item?.document?.id,
+                        })
+                        ">
                         {{ data?.item.title }}
                       </router-link>
                     </template>
                     <template v-else>
-                      <router-link
-                        :to="`/admin/preview/${data?.item?.document?.id}/preview`"
-                        @click="
-                          getDocument({
-                            id: data?.item?.document?.id,
-                          })
-                        "
-                      >
+                      <router-link :to="`/admin/preview/${data?.item?.document?.id}/preview`" @click="
+                        getDocument({
+                          id: data?.item?.document?.id,
+                        })
+                        ">
                         {{ data?.item.title }}
                       </router-link>
                     </template>
@@ -246,19 +202,15 @@
                   <div class="d-flex flex-column">
                     <h6 class="user-name text-truncate mb-0">
                       <!-- {{ data.item.immediate }} -->
-                      <small
-                        v-if="data.item.immediate == true"
-                        class="badge rounded-pill me-1"
-                        :class="[
-                          data.item.immediate == true
-                            ? 'badge-light-danger'
-                            : 'badge-light-primary',
-                        ]"
-                      >
+                      <small v-if="data.item.immediate == true" class="badge rounded-pill me-1" :class="[
+                        data.item.immediate == true
+                          ? 'badge-light-danger'
+                          : 'badge-light-primary',
+                      ]">
                         {{
                           data.item.immediate == true
-                            ? "Immediate Session"
-                            : "Scheduled Session"
+                          ? "Immediate Session"
+                          : "Scheduled Session"
                         }}
                       </small>
                       <small v-else>
@@ -276,33 +228,24 @@
                   </div>
                 </template>
                 <template #cell(status)="data">
-                  <span
-                    class="badge rounded-pill me-1"
-                    :class="[
-                      data.item.status == 'Pending'
-                        ? 'bg-warning'
-                        : data.item.status === 'Accepted'
+                  <span class="badge rounded-pill me-1" :class="[
+                    data.item.status == 'Pending'
+                      ? 'bg-warning'
+                      : data.item.status === 'Accepted'
                         ? 'bg-success'
                         : 'bg-success',
-                    ]"
-                  >
+                  ]">
                     {{ data.item.status }}
                   </span>
                 </template>
                 <template #cell(connect)="data">
-                  <template
-                    v-if="
-                      data.item.immediate === 1 &&
-                      data.item.date === today &&
-                      data.item.end_session === 0
-                    "
-                  >
+                  <template v-if="data.item.immediate === 1 &&
+                    data.item.date === today &&
+                    data.item.end_session === 0
+                    ">
                     <!-- <a :href="`${virtualNotary}/session-prep/${data.id}?token=${token}`" -->
-                    <a
-                      :href="`${virtualNotary}/session-prep/${data.item.id}?token=${token}`"
-                      class="btn btn-primary btn-sm"
-                      >Join</a
-                    >
+                    <a :href="`${virtualNotary}/session-prep/${data.item.id}?token=${token}`"
+                      class="btn btn-primary btn-sm">Join</a>
                   </template>
                   <template v-else-if="data.item.status == 'Completed'">
                     Completed Session
@@ -311,81 +254,51 @@
                 </template>
                 <template #cell(payment_status)="data">
                   <div class="d-flex align-items-center">
-                    <template
-                      v-if="
-                        data.item.status == 'Completed' &&
-                        data.item.any_outstanding_payments !== 0 &&
-                        data?.item?.transactions?.find(
-                          (transaction) =>
-                            transaction.parent_id == data?.item.id
-                        )?.status !== 'Paid'
-                      "
-                    >
+                    <template v-if="data.item.status == 'Completed' &&
+                      data.item.any_outstanding_payments !== 0 &&
+                      data?.item?.transactions?.find(
+                        (transaction) =>
+                          transaction.parent_id == data?.item.id
+                      )?.status !== 'Paid'
+                      ">
                       <!-- {{ data?.transactions?.find(transaction => transaction.parent_id == data.id)?.status }} -->
 
                       <div>
                         <!-- 
                               v-show="userDocument?.outstanding_amount !== 0" 
                             -->
-                        <button
-                          class="btn btn-sm mb-0 btn-primary py-1"
-                          @click="getPaymentGateways(data.item)"
-                        >
-                          <Icon
-                            icon="material-symbols:lock-outline"
-                            width="18"
-                          />
+                        <button class="btn btn-sm mb-0 btn-primary py-1" @click="getPaymentGateways(data.item)">
+                          <Icon icon="material-symbols:lock-outline" width="18" />
                           Pay Now
                         </button>
                       </div>
                     </template>
                     <template v-else>
-                      <button
-                        disabled
-                        class="btn mb-0 btn-sm btn-secondary py-1"
-                      >
+                      <button disabled class="btn mb-0 btn-sm btn-secondary py-1">
                         <Icon icon="mdi:unlocked" width="18" /> Paid
                       </button>
                       <div class="ms-50">
-                        <Icon
-                          icon="mdi:tick-circle"
-                          width="24"
-                          class="text-success"
-                        />
+                        <Icon icon="mdi:tick-circle" width="24" class="text-success" />
                       </div>
                     </template>
                   </div>
                 </template>
                 <template #cell(actions)="data">
                   <td>
-                    <template
-                      v-if="
-                        data.item.status == 'Completed' &&
-                        data.item.any_outstanding_payments == 0
-                      "
-                    >
+                    <template v-if="data.item.status == 'Completed' &&
+                      data.item.any_outstanding_payments == 0
+                      ">
                       <div class="dropdown">
-                        <a
-                          class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <Icon
-                            icon="oi:ellipses"
-                            :rotate="1"
-                            :verticalFlip="true"
-                          />
+                        <a class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          <Icon icon="oi:ellipses" :rotate="1" :verticalFlip="true" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" style="">
-                          <router-link
-                            :to="`/admin/download/${data?.item?.document?.id}/preview`"
-                            @click="
-                              getDocument({
-                                id: data?.item?.document?.id,
-                              })
-                            "
-                            class="dropdown-item"
-                          >
+                          <router-link :to="`/admin/download/${data?.item?.document?.id}/preview`" @click="
+                            getDocument({
+                              id: data?.item?.document?.id,
+                            })
+                            " class="dropdown-item">
                             <Icon icon="fontisto:preview" />
                             Preview
                           </router-link>
@@ -402,33 +315,15 @@
                     {{ allSessionRecord?.meta?.to }} of
                     {{ allSessionRecord?.meta?.total }} entries
                   </p>
-                  <ul
-                    class="pagination justify-content-start my-2"
-                    role="menubar"
-                    aria-disabled="false"
-                    aria-label="Pagination"
-                  >
-                    <li
-                      :key="index + 1"
-                      v-for="(link, index) in allSessionRecord?.meta?.links"
-                      :class="{
-                        active: link.active,
-                        disabled: link.url == null,
-                      }"
-                      class="page-item"
-                      :disabled="link.url == null"
-                      role="presentation"
-                    >
-                      <button
-                        v-html="link.label"
-                        @click="changePagination(link.url)"
-                        class="page-link no-whitespace"
-                        aria-controls="myTable"
-                        role="menuitemradio"
-                        type="button"
-                        :disabled="link.url == null"
-                        tabindex="0"
-                      />
+                  <ul class="pagination justify-content-start my-2" role="menubar" aria-disabled="false"
+                    aria-label="Pagination">
+                    <li :key="index + 1" v-for="(link, index) in allSessionRecord?.meta?.links" :class="{
+                      active: link.active,
+                      disabled: link.url == null,
+                    }" class="page-item" :disabled="link.url == null" role="presentation">
+                      <button v-html="link.label" @click="changePagination(link.url)" class="page-link no-whitespace"
+                        aria-controls="myTable" role="menuitemradio" type="button" :disabled="link.url == null"
+                        tabindex="0" />
                     </li>
                   </ul>
 
@@ -453,12 +348,7 @@
     </div>
   </div>
 
-  <ModalComp
-    :show="openPaymentModal"
-    :size="'modal-md'"
-    :footer="true"
-    @close="openPaymentModal = false"
-  >
+  <ModalComp :show="openPaymentModal" :size="'modal-md'" :footer="true" @close="openPaymentModal = false">
     <template #header>
       <h5 class="modal-title">Make Outstanding payment</h5>
     </template>
@@ -486,25 +376,12 @@
           <p class="h5 fw-bold my-2">Select payment option</p>
 
           <div class="payment__options gap-2">
-            <label
-              v-for="payment_gateway in paymentGateways"
-              :key="payment_gateway.id"
-              class="payment__option"
-              :for="payment_gateway.gateway.name"
-            >
-              <input
-                name="payment_gateway"
-                v-model="selectedPayment_gateway"
-                :value="payment_gateway.gateway"
-                type="radio"
-                :id="payment_gateway.gateway.name"
-              />
+            <label v-for="payment_gateway in paymentGateways" :key="payment_gateway.id" class="payment__option"
+              :for="payment_gateway.gateway.name">
+              <input name="payment_gateway" v-model="selectedPayment_gateway" :value="payment_gateway.gateway"
+                type="radio" :id="payment_gateway.gateway.name" />
               <div class="payment__option-content">
-                <img
-                  loading="lazy"
-                  :src="payment_gateway.gateway.file"
-                  :alt="payment_gateway.gateway.name"
-                />
+                <img loading="lazy" :src="payment_gateway.gateway.file" :alt="payment_gateway.gateway.name" />
                 <div class="payment__option-details">
                   <span> {{ payment_gateway.gateway.name }}</span>
                 </div>
@@ -513,11 +390,8 @@
           </div>
 
           <div class="modal-footer d-flex justify-content-end mt-3">
-            <button
-              @click="Payment_flutterwave"
-              v-if="selectedPayment_gateway.name === 'Flutterwave'"
-              class="btn btn-primary"
-            >
+            <button @click="Payment_flutterwave" v-if="selectedPayment_gateway.name === 'Flutterwave'"
+              class="btn btn-primary">
               Pay Now
             </button>
             <!-- <flutterwave-pay-button
@@ -543,43 +417,22 @@
             <!-- {{ selectedPayment_gateway }} -->
             <!-- {{ transactionSummary?.payment_methods?.filter(method => method.name == selectedPayment_gateway.name)[0]?.total * 100}} -->
 
-            <paystack
-              buttonClass="btn btn-primary"
-              buttonText="Pay Now"
-              :publicKey="payStackKey"
-              :email="userProfile.email"
-              :amount="
-                transactionSummary?.payment_methods?.filter(
-                  (method) => method.name == selectedPayment_gateway.name
-                )[0]?.total * 100
-              "
-              :reference="transactionSummary.id"
-              :onSuccess="SuccessfulPaymentCallback"
-              :onCancel="close"
-              v-if="selectedPayment_gateway.name === 'Paystack'"
-              @click="$emit('close')"
-              :channels="['card', 'bank', 'bank_transfer']"
-            >
+            <paystack buttonClass="btn btn-primary" buttonText="Pay Now" :publicKey="payStackKey"
+              :email="userProfile.email" :amount="transactionSummary?.payment_methods?.filter(
+                (method) => method.name == selectedPayment_gateway.name
+              )[0]?.total * 100
+                " :reference="transactionSummary.id" :onSuccess="SuccessfulPaymentCallback" :onCancel="close"
+              v-if="selectedPayment_gateway.name === 'Paystack'" @click="$emit('close')"
+              :channels="['card', 'bank', 'bank_transfer']">
             </paystack>
           </div>
         </div>
       </div>
     </template>
   </ModalComp>
-  <b-modal
-    id="modal-center"
-    hide-header-close
-    centered
-    hide-footer
-    ref="loading-modal"
-    v-model="loadingModal"
-  >
+  <b-modal id="modal-center" hide-header-close centered hide-footer ref="loading-modal" v-model="loadingModal">
     <div class="d-flex flex-column align-items-center text-center">
-      <img
-        src="@/assets/logo.png"
-        alt="ToNote Logo"
-        class="my-1 confimation__logo"
-      />
+      <img src="@/assets/logo.png" alt="ToNote Logo" class="my-1 confimation__logo" />
 
       <h4 class="fw-bolder my-1">Payment Processing</h4>
       <div class="mb-1">
@@ -591,29 +444,14 @@
       </button> -->
     </div>
   </b-modal>
-  <b-modal
-    id="modal-scrollable"
-    centered
-    hide-footer
-    ref="payment-modal"
-    v-model="paymentConfirmation"
-  >
+  <b-modal id="modal-scrollable" centered hide-footer ref="payment-modal" v-model="paymentConfirmation">
     <div class="d-flex flex-column align-items-center text-center">
-      <img
-        src="@/assets/logo.png"
-        alt="ToNote Logo"
-        class="my-1 confimation__logo"
-      />
+      <img src="@/assets/logo.png" alt="ToNote Logo" class="my-1 confimation__logo" />
 
       <h4 class="fw-bolder my-1">Payment Successful!</h4>
       <p class="mb-1">Your plan has been successfully upgraded</p>
-      <button
-        class="btn my-1"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-        @click="!paymentConfirmation"
-        style="background: #e5e7e9"
-      >
+      <button class="btn my-1" data-bs-dismiss="modal" aria-label="Close" @click="!paymentConfirmation"
+        style="background: #e5e7e9">
         Got it
       </button>
     </div>
@@ -668,20 +506,20 @@ const payStackKey =
   process.env.VUE_APP_ENVIRONMENT == "local"
     ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_DEV
     : process.env.VUE_APP_ENVIRONMENT == "staging"
-    ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING
-    : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE;
+      ? process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_STAGING
+      : process.env.VUE_APP_PAYSTACK_PUBLIC_KEY_LIVE;
 const flutterwaveKey =
   process.env.VUE_APP_ENVIRONMENT == "local"
     ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_DEV
     : process.env.VUE_APP_ENVIRONMENT == "staging"
-    ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING
-    : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE;
+      ? process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_STAGING
+      : process.env.VUE_APP_FLUTTERWAVE_PUBLIC_KEY_LIVE;
 const redirect_url =
   process.env.VUE_APP_ENVIRONMENT == "local"
     ? process.env.VUE_APP_BASE_URL_LOCAL
     : process.env.VUE_APP_ENVIRONMENT == "staging"
-    ? process.env.VUE_APP_BASE_URL_STAGING
-    : process.env.VUE_APP_BASE_URL_LIVE;
+      ? process.env.VUE_APP_BASE_URL_STAGING
+      : process.env.VUE_APP_BASE_URL_LIVE;
 
 const selectedPayment_gateway = ref("");
 const transactionSummary = ref({});
@@ -807,10 +645,9 @@ const SuccessfulPaymentCallback = (response) => {
   openPaymentModal.value = false;
   return (
     ToNote.put(
-      `/transactions/${
-        selectedPayment_gateway?.value?.name === "Paystack"
-          ? response.reference
-          : selectedPayment_gateway?.value?.name === "Flutterwave"
+      `/transactions/${selectedPayment_gateway?.value?.name === "Paystack"
+        ? response.reference
+        : selectedPayment_gateway?.value?.name === "Flutterwave"
           ? response.tx_ref
           : null
       }`,
@@ -884,8 +721,8 @@ const virtualNotary = computed(() => {
   return process.env.VUE_APP_ENVIRONMENT == "local"
     ? process.env.VUE_APP_VIRTUAL_NOTARY_DEV
     : process.env.VUE_APP_ENVIRONMENT == "staging"
-    ? process.env.VUE_APP_VIRTUAL_NOTARY_STAGING
-    : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE;
+      ? process.env.VUE_APP_VIRTUAL_NOTARY_STAGING
+      : process.env.VUE_APP_VIRTUAL_NOTARY_LIVE;
 });
 
 // onMounted(() => {
@@ -902,22 +739,6 @@ onUpdated(() => {
   setTimeout(() => {
     currentPage.value = allSessionRecord?.value?.meta?.current_page;
 
-    // if ($.fn.dataTable.isDataTable("#allrequests")) {
-    //   $("#allrequests").DataTable();
-    // } else {
-    //   if (filterDocByAffidavitRequests.value.length > 0) {
-    //     $("#allrequests").DataTable({
-    //       columnDefs: [{ orderable: false, targets: [0, 6] }],
-    //       // order: [[3, "desc"]],
-    //       aaSorting: [],
-    //       lengthMenu: [
-    //         [5, 10, 25, 50, -1],
-    //         [5, 10, 25, 50, "All"],
-    //       ],
-    //       pageLength: 10,
-    //     });
-    //   }
-    // }
   }, 100);
 });
 </script>
@@ -978,15 +799,13 @@ onUpdated(() => {
   font-size: 1rem;
   line-height: 24px;
 }
+
 .payment__options .payment__option .payment__option-content:hover {
   -webkit-box-shadow: 0px 3px 5px 0px #e8e8e8;
   box-shadow: 0px 3px 5px 0px #e8e8e8;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content:after {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content:after {
   content: "";
   position: absolute;
   height: 8px;
@@ -1000,10 +819,7 @@ onUpdated(() => {
   box-shadow: 0px 0px 0px 2px #003bb3;
 }
 
-.payment__options
-  .payment__option
-  input[type="radio"]:checked
-  + .payment__option-content {
+.payment__options .payment__option input[type="radio"]:checked+.payment__option-content {
   border: 2px solid #003bb3;
   background: #eaf1fe;
   -webkit-transition: ease-in 0.3s;
@@ -1015,6 +831,7 @@ onUpdated(() => {
   height: 120px;
   width: 120px;
 }
+
 .disabled {
   opacity: 0.5;
   pointer-events: none;
