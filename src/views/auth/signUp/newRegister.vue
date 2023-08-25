@@ -560,7 +560,6 @@ export default {
     },
    
     checkPasswords(e) {
-      console.log('first', this.user.password === this.confirm_password)
       if(this.user.password === this.confirm_password) {
         this.passwordError = false;
       } else{
