@@ -219,7 +219,7 @@
             <span class="menu-title text-truncate fs-6 d-flex "> <span>Affidavits</span> </span>
 
           </span>
-          <span class="badge bg-transparent border border-secondary  badge-light-secondary ms-auto "> 
+          <span class="badge rounded-pill badge-light-warning  ms-auto "> 
             {{ countAffidavit ? countAffidavit?.length : 0 }}
           </span>
         </router-link>
@@ -232,7 +232,7 @@
             <span class="menu-title text-truncate fs-6 d-flex "> <span>Notary Requests</span> </span>
 
           </span>
-          <span class="badge bg-transparent border border-secondary  badge-light-secondary ms-auto "> 
+          <span class="badge rounded-pill badge-light-warning ms-auto "> 
             {{ countNotaryRequest ? countNotaryRequest?.length : 0 }}
           </span>
         </router-link>
@@ -246,7 +246,7 @@
             <span class="menu-title text-truncate fs-6 d-flex gap-3">Video Sign </span>
 
           </span>
-          <span class="badge bg-transparent border border-secondary  badge-light-secondary ms-auto"> 
+          <span class="badge rounded-pill badge-light-warning ms-auto"> 
             {{ countVideoSign  ? countVideoSign?.length : 0 }}
           
           </span>

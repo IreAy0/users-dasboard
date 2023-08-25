@@ -150,7 +150,7 @@
                   <b-col lg="4" align-self="end">
                     <b-form-group class="mb-1" label="Search" label-for="search-input">
                       <b-input-group size="md">
-                        <b-form-input  @input="submitSearch" id="search-input" v-model="search" type="search" placeholder="Type to Search"
+                        <b-form-input  @input="handleInput" id="search-input" v-model="search" type="search" placeholder="Type to Search"
                           ></b-form-input>
                         <!-- <b-button type="submit" class="btn btn-primary">Search</b-button>
                         <b-button type="button" @click="resetSearch" class="btn btn-primary">Reset</b-button> -->
@@ -159,6 +159,7 @@
                   </b-col>
                 </b-row>
               </b-form>
+              <!-- {{ allSessionRecord?.data }} -->
               <TableSkeleton v-if="sessionsLoading == true" />
 
               <b-table v-else striped hover per-page="10" :current-page="currentPage"
@@ -481,6 +482,7 @@ import MailToParticipant from "@/components/Locker/MailToParticipant";
 import ModalComp from "@/components/ModalComp.vue";
 import { platformInitiated, randomId } from "@/Services/helpers";
 import TableSkeleton from "@/components/Loader/TableSkeleton";
+import { debounce } from 'lodash';
 
 const store = useStore();
 
@@ -628,11 +630,21 @@ const changePerPage = () => {
   });
 };
 const submitSearch = () => {
+  console.log('Typing has stopped:', search.value);
   getSessionRecords({
     entry_point: "Affidavit",
     name: search.value,
     per_page: perPage.value,
   });
+};
+
+// Debounce the function with a specified delay (e.g., 300ms)
+const debouncedFunction = debounce(submitSearch , 1000);
+
+const handleInput = () => {
+  // Cancel the previous debounce and start a new one
+  debouncedFunction.cancel();
+  debouncedFunction();
 };
 
 const resetSearch = (event) => {

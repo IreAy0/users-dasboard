@@ -28,14 +28,12 @@ const actions = {
   async getUser({ commit }) {
     await profile.Profile().then(
       (user) => {
-
         if (user?.data?.data?.system_verification == false) {
           router.push("/verify-email");
           sessionStorage.removeItem('token')
         }
         else {
           commit("getUserSuccess", user?.data?.data);
-
         }
       },
       error => {
