@@ -305,6 +305,7 @@
                 }">
                   {{ pws().value }}
                 </li> -->
+
                 <li
                   :class="{
                     'text--red': passwordError === true,
@@ -323,7 +324,7 @@
                       fill="currentColor"
                     />
                   </svg>
-                  Passwords match
+                  Passwords match 
                 </li>
               </ul>
             </div>
@@ -467,7 +468,6 @@ export default {
       showPass: false,
       confirm_password: "",
       passwordFieldType: "password",
-      // passwordFieldType: 'password',
       items: [
        'We aim to streamline the process of reaching agreements and cultivate trust',
         'Say goodbye to the traditional hassles of finding a Notary.' ,
@@ -506,12 +506,16 @@ export default {
         this.checkPasswords(newConfirm_password);
       },
     },
-    password: {
-      handler(newConfirm_password, oldConfirm_password) {
-        this.checkPasswords(newConfirm_password);
+    user: {
+      immediate: true, // Fire the handler immediately when component mounts
+      deep: true, // Watch for nested property changes
+      handler(newValue, oldValue) {
+        this.checkPasswords(newValue.password)
       },
     },
+    deep: true,
   },
+  
   mounted() {
     initSwiper(this.$refs.signSwiper, {
         spaceBetween: 50,
@@ -556,11 +560,13 @@ export default {
     },
    
     checkPasswords(e) {
-      if (this.user.password === this.confirm_password) {
+      console.log('first', this.user.password === this.confirm_password)
+      if(this.user.password === this.confirm_password) {
         this.passwordError = false;
-      } else {
-        this.passwordError = true;
+      } else{
+          this.passwordError = true;
       }
+
     },
     ...mapActions("AuthModule", ["register"]),
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
