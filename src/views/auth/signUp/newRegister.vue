@@ -36,18 +36,10 @@
             Get started with us
           </b-card-title>
           <!-- <GoogleLogin  :callback="loginCallback" /> -->
-            
-            
-          <b-button
-            variant="outline-button"
-            block
-            class="w-100 text-gray-700 outline-button"
-            @click="callback"
-          >
-            <Icon icon="flat-color-icons:google" class="me-50" width="24" />
-            <span class="align-middle">Sign up with Google</span>
-          </b-button>
-          <!-- divider -->
+          <GoogleLogin >
+            Sign up with google
+          </GoogleLogin>
+           
           <div class="divider m-0">
             <div class="divider-text">or</div>
           </div>
@@ -445,10 +437,10 @@ import { passwordStrength } from "../passwordChecker";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { Icon } from "@iconify/vue";
 import * as yup from "yup";
-import { decodeCredential, googleAuthCodeLogin, googleTokenLogin } from "vue3-google-login";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { togglePasswordVisibility } from "../../../@core/mixins/ui/forms";
 import { initSwiper, destroySwiper } from '../../../components/SwiperInstance.js';
+import GoogleLogin from '../../../components/GoogleLogin';
 
 export default {
   name: "RegisterPage",
@@ -456,6 +448,7 @@ export default {
     Icon,
     Form,
     Field,
+    GoogleLogin
     // SwiperComponent
   },
   data() {
@@ -587,22 +580,7 @@ export default {
         entry_point: "User",
       };
     },
-    callback() {
-      // This callback will be triggered when the user selects or login to
-      // his Google account from the popup
-      googleAuthCodeLogin().then((response) => {
-        //  const userData = decodeCredential(response.credential)
-        console.log("Handle the response", response );
-      });
-      // const userData = decodeCredential(response.credential)
-      // console.log("Handle the userData", userData)
-      // console.log("Handle the response", response)
-    },
-    loginCallback(response){
-       const userData = decodeCredential(response.credential)
-      console.log("Handle the userData", userData)
-      console.log("Handle the response", response)
-    },
+   
     termsError() {
       return this.validated && !this.termsState;
     },

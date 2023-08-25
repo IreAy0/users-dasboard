@@ -180,7 +180,7 @@
                           v-model="search"
                           type="search"
                           placeholder="Type to Search"
-                          @input="submitSearch"
+                          @input="handleInput"
                           trim
                         ></b-form-input>
                       </b-input-group>
@@ -642,6 +642,7 @@ import MailToParticipant from "@/components/Locker/MailToParticipant";
 import ModalComp from "@/components/ModalComp.vue";
 import { platformInitiated, randomId } from "@/Services/helpers";
 import TableSkeleton from "@/components/Loader/TableSkeleton";
+import { debounce } from "lodash";
 
 const store = useStore();
 
@@ -763,6 +764,14 @@ const submitSearch = () => {
     name: search.value,
     per_page: perPage.value,
   });
+};
+
+const debouncedFunction = debounce(submitSearch , 1000);
+
+const handleInput = () => {
+  // Cancel the previous debounce and start a new one
+  debouncedFunction.cancel();
+  debouncedFunction();
 };
 
 const token = computed(() => {

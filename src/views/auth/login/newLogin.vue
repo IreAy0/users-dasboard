@@ -29,14 +29,10 @@
           >
             Welcome to ToNote! 👋
           </b-card-title>
-          <b-button
-          variant="outline-button"
-          block
-          class="w-100 text-gray-700 outline-button"
-        >
-        <Icon icon="flat-color-icons:google" class="me-50" width="24" />
-          <span class="align-middle">Sign in with Google</span>
-        </b-button>
+          <GoogleLogin >
+            Sign in with google
+          </GoogleLogin>
+          
           <!-- divider -->
           <div class="divider m-0">
             <div class="divider-text">
@@ -215,6 +211,7 @@ import { togglePasswordVisibility } from '../../../@core/mixins/ui/forms'
 import ModalComp from "@/components/ModalComp.vue";
 import ForgotPassword from '../passwords/forgotPassword.vue';
 import { initSwiper, destroySwiper } from '../../../components/SwiperInstance.js';
+import GoogleLogin from '../../../components/GoogleLogin';
 
 const loading = ref(false);
 
@@ -223,6 +220,7 @@ export default {
   name: 'LoginPage',
   components: {
 		Icon,
+    GoogleLogin
     // SwiperComponent,
     // ModalComp,
     // ForgotPassword,

@@ -190,7 +190,7 @@
                           type="search"
                           placeholder="Type to Search"
                           trim
-                          @input="submitSearch"
+                          @input="handleInput"
                         ></b-form-input>
                       </b-input-group>
                     </b-form-group>
@@ -502,6 +502,7 @@ import "datatables.net-bs5";
 import $ from "jquery";
 import { getToken } from "@/Services/helpers";
 import TableSkeleton from "@/components/Loader/TableSkeleton";
+import { debounce } from "lodash";
 
 const today = moment().format("YYYY-MM-DD");
 
@@ -593,6 +594,16 @@ const submitSearch = (event) => {
     per_page: perPage.value,
   });
 };
+
+const debouncedFunction = debounce(submitSearch , 1000);
+
+const handleInput = () => {
+  // Cancel the previous debounce and start a new one
+  debouncedFunction.cancel();
+  debouncedFunction();
+};
+
+
 const cancelSessionModal = (id) => {
   sessionId.value = id;
   cancelModal.value = true;
