@@ -30,7 +30,7 @@
                   <h2 class="brand-text text-primary ms-1"></h2>
                 </router-link>
               </div>
-              <h2 class="card-title text-gray-900 font-weight-bold mb-1">Forgot password</h2>
+              <h2 class="card-title text-gray-900 text-center font-weight-bold mb-1">Forgot password</h2>
               <p class="card-text mb-2">
                 Enter your email and a reset link will be sent to you  
               </p>
@@ -38,15 +38,17 @@
          
     <form @submit.prevent="resetPassword" >
            
-      <div class="mb-2">
+      <div class="mb-2 form-floating ">
         <input 
-        class="form-control form-control-lg" 
+        class="form-control " 
         type="text" 
         name="email" 
         tabindex="1" 
+        id="reset-email"
         placeholder="john@example.com"
         v-model="user.email"
         />
+        <label for="reset-email">Email</label>
         <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
       </div>
 

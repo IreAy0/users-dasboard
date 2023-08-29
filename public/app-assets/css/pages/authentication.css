@@ -43,6 +43,10 @@
 
  .login-card{
   box-shadow: 0px 10px 40px 0px rgba(107, 119, 154, 0.1);
+    padding-right: 2rem !important;
+    padding-left: 2rem !important;
+
+
  }
  .vector-1{
   position: absolute;
@@ -81,7 +85,9 @@ filter: blur(50px)
 
 @media (max-width: 575.98px) {
   .auth-wrapper.auth-basic .auth-inner:before {
-    display: none; } }
+    display: none; } 
+  
+  }
 
 .auth-wrapper.auth-basic .auth-inner:after {
   width: 272px;
@@ -95,7 +101,10 @@ filter: blur(50px)
 
 @media (max-width: 575.98px) {
   .auth-wrapper.auth-basic .auth-inner:after {
-    display: none; } }
+    display: none; 
+  
+  } 
+  }
 
 .auth-wrapper.auth-cover {
   align-items: flex-start; }
@@ -151,12 +160,21 @@ filter: blur(50px)
 
 @media (min-width: 1200px) {
   .auth-wrapper.auth-cover .auth-card {
-    width: 400px; } }
+    width: 400px; } 
+  
+    .login-card{
+      padding-right: 6rem !important;
+      padding-left: 6rem !important;
+      
+   }
+  }
 
 @media (max-width: 575.98px) {
   .auth-wrapper.auth-cover .brand-logo {
     left: 1.5rem;
-    padding-left: 0; } }
+    padding-left: 0; } 
+  
+  }
 
 .auth-wrapper .auth-bg {
   background-color: #F9FAFB; }
@@ -180,4 +198,6 @@ filter: blur(50px)
   .auth-wrapper.auth-cover .brand-logo {
     position: relative;
     left: 0;
-    padding-left: 1.5rem; } }
+    padding-left: 1.5rem; } 
+  
+  }

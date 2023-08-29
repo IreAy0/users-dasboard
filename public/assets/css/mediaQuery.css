@@ -10,8 +10,14 @@
   .settingsPage .nav-tabs .nav-item .nav-link {
     margin-right: .25rem !important;
   }
+ 
+ }
 
+ @media screen and (max-width: 1024px) {
+ 
  }
 
 /* // Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {  }
+@media (min-width: 768px) { 
+  
+ }
