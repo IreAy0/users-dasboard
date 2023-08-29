@@ -16,11 +16,12 @@
 
       <b-col
         lg="6"
+        md="7"
         class="d-flex align-items-center position-relative mx-auto auth-bg px-2 p-lg-5"
       >
         <b-col
           lg="12"
-          class="px-xl-large mx-auto login-card bg-white zindex-3 rounded h-100 py-3"
+          class=" mx-auto login-card bg-white zindex-3 rounded h-100 py-3 "
         >
           <b-link class="d-flex justify-content-center">
             <img
@@ -30,7 +31,7 @@
             />
           </b-link>
           <b-card-title
-            class="mb-2large mt-4 card-title text-gray-900 font-weight-bold"
+            class="mb-2large mt-4 text-center no-whitespace card-title text-gray-900 font-weight-bold"
             tag="h2"
           >
             Get started with us
@@ -71,61 +72,76 @@
             <div class="">
               <!-- :rules="validateEmail" -->
               <!-- username -->
+              
               <div class="d-flex flex-wrap">
-                <b-col class="mb-2 pl-0 pr-1" cols="12" lg="6">
-                  <label for="register-firstName">First Name*</label>
+                <b-col class="mb-2 pl-0 pr-1 form-floating" cols="12" lg="6">
                   <Field
                     name="first_name"
                     :class="{ 'border-danger': errors.first_name }"
-                    class="form-control form-control-lg"
+                    class="form-control "
                     type="text"
+                    id="register-firstName"
+                    placeholder="First Name"
                   />
+                  <label for="register-firstName">First Name*</label>
                   <small class="text-danger">{{ errors.first_name }}</small>
                 </b-col>
 
-                <b-col class="mb-2 pr-0 pl-1" cols="12" lg="6">
-                  <label for="register-lastName">Last Name*</label>
+                <b-col class="mb-2 pr-0 pl-1 form-floating" cols="12" lg="6">
                   <Field
                     name="last_name"
                     :class="{ 'border-danger': errors.last_name }"
                     class="form-control form-control-lg"
                     type="text"
+                    id="register-lastName"
+                    placeholder="Last Name"
                   />
+                  <label for="register-lastName">Last Name*</label>
+
                   <small class="text-danger">{{ errors.last_name }}</small>
                 </b-col>
               </div>
 
-              <b-col class="mb-2 pl-0 pr-0" cols="12">
-                <label for="register-email">Email*</label>
+              <b-col class="mb-2 pl-0 pr-0 form-floating" cols="12">
                 <Field
                   name="email"
                   :class="{ 'border-danger': errors.email }"
                   class="form-control form-control-lg"
                   type="email"
+                  id="register-email"
+                  placeholder="Email *"
                 />
+                <label for="register-email">Email*</label>
+
                 <small class="text-danger">{{ errors.email }}</small>
               </b-col>
               <div class="d-flex flex-wrap">
-                <b-col class="pl-0 pr-1" cols="12" lg="6">
-                  <label for="register-password">Password*</label>
+                <b-col class="pl-0 pr-1 form-floating" cols="12" lg="6">
                   <Field
                     name="password"
                     v-model="user.password"
                     :class="{ 'border-danger': errors.password }"
-                    class="form-control form-control-lg"
+                    class="form-control "
                     :type="passwordFieldType"
+                    placeholder="Password *"
+                    id="register-password"
                   />
+                  <label for="register-password">Password*</label>
+
                   <!-- <small class="text-danger">{{ errors.password }}</small> -->
                 </b-col>
 
-                <b-col class="pl-1 pr-0" cols="12" lg="6">
-                  <label for="register-password">Confirm Password*</label>
+                <b-col class="pl-lg-1 pl-0 mt-2 mt-lg-0 pr-0 form-floating" cols="12" lg="6">
                   <Field
                     name="confirm"
                     v-model="confirm_password"
-                    class="form-control form-control-lg"
+                    class="form-control "
                     :type="passwordFieldType"
+                    placeholder="Confirm Password *"
+                    id="register-confirm-password"
                   />
+
+                  <label for="register-confirm-password">Confirm Password*</label>
                   <!-- <small class="text-danger">{{ errors.password }}</small> -->
                 </b-col>
               </div>
@@ -214,7 +230,7 @@
                       fill="currentColor"
                     />
                   </svg>
-                  At least 8 characters
+                  8 character minimum
                 </li>
                 <li
                   :class="{
@@ -234,7 +250,7 @@
                       fill="currentColor"
                     />
                   </svg>
-                  At least 1 capital letter
+                  one uppercase character
                 </li>
                 <li
                   :class="{
@@ -254,7 +270,7 @@
                       fill="currentColor"
                     />
                   </svg>
-                  At least 1 small letter
+                  one lowercase character
                 </li>
                 <li
                   :class="{
@@ -274,7 +290,8 @@
                       fill="currentColor"
                     />
                   </svg>
-                  At least 1 number
+                  one number
+                  
                 </li>
                 <li
                   :class="{
@@ -294,7 +311,7 @@
                       fill="currentColor"
                     />
                   </svg>
-                  At least 1 special character
+                  one special character
                 </li>
 
                 <!-- <li class="text--red" :class="{
@@ -324,7 +341,7 @@
                       fill="currentColor"
                     />
                   </svg>
-                  Passwords match 
+                  must match 
                 </li>
               </ul>
             </div>
@@ -356,21 +373,29 @@
       <!-- Left Text-->
       <b-col lg="6" class="d-none d-lg-flex align-items-center p-5 auth-bg">
         <div class="w-100 align-items-center justify-content-center px-5">
-          <div class="d-flex justify-content-center">
+          <!-- <div class="d-flex justify-content-center">
             <b-img
               fluid
               width="324"
               src="/app-assets/images/banner/auth-image.png"
               alt="Login V2"
             />
-          </div>
+          </div> -->
          
           <div ref="signSwiper" class="swiper-container mySwiper myswiper-container">
             <div class="swiper-wrapper ">
-              <div class="swiper-slide bg-white " v-for="(item, index) in items" :key="index">
+              <div class="swiper-slide" v-for="(item, index) in items" :key="index">
                 <!-- <img :src="item" alt="Slide Image" /> -->
+                <div class="d-flex justify-content-center">
+                  <b-img
+                  fluid
+                  width="324"
+                  :src="item?.img"
+                  alt="Login V2"
+                />
+                </div>
                 <p>
-                  {{ item }}
+                  {{ item?.text }}
                 </p>
               </div>
               
@@ -469,10 +494,15 @@ export default {
       confirm_password: "",
       passwordFieldType: "password",
       items: [
-       'We aim to streamline the process of reaching agreements and cultivate trust',
-        'Say goodbye to the traditional hassles of finding a Notary.' ,
-        'We promote a sense of confidence and security in all your dealings.',
-        'We save valuable time and ensures the highest level of accuracy in legal documentation.',
+        {img: '/app-assets/images/banner/auth-image.png' , text: 'We aim to streamline the process of reaching agreements and cultivate trust'},
+      {img: '/app-assets/images/banner/auth-image.png' , text: 'Say goodbye to the traditional hassles of finding a Notary.'},
+      {img: '/app-assets/images/banner/auth-image.png' , text: 'We promote a sense of confidence and security in all your dealings.'},
+      {img: '/app-assets/images/banner/auth-image.png' , text: 'We save valuable time and ensures the highest level of accuracy in legal documentation.'}
+
+      //  'We aim to streamline the process of reaching agreements and cultivate trust',
+      //   'Say goodbye to the traditional hassles of finding a Notary.' ,
+      //   'We promote a sense of confidence and security in all your dealings.',
+      //   'We save valuable time and ensures the highest level of accuracy in legal documentation.',
 
       ],
     };
@@ -662,14 +692,9 @@ ul.hint li {
   transition: width 0.6s ease;
 }
 
-.swiper-slide img {
-  width: 100%;
-  height: auto;
-}
 
 .myswiper-container {
   padding: 30px 40px;
-  background-color: #fff;
   border-radius: 8px;
   margin: 10px 0;
   width: 100%;

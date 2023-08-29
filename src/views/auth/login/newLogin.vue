@@ -11,6 +11,7 @@
       
       <b-col
         lg="6"
+        
         class="d-flex align-items-center position-relative mx-auto auth-bg px-2 p-lg-5"
       >
       
@@ -18,13 +19,13 @@
           sm="8"
           md="6"
           lg="10"
-          class="px-xl-large mx-auto login-card bg-white zindex-3 rounded h-100  py-3"
+          class=" mx-auto login-card bg-white zindex-3 rounded h-100  py-3"
         >
         <b-link class="d-flex justify-content-center">
         <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid " width="150" />
       </b-link>
           <b-card-title
-            class="mb-2large mt-4 card-title text-gray-900 font-weight-bold"
+            class="mb-2large text-center mt-4 card-title no-whitespace text-gray-900 font-weight-bold"
             tag="h2"
           >
             Welcome to ToNote! 👋
@@ -47,7 +48,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             </div>
-            <div class="mb-2">
+            <!-- <div class="mb-2">
               <label for="login-email">Email</label>
                 <b-form-input
                   id="login-email"
@@ -56,14 +57,18 @@
                   type="email"
                   v-model="user.email"
                 />
+          </div> -->
+          <div class="form-floating mb-2">
+            <input v-model="user.email" type="email" id="login-email" class="form-control" placeholder="name@example.com">
+            <label for="login-email">Email </label>
           </div>
-            <!-- <div class="mb-2">
-              <label class="form-label fs-small" for="login-email">Email *</label>
-              <input class="form-control" type="text" name="email" tabindex="1" placeholder="john@example.com"
-                v-model="user.email" />
-            </div> -->
+          
             <div class="mb-2">
-              <label for="login-password">Password *</label>
+              <div class="form-floating ">
+                <input v-model="user.password" :type="passwordFieldType" class="form-control" id="floatingLoginPassword" placeholder="*********">
+                <label for="floatingLoginPassword">Password </label>
+              </div>
+              <!-- <label for="login-password">Password *</label>
               <b-input-group class="input-group-merge">
                 <b-form-input
                   id="login-password"
@@ -72,7 +77,7 @@
                   placeholder="******"
                   v-model="user.password"
                 />
-              </b-input-group>
+              </b-input-group> -->
 
               <div class="mt-50 d-flex justify-content-between">
                 <b-form-checkbox
@@ -125,21 +130,20 @@
         class="d-none d-lg-flex align-items-center p-5 auth-bg"
       >
         <div class="w-100  align-items-center justify-content-center px-5">
-          <div class="d-flex justify-content-center">
-            <b-img
-            fluid
-            width="324"
-            src="/app-assets/images/banner/auth-image.png"
-            alt="Login V2"
-          />
-          </div>
-         
             <div ref="loginSwiper"  class="loginSwiper swiper-container mySwiper myswiper-container">
                 <div class="swiper-wrapper ">
-                  <div class="swiper-slide bg-white " v-for="(item, index) in items" :key="index">
+                  <div class="swiper-slide" v-for="(item, index) in items" :key="index">
                     <!-- <img :src="item" alt="Slide Image" /> -->
+                    <div class="d-flex justify-content-center">
+                      <b-img
+                      fluid
+                      width="324"
+                      :src="item?.img"
+                      alt="Login V2"
+                    />
+                    </div>
                     <p>
-                      {{ item }}
+                      {{ item?.text }}
                     </p>
                   </div>
                   
@@ -236,10 +240,15 @@ export default {
       close: false,
       passwordFieldType: 'password',
      items: [
-       'We aim to streamline the process of reaching agreements and cultivate trust',
-        'Say goodbye to the traditional hassles of finding a Notary.' ,
-        'We promote a sense of confidence and security in all your dealings.',
-        'We save valuable time and ensures the highest level of accuracy in legal documentation.',
+      {img: '/app-assets/images/banner/auth-image.png' , text: 'We aim to streamline the process of reaching agreements and cultivate trust'},
+      {img: '/app-assets/images/banner/auth-image.png' , text: 'Say goodbye to the traditional hassles of finding a Notary.'},
+      {img: '/app-assets/images/banner/auth-image.png' , text: 'We promote a sense of confidence and security in all your dealings.'},
+      {img: '/app-assets/images/banner/auth-image.png' , text: 'We save valuable time and ensures the highest level of accuracy in legal documentation.'}
+
+      //  'We aim to streamline the process of reaching agreements and cultivate trust',
+      //   'Say goodbye to the traditional hassles of finding a Notary.' ,
+      //   'We promote a sense of confidence and security in all your dealings.',
+      //   'We save valuable time and ensures the highest level of accuracy in legal documentation.',
 
       ],
     }
@@ -328,14 +337,9 @@ export default {
 </script>
 
 <style lang="scss">
-.swiper-slide img {
-  width: 100%;
-  height: auto;
-}
 
 .myswiper-container {
   padding: 30px 40px;
-  background-color: #fff;
   border-radius: 8px;
   margin: 10px 0;
   width: 100%;
@@ -401,4 +405,7 @@ export default {
     outline: none;
   }
 }
+
+
+
 </style>

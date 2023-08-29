@@ -26,7 +26,7 @@
                 <h2 class="brand-text text-primary ms-1"></h2>
               </router-link>
             </div>
-            <h2 class="card-title text-gray-900 font-weight-bold mb-1 text-center">Forgot password</h2>
+            <h2 class="card-title text-gray-900 text-center font-weight-bold mb-1 text-center">Forgot password</h2>
             <p class="card-text mb-2 text-center">
               Set up a new password
             </p>
@@ -34,7 +34,7 @@
        
             <form @submit.prevent="resetPassword" >
             
-              <div class="mb-2">
+              <div class="mb-2 ">
                 <input 
                 class="form-control py-2" 
                 type="text" 
@@ -44,9 +44,10 @@
                 v-model="resetForm.email"
                 disabled
                 />
+                
                 <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
               </div>
-                <div class="mb-2 position-relative ">
+                <div class="mb-2 position-relative form-floating ">
                 <input 
                 class="form-control py-2" 
                 :type="passwordFieldType" 
@@ -54,12 +55,12 @@
                 tabindex="1" 
                 placeholder="Create New Password"
                 v-model="password"
-                
+                id="reset-password"
                 />
-              
+                <label for="reset-password">New Password</label>
                 <!-- <div class="invalid-feedback">{{ errors.email }}</div> -->
               </div>
-               <div class="position-relative">
+               <div class="position-relative form-floating">
                 <input 
                 class="form-control py-2" 
                 :type="passwordFieldType" 
@@ -67,8 +68,9 @@
                 tabindex="1" 
                 placeholder="Confirm New Password"
                 v-model="confirm_password"
+                id="reset-confirm-password"
                 />
-                
+                <label for="reset-confirm-password">Confirm New Password</label>
               </div>
               <!-- v-show="user.password.length > 0" -->
               <div v-show="password.length > 0" class="mt-50">
@@ -154,7 +156,7 @@
                         fill="currentColor"
                       />
                     </svg>
-                    At least 8 characters
+                    8 characters minimum
                   </li>
                   <li
                     :class="{
@@ -174,7 +176,7 @@
                         fill="currentColor"
                       />
                     </svg>
-                    At least 1 capital letter
+                    one uppercase character
                   </li>
                   <li
                     :class="{
@@ -194,7 +196,7 @@
                         fill="currentColor"
                       />
                     </svg>
-                    At least 1 small letter
+                    one lowercase character
                   </li>
                   <li
                     :class="{
@@ -214,7 +216,7 @@
                         fill="currentColor"
                       />
                     </svg>
-                    At least 1 number
+                    one number
                   </li>
                   <li
                     :class="{
@@ -234,7 +236,7 @@
                         fill="currentColor"
                       />
                     </svg>
-                    At least 1 special character
+                    one special character
                   </li>
   
                   <li
@@ -255,7 +257,7 @@
                         fill="currentColor"
                       />
                     </svg>
-                    Passwords match
+                    must match
                   </li>
                 </ul>
               </div>

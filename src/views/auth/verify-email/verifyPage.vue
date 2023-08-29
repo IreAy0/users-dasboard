@@ -31,7 +31,7 @@
               </router-link>
             </div>
               <h2
-                class="card-title text-gray-900 font-weight-bold mb-1 text-center"
+                class="card-title text-gray-900 text-center no-whitespace font-weight-bold mb-1 text-center"
               >
                 Two Step Verification &#x1F4AC;
               </h2>
