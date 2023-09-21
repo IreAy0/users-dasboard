@@ -40,7 +40,7 @@
               or
             </div>
           </div>
-          <form @submit.prevent="handleLogin">
+          <form autocomplete="off" @submit.prevent="handleLogin">
             <div :class="{ 'is-invalid': loginError}" class="mt-1">
               <div v-if="loginError" class="alert p-1 alert-danger alert-dismissible fade show" role="alert">
                 <strong v-if="loginError?.root">{{ loginError?.root.toString() }}</strong>
@@ -59,13 +59,13 @@
                 />
           </div> -->
           <div class="form-floating mb-2">
-            <input v-model="user.email" type="email" id="login-email" class="form-control" placeholder="name@example.com">
+            <input v-model="user.email" type="email" id="login-email" autocomplete="false" class="form-control" placeholder="name@example.com">
             <label for="login-email">Email </label>
           </div>
           
             <div class="mb-2">
               <div class="form-floating ">
-                <input v-model="user.password" :type="passwordFieldType" class="form-control" id="floatingLoginPassword" placeholder="*********">
+                <input v-model="user.password" :type="passwordFieldType" autocomplete="false" class="form-control" id="floatingLoginPassword" placeholder="*********">
                 <label for="floatingLoginPassword">Password </label>
               </div>
               <!-- <label for="login-password">Password *</label>
