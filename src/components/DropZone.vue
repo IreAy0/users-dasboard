@@ -15,7 +15,7 @@
             </slot>
           </div>
           <slot name="input">
-            <input type="file" id="dropzoneFile" multiple class="dropzoneFile" />
+            <input type="file" id="dropzoneFile" multiple class="dropzoneFile d-none " />
           </slot>
         </div>
       </label>

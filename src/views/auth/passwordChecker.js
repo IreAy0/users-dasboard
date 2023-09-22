@@ -21,7 +21,7 @@ export const defaultOptions = [
     id: 3,
     value: "Strong",
     minDiversity: 4,
-    minLength: 10
+    minLength: 9
   }
 ]
 

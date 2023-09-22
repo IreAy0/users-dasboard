@@ -409,7 +409,7 @@ export default {
         }
         )
           .then((dataUrl) => {
-            this.setImage({ file: dataUrl, type, category });
+            // this.setImage({ file: dataUrl, type, category });
             this.capturing = false;
           })
           .catch(function (error) {
@@ -442,7 +442,7 @@ export default {
       },
       )
         .then((dataUrl) => {
-          this.setImage({ file: dataUrl, type, category });
+          // this.setImage({ file: dataUrl, type, category });
           this.capturing = false;
         })
         .catch(function (error) {

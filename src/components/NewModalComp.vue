@@ -3,12 +3,12 @@
       <div v-if="show" :class="[style, 'modal-mask']" >
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " :class="size">
           <div class="modal-content" style="overflow: hidden; position:initial">
-            <div v-if="header" class="modal-header">
+            <div v-if="header" class="modal-header ">
               <slot name="header">default header</slot>
             </div>
             <button v-if="closeBtn != false" type="button" class="btn-close" @click="$emit('close')"></button>
 
-            <div class="modal-body" :class="[style, modalClass]">
+            <div class="modal-body " :class="[style, modalClass]">
               <slot name="body">default body</slot>
             </div>
   
@@ -38,6 +38,9 @@ defineProps({
 
 <style scoped>
 
+.modal-body{
+  padding: 20px 32px 40px 32px;
+}
 .modal-mask {
   position: fixed;
   z-index: 3;
@@ -54,32 +57,23 @@ defineProps({
 }
 
 .modal-header {
-  background-color: #f8f8f8;
+  padding: 40px 32px 16px 32px;
+  border-bottom: 1px solid #EAECF0;
 }
 
 .btn-close {
   padding: 0.8rem !important;
-  box-shadow: 0 5px 20px 0 rgb(34 41 47 / 10%);
-  border-radius: 0.357rem;
-  background-color: #fff;
   opacity: 1;
   -webkit-transition: all 0.23s ease 0.1s;
   transition: all 0.23s ease 0.1s;
   position: absolute;
   right:0;
-  -webkit-transform: translate(18px, -10px);
-  -ms-transform: translate(18px, -10px);
-  transform: translate(11px, -10px);
+  -webkit-transform: translate(-25px, 18px);
+  -ms-transform: translate(-25px, 18px);
+  transform: translate(-25px, 18px);
 }
 
-.btn-close:hover {
-  opacity: 1;
-  outline: 0;
-  -webkit-transform: translate(15px, -2px);
-  -ms-transform: translate(15px, -2px);
-  transform: translate(5px, 2px);
-  box-shadow: none;
-}
+
 
 .modal-enter-from {
   opacity: 0;

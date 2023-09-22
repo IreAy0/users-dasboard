@@ -21,7 +21,7 @@ $gray-600: #6c757d !default;
 $gray-700: #344054 !default;
 $gray-800: #343a40 !default;
 $gray-900: #101828 !default;
-
+$gray-secondary: #67748E!default;
 $black: #000 !default;
 
 // fusv-enable
@@ -56,6 +56,9 @@ $colors: (
   "gray-dark": $gray-800,
   "gray-300": $gray-300,
   "gray-400": $gray-400,
+  "gray-secondary": $gray-secondary,
+  "black": $black
+
 ) !default;
 // scss-docs-end colors-map
 
@@ -82,6 +85,9 @@ $theme-colors: (
   "gray-900": $gray-900,
   "gray-700": $gray-700,
   "gray-dark": $gray-800,
+  "gray-400": $gray-400,
+  "gray-secondary": $gray-secondary,
+  "black": $black
 ) !default;
 // scss-docs-end theme-colors-map
 

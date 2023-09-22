@@ -12,6 +12,9 @@ import { DocumentModule } from "./modules/Document.module";
 import { MenuModule } from "./modules/Menu.Module";
 import schedule from "@/store/modules/schedule";
 import locker from "@/store/modules/locker";
+import print from "@/store/modules/print";
+import user from "@/store/modules/user";
+
 import document from "@/store/modules/document"
 // import { TeamsModule } from "./modules/Teams.module";
 const debug = process.env.NODE_ENV !== "production";
@@ -29,7 +32,9 @@ export default createStore({
     schedule,
     document,
     locker,
-    PaymentModule
+    PaymentModule,
+    print,
+    user
   },
   // strict: debug,
   plugins: debug ? [createLogger()] : [],

@@ -18,6 +18,7 @@ const state = () => ({
   changeValue: "",
   loadingSignature: false,
   transactions: null,
+  
 });
 
 const getters = {
