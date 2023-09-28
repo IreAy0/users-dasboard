@@ -5,6 +5,7 @@ const END_POINT = "documents";
 const DOCUMENT_DELETE = "document-multiple-delete";
 const DOCUMENT_COMPLETE = "document-complete";
 const DOCUMENT_RECEIVED = "documents-received";
+const SIGNED_DOCUMENTS ="signed-documents"
 const DOCUMENT_TEMPORAL_DELETED = "documents-temporal-deleted";
 
 const DOCUMENT_PARTICIPANT_ADD_SELF = "document-participant-add-self";
@@ -20,7 +21,7 @@ export default {
   },
 
   allDocumentByStatus(status) {
-    return ToNote.get(`${END_POINT}?status=${status}`);
+    return ToNote.get(`${SIGNED_DOCUMENTS}?status=${status}&per_page=10`);
   },
 
   allCompletedDocuments(documentId) {

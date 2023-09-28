@@ -20,16 +20,27 @@ export const getUserDocuments = ({ commit }, token) => {
 export const getUserDocumentByStatus = ({ commit }, formData) => {
   Document.allDocumentByStatus(formData)
     .then((response) => {
-      if (!['Received', 'Deleted'].includes(formData)) {
-        commit("SET_DOCUMENTS_BY_STATUS", response.data.data)
-      }
+      console.log('response', response.data, formData)
+      // if (!['Received', 'Deleted'].includes(formData)) {
+      //   commit("SET_DOCUMENTS_BY_STATUS", response.data.data)
+      // }
+      commit("SET_DOCUMENTS_BY_STATUS_COMPLETED", response.data)
+      
     })
 };
 
 export const getReceivedDocuments = ({ commit }, token) => {
   Document.allReceivedDocuments(token)
     .then((response) => {
-      commit("SET_DOCUMENTS_BY_STATUS", response.data.data)
+      let received = [];
+      response.data.data.filter(item => {
+        if(item.status !== 'Completed'){
+          received.push(item)
+        }
+      })
+      // console.log('response.data.data', response.data.data, received)
+      commit("NEED_TO_SIGN", received)
+      // commit("SET_DOCUMENTS_BY_STATUS", response.data.data)
     })
 };
 
