@@ -215,7 +215,7 @@ const inviteTeamMember=() =>{
           this.permission = "";
           this.email = "";
           let values = Object.values(err?.response?.data?.data);
-          console.log('err', err?.response?.data?.data.error, values)
+          
           $toast.error(` ${err?.response?.data?.data.error}`, {
             duration: 3000,
             queue: false,

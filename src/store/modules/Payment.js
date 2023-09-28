@@ -9,7 +9,7 @@ const state = {
 const actions = {
   async GetCard({ commit }){
    await payment.getAllCards().then((res) => {
-        console.log('res', res.data.data)
+     
         commit('Cards', res.data.data)
       })
       .catch(err => 

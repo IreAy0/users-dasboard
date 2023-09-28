@@ -39,7 +39,6 @@ function handleInactive() {
 }
 
 setTimeout(() => {
-  // console.log('first', store.state?.ProfileModule.userProfile)
   userProfile.value = store.state.ProfileModule.userProfile
 
 }, 10000);
@@ -61,32 +60,6 @@ function setupTimers() {
 
 onMounted(() => {
 
-  // socket.on("connect_message", (data) => {
-  //   console.log(data, 'data');
-  // });
-
-  // socket.on('VIDEO_SIGN_REQUEST_SENT', (res) => {
-  //     console.log('data video request send', res)
-  //     // const request = JSON.parse(data);
-  //     // this.getAffidavitRequest()
-  //       // $toast.success('You have a new request',  {
-  //       //   duration: 5000,
-  //       //   queue: false,
-  //       //   position: "top-right",
-  //       //   dismissible: true,
-  //       //   pauseOnHover: true,
-  //       // })
-  //     // if (request.id === this.userProfile.id) {
-       
-  //     //   $toast.success('You have a new request',  {
-  //     //     duration: 5000,
-  //     //     queue: false,
-  //     //     position: "top-right",
-  //     //     dismissible: true,
-  //     //     pauseOnHover: true,
-  //     //   });
-  //     // }
-  //   });
 })
 
 

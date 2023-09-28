@@ -172,7 +172,6 @@ export default {
                       src: [require('@/assets/sounds/notify.mp3')]
                     });
 // sound.play();
-console.log(sound, 'sound')
     const count = ref(0)
 
     // expose to template and other options API hooks

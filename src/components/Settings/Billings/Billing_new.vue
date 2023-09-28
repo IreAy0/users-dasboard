@@ -422,7 +422,6 @@ const cancelSubscription = () => {
   return ToNote.get(`/cancel-subscription`)
               .then(res => {
       getTeams()
-      console.log('res.data', res.data)
       $toast.success(res.data.data.message, {
         duration: 3000,
         queue: false,
