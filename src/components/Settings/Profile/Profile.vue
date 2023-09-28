@@ -195,7 +195,7 @@
                 <!--:disabled="validState"-->  
                 <Field as="select" :disabled="validState"  v-model="profile.identity_type" name="id_type" class="select2 w-100 form-select text-sm">
                   <option value="" disabled>Please select a form of Identity</option>
-                  <option value="vnin">Virtual NIN</option>
+                  <option value="nin">NIN</option>
                   <option value="drivers_license">Drivers License</option>
                   <option value="bvn">BVN</option>
                 </Field>
@@ -210,7 +210,7 @@
                   <template v-if="userProfile.identity_number == null ">
     
                  
-                 <Field placeholder="12345678910" name="registration_company_number" v-model="userProfile.identity_number" :disabled="validState === true"
+                 <Field placeholder="12345678910" name="registration_company_number" v-model="profile.identity_number" :disabled="validState === true"
                     id="registration_company_number" type="text" class="form-control rounded-end" aria-label="BVN" /> 
     
                   </template>
@@ -579,11 +579,11 @@ export default {
     },
     maskedNumber(){
       // console.log(this.userProfile, this.profile)
-      if(this.userProfile?.identity_number){
+      if(this.userProfile?.identity_number !== null){
         return  mask(this.userProfile?.identity_number)
         
       } 
-      return this.userProfile?.identity_number;
+      return null;
     }
   },
   methods: {
@@ -628,7 +628,7 @@ export default {
       this.verifying = true;
       ToNote.post("/verify/user", {
         type: this.profile.identity_type,
-        value: this.userProfile?.identity_number,
+        value: this.profile?.identity_number,
         dob: this.userProfile.dob
       })
         .then((res) => {
@@ -648,7 +648,7 @@ export default {
         .catch((err) => {
           this.verifyError = true
           this.verifying = false;
-          $toast.error("Error verifying", {
+          $toast.error(err.response.data.message || err.response.data.data.error, {
             duration: 3000,
             queue: false,
             position: "top-right",

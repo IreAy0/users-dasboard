@@ -1,6 +1,8 @@
 export default {
   documents: [],
   documentsByStatus: [],
+  needToSign:[],
+  documentsByStatusCompleted:[],
   document: [],
   doneEditing: null,
   resourceTools: [],
