@@ -308,7 +308,7 @@
                     <Field
                       placeholder="12345678910"
                       name="registration_company_number"
-                      v-model="userProfile.identity_number"
+                      v-model="profile.identity_number"
                       :disabled="validState === true"
                       id="registration_company_number"
                       type="text"
@@ -852,10 +852,10 @@ export default {
     },
     maskedNumber() {
       // console.log(this.userProfile, this.profile)
-      if (this.userProfile?.identity_number) {
+      if (this.userProfile?.identity_number !== null) {
         return mask(this.userProfile?.identity_number);
       }
-      return this.userProfile?.identity_number;
+      return null;
     },
   },
   methods: {
@@ -894,7 +894,7 @@ export default {
       this.verifying = true;
       ToNote.post("/verify/user", {
         type: this.profile.identity_type,
-        value: this.userProfile?.identity_number,
+        value: this.profile?.identity_number,
         dob: this.userProfile.dob,
       })
         .then((res) => {
@@ -914,7 +914,7 @@ export default {
         .catch((err) => {
           this.verifyError = true;
           this.verifying = false;
-          $toast.error("Error verifying", {
+          $toast.error(err.response.data.message || err.response.data.data.error, {
             duration: 3000,
             queue: false,
             position: "top-right",

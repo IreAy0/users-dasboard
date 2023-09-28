@@ -8,6 +8,14 @@ export const SET_DOCUMENTS_BY_STATUS = (state, docs) => {
   state.documentsByStatus = docs;
 };
 
+export const NEED_TO_SIGN = (state, docs) => {
+  state.needToSign = docs
+}
+export const SET_DOCUMENTS_BY_STATUS_COMPLETED = (state, docs) => {
+  state.documentsByStatusCompleted = docs;
+};
+
+
 export const SET_DOCUMENT = (state, doc) => {
   state.document = doc;
 };
