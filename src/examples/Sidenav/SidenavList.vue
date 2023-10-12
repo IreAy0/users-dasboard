@@ -764,3 +764,6 @@ export default {
   stroke-miterlimit: 10;
 }
 </style>
+<!-- 
+https://dev-api.gettonote.com/api/v1/documents-received
+https://dev-api.gettonote.com/api/v1/signed-documents?status=Completed -->

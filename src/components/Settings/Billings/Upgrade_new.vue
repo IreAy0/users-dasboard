@@ -457,7 +457,6 @@ const goBack = () => {
 }
 
 const openCredo = () => {
-  console.log('credo', transactionDetails.value, payment_gateway.value)
        const transRef = transactionDetails?.value?.id
       window.CredoCheckout({
               transRef, //Please generate your own transRef (20 characters max) that is unique for each transaction

@@ -7,7 +7,6 @@ export const SET_TEAM_MEMBERS = (state, data) => {
 export const SET_DOCUMENTS_BY_STATUS = (state, docs) => {
   state.documentsByStatus = docs;
 };
-
 export const NEED_TO_SIGN = (state, docs) => {
   state.needToSign = docs
 }
