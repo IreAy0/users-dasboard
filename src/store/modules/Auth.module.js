@@ -38,7 +38,7 @@ const actions = {
           commit("registerSuccess", user);
   
           setTimeout(() => {
-            router.push("/verify?email=" + email);
+            router.push("/email-verification?email=" + email);
           });
         }
         

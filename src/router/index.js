@@ -42,6 +42,10 @@ const ForgotPassword = () =>
   import(
     /* webpackChunkName: "emailSent" */ "../views/auth/emailSent.vue"
   );
+  const EmailVerification = () =>
+  import(
+    /* webpackChunkName: "emailSent" */ "../views/auth/verify-email/email-verification.vue"
+  );
 const SettingPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../components/Settings/Setting.vue"
@@ -137,6 +141,11 @@ const routes = [
     path: "/verify-email",
     name: "re-verify",
     component: reVerify,
+  },
+  {
+    path: "/email-verification",
+    name: "re-verify",
+    component: EmailVerification,
   },
   {
     path: "/redirecting",

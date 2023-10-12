@@ -47,6 +47,7 @@
                   >
                     <VOtpInput
                       ref="otpInput"
+                      
                       input-classes="otp-input form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
                       separator=""
                       :num-inputs="6"
@@ -58,7 +59,7 @@
                   </div>
 
                   <button
-                    :disabled="otpInput?.otp.length < 6"
+                    :disabled="otpInput?.otp?.length < 6"
                     class="btn btn-primary w-100"
                     type="submit"
                     tabindex="4"
@@ -70,7 +71,7 @@
                     Verify my account
                   </button>
                 </form>
-                <p class="text-center mt-2">
+                <!-- <p class="text-center mt-2">
                   <span>Didn&rsquo;t get the code?</span
                   ><a href="Javascript:void(0)" @click="resendVerify"
                     ><span>&nbsp;Resend</span></a
@@ -78,7 +79,7 @@
                   ><a href="mailto:ask@gettonote.com" target="_blank"
                     ><span>&nbsp;Email Us</span></a
                   >
-                </p>
+                </p> -->
               </div>
               <p class="text-center mt-2">
                 <span>Return to</span>
@@ -101,7 +102,7 @@ import VOtpInput from "vue3-otp-input";
 import ToNote from "@/Services/Tonote";
 import { useToast } from "vue-toast-notification";
 
-const otpInput = ref(null);
+let otpInput = ref(null);
 const loading = ref(false);
 const $toast = useToast();
 export default {
@@ -118,8 +119,11 @@ export default {
     const clearInput = () => {
       otpInput.value.clearInput();
     };
-
-    return { clearInput, otpInput };
+    const fillInput = (value) => {
+      console.log(value, otpInput.value);
+      otpInput.value?.fillInput(value);
+};
+    return { clearInput, fillInput, otpInput };
   },
 
   computed: {
@@ -154,6 +158,9 @@ export default {
         }
       });
     },
+  },
+  mounted(){
+    otpInput.value.otp = [...this.$route.query.access_code];
   },
   beforeMount() {
     this.toggleEveryDisplay();
