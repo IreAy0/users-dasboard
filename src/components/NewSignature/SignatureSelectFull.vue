@@ -51,12 +51,13 @@
               </div>
 
               <span
-                class="fullName"
+                class="fullName text-lowercase"
                 :class="font"
                 :style="{
                   fontFamily: font,
                   fontSize: '1.5rem',
                   marginTop: '4px',
+                  
                 }"
               >
                 {{ fullName }}
@@ -78,7 +79,7 @@
             <template v-if="selectedFont">
               <span
                 ref="capture"
-                class="d-inline-block custom-fs-sm"
+                class="d-inline-block custom-fs-sm text-lowercase"
                 data-type="Signature"
                 style="line-height: 0.8 !important"
                 :style="styleObject"
@@ -133,7 +134,7 @@
     </div>
   </div>
   <hr />
-
+ 
   <div class="d-flex px-3 justify-content-between align-items-center">
     <div class="form-check form-switch">
       <input
@@ -143,6 +144,8 @@
         type="checkbox"
         role="switch"
         id="flexSwitchCheckDefault"
+        :disabled="dashboard.default_signature === typeSignature.id"
+        :checked="dashboard.default_signature === typeSignature.id"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault"
         >Save as default</label
@@ -173,10 +176,11 @@ import {
   useState,
 } from "vuex-composition-helpers/dist";
 
-const { profile, prints, user } = useGetters({
+const { profile, prints, user, dashboard } = useGetters({
   profile: "auth/profile",
   prints: "print/prints",
   user: "ProfileModule/user",
+  dashboard: "ProfileModule/dashboard"
 });
 
 const getFirstLetters = (str) => {
@@ -188,9 +192,11 @@ const getFirstLetters = (str) => {
   return firstLetters;
 };
 
-const { savePrint, makeDefaultPrint } = useActions({
+
+const { savePrint, makeDefaultPrint, getDashboard } = useActions({
   savePrint: "print/savePrint",
   makeDefaultPrint: "print/makeDefaultPrint",
+  getDashboard: "ProfileModule/getDashboard"
 });
 
 const imgUrl = ref("");
@@ -359,8 +365,11 @@ const createTypedSignature = () => {
   }, 1000);
 };
 
-const makeDefaultSignature = (printID)=> {
-  makeDefaultPrint(printID)
+const makeDefaultSignature = async (printID)=> {
+  const defaultPrint = await makeDefaultPrint(printID);
+ if (defaultPrint) {
+    getDashboard()
+ }
 }
 </script>
 

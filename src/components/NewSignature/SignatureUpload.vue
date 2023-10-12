@@ -5,7 +5,7 @@
         <p class="my-1 text-dark fw-normal">Upload Signature from your device</p>
       </div>
       <p class="text-danger">{{ fileValidated }}</p>
-      <div class="mt-2">
+      <div class="mt-2 d-flex gap-2">
         <DropZone @drop.prevent="drop" @change="selectedFile">
           <template #format> PNG, JPEG OR JPG </template>
           <template #input>
@@ -17,14 +17,20 @@
             />
           </template>
         </DropZone>
-        
-      </div>
-      <div v-show="uploadedSignature.file != ''">
-        <div class="my-2" style="max-width:200px;">
-          <img :src="uploadedSignature.file" class="img-fluid" alt="uploaded-signature" />
+        <div style="max-width: 150px" v-show="uploadedSignature && uploadedSignature.file !== ''">
+          <div class="h-100 border-1 border rounded-3">
+            <img
+            :src="uploadedSignature.file"
+              class="d-block mx-auto h-100 img-fluid"
+              :style="{ width: '100%', objectFit: 'contain' }"
+              alt="preview"
+            />
+          </div>
+          
+          
         </div>
-        
       </div>
+     
     </template>
     <template v-else>
       <div class="my-2">
@@ -75,6 +81,8 @@
         type="checkbox"
         role="switch"
         id="flexSwitchCheckDefault"
+        :disabled="dashboard.default_signature === uploadedSignature.id"
+        :checked="dashboard.default_signature === uploadedSignature.id"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault"
         >Save as default</label
@@ -91,13 +99,22 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from "vue";
+import { ref, defineEmits, watch } from "vue";
 import DropZone from "@/components/DropZone.vue";
 import CropperComp from "@/components/CropperComp.vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers/dist";
-const { useGetters, useActions } = createNamespacedHelpers(["print"]);
-const { prints } = useGetters(["prints"]);
-const { savePrint, makeDefaultPrint } = useActions(["savePrint", "makeDefaultPrint"]);
+import { useActions, useGetters } from "vuex-composition-helpers";
+const { useGetters: printGetters, useActions: printActions } = createNamespacedHelpers(["print"]);
+const { prints } = printGetters(["prints"]);
+const { savePrint, makeDefaultPrint, getUserPrints } = printActions(["savePrint", "makeDefaultPrint", "getUserPrints"]);
+const {  getDashboard  } = useActions({
+  getDashboard: "ProfileModule/getDashboard"
+})
+const { profile, user, dashboard } = useGetters({
+  profile: "auth/profile",
+  user: "ProfileModule/user",
+  dashboard: "ProfileModule/dashboard"
+});
 
 const isSelected = ref(false);
 const isUpload = ref(false);
@@ -113,6 +130,19 @@ if (prints.value.Signature != undefined) {
         cat.category == "Upload" ? { file: cat.file, id: cat.id } : "")
   );
 }
+
+
+watch(
+  () => prints.value,
+  (val) =>{
+    val.Signature.find(
+    (cat) =>
+      (uploadedSignature.value =
+        cat.category == "Upload" ? { file: cat.file, id: cat.id } : "")
+  );
+   
+  }
+)
 
 function preparedFile(file) {
   let reader = new FileReader();
@@ -156,19 +186,27 @@ const selectedFile = () => {
 
 const emit = defineEmits(["close"]);
 
-const uploadSignature = (params) => {
+const uploadSignature = async (params) => {
   isUpload.value = false;
   const signatureObj = {
     file: params,
     type: "Signature",
     category: "Upload",
   };
+  const print = await savePrint(signatureObj);
+if (print) {
+ 
+  getUserPrints()
+}
   savePrint(signatureObj);
   // emit("close", true);
 };
 
-const makeDefaultSignature = (printID) => {
-  makeDefaultPrint(printID);
+const makeDefaultSignature = async (printID) => {
+  const defaultPrint = await makeDefaultPrint(printID);
+ if (defaultPrint) {
+    getDashboard()
+ }
 };
 </script>
 

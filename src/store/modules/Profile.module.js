@@ -18,11 +18,12 @@ const state = () => ({
   changeValue: "",
   loadingSignature: false,
   transactions: null,
-  
+  dashboard: {}
 });
 
 const getters = {
   user: (state) => state?.userProfile,
+  dashboard: (state) => state?.dashboard
 };
 
 const actions = {
@@ -109,7 +110,16 @@ const actions = {
         commit('getUserFailed', error);
       })
   },
-
+  async getDashboard({commit}) {
+    await profile.getDashboard().then(
+      (user) => {
+        commit("getDashboard", user?.data?.data?.message);
+      },
+      error => {
+        commit('getUserFailed', error)
+      }
+    )
+  },
   userSignature({ commit, dispatch }, user) {
     commit('createSignature', user);
     profile.createSignature(user)
@@ -170,7 +180,9 @@ const mutations = {
     state.userProfile = user
     state.gettingProfile = true;
     state.updated = true
-
+  },
+  getDashboard(state, data){
+    state.dashboard = data
   },
   getPrintsRequests(state) {
     state.loadingSignature = true
@@ -181,7 +193,6 @@ const mutations = {
   },
 
   getUserFailed(state) {
-
     state.gettingProfile = false;
     state.updating = false;
 

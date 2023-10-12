@@ -18,7 +18,7 @@
       <VueSignaturePad
         id="signaturePad"
         width="100%"
-        height="150px"
+        height="223px"
         ref="signaturePad"
         :options="options"
         class="canvas"
@@ -27,11 +27,8 @@
     <div class="col-12 col-md-3">
       <div class="text-center h-100">
         <div class="mx-auto h-100">
+          
           <template v-if="imgBase64 != ''">
-            <!-- <picture>
-              <source :srcset="imgBase64" type="image/svg+xml">
-              <img :src="imgBase64" class="img-fluid img-thumbnail" alt="preview">
-            </picture> -->
             <div class="h-100 border-1 border rounded-3">
               <img
                 :src="imgBase64"
@@ -41,21 +38,22 @@
               />
             </div>
           </template>
+          
           <template v-else>
-            <template v-if="drawnSignature.file != ''">
-              <div class="h-100 border-1 border rounded-3">
+              <div v-if="drawnSignature && drawnSignature?.file != ''" class="h-100 border-1 border rounded-3">
                 <img
                   :style="{ width: '100%', objectFit: 'contain' }"
                   :src="drawnSignature.file"
                   class="d-block mx-auto h-100"
-                  alt="preview"
+                  alt="preview signature"
                 />
               </div>
+              <div v-else class="h-100 border-2 border rounded-3"></div>
             </template>
-            <template v-else>
+            <!-- <template v-else>
               <div class="h-100 border-2 border rounded-3"></div>
-            </template>
-          </template>
+            </template> -->
+         
         </div>
       </div>
     </div>
@@ -70,7 +68,7 @@
     </div>
   </div>
   <hr />
-
+  
   <div class="d-flex px-3 justify-content-between align-items-center">
     <div class="form-check form-switch">
       <input
@@ -80,6 +78,8 @@
         type="checkbox"
         role="switch"
         id="flexSwitchCheckDefault"
+        :disabled="dashboard.default_signature === drawnSignature.id"
+        :checked="dashboard.default_signature === drawnSignature.id"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault"
         >Save as default</label
@@ -108,13 +108,27 @@ import {
   defineEmits,
 } from "vue";
 
-import { createNamespacedHelpers } from "vuex-composition-helpers/dist";
+import { createNamespacedHelpers, useGetters, useActions } from "vuex-composition-helpers/dist";
 import { useBreakpointsComposable } from "@/composables/useBreakpoints";
 const { type } = useBreakpointsComposable();
 
-const { useGetters, useActions } = createNamespacedHelpers(["print"]);
-const { prints } = useGetters(["prints", "print"]);
-const { savePrint, getUserPrints, makeDefaultPrint } = useActions([
+const {  useActions: printAction } = createNamespacedHelpers(["print"]);
+// const { prints, dashboard } = useGetters({"prints", "print", "dashboard"});
+
+const { profile, prints, user, dashboard } = useGetters({
+  profile: "auth/profile",
+  prints: "print/prints",
+  user: "ProfileModule/user",
+  dashboard: "ProfileModule/dashboard"
+});
+
+
+const {  getDashboard  } = useActions({
+  getDashboard: "ProfileModule/getDashboard"
+})
+
+
+const { savePrint, getUserPrints, makeDefaultPrint } = printAction([
   "savePrint",
   "getUserPrints",
   "getUserPrint",
@@ -214,6 +228,17 @@ watch(
   }
 );
 
+watch(
+  () => prints.value,
+  (val) =>{
+    val.Signature.find(
+    (cat) =>
+      (drawnSignature.value =
+        cat.category == "Draw" ? { file: cat.file, id: cat.id } : "")
+  );
+   
+  }
+)
 // const draw = () => {
 //   let canvas = document.getElementById(state?.uid);
 //   state.sig = new SignaturePad(canvas, state.option);
@@ -360,19 +385,28 @@ defineExpose({
   fromDataURL,
 });
 
-const createDrawSignature = () => {
+const createDrawSignature = async () => {
   const signatureObj = {
     file: imgBase64.value,
     type: "Signature",
     category: "Draw",
   };
 
-  savePrint(signatureObj);
-  imgBase64.value = "";
+const print = await savePrint(signatureObj);
+if (print) {
+  clear()
+  getUserPrints()
+}
+    
+  // imgBase64.value = "";
   // emit("close", true);
 };
-const makeDefaultSignature = (printID) => {
-  makeDefaultPrint(printID);
+
+const makeDefaultSignature = async (printID) => {
+ const defaultPrint = await makeDefaultPrint(printID);
+ if (defaultPrint) {
+    getDashboard()
+ }
 };
 </script>
 

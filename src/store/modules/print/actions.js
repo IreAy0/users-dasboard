@@ -22,16 +22,19 @@ export const getUserPrint = ({ commit }, formData) => {
     });
 };
 
-export const savePrint = ({ commit }, formData) => {
+export const  savePrint = async ({ commit }, formData) => {
   commit("SET_PRINT_NOTIFICATION", true);
-  Print.store(formData)
-    .then((response) => {
+  return Print.store(formData)
+    .then((response) => { 
+      
       commit("SET_PRINTS", response.data.data);
       commit("SET_PRINT_NOTIFICATION", false);
+      
       toast.success("Saved successfully", {
         timeout: 5000,
         position: "top-right",
       });
+      return true
     })
     .catch((error) => {
       if (error.response.status == 403) {
@@ -57,14 +60,14 @@ export const editPrint = ({ commit }, formData) => {
     });
 };
 
-export const makeDefaultPrint = ({commit}, formData) => {
-  Print.makeDefault(formData)
+export const makeDefaultPrint = async ({commit}, formData) => {
+ return Print.makeDefault(formData)
     .then((response) => {
-      console.log('response, make default', response)
       toast.success("Saved successfully", {
         timeout: 5000,
         position: "top-right",
       });
+      return true
     })
     .catch((error) => {
       toast.error(`${error.response.data.data.error}`, {

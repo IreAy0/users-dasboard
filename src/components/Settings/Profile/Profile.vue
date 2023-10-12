@@ -267,8 +267,9 @@
             <small>Verify your ID.</small>
           </div>
           <hr />
+          <!-- @submit="verifyId" -->
           <Form
-            @submit="verifyId"
+            
             :validation-schema="verificationSchema"
             class="row"
           >
@@ -312,7 +313,7 @@
                       :disabled="validState === true"
                       id="registration_company_number"
                       type="text"
-                      class="form-control py-1 rounded-end"
+                      class="form-control py-2 rounded-end"
                       aria-label="BVN"
                     />
                   </template>
@@ -325,7 +326,7 @@
                       v-model="maskedNumber"
                       id="registration_company_number"
                       type="text"
-                      class="form-control py-1 rounded-end"
+                      class="form-control py-2 rounded-end"
                       aria-label="BVN"
                     />
                   </template>
@@ -355,25 +356,8 @@
                 />
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="mb-1">
-                <label class="form-label" for="modern-phone"
-                  >Date of Birth</label
-                >
-
-                <Field
-                  :disabled="validState === true"
-                  type="date"
-                  name="date_of_birth"
-                  id="modern-date_of_birth"
-                  class="form-control py-1"
-                  aria-label="date_of_birth"
-                  v-model="userProfile.dob"
-                />
-                <ErrorMessage name="date_of_birth" class="text-danger" />
-              </div>
-            </div>
-            <div class="col-md-6">
+            
+            <!-- <div class="col-md-6">
               <br />
               <button
                 style="padding: 8px 14px"
@@ -387,12 +371,12 @@
                 ></span>
                 <span class="align-middle d-inline-block">Verify ID</span>
               </button>
-            </div>
+            </div> -->
           </Form>
-          <h6 class="text-gray-900 my-1">
+          <h6 v-show="validState !== true"  class="text-gray-900 my-1">
             2. We will carry out further identity verification checks
           </h6>
-          <div class="d-flex align-items-center gap-3">
+          <div v-if="validState !== true" class="d-flex align-items-center gap-3">
             <div class="camera-passport-placeholder">
               <div class="camera-placeholder text-center">
                 <template v-if="userVerificationImage">
@@ -442,13 +426,30 @@
               </div>
             </div>
             <div>
+              
               <button
+              v-if="!userVerificationImage"
                 @click="setPhotographModal"
                 class="btn btn-primary btn-sm px-3 py-1 waves-effect"
                 id="takePicture"
               >
                 <!-- <EditIcon /> -->
                 Start face match
+              </button>
+              <button
+              :disabled="verifying == true"
+              v-else
+                @click="verifyId"
+                class="btn btn-primary btn-sm px-3 py-1 waves-effect"
+                id="takePicture"
+              >
+              <span
+                  v-show="verifying"
+                  class="spinner-border spinner-border-sm"
+                ></span>
+                <span>Complete Verification</span>
+                <!-- <EditIcon /> -->
+                
               </button>
             </div>
           </div>
@@ -530,21 +531,32 @@
       <div class="formstep step2 d-none">
         <div id="address-step-modern">
           <div class="content-header mb-2">
-            <h3 class="text-gray-900 fw-bolder ">Digitise signature</h3>
+            <h3 class="text-gray-900 fw-bolder">Digitise signature</h3>
             <p class="">Digitize your signature</p>
           </div>
           <hr />
           <div class="row mt-2">
             <div class="col-md-12 mb-2">
-              <div class="signature-display ">
-                <h4 class="text-gray-secondary">Your Signatures displays here</h4>
+              <div class="signature-display">
+                <h4 v-if="!dashboard.default_signature" class="text-gray-secondary">
+                  Your Signatures displays here
+                </h4>
+                <!-- v-if="userProfile.image.includes('user')" -->
+                <div v-else >
+                  <img 
+                  class="img-fluid"
+                  :src="getDefaultSignature?.file"
+                  :alt="userProfile.first_name"
+                />
+                </div>
+                
                 <button
                   @click="updateModal"
-                  class="btn btn-primary  px-3 py-1 waves-effect"
+                  class="btn btn-primary px-3 py-1 waves-effect flex-shrink-0"
                   id="updateSignature"
                 >
                   <!-- <EditIcon /> -->
-                  Create Signature
+                {{dashboard.default_signature ? "Edit Signature" : "Create Signature"}}
                 </button>
               </div>
             </div>
@@ -610,7 +622,6 @@
           the guidlines below and take a picture for verification
         </p>
       </div>
-      
     </template>
 
     <template #body>
@@ -679,6 +690,7 @@ export default {
       "getUserPrint",
     ]);
 
+
     function updateModal() {
       updateSignatureModal.value = true;
     }
@@ -744,6 +756,7 @@ export default {
       updateSignatureModal,
       setPhotographModal,
       takePhotographModal,
+      prints
       // userVerificationImage
     };
   },
@@ -836,12 +849,15 @@ export default {
       "userProfile",
       "signature",
       "updating",
+      "dashboard"
     ]),
+    
     ...mapGetters("ProfileModule", [
       "updated",
       "user",
       "signature",
       "updating",
+      
     ]),
     ...mapGetters("user", ["userVerificationImage"]),
     // populate state from api
@@ -851,15 +867,22 @@ export default {
       return country_id;
     },
     maskedNumber() {
-      // console.log(this.userProfile, this.profile)
+      
       if (this.userProfile?.identity_number !== null) {
         return mask(this.userProfile?.identity_number);
       }
       return null;
     },
+    getDefaultSignature(){
+
+      let signatures = this.prints.Signature
+      const defaultSignature =  signatures?.find(sign => sign.id == this.dashboard.default_signature)
+
+      return defaultSignature
+    }
   },
   methods: {
-    ...mapActions("ProfileModule", ["userUpdate"]),
+    ...mapActions("ProfileModule", ["userUpdate", "getDashboard"]),
     goHome() {
       this.$router.push("/");
     },
@@ -869,7 +892,6 @@ export default {
       });
     },
     receiveEmit() {
-      console.log("userVerificationImage", this.userVerificationImage);
       this.takePhotographModal = false;
     },
     handleSubmit() {
@@ -892,10 +914,10 @@ export default {
 
     verifyId() {
       this.verifying = true;
-      ToNote.post("/verify/user", {
+      ToNote.post("/verification/user-face-match", {
         type: this.profile.identity_type,
-        value: this.profile?.identity_number,
-        dob: this.userProfile.dob,
+        idNumber: this.profile?.identity_number,
+        photoBase64: this.userVerificationImage,
       })
         .then((res) => {
           if (res.status == 200) {
@@ -914,13 +936,16 @@ export default {
         .catch((err) => {
           this.verifyError = true;
           this.verifying = false;
-          $toast.error(err.response.data.message || err.response.data.data.error, {
-            duration: 3000,
-            queue: false,
-            position: "top-right",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          $toast.error(
+            err.response.data.message || err.response.data.data.error,
+            {
+              duration: 3000,
+              queue: false,
+              position: "top-right",
+              dismissible: true,
+              pauseOnHover: true,
+            }
+          );
         });
     },
   },
@@ -931,14 +956,11 @@ export default {
     //   this.validState = res?.data?.data?.national_verification;
     //   this.state = res?.data?.data?.state?.id;
     //   this.country = res?.data?.data?.country?.id;
-
     //   this.getStates(this?.country)
     // });
+    this.getDashboard();
     this.getUserPrints();
     this.$store.dispatch("ProfileModule/getUser");
-
-    // console.log("ProfileModule", this.userProfile)
-    // this.profile = this.userProfile
     this.validState = this.userProfile?.national_verification;
     this.state = this.userProfile?.state?.id;
     this.country = this.userProfile?.country?.id;
@@ -977,8 +999,7 @@ export default {
   object-fit: cover;
 }
 
-.signature-display{
-  
+.signature-display {
   display: flex;
   width: 760px;
   height: 200px;
@@ -986,8 +1007,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
   border-radius: 8px;
-  background: #F7F9FD;
+  background: #f7f9fd;
   gap: 80px;
 }
-
 </style>

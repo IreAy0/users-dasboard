@@ -6,6 +6,9 @@ export default {
     return ToNote.get("/user/profile");
   },
 
+  async getDashboard(){
+    return ToNote.get("/user/dashboard")
+  },
   async updateProfile(payload) {
     // update user profile
     return ToNote.post("/user/update", payload);

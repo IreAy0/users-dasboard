@@ -168,7 +168,7 @@
                 <div class="d-flex justify-content-center">
                   <b-img fluid width="324" :src="item?.img" alt="Login V2" />
                 </div>
-                <p>
+                <p class="mt-2 mb-50">
                   {{ item?.text }}
                 </p>
               </div>
@@ -267,19 +267,19 @@ export default {
       passwordFieldType: "password",
       items: [
         {
-          img: "/app-assets/images/banner/auth-image.png",
+          img: "/app-assets/images/banner/auth-image-1.png",
           text: "We aim to streamline the process of reaching agreements and cultivate trust",
         },
         {
-          img: "/app-assets/images/banner/auth-image.png",
+          img: "/app-assets/images/banner/auth-image-2.png",
           text: "Say goodbye to the traditional hassles of finding a Notary.",
         },
         {
-          img: "/app-assets/images/banner/auth-image.png",
+          img: "/app-assets/images/banner/auth-image-3.png",
           text: "We promote a sense of confidence and security in all your dealings.",
         },
         {
-          img: "/app-assets/images/banner/auth-image.png",
+          img: "/app-assets/images/banner/auth-image-4.png",
           text: "We save valuable time and ensures the highest level of accuracy in legal documentation.",
         },
 
@@ -294,7 +294,6 @@ export default {
     const usernameField = ref();
 
     const setUsername = () => {
-      console.log("we are here", usernameField.value);
       // this.user.email = '';
     };
 

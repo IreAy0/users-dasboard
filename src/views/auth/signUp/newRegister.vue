@@ -494,11 +494,22 @@ export default {
       confirm_password: "",
       passwordFieldType: "password",
       items: [
-        {img: '/app-assets/images/banner/auth-image.png' , text: 'We aim to streamline the process of reaching agreements and cultivate trust'},
-      {img: '/app-assets/images/banner/auth-image.png' , text: 'Say goodbye to the traditional hassles of finding a Notary.'},
-      {img: '/app-assets/images/banner/auth-image.png' , text: 'We promote a sense of confidence and security in all your dealings.'},
-      {img: '/app-assets/images/banner/auth-image.png' , text: 'We save valuable time and ensures the highest level of accuracy in legal documentation.'}
-
+        {
+          img: "/app-assets/images/banner/auth-image-1.png",
+          text: "We aim to streamline the process of reaching agreements and cultivate trust",
+        },
+        {
+          img: "/app-assets/images/banner/auth-image-2.png",
+          text: "Say goodbye to the traditional hassles of finding a Notary.",
+        },
+        {
+          img: "/app-assets/images/banner/auth-image-3.png",
+          text: "We promote a sense of confidence and security in all your dealings.",
+        },
+        {
+          img: "/app-assets/images/banner/auth-image-4.png",
+          text: "We save valuable time and ensures the highest level of accuracy in legal documentation.",
+        },
       //  'We aim to streamline the process of reaching agreements and cultivate trust',
       //   'Say goodbye to the traditional hassles of finding a Notary.' ,
       //   'We promote a sense of confidence and security in all your dealings.',

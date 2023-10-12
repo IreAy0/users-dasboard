@@ -1,13 +1,16 @@
 <template>
-  <div class="w-100">
+  <div class="flex-grow-1">
     <div @dragenter.prevent="toggleActive" @dragleave.prevent="toggleActive" @dragover.prevent
       @drop.prevent="toggleActive" :class="{ 'active-dropzone': active }" class="dropzone">
       <label for="dropzoneFile" class="custom-upload" role="button">
         <div class="text-center">
-          <h4>Drag and drop to upload</h4>
-          <h4>OR</h4>
-          <h4 class="btn btn-primary">Select File</h4>
-          <div class="text-muted mt-1" style="font-size: 12px">
+          <span class="upload-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11 16V7.85l-2.6 2.6L7 9l5-5l5 5l-1.4 1.45l-2.6-2.6V16h-2Zm-5 4q-.825 0-1.413-.588T4 18v-3h2v3h12v-3h2v3q0 .825-.588 1.413T18 20H6Z"/></svg>
+          </span>
+          <h6>Drag and drop or</h6>
+          <!-- <h6>OR</h6> -->
+          <h6 class="btn btn-primary">Browse</h6>
+          <div class="text-muted mt-50" style="font-size: 12px">
             <slot name="format">PDF only</slot>
             <br />
             <slot name="limit">
@@ -34,7 +37,7 @@ const toggleActive = () => { active.value = !active.value };
 <style scoped>
 .dropzone {
   width: 100%;
-  height: 200px;
+  height: 223px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,12 +47,26 @@ const toggleActive = () => { active.value = !active.value };
   background-color: #fff;
   transition: 0.3s ease all;
   border-radius: 3px;
+  padding: 40px 30px;
 }
 
 label {
   transition: 0.3s ease all;
 }
 
+.upload-icon{
+  display: flex;
+width: 40px;
+height: 40px;
+padding: 5px;
+justify-content: center;
+align-items: center;
+border-radius: 28px;
+border: 6px solid #EAECF0;
+background: #EAECF0;
+margin: auto;
+margin-bottom: .5rem
+}
 .dropzone input {
   display: none;
 }
