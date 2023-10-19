@@ -376,7 +376,7 @@
           <h6 v-show="validState !== true"  class="text-gray-900 my-1">
             2. We will carry out further identity verification checks
           </h6>
-          <div v-if="validState !== true" class="d-flex align-items-center gap-3">
+          <div v-if="validState !== true" class="d-flex align-items-center flex-column  flex-lg-row gap-3">
             <div class="camera-passport-placeholder">
               <div class="camera-placeholder text-center">
                 <template v-if="userVerificationImage">
