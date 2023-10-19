@@ -293,7 +293,7 @@
                   <option value="" disabled>
                     Please select a form of Identity
                   </option>
-                  <option value="vnin">Virtual NIN</option>
+                  <option value="nin">NIN</option>
                   <option value="drivers_license">Drivers License</option>
                   <option value="bvn">BVN</option>
                 </Field>
@@ -428,13 +428,22 @@
             <div>
               
               <button
-              v-if="!userVerificationImage"
+              v-if="!userVerificationImage "
                 @click="setPhotographModal"
                 class="btn btn-primary btn-sm px-3 py-1 waves-effect"
                 id="takePicture"
               >
                 <!-- <EditIcon /> -->
                 Start face match
+              </button>
+              <button
+              v-else-if="verifyError == true"
+                @click="setPhotographModal"
+                class="btn btn-primary btn-sm px-3 py-1 waves-effect"
+                id="takePicture"
+              >
+                <!-- <EditIcon /> -->
+                Retake
               </button>
               <button
               :disabled="verifying == true"
@@ -949,7 +958,15 @@ export default {
         });
     },
   },
-
+  watch: {
+    // whenever question changes, this function will run
+    userVerificationImage: function (newImage, oldImage) {
+     if(newImage){
+      this.verifyError = false
+      console.log('first', newImage, oldImage)
+     }
+    }
+  },
   mounted() {
     // ToNote.get("/user/profile").then((res) => {
     //   // this.profile = res?.data?.data;

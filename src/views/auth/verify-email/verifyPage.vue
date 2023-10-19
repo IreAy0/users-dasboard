@@ -160,7 +160,13 @@ export default {
     },
   },
   mounted(){
-    otpInput.value.otp = [...this.$route.query.access_code];
+    if (!this.$route.query.access_code && !this.$route.query.email) {
+      this.$router.push({path: '/'})
+    }else {
+      otpInput.value.otp = [...this.$route.query.access_code];
+      this.handleSubmit()
+    }
+   
   },
   beforeMount() {
     this.toggleEveryDisplay();

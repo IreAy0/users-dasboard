@@ -282,8 +282,6 @@ const takeSnapshot = () => {
         category: "Upload",
       };
       imgPreview.value = dataUrl
-      console.log('dataUrl', dataUrl)
-
       // savePrint(uploadPassport);
     }
   }, 1000);
