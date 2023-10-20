@@ -140,7 +140,7 @@ export default {
         )
         .catch((error) => {
           this.loading = false;
-          $toast.error(error.response.data.message, {
+          $toast.error(error.response.data.message || error.response.data.message, {
             duration: 5000,
             queue: false,
             position: "top-right",
