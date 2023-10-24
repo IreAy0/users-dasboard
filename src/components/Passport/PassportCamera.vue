@@ -200,7 +200,7 @@ const started = () => {
 };
 
 const startCamera = () => {
-  console.log('camera.value.', camera.value)
+ 
       isCameraStarted.value = true;
       camera.value.start()
     }
@@ -241,7 +241,7 @@ const proceedToDelete = () => {
 setTimeout(async () => {
   const devices = await camera.value?.devices();
   videoDevices.value = devices?.filter((device) => device.kind === "videoinput");
-  console.log('devices', devices,)
+
 }, 3000);
 
 const changeCameraFace = () => camera.value?.changeCamera(isSelected.value);

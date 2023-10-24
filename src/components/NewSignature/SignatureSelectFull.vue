@@ -116,7 +116,7 @@
               </span>
             </template>
             <template v-else>
-              <img :src="typeInitial" class="img-fluid" alt="initials" />
+              <img :src="typeInitial"   class="img-fluid" alt="initials" />
             </template>
           </h1>
         </div>
@@ -144,7 +144,7 @@
         type="checkbox"
         role="switch"
         id="flexSwitchCheckDefault"
-        :disabled="dashboard.default_signature === typeSignature.id"
+        :disabled="dashboard.default_signature === typeSignature.id || !typeSignature"
         :checked="dashboard.default_signature === typeSignature.id"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault"
@@ -158,7 +158,7 @@
       @click="createTypedSignature"
     >
       <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-      <span>Create</span>
+      <span>Save</span>
     </button>
   </div>
 </template>
@@ -305,7 +305,6 @@ const onCapture = async (font) => {
       data.value = { file: dataUrl, type: "Signature", category: "Type" };
       // loading.value = false;
       // capturing.value = true;
-      console.log("dataUrl, data.value", data.value);
     } catch (error) {
       console.error("oops, something went wrong!", error);
     }
@@ -319,7 +318,6 @@ const onCapture = async (font) => {
       };
       loading.value = false;
       capturing.value = true;
-      console.log("dataUrl, data.value", initial_data.value);
     } catch (error) {
       console.error("oops, something went wrong!", error);
     }

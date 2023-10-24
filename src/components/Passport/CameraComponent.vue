@@ -137,7 +137,7 @@ export default {
     },
     async takeSnapshot() {
       const camera = this.$refs.camera;
-      const canvas = document.createElement("canvas"); // Create a temporary canvas
+      let canvas = document.createElement("canvas"); // Create a temporary canvas
       const context = canvas.getContext("2d");
       canvas.width = camera.videoWidth/2;
       canvas.height = camera.videoHeight/2;
@@ -147,13 +147,20 @@ export default {
 
       const compressedSnapshot = canvas.toDataURL("image/png", quality);
 
-      console.log('compressedSnapshot', compressedSnapshot, camera.videoWidth, camera.videoHeight )
-      // Clean up the temporary canvas
-      // canvas.remove();
-      this.cameraActive = false;
-      camera.srcObject = null;
       // Update your component's data property with the compressed snapshot
-      this.snapshot = compressedSnapshot;
+       // Set canvas to null, removing the reference
+      canvas = null;
+
+      // Shut down the camera
+      if (camera.srcObject) {
+          const tracks = camera.srcObject.getTracks();
+          tracks.forEach(track => track.stop());
+        }
+        this.snapshot = compressedSnapshot;
+        if (compressedSnapshot) {
+          this.cameraActive = false;
+          camera.srcObject = null;
+        }
     },
     closeSnap() {
       this.setVerificationImage(this.snapshot);

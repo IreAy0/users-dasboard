@@ -29,11 +29,13 @@ export const  savePrint = async ({ commit }, formData) => {
       
       commit("SET_PRINTS", response.data.data);
       commit("SET_PRINT_NOTIFICATION", false);
-      
-      toast.success("Saved successfully", {
-        timeout: 5000,
-        position: "top-right",
-      });
+      if (formData.type !== 'Initial') {
+        toast.success("Saved successfully", {
+          timeout: 5000,
+          position: "top-right",
+        });
+      }
+     
       return true
     })
     .catch((error) => {

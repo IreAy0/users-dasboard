@@ -963,7 +963,6 @@ export default {
     userVerificationImage: function (newImage, oldImage) {
      if(newImage){
       this.verifyError = false
-      console.log('first', newImage, oldImage)
      }
     }
   },

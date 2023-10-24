@@ -134,13 +134,13 @@ export default {
               dismissible: true,
               pauseOnHover: true,
             });
-            this.user.email = " ";
+            this.user.email = "";
           }
           // eslint-disable-next-line no-unused-vars
         )
         .catch((error) => {
           this.loading = false;
-          $toast.error(error.response.data.message || error.response.data.message, {
+          $toast.error(error.response.data.message || error.response.data.data.error, {
             duration: 5000,
             queue: false,
             position: "top-right",

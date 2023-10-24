@@ -38,7 +38,7 @@
           <CropperComp
             :data="imgUrl"
             :size="580"
-            btnText="Create"
+            btnText="Save"
             @uploaded="uploadSignature"
           />
 
@@ -81,7 +81,7 @@
         type="checkbox"
         role="switch"
         id="flexSwitchCheckDefault"
-        :disabled="dashboard.default_signature === uploadedSignature.id"
+        :disabled="dashboard.default_signature === uploadedSignature.id || !uploadedSignature"
         :checked="dashboard.default_signature === uploadedSignature.id"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault"

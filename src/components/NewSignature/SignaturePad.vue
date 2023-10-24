@@ -78,7 +78,7 @@
         type="checkbox"
         role="switch"
         id="flexSwitchCheckDefault"
-        :disabled="dashboard.default_signature === drawnSignature.id"
+        :disabled="dashboard.default_signature === drawnSignature.id || !drawnSignature"
         :checked="dashboard.default_signature === drawnSignature.id"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault"
@@ -90,7 +90,7 @@
       ref="create"
       @click="createDrawSignature"
     >
-      Create
+      Save
     </button>
   </div>
 </template>
