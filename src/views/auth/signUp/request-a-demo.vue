@@ -1,8 +1,8 @@
 <template>
   <div class="auth-wrapper auth-v2">
-    <div class="vector-1"></div>
+    <!-- <div class="vector-1"></div>
     <div class="vector-2"></div>
-    <div class="vector-3"></div>
+    <div class="vector-3"></div> -->
     <b-row class="auth-inner m-0">
       <!-- <div class="bg-primary"></div>
       <div class="bg-info"></div> -->
@@ -16,14 +16,14 @@
 
       <b-col
         lg="6"
-        md="7"
+        md="8"
         class="d-flex align-items-center position-relative mx-auto auth-bg px-2 p-lg-5"
       >
         <b-col
         sm="8"
         md="6"
-        lg="10"
-          class=" mx-auto login-card bg-white zindex-3 rounded h-100 py-3 "
+        lg="8"
+          class=" mx-auto login-card bg-white zindex-3 rounded py-3 px-3"
         >
           <b-link class="d-flex justify-content-center">
             <img
@@ -36,21 +36,15 @@
             class="mb-2large mt-4 text-center no-whitespace card-title text-gray-900 font-weight-bold"
             tag="h2"
           >
-            Get started with us
+            Request a Demo
           </b-card-title>
-          <!-- <GoogleLogin  :callback="loginCallback" /> -->
-          <GoogleLogin >
-            Sign up with google
-          </GoogleLogin>
-           
-          <div class="divider m-0">
-            <div class="divider-text">or</div>
-          </div>
+         
           <Form
             @submit="onSubmit"
             v-slot="{ errors }"
             :validation-schema="schema"
           >
+
             <div :class="{ 'is-invalid': loginError }" class="mt-1">
               <div
                 v-if="loginError"
@@ -71,6 +65,14 @@
                 ></button>
               </div>
             </div>
+            <b-form-group label="Username" label-for="username-input">
+              <b-form-input
+                id="username-input"
+                v-model="user.first_name"
+                @focus="isFocused = true"
+                @blur="isFocused = false"
+              ></b-form-input>
+            </b-form-group>
             <div class="">
               <!-- :rules="validateEmail" -->
               <!-- username -->
@@ -103,7 +105,6 @@
                   <small class="text-danger">{{ errors.last_name }}</small>
                 </b-col>
               </div>
-
               <b-col class="mb-2 pl-0 pr-0 form-floating" cols="12">
                 <Field
                   name="email"
@@ -111,253 +112,28 @@
                   class="form-control form-control-lg"
                   type="email"
                   id="register-email"
-                  placeholder="Email *"
+                  placeholder="Company Name *"
                 />
-                <label for="register-email">Email*</label>
+                <label for="register-email">Company Name*</label>
 
                 <small class="text-danger">{{ errors.email }}</small>
               </b-col>
-              <div class="d-flex flex-wrap">
-                <b-col class="pl-0 pr-1 form-floating mb-2" cols="12" lg="6">
-                  <Field
-                    name="password"
-                    v-model="user.password"
-                    :class="{ 'border-danger': errors.password }"
-                    class="form-control "
-                    :type="passwordFieldType"
-                    placeholder="Password *"
-                    id="register-password"
-                  />
-                  <label for="register-password">Password*</label>
+              <b-col class="mb-2 pl-0 pr-0 form-floating" cols="12">
+                <Field
+                  name="email"
+                  :class="{ 'border-danger': errors.email }"
+                  class="form-control form-control-lg"
+                  type="email"
+                  id="register-email"
+                  placeholder="Your Email *"
+                />
+                <label for="register-email">Your Email*</label>
 
-                  <!-- <small class="text-danger">{{ errors.password }}</small> -->
-                </b-col>
-
-                <b-col class="pl-lg-1 pl-0 mt-2 mt-lg-0 pr-0 mb-2 form-floating" cols="12" lg="6">
-                  <Field
-                    name="confirm"
-                    v-model="confirm_password"
-                    class="form-control "
-                    :type="passwordFieldType"
-                    placeholder="Confirm Password *"
-                    id="register-confirm-password"
-                  />
-
-                  <label for="register-confirm-password">Confirm Password*</label>
-                  <!-- <small class="text-danger">{{ errors.password }}</small> -->
-                </b-col>
-              </div>
-
-              <div v-show="user.password.length > 0" class="mt-50">
-                <b-form-checkbox
-                  @change="togglePasswordVisibility"
-                  class="fs-small text-dark"
-                >
-                  Show password
-                </b-form-checkbox>
-              </div>
+                <small class="text-danger">{{ errors.email }}</small>
+              </b-col>
+             
             </div>
-            <b-col class="mb-2 pl-0 pr-0 form-floating" cols="12">
-              <Field
-                name="referral_code"
-                
-                class="form-control form-control-lg"
-                type="text"
-                id="register-referral_code"
-                placeholder="Referral Code"
-              />
-              <label for="register-referral_code">Referral Code(optional)</label>
 
-            </b-col>
-            <div class="progress" v-show="user.password.length > 0">
-              <div
-                class="progress-bar"
-                :style="{
-                  width: `${
-                    pws().value == 'Too weak'
-                      ? '20%'
-                      : pws().value == 'Weak'
-                      ? '40%'
-                      : pws().value == 'Medium'
-                      ? '60%'
-                      : pws().value == 'Strong'
-                      ? '100%'
-                      : '0%'
-                  }`,
-                  backgroundColor: `${
-                    pws().value == 'Strong'
-                      ? '#5BCC7A'
-                      : pws().value == 'Medium'
-                      ? '#25CCD7'
-                      : pws().value == 'Weak'
-                      ? '#FBDC00'
-                      : pws().value == 'Too weak'
-                      ? '#FB0066'
-                      : ''
-                  }`,
-                }"
-              ></div>
-            </div>
-            <p class="text--black mb-50" v-show="user.password.length > 0">
-              Password Strength:
-              <span
-                class="mb-0 d-inline-flex"
-                :class="{
-                  'text--red': pws().value == 'Too weak',
-                  'text--yellow': pws().value == 'Weak',
-                  'text--teal': pws().value == 'Medium',
-                  'text--green': pws().value == 'Strong',
-                }"
-              >
-                {{
-                  pws().value == "Too weak"
-                    ? "Weak 😖"
-                    : pws().value == "Weak"
-                    ? "Fair 😟"
-                    : pws().value == "Medium"
-                    ? "Almost there 😉"
-                    : pws().value == "Strong"
-                    ? "Strong 😎💪"
-                    : ""
-                }}
-              </span>
-            </p>
-
-            <div v-show="user.password.length > 0">
-              <ul class="hint">
-                <li
-                  :class="{
-                    'text--red': !pws().length < 8,
-                    'text--green': pws().length > 8,
-                  }"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  8 character minimum
-                </li>
-                <li
-                  :class="{
-                    'text--red': !pws().contains.includes('uppercase'),
-                    'text--green': pws().contains.includes('uppercase'),
-                  }"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  one uppercase character
-                </li>
-                <li
-                  :class="{
-                    'text--red': !pws().contains.includes('lowercase'),
-                    'text--green': pws().contains.includes('lowercase'),
-                  }"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  one lowercase character
-                </li>
-                <li
-                  :class="{
-                    'text--red': !pws().contains.includes('number'),
-                    'text--green': pws().contains.includes('number'),
-                  }"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  one number
-                  
-                </li>
-                <li
-                  :class="{
-                    'text--red': !pws().contains.includes('symbol'),
-                    'text--green': pws().contains.includes('symbol'),
-                  }"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  one special character
-                </li>
-
-                <!-- <li class="text--red" :class="{
-                  'text--red': pws().value !== 'Too weak',
-                  'text--red': pws().value == 'Weak',
-                  'text-warning': pws().value == 'Medium',
-                  'text--green': pws().value == 'Strong',
-                }">
-                  {{ pws().value }}
-                </li> -->
-
-                <li
-                  :class="{
-                    'text--red': passwordError === true,
-                    'text--green': passwordError === false,
-                  }"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 10C2.2385 10 0 7.7615 0 5C0 2.2385 2.2385 0 5 0C7.7615 0 10 2.2385 10 5C10 7.7615 7.7615 10 5 10ZM4.5015 7L8.0365 3.4645L7.3295 2.7575L4.5015 5.586L3.087 4.1715L2.38 4.8785L4.5015 7Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  must match 
-                </li>
-              </ul>
-            </div>
 
             <div class="form-group mt-2">
               <!-- :disabled="loggingIn || user.email.length == 0 || user.password.length == 0" -->
@@ -366,7 +142,7 @@
                   v-show="processing"
                   class="spinner-border spinner-border-sm"
                 ></span>
-                <span>Get Started</span>
+                <span>Request a Demo</span>
               </button>
             </div>
           </Form>
@@ -374,26 +150,19 @@
           <!-- form -->
 
           <b-card-text class="text-center">
-            <span>Already have an account? </span>
-            <b-link to="/">
-              <span class="font-weight-bold">&nbsp;Sign in</span>
-            </b-link>
+            <span>New on our platform? </span>
+            <router-link class="font-weight-bold" to="/register">
+              &nbsp;Create an account
+            </router-link>
           </b-card-text>
         </b-col>
       </b-col>
       <!-- /Login-->
 
       <!-- Left Text-->
-      <b-col lg="6" class="d-none d-lg-flex align-items-center p-5 auth-bg">
+      <b-col lg="5" class="d-none d-lg-flex align-items-center p-5 bg-white">
         <div class="w-100 align-items-center justify-content-center px-5">
-          <!-- <div class="d-flex justify-content-center">
-            <b-img
-              fluid
-              width="324"
-              src="/app-assets/images/banner/auth-image.png"
-              alt="Login V2"
-            />
-          </div> -->
+
          
           <div ref="signSwiper" class="swiper-container mySwiper myswiper-container">
             <div class="swiper-wrapper ">
@@ -487,8 +256,6 @@ export default {
     Icon,
     Form,
     Field,
-    GoogleLogin
-    // SwiperComponent
   },
   data() {
     return {
@@ -498,7 +265,9 @@ export default {
         email: "",
         password: "",
         role: "User",
+        
       },
+      isFocused: false,
       submitted: false,
       termsState: "",
       validated: false,
@@ -601,7 +370,6 @@ export default {
         password: values.password,
         role: "User",
         entry_point: "User",
-        referral_code: values.referral_code
       };
       if (
         this.passwordError == false &&
@@ -784,5 +552,26 @@ ul.hint li {
   &:focus {
     outline: none;
   }
+}
+
+/* Custom styling for floating label */
+.b-form-group {
+  position: relative;
+}
+
+.b-form-group label {
+  position: absolute;
+  top: 0.25rem;
+  left: 1rem;
+  transition: 0.2s ease-out all;
+  pointer-events: none;
+  color: #495057; /* Adjust label color */
+}
+
+.b-form-group label.floated,
+.b-form-input:focus ~ label {
+  top: -1rem;
+  font-size: 0.75rem;
+  color: #007bff; /* Adjust floated label color */
 }
 </style>

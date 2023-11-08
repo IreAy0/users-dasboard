@@ -82,7 +82,7 @@ const SettingPage = () =>
     import(
       /* webpackChunkName: "settings" */ "@/views/auth/passwords/resetPassword.vue"
     );
-  
+
 const verifyPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/verify-email/verifyPage.vue"
