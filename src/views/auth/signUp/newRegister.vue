@@ -148,7 +148,7 @@
                 </b-col>
               </div>
 
-              <div v-show="user.password.length > 0" class="mt-50">
+              <div v-show="user.password.length > 0" class="mb-2">
                 <b-form-checkbox
                   @change="togglePasswordVisibility"
                   class="fs-small text-dark"
@@ -160,7 +160,7 @@
             <b-col class="mb-2 pl-0 pr-0 form-floating" cols="12">
               <Field
                 name="referral_code"
-                
+                v-model="user.referral_code"
                 class="form-control form-control-lg"
                 type="text"
                 id="register-referral_code"
@@ -498,6 +498,7 @@ export default {
         email: "",
         password: "",
         role: "User",
+        referral_code: ""
       },
       submitted: false,
       termsState: "",
@@ -571,6 +572,8 @@ export default {
   },
   
   mounted() {
+
+    this.user.referral_code = this.$route.query.referral_code
     initSwiper(this.$refs.signSwiper, {
         spaceBetween: 50,
         loop: true,
@@ -601,7 +604,7 @@ export default {
         password: values.password,
         role: "User",
         entry_point: "User",
-        referral_code: values.referral_code
+        referral_code: this.user.referral_code
       };
       if (
         this.passwordError == false &&
