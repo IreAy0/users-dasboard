@@ -1124,7 +1124,7 @@ footer.footer-border {
 	height: 20px;
 	width: 20px;
 	font-size: 18px;
-	margin-right: .5rem
+	/* margin-right: .5rem */
 }
 
 .navigation li.menu-item-animating {

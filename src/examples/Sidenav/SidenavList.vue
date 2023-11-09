@@ -3,7 +3,7 @@
     class="w-auto bg-white h-auto main-menu-content z-index-sticky collapse navbar-collapse max-height-vh-100 pt-2 h-100"
     id="sidenav-collapse-main"
   >
-    <ul class="navbar-nav navigation navigation-main">
+    <ul class="navbar-nav gap-50  navigation navigation-main">
       <li class="nav-item">
         <sidenav-collapse
           url="#"
@@ -33,13 +33,15 @@
         </sidenav-collapse>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item ">
         <sidenav-collapse-item
           url="#"
           :aria-controls="''"
           v-bind:collapse="true"
           collapseRef="forms"
+          class=""
           text="My Documents"
+          :subnav_style="'ms-3 mt-1  me-2 border-start border-2 rounded-0'"
         >
           <template v-slot:miniIcon>
             <svg
@@ -57,53 +59,21 @@
               <polyline points="2 12 12 17 22 12"></polyline>
             </svg>
           </template>
-          <template v-slot:nav-child-item>
+          <template v-slot:nav-child-item >
             <li class="nav-item">
               <a
-                class="nav-link"
+                class="nav-link  me-0"
                 :href="`${getEnv}?status=completed&qt=${getToken}`"
               >
-                <div
-                  class="text-center d-flex align-items-center justify-content-center"
-                  :class="isRTL ? ' ms-2' : 'me-1'"
-                >
-                  <svg
-                    style="{{
-      height: 20px;
-      font-size: 16px;
-      margin-right: 0.5rem;
-      height: 16px;
-      width: 16px;
-  }}
-  "
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-check-circle"
-                    data-v-64c7739b=""
-                  >
-                    <path
-                      d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
-                      data-v-64c7739b=""
-                    ></path>
-                    <polyline
-                      points="22 4 12 14.01 9 11.01"
-                      data-v-64c7739b=""
-                    ></polyline>
-                  </svg>
-                </div>
-                <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+                
+                <span class="nav-link-text" :class="isRTL ? ' me-1' : ''">
                   <span class="menu-title text-truncate fs-6 d-flex">
                     <span>Completed</span>
                   </span>
                 </span>
-                <span class="badge rounded-pill badge-light-warning ms-auto">
+                <!-- {{documentsByStatusCompleted?.data.length}} -->
+                <span class="counter_pill ms-auto">
+
                   {{
                     documentsByStatusCompleted?.data?.length > 0
                       ? documentsByStatusCompleted?.meta?.total
@@ -114,251 +84,91 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link"
+                class="nav-link me-0"
                 :href="`${getEnv}?status=received&qt=${getToken}`"
               >
-                <div
-                  class="text-center d-flex align-items-center justify-content-center"
-                  :class="isRTL ? ' ms-2' : 'me-1'"
-                >
-                  <svg
-                    style="{{
-      height: 20px;
-      font-size: 16px;
-      margin-right: 0.5rem;
-      height: 16px;
-      width: 16px;
-  }}
-  "
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-mail"
-                    data-v-af43c274=""
-                    data-v-b8d005c4=""
-                  >
-                    <path
-                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                      data-v-b8d005c4=""
-                    ></path>
-                    <polyline
-                      points="22,6 12,13 2,6"
-                      data-v-b8d005c4=""
-                    ></polyline>
-                  </svg>
-                </div>
-                <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+              
+                <span class="nav-link-text" :class="isRTL ? ' me-1' : ''">
                   <span class="menu-title text-truncate fs-6 d-flex">
                     <span>Need to Sign</span>
                   </span>
                 </span>
-                <span class="badge rounded-pill badge-light-warning ms-auto">{{
+                <span class="counter_pill ms-auto">{{
                   needToSign.length > 0 ? needToSign.length : 0
                 }}</span>
               </a>
             </li>
             <li class="nav-item nav-sm">
               <a
-                class="nav-link"
+                class="nav-link me-0"
                 :href="`${getEnv}?status=sent&qt=${getToken}`"
               >
-                <div
-                  class="text-center d-flex align-items-center justify-content-center"
-                  :class="isRTL ? ' ms-2' : 'me-1'"
-                >
-                  <svg
-                    style="{{
-      height: 20px;
-      font-size: 16px;
-      margin-right: 0.5rem;
-      height: 16px;
-      width: 16px;
-  }}
-  "
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-send"
-                    data-v-af43c274=""
-                    data-v-b8d005c4=""
-                  >
-                    <line
-                      x1="22"
-                      y1="2"
-                      x2="11"
-                      y2="13"
-                      data-v-b8d005c4=""
-                    ></line>
-                    <polygon
-                      points="22 2 15 22 11 13 2 9 22 2"
-                      data-v-b8d005c4=""
-                    ></polygon>
-                  </svg>
-                </div>
-                <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+                
+                <span class="nav-link-text" :class="isRTL ? ' me-1' : ''">
                   <span class="menu-title text-truncate fs-6 d-flex gap-3"
                     >Sent
                   </span>
                 </span>
-                <span class="badge rounded-pill badge-light-warning ms-auto">
+                <span class="counter_pill ms-auto">
                   {{ dashboardData?.sent ? dashboardData.sent : 0 }}</span
                 >
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" :href="`${getEnv}?status=new&qt=${getToken}`">
-                <div
-                  class="text-center d-flex align-items-center justify-content-center"
-                  :class="isRTL ? ' ms-2' : 'me-1'"
-                >
-                  <svg
-                    style="{{
-      height: 20px;
-      font-size: 16px;
-      margin-right: 0.5rem;
-      height: 16px;
-      width: 16px;
-  }}
-  "
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-folder-plus"
-                    data-v-af43c274=""
-                    data-v-b8d005c4=""
-                  >
-                    <path
-                      d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
-                      data-v-b8d005c4=""
-                    ></path>
-                    <line
-                      x1="12"
-                      y1="11"
-                      x2="12"
-                      y2="17"
-                      data-v-b8d005c4=""
-                    ></line>
-                    <line
-                      x1="9"
-                      y1="14"
-                      x2="15"
-                      y2="14"
-                      data-v-b8d005c4=""
-                    ></line>
-                  </svg>
-                </div>
-                <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+              <a class="nav-link me-0" :href="`${getEnv}?status=new&qt=${getToken}`">
+                
+                <span class="nav-link-text" :class="isRTL ? ' me-1' : ' '">
                   <span class="menu-title text-truncate fs-6 d-flex gap-3"
                     >Draft
                   </span>
                 </span>
-                <span class="badge rounded-pill badge-light-warning ms-auto">
+                <span class="counter_pill ms-auto">
                   {{ dashboardData?.draft ? dashboardData.draft : 0 }}</span
                 >
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link me-0" :href="`${getEnv}?status=declined&qt=${getToken}`">
+               
+                <span class="nav-link-text" :class="isRTL ? ' me-1' : ''">
+                  <span class="menu-title text-truncate fs-6 d-flex gap-3"
+                    >Declined
+                  </span>
+                </span>
+                <span class="counter_pill ms-auto">
+                  {{
+                    declinedDocuments?.data?.length > 0
+                      ? declinedDocuments?.meta?.total
+                      : 0
+                  }}</span
+                >
+              </a>
+            </li>
+            <li class="nav-item">
               <a
-                class="nav-link"
+                class="nav-link me-0"
                 :href="`${getEnv}?status=deleted&qt=${getToken}`"
               >
-                <div
-                  class="text-center d-flex align-items-center justify-content-center"
-                  :class="isRTL ? ' ms-2' : 'me-1'"
-                >
-                  <svg
-                    style="{{
-      height: 20px;
-      font-size: 16px;
-      margin-right: 0.5rem;
-      height: 16px;
-      width: 16px;
-  }}
-  "
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-trash"
-                    data-v-af43c274=""
-                    data-v-b8d005c4=""
-                  >
-                    <polyline
-                      points="3 6 5 6 21 6"
-                      data-v-b8d005c4=""
-                    ></polyline>
-                    <path
-                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-                      data-v-b8d005c4=""
-                    ></path>
-                  </svg>
-                </div>
-                <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">
+                
+                <span class="nav-link-text" :class="isRTL ? ' me-1' : ''">
                   <span class="menu-title text-truncate fs-6 d-flex gap-3"
                     >Deleted Files
                   </span>
                 </span>
-                <span class="badge rounded-pill badge-light-warning ms-auto">
+                <span class="counter_pill ms-auto">
                   {{
                     dashboardData?.deleted ? dashboardData?.deleted : 0
                   }}</span
                 >
               </a>
             </li>
-            <li class="nav-item disabled">
+            <li class="nav-item me-0 disabled">
               <!-- :href="`${signLink}?status=sign&qt=${getToken}`" -->
               <a class="nav-link" href="#">
-                <div
-                  class="text-center d-flex align-items-center justify-content-center"
-                  :class="isRTL ? ' ms-2' : 'me-1'"
-                >
-                  <svg
-                    data-v-1a464b11=""
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-link"
-                  >
-                    <path
-                      d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
-                    ></path>
-                    <path
-                      d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
-                    ></path>
-                  </svg>
-                </div>
+               
                 <span
                   class="nav-link-text d-flex"
-                  :class="isRTL ? ' me-1' : 'ms-1'"
+                  :class="isRTL ? ' me-1' : ''"
                 >
                   <span class="menu-title text-truncate fs-6 d-flex gap-3"
                     >Sign Link
@@ -664,7 +474,7 @@ export default {
     ...mapState("MenuModule", ["openMenu"]),
     ...mapState("DocumentModule", ["counter"]),
     ...mapState("schedule", ["affidavits", "allSessionRecord"]),
-    ...mapState("document", ["needToSign", "documentsByStatusCompleted"]),
+    ...mapState("document", ["needToSign", "documentsByStatusCompleted", "declinedDocuments"]),
     getToken() {
       const token = getToken();
       return token;
@@ -725,6 +535,7 @@ export default {
     ...mapActions("document", [
       "getReceivedDocuments",
       "getUserDocumentByStatus",
+      "getDeclinedDocuments"
     ]),
     openNav() {
       this.navOpen = !this.navOpen;
@@ -735,6 +546,7 @@ export default {
     this.getAffidavitRequest();
     // this.getSessionRecords()
     this.getReceivedDocuments();
+    this.getDeclinedDocuments()
     this.getUserDocumentByStatus("Completed");
   },
 };
@@ -762,6 +574,25 @@ export default {
   stroke: currentColor;
   stroke-width: 8;
   stroke-miterlimit: 10;
+}
+
+.counter_pill {
+  display: flex;
+padding: 2px 8px;
+align-items: center;
+border-radius: 16px;
+background:  #F2F4F7;
+color: #1D2939;
+font-size: 12px;
+font-weight: 500;
+mix-blend-mode: multiply;
+}
+.nav-item .nav-link{
+  font-weight: 500 !important;
+  font-size: 16px;
+}
+.nav-item .nav-link:hover{
+  color: #003BB3 !important
 }
 </style>
 <!-- 

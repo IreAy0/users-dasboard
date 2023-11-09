@@ -14,6 +14,9 @@ export const SET_DOCUMENTS_BY_STATUS_COMPLETED = (state, docs) => {
   state.documentsByStatusCompleted = docs;
 };
 
+export const SET_DECLINED_DOCUMENTS = (state, docs) => {
+  state.declinedDocuments = docs;
+};
 
 export const SET_DOCUMENT = (state, doc) => {
   state.document = doc;

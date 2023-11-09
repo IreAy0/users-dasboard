@@ -9,12 +9,12 @@
     >
     <!-- {{isExpanded}} -->
     <slot name="miniIcon" class="sidenav-mini-icon" /> 
-      <span class="sidenav-normal me-1 ms-1 ps-1">
+      <span class="sidenav-normal ps-75">
         {{ text }} <b class="caret"></b
       ></span>
     </a>
     <div :class="isExpanded ? 'collapse show' : 'collapse'">
-      <ul class="nav nav-sm flex-column">
+      <ul  :class="`${subnav_style} nav nav-sm flex-column`">
         <slot name="nav-child-item" />
       </ul>
     </div>
@@ -28,6 +28,10 @@ export default {
     refer: {
       type: String,
       required: true,
+    },
+    subnav_style:{
+      type: String,
+      required: false
     },
     // miniIcon: {
     //   type: String,

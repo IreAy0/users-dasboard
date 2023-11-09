@@ -3,6 +3,7 @@ export default {
   documentsByStatus: [],
   needToSign:[],
   documentsByStatusCompleted:[],
+  declinedDocuments:{},
   document: [],
   doneEditing: null,
   resourceTools: [],

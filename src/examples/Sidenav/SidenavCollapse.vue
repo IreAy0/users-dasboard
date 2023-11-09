@@ -12,11 +12,11 @@
  
     <div
       class="text-center d-flex align-items-center justify-content-center"
-      :class="isRTL ? ' ms-2' : 'me-1'"
+      :class="isRTL ? ' ms-2' : ''"
     >
       <slot name="icon"></slot>
     </div>
-    <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ms-1'">{{
+    <span class="nav-link-text" :class="isRTL ? ' me-1' : 'ps-75'">{{
       navText
     }}</span>
   </router-link>

@@ -4,6 +4,7 @@ import ToNote from "@/Services/Tonote";
 const END_POINT = "documents";
 const DOCUMENT_DELETE = "document-multiple-delete";
 const DOCUMENT_COMPLETE = "document-complete";
+const DECLINE_DOCUMENT = "declined-documents";
 const DOCUMENT_RECEIVED = "documents-received";
 // const SIGNED_DOCUMENTS ="signed-documents"
 const DOCUMENT_TEMPORAL_DELETED = "documents-temporal-deleted";
@@ -21,8 +22,10 @@ export default {
   },
 
   allDocumentByStatus(status) {
-    return ToNote.get(`${SIGNED_DOCUMENTS}?status=${status}&per_page=10`);
+    return ToNote.get(`${DOCUMENT_COMPLETE}?status=${status}&per_page=10`);
   },
+
+
 
   allCompletedDocuments(documentId) {
     return ToNote.get(`${DOCUMENT_COMPLETE}/${documentId}`);
@@ -30,6 +33,10 @@ export default {
 
   allReceivedDocuments(token) {
     return ToNote.get(`${DOCUMENT_RECEIVED}`, token);
+  },
+
+  allDeclinedDocuments(token) {
+    return ToNote.get(`${DECLINE_DOCUMENT}?per_page=10`);
   },
 
   allDeletedDocuments(token) {
