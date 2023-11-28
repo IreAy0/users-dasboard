@@ -44,7 +44,7 @@
       </div>
       <hr />
       <h2 class="text-black font-weight-bold   mt-3">Plans & Pricing</h2>
-       
+       <p class="font-weight-bold text-primary ">Note: If you signed up with a code, your discount will be applied at checkout</p>
       <div v-if="!singleData?.id">
         <div class="form-check form-switch gap-1 flex-row my-1 d-flex ps-0">
           <label class="form-check-label">Monthly</label>

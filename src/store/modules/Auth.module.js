@@ -47,7 +47,7 @@ const actions = {
        
         commit("registerFailure", error);
         if (error) {
-          $toast.error('Registration failed, Please try again', {
+          $toast.error(error.response.data.data.error, {
             duration: 3000,
             queue: false,
             position: "top-right",
