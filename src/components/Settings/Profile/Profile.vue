@@ -892,6 +892,8 @@ export default {
   },
   methods: {
     ...mapActions("ProfileModule", ["userUpdate", "getDashboard"]),
+    ...mapActions("user", ["setVerificationImage"]),
+    
     goHome() {
       this.$router.push("/");
     },
@@ -945,6 +947,7 @@ export default {
         .catch((err) => {
           this.verifyError = true;
           this.verifying = false;
+          this.setVerificationImage("");
           $toast.error(
             err.response.data.message || err.response.data.data.error,
             {

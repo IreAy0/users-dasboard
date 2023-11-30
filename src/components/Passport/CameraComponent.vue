@@ -129,6 +129,7 @@ export default {
             const camera = this.$refs.camera;
             camera.srcObject = stream;
             this.cameraActive = true;
+            camera.style.transform = "scaleX(-1)";
           })
           .catch((error) => {
             console.error("Camera activation error:", error);
