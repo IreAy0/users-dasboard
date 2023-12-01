@@ -14,9 +14,7 @@
         "
         class=""
       >
-        <!-- <router-link class="brand-logo" to="/">
-          <img src="/app-assets/images/logo/betaLogo.png" class="img-fluid mt-2" width="150" />
-        </router-link> -->
+      
         <div
           class="m-0 bg-white shadow zindex-2 rounded-2 px-xl-3 new-auth-inner"
         >
@@ -31,15 +29,39 @@
               </router-link>
             </div>
 
+            <div style="background-color: ;width: 50px; height:50px;margin: auto" class="p-50 text-danger mb-1 rounded-circle bg-danger bg-opacity-25 d-flex align-items-center justify-content-center">
+
+              <span  class="iconify " data-icon="uiw:information-o" data-width="24"></span>
+            </div>
+
+            <h2 class="card-title text-gray-900 fw-bolder mb-1 text-center">Verification Failed</h2>
+
             
-             
-              <div class="form-group d-flex justify-content-center">
-                <Preloader />
-                   
-               
-                
+              <p class="card-text fs-5 fw-bold mb-2 text-center">
+                Please click the button below to resend the verification link
+              </p>
+              <div class="form-group">
+                <div class="mt-2">
+                 
+
+                  <button
+                  @click="resendVerify"
+                    :disabled="sending"
+                    class="btn btn-primary w-100 py-1"
+                    type="button"
+                    tabindex="4"
+                  >
+                    <span
+                      v-show="sending == true"
+                      class="spinner-border spinner-border-sm"
+                    ></span>
+                    Resend Verification Link
+                  </button>
+                </div>
+              
+
               </div>
-             
+              
             </div>
           </div>
         </div>
@@ -61,25 +83,14 @@ const loading = ref(false);
 const $toast = useToast();
 export default {
   name: "VerifyPage",
-  components: {
-    // VOtpInput,
-    Preloader
-  },
+  
   data() {
     return {
       resendSuccesful: "false",
+      sending: false
     };
   },
-  setup() {
-    const clearInput = () => {
-      otpInput.value.clearInput();
-    };
-    const fillInput = (value) => {
-      console.log(value, otpInput.value);
-      otpInput.value?.fillInput(value);
-};
-    return { clearInput, fillInput, otpInput };
-  },
+  
 
   computed: {
     ...mapState("AuthModule", ["verifying", "verifyError"]),
@@ -87,23 +98,15 @@ export default {
   methods: {
     ...mapMutations("MenuModule", ["toggleEveryDisplay", "toggleHideConfig"]),
     ...mapActions("AuthModule", ["verify"]),
-    handleSubmit() {
-      let email = this.$route.query.email;
-      let otp = this.$route.query.access_code
-      const data = {
-        email: email.toLocaleLowerCase(),
-        otp: otp,
-      };
-
-      loading.value = true;
-      this.verify(data);
-    },
+   
 
     resendVerify() {
+      this.sending = true
       ToNote.post("/user/email/resend", {
         email: this.$route.query.email,
       }).then((res) => {
         if (res) {
+          this.sending=false
           $toast.success("OTP Sent successfully", {
             duration: 3000,
             queue: false,
@@ -116,12 +119,8 @@ export default {
     },
   },
   mounted(){
-    if (!this.$route.query.access_code && !this.$route.query.email) {
+    if (!this.$route.query.email) {
       this.$router.push({path: '/'})
-    }else {
-      // otpInput.value.otp = [...this.$route.query.access_code];
-      this.loading = true
-      this.handleSubmit()
     }
    
   },

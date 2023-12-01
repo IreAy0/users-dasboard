@@ -87,6 +87,16 @@ const verifyPage = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/verify-email/verifyPage.vue"
   );
+  
+const verifyFailed = () =>
+import(
+  /* webpackChunkName: "settings" */ "../views/auth/verify-email/verification-failed.vue"
+);
+
+const verifySuccess = () =>
+  import(
+    /* webpackChunkName: "settings" */ "../views/auth/verify-email/verification-success.vue"
+  );
 const reVerify = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/verify-email/reverify.vue"
@@ -136,6 +146,16 @@ const routes = [
     path: "/verify",
     name: "verify-email",
     component: verifyPage,
+  },
+  {
+    path: "/verify-success",
+    name: "verify-success",
+    component: verifySuccess,
+  },
+  {
+    path: "/verify-failed",
+    name: "verify-failed",
+    component: verifyFailed,
   },
   {
     path: "/verify-email",

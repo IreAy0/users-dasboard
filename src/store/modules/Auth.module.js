@@ -64,10 +64,8 @@ const actions = {
     auth.VerifyEmail(user).then(
       (user) => {
         commit("verifySuccess", user);
-        //   saveToken(user?.data?.token);
-        setTimeout(() => {
-          router.push('/admin/dashboard');
-        });
+        
+        router.push(`/verify-success?email=${user.email}`);
         $toast.success('Email Succesfully verified', {
           duration: 3000,
           queue: false,
@@ -78,6 +76,7 @@ const actions = {
       },
       (error) => {
         commit("verifyFailure", error);
+        router.push(`/verify-failed?email=${user.email}`);
         $toast.error('Please try again', {
           duration: 3000,
           queue: false,
