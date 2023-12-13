@@ -1,62 +1,64 @@
 <template>
   <div class="app-content content">
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
+   
     <div class="content-wrapper container-xxl p-0">
-      <div class="content-header row d-none">
-        <div class="content-header-left col-md-9 col-12 mb-2">
-          <div class="row breadcrumbs-top">
-            <div class="col-12">
-              <h2 class="content-header-title float-start mb-0">insert page</h2>
-              <div class="breadcrumb-wrapper">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="dashboard/">page title</a>
-                  </li>
-                  <li class="breadcrumb-item active">insert page</li>
-                </ol>
+     
+      <div v-show="userProfile.role[0] == 'Company'" class="content-body bg-white mb-2 rounded">
+        <div class="container ">
+          <div class="row p-2 gap-2 ">
+            <div class="row gap-2">
+              <div class="col">
+                <h5>Profile Completion</h5>
+                <p>You have {{ filterFalseStatus.length }} more to go</p>
               </div>
+              <div class=" gap-1 align-items-center row col-lg-6">
+                <div v-for="(profile, index) in company_profile_steps" :key="index+1" class="progress col px-0">
+                  <div :class="{
+                    'bg-success': profile.status == true,
+                    'bg-transparent': profile.status == false,
+                  }"  class="progress-bar  h-100" role="progressbar" style="width: 100%;height:8px;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span class="col">{{ filterTrueStatus.length }}/{{company_profile_steps.length}}</span>
+              </div>
+             <div class="col d-flex justify-content-end">
+              <router-link to="/admin/settings" class="btn d-flex align-items-center btn-primary-light">Complete Profile <Icon icon="ph:arrow-right-bold" width="16"/> </router-link>
+             </div>
+            </div>
+            <div class="row">
+              
+              <div v-for="(profile, index) in company_profile_steps" :key="index+1" class=" col-lg-3 ">
+                <div class="d-flex align-items-center">
+                  <div class="me-1">
+                    <div  :class="{
+                      'completed': profile.status == true,
+                      'not-completed': profile.status == false
+                    }" class="step-icon ">
+                     
+                      <svg v-if="profile.status == true" xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                        <path d="M10.3333 3L4.83334 8.5L2.33334 6" stroke="#12B76A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span v-else>{{index+1}}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h5 class="text-black text-capitalize mb-0"> {{profile.type?.replace(/_/g, ' ') || profile.id?.replace(/_/g, ' ')}}</h5>
+                   
+                  </div>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
-        <div
-          class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none"
-        >
-          <div class="mb-1 breadcrumb-right">
-            <div class="dropdown">
-              <button
-                class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i data-feather="grid"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end">
-                <a class="dropdown-item" href="app-todo.html"
-                  ><i class="me-1" data-feather="check-square"></i
-                  ><span class="align-middle">Todo</span></a
-                ><a class="dropdown-item" href="app-chat.html"
-                  ><i class="me-1" data-feather="message-square"></i
-                  ><span class="align-middle">Chat</span></a
-                ><a class="dropdown-item" href="app-email.html"
-                  ><i class="me-1" data-feather="mail"></i
-                  ><span class="align-middle">Email</span></a
-                ><a class="dropdown-item" href="app-calendar.html"
-                  ><i class="me-1" data-feather="calendar"></i
-                  ><span class="align-middle">Calendar</span></a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
+     
+
 
       <div class="content-body">
         <div
           class="row"
-          :class="{ ' d-none': userProfile?.national_verification === true }"
+          :class="{ ' d-none': userProfile?.national_verification === true || userProfile.role[0] == 'Company'}"
         >
           <div class="col-12">
             <div class="alert alert-warning" role="alert">
@@ -595,11 +597,12 @@ import AffidavitModal from "../components/Affidavit/AffidavitModal.vue";
 import RequestNotaryModal from "@/components/Notary/RequestNotaryModal.vue";
 import DocumentsList from "@/components/Admin/Document/DocumentList.vue";
 import { getToken } from "@/Services/helpers";
+import { Icon } from '@iconify/vue';
 
 Request;
 export default {
   name: "AdminDashboard",
-  components: { AffidavitModal, RequestNotaryModal, DocumentsList },
+  components: { AffidavitModal, RequestNotaryModal, DocumentsList, Icon },
   data() {
     return {
       loading: true,
@@ -608,6 +611,7 @@ export default {
   computed: {
     ...mapState("ProfileModule", ["userProfile", "dashboardData"]),
     ...mapState("document", ["needToSign", "documentsByStatusCompleted"]),
+    ...mapState("CompanyModule", ["company_profile_steps"]),
     getToken() {
       const token = getToken();
       return token;
@@ -640,6 +644,12 @@ export default {
         ? process.env.VUE_APP_VIDEO_SIGN_STAGING
         : process.env.VUE_APP_VIDEO_SIGN_LIVE;
     },
+    filterTrueStatus(){
+      return  this.company_profile_steps.filter(item => item.status == true)
+    },
+    filterFalseStatus(){
+      return  this.company_profile_steps.filter(item => item.status == false)
+    }
   },
   methods: {
     ...mapActions("ProfileModule", ["getUser"]),
@@ -657,7 +667,7 @@ export default {
       "",
     ]),
     ...mapActions("TeamsModule", ["logout"]),
-    ...mapActions("CompanyModule", ["getCompany"]),
+    ...mapActions("CompanyModule", ["getCompany", "getCompanyStatusSteps"]),
     ...mapActions("DocumentModule", ["RequestsList", "DocumentsList"]),
     ...mapActions("document", [
       "getReceivedDocuments",
@@ -677,7 +687,7 @@ export default {
     this.getCompany();
     this.getTeams();
     this.getSubcriptions();
-
+    this.getCompanyStatusSteps()
     this.getPrints();
     this.getDashboardData();
     // this.getTransactions();
@@ -688,7 +698,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .feather,
 [data-feather] {
   height: 1.5rem;
@@ -705,4 +715,33 @@ export default {
 .cls-1 {
   fill-rule: evenodd;
 }
+.step-icon {
+  
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f1f1;
+  font-weight: bold;
+ 
+}
+
+.completed {
+  background-color: #ECFDF3;
+  color:  #12B76A;
+  padding:8px;
+}
+
+.not-completed {
+  background-color: #F2F4F7;
+  border-color: #d43f3a;
+  padding:4px 12px;
+  color: #1D2939;
+  font-weight:500
+}
+
+.step-icon i {
+  font-size: 1.5em;
+}
+
 </style>

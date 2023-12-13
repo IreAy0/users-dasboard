@@ -2,6 +2,7 @@ import company from "@/api/company";
 import profile from "@/api/profile";
 // import router from "@/router";
 import { useToast } from "vue-toast-notification";
+import store from '@/store/index'
 
 const $toast = useToast();
 
@@ -13,6 +14,7 @@ const state = () => ({
   signature: {},
   updating: false,
   Errors: [],
+  company_profile_steps: [],
   companySeal: [],
   companyStamp: [],
   getCompanySeal: [],
@@ -54,7 +56,6 @@ const actions = {
       );
     });
   },
-
   userSignature({ commit }, user) {
     commit("createSignature", user);
     profile.createSignature(user).then(
@@ -84,7 +85,6 @@ const actions = {
       }
     );
   },
-
   async setCompanySeal({ commit }, payload) {
     company.createCompanySeal(payload).then(
       (res) => {
@@ -117,6 +117,7 @@ const actions = {
     company.createCompanyStamp(payload).then(
       (res) => {
         if (res) {
+          store.dispatch('print/getUserPrints')
           $toast.success("Stamp has been created successfully", {
             duration: 3000,
             queue: false,
@@ -179,6 +180,14 @@ const actions = {
       }
     );
   },
+  getCompanyStatusSteps({ commit }){
+    company.getCompanyStatus().then(res => {
+              console.log('res', res.data.data)
+              commit("setCompanySetupSteps", res.data.data)
+            }).catch(err => {
+              console.log('err', err)
+            })
+  }
 };
 
 const mutations = {
@@ -188,6 +197,9 @@ const mutations = {
     state.updating = true
   },
 
+  setCompanySetupSteps: (state, payload) => {
+    state.company_profile_steps = payload
+  },
   setCompanyStamp: (state, payload) => {
     state.companyStamp = payload;
     state.changeValue = payload

@@ -54,6 +54,7 @@
     "vue-howler": "^0.7.0",
     "vue-html2canvas": "^0.0.4",
     "vue-loading-skeleton": "^2.0.0-beta.1",
+    "vue-mixpanel": "^2.0.0",
     "vue-paystack": "^2.0.4",
     "vue-pdf-embed": "^1.1.5",
     "vue-router": "^4.0.3",

@@ -43,20 +43,12 @@
         placeholder="name@example.com"
         
       />
-      <label for="login-email">Email </label>
+      <label for="login-email"> Company Email </label>
     </div>
 
     <div class="mb-2">
       <div class="form-floating">
-        <!-- <b-form-input
-          id="login-password"
-          size="lg"
-          :type="passwordFieldType"
-          placeholder="******"
-          v-model="user.password"
-          autocomplete="chrome-off"
-         
-        /> -->
+        
         <input
           v-model="user.password"
           :type="passwordFieldType"
@@ -66,16 +58,7 @@
         />
         <label for="login-password">Password </label>
       </div>
-      <!-- <label for="login-password">Password *</label>
-      <b-input-group class="input-group-merge">
-        <b-form-input
-          id="login-password"
-          size="lg"
-          :type="passwordFieldType"
-          placeholder="******"
-          v-model="user.password"
-        />
-      </b-input-group> -->
+      
 
       <div class="mt-50 d-flex justify-content-between">
         <b-form-checkbox
@@ -237,7 +220,7 @@ export default {
       const loginDetails = {
         email: this.user.email.toLocaleLowerCase(),
         password: this.user.password,
-        entry_point: "User",
+        entry_point: "Company",
       };
       this.login(loginDetails);
     },

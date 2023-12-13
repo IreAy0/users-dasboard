@@ -28,11 +28,15 @@ const Dashboard = () =>
 
 const SignIn = () =>
   import(
-    /* webpackChunkName: "signIn" */ "../views/auth/login/newLogin.vue"
+    /* webpackChunkName: "signIn" */ "../views/auth/login/loginPage.vue"
   );
 const RegisterPage = () =>
   import(
     /* webpackChunkName: "register" */ "../views/auth/signUp/newRegister.vue"
+  );
+  const CompanyRegister = () =>
+  import(
+    /* webpackChunkName: "company-register" */ "../views/auth/signUp/companyRegister.vue"
   );
 const ForgotPassword = () =>
   import(
@@ -97,6 +101,12 @@ const verifySuccess = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/verify-email/verification-success.vue"
   );
+
+  const CreateAnAccount = () =>
+  import(
+    /* webpackChunkName: "settings" */ "../views/auth/signUp/create-an-account.vue"
+  );
+
 const reVerify = () =>
   import(
     /* webpackChunkName: "settings" */ "../views/auth/verify-email/reverify.vue"
@@ -122,9 +132,19 @@ const routes = [
 
   },
   {
+    path: "/create-account",
+    name: "create-account",
+    component: CreateAnAccount,
+  },
+  {
     path: "/register",
     name: "register",
     component: RegisterPage,
+  },
+  {
+    path: "/company-register",
+    name: "company-register",
+    component: CompanyRegister,
   },
   {
     path: "/forgot-password",

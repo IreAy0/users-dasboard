@@ -35,21 +35,22 @@
               </div>
               <div class="tab-pane fade" :class="{ 'active show': isActive('company') }" id="company">
                 <div v-show="
-                  getActiveTeam?.subscription?.plan?.name === 'Business'
+                  getActiveTeam?.subscription?.plan?.name === 'Business' || 
+                  userProfile.role[0] === 'Company'
                 ">
                   <CompanyDetail :generalData="profile" :getActiveTeam="getActiveTeam" />
                 </div>
-                <UpgradeRequest :planName="'Business'" @activeName="getMenu" v-show="getActiveTeam?.subscription?.plan?.name === 'Basic' ||
-                getActiveTeam?.subscription?.plan?.name === 'Pro'" />
+                <UpgradeRequest :planName="'Business'" @activeName="getMenu" v-show="getActiveTeam?.subscription?.plan?.name === 'Basic' &&  userProfile.role[0] === 'User' ||
+                getActiveTeam?.subscription?.plan?.name === 'Pro' &&  userProfile.role[0] === 'User'" />
               </div>
               <div class="tab-pane fade" :class="{ 'active show': isActive('team') }" id="team">
-                <div v-show="
+                <div v-if="
                   getActiveTeam?.subscription?.plan?.name === 'Business' ||
-                  getActiveTeam?.subscription?.plan?.name === 'Pro'
+                  getActiveTeam?.subscription?.plan?.name === 'Pro' || userProfile.role[0] === 'Company'
                 ">
                   <Teams :generalData="profile" :getActiveTeam="getActiveTeam" />
                 </div>
-                <UpgradeRequest :planName="'Pro'" @activeName="getMenu" v-show="getActiveTeam?.subscription?.plan?.name === 'Basic'" />
+                <UpgradeRequest :planName="'Pro'" @activeName="getMenu" v-else />
               </div>
 
               <!-- v-show="getActiveUser?.permission === 'Admin'" -->

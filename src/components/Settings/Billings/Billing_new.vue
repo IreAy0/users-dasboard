@@ -60,8 +60,8 @@
            <small class="text-secondary">Get 10% discount when you pay for your plan annually</small>
         <div class="mt-1 mb-2">
           <div class="row">
-            <div v-show="plan?.name !== 'Custom'" v-for="plan in subcriptions.subcriptions" :key="plan" @click="getPlanId(plan.id)" class="col-lg-4 col-md-12 p-50">
-              <label class="card-label h-100 ">
+            <div :class="{'d-none': profile.role[0] == 'Company' &&  plan.name != 'Business'}"   v-show="plan?.name !== 'Custom'" v-for="plan in subcriptions.subcriptions" :key="plan" @click="getPlanId(plan.id)" class="col-lg-4 col-md-12 p-50">
+              <label class="card-label h-100 " >
 
                 <!-- <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" :value="plan.id">Option A</b-form-radio> -->
                 <input type="radio" name="plans" v-model="selected" :value="plan?.id" class="card-input-element d-none" id="subscriptions">
@@ -120,14 +120,14 @@
                       <span class="mx-1  btn btn-outline-dark px-0 py-2 text-3xl font-weight-bolder text-black">{{`${plan.amount == 0 ? 'FREE' : '₦'+plan.amount.toLocaleString()}` }}
                      <span class="text-md text-secondary">Per user</span> 
                       </span>
-                      <p v-show="plan.name !== active_team?.subscription?.plan?.name"  @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
+                      <p v-show="plan.name !== active_team?.subscription?.plan?.name  "  @click="addUsersModal(plan)" v-if="plan.name == 'Pro' " style="color:#DB922B" class="text-lg font-weight-bold  text-center mt-2 mb-0 ">
                        {{active_team?.subscription?.plan?.name == 'Business' ? 'Downgrade' : 'Upgrade'}} to Pro Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="#DB922B"/>
                           </svg>
                           
                       </p>
-                      <p v-show="plan.name !== active_team?.subscription?.plan?.name || active_team?.subscription?.plan?.trial == true" @click="addUsersModal(plan)" v-if="plan.name == 'Business' " style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
+                      <p v-show=" plan.name !== active_team?.subscription?.plan?.name || active_team?.subscription?.plan?.trial == true || profile.role[0] == 'Company'" @click="addUsersModal(plan)" v-if="plan.name == 'Business' " style="color:black" class="text-lg font-weight-bold  text-center mt-2 mb-0 p-50">
                         Upgrade to Business Plan
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z" fill="black"/>
@@ -356,6 +356,7 @@ const $toast = useToast();
 // const { subscriptions } = useState('TeamsModule', ['subcriptions']);
 const teams  = computed(() => (store.state.TeamsModule.Teams))
 const singleData = computed(() => (store.state.TeamsModule.upgradePlan))
+const profile = computed(() => store.state.ProfileModule.userProfile)
 const selected = ref() 
 const plan_id = ref("")
 const single_plan = ref({})

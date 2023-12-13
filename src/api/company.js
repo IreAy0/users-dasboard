@@ -31,4 +31,8 @@ export default {
     // create company seal
     return ToNote.get("/prints");
   },
+  // company-profile-status
+  async getCompanyStatus () {
+    return ToNote.get('/company-profile-status')
+  }
 };

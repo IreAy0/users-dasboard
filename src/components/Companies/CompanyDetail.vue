@@ -5,7 +5,7 @@
       <ul
         class="nav nav-steps nav-tabs flex-nowrap overflow-auto  py-1 px-0 col-12 col-md-3 bs-stepper-header d-flex flex-row flex-lg-column nav nav-tabs align-items-baseline"
         id="myTab" role="tablist">
-        <li class="nav-item step" role="presentation">
+        <li @click="goToStep(0)" class="nav-item step" role="presentation">
           <button class="nav-link active company-indicator">
             <span class="step-trigger">
               <span class="bs-stepper-box d-none d-lg-block"> 1 </span>
@@ -15,7 +15,7 @@
             </span>
           </button>
         </li>
-        <li class="nav-item step" role="presentation">
+        <li @click="goToStep(1)" class="nav-item step" role="presentation">
           <button class="nav-link company-indicator">
             <span class="step-trigger">
               <span class="bs-stepper-box d-none d-lg-block"> 2</span>
@@ -25,7 +25,7 @@
             </span>
           </button>
         </li>
-        <li class="nav-item step" role="presentation">
+        <li @click="goToStep(2)" class="nav-item step" role="presentation">
           <button class="nav-link company-indicator">
             <span class="step-trigger">
               <span class="bs-stepper-box d-none d-lg-block"> 3</span>
@@ -40,10 +40,38 @@
         <div class="companysteps step-0 ">
           <Form @submit="handleSubmit" :validation-schema="simpleSchema" id="company-details-modern" novalidate>
             <div class="content-header mb-1">
-              <h5 class="mb-0">Add company information</h5>
-              <small class="text-muted">Enter Your company's Information.</small>
+              <h4 class="text-black ">Add Company Info</h4>
+              <small class="text-gray-500 fs-small">Add company information.</small>
             </div>
-            <div class="row">
+            <hr />
+            <div class="row ">
+              <div class="mb-1 row align-items-baseline pt-1">
+                <label class="form-label" for="state">Company Logo * </label>
+
+                <div class="col-12 col-md-8 rounded-3">
+                  <div class="file-upload">
+                    <!-- <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button> -->
+
+                    <div class="image-upload-wrap">
+                      <input :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
+                        class="file-upload-input" type="file" @change="onFileChange" accept="image/*" />
+                      <div class="drag-text">
+                        <h3>Click to add your Logo</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4 mt-2 mt-md-0">
+                  <!-- <button class="btn  bg-primary text-primary  bg-opacity-10 rounded-3 border border-primary">Preview Signature</button> -->
+                  <div>
+                    <div class="mt-1">
+                      <img :src="profile?.logo" class="sign-preview"
+                        :style="{ width: '100%', maxHeight: '150px', objectFit: 'contain' }" />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="mb-1 col-md-12">
                 <label class="form-label" for="modern-first-name">Company Name </label>
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
@@ -100,33 +128,7 @@
                 </Field>
                 <ErrorMessage name="state" class="text-danger" />
               </div>
-              <div class="row align-items-baseline pt-1">
-                <label class="form-label" for="state">Company Logo * </label>
-
-                <div class="col-12 col-md-8 rounded-3">
-                  <div class="file-upload">
-                    <!-- <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button> -->
-
-                    <div class="image-upload-wrap">
-                      <input :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
-                        class="file-upload-input" type="file" @change="onFileChange" accept="image/*" />
-                      <div class="drag-text">
-                        <h3>Click to add your Logo</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-4 mt-2 mt-md-0">
-                  <!-- <button class="btn  bg-primary text-primary  bg-opacity-10 rounded-3 border border-primary">Preview Signature</button> -->
-                  <div>
-                    <div class="mt-1">
-                      <img :src="profile?.logo" class="sign-preview"
-                        :style="{ width: '100%', maxHeight: '150px', objectFit: 'contain' }" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </div>
             <b-button-group class="mt-2 w-100 justify-content-end">
               <div>
@@ -208,54 +210,128 @@
             </div>
             <div class="row">
               <div class="col-12 mb-2">
-                <div class="rounded-3 border">
-                  <nav>
-                    <div class="nav nav-tabs ms-1" id="nav-tab" role="tablist">
-                      <button class="nav-link" @click.prevent="setActive('seal')"
-                        :class="{ ' active': isActive('seal') }" href="#seal">
-                        Seal
-                      </button>
-                      <button class="nav-link" @click.prevent="setActive('stamp')"
-                        :class="{ ' active': isActive('stamp') }" href="#stamp">
-                        Stamp
-                      </button>
-                    </div>
-                  </nav>
-                  <div class="tab-content px-2" id="nav-tabContent">
+                <div class="">
+                  
 
-                    <div class="tab-pane fade" :class="{ 'active show': isActive('seal') }" id="seal">
-                      <SealTraditional @goToStep="goToStep(1)" :getActiveTeam="getActiveTeam"
-                        :getActiveUser="getActiveUser" />
-                    </div>
-
-                    <div :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
-                      class="tab-pane fade" :class="{ 'active show': isActive('stamp') }" id="stamp">
-                      <StampCreate @goToStep="goToStep(1)" :getActiveUser="getActiveUser" />
-                    </div>
-
-                    <div class="d-flex justify-content-between py-2">
-                      <small class="text-muted fst-italic">By clicking save, I confirm that all the information
-                        given is true and I have the authority to create and use
-                        this seal and it is as valid as all alternate company
-                        seals to the extent allowed by law.</small>
-                      <!-- <button @click="onSaveSignature" class="btn btn-primary">
-                        <span
-                          v-show="updating"
-                          class="spinner-border spinner-border-sm"
-                        ></span>
-                        Save
-                      </button> -->
+                  <div class="row mt-2">
+                    <div class="col-md-12 mb-2">
+                      <div class="signature-display">
+                        <h4 v-if="prints?.CompanySeal?.length <= 0" class="text-gray-secondary">
+                          Your Seal displays here
+                        </h4>
+                        <!-- v-if="userProfile.image.includes('user')" -->
+                        <div v-else class="d-flex align-items-center justify-content-center">
+                          <img 
+                          class="img-fluid w-50"
+                          :src="prints?.CompanySeal && prints?.CompanySeal[0]?.file"
+                          :alt="userProfile.first_name"
+                        />
+                        </div>
+                        <!-- @click="updateModal" -->
+                        <button
+                        @click="updateModal"
+                          class="btn btn-primary px-3 py-1 waves-effect flex-shrink-0"
+                          id="updateSignature"
+                        >
+                        <!-- Create Seal -->
+                          <!-- <EditIcon /> -->
+                          {{prints.CompanySeal ? "Edit Seal" : "Create Seal"}}
+                        <!-- {{dashboard.default_signature ? "Edit Signature" : "Create Signature"}} -->
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
 
+                  <div class="row mt-2">
+                    <div class="col-md-12 mb-2">
+                      <div class="signature-display">
+                        <h4 v-if="prints?.CompanyStamp?.length <= 0" class="text-gray-secondary">
+                          Your Stamp displays here
+                        </h4>
+                        <!-- v-if="userProfile.image.includes('user')" -->
+                        <div v-else class="d-flex align-items-center justify-content-center" >
+                          <img 
+                          class="img-fluid w-50"
+                          :src="prints?.CompanyStamp && prints?.CompanyStamp[0]?.file "
+                          :alt="userProfile.first_name"
+                        />
+                        </div>
+                       
+                        <button
+                        @click="update_stamp_modal"
+                          class="btn btn-primary px-3 py-1 waves-effect flex-shrink-0"
+                          id="updateStamp"
+                        >
+                        {{prints.CompanyStamp ? "Edit Stamp" : "Create Stamp"}}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
   </div>
+  <ModalComp
+    :show="updateSealModal"
+    :footer="false"
+    @close="updateSealModal = false"
+    :style="'zindex-4'"
+    modalClass="px-0 "
+  >
+    <template #header>
+      <h4 class="modal-title">Create Seal</h4>
+    </template>
+
+    <template #body>
+      <TabWrapper
+        tabListStyle="underline"
+        tabStyles="justify-content-start border-2 border-bottom mx-3"
+      >
+        <TabList styles="mx-3" title="Seal">
+          <SealTraditional @goToStep="goToStep(1)" :getActiveTeam="getActiveTeam"
+                        :getActiveUser="getActiveUser" />
+          <!-- <SignaturePad @close="updateSignatureModal = false" /> -->
+        </TabList>
+
+        
+
+        
+      </TabWrapper>
+    </template>
+
+    <template #footer> footer </template>
+  </ModalComp>
+
+  <ModalComp
+    :show="updateStampModal"
+    :footer="false"
+    @close="updateStampModal = false"
+    :style="'zindex-4'"
+    modalClass="px-0 "
+  >
+    <template #header>
+      <h4 class="modal-title">Create Stamp</h4>
+    </template>
+
+    <template #body>
+      <TabWrapper
+        tabListStyle="underline"
+        tabStyles="justify-content-start border-2 border-bottom mx-3"
+      >
+        <TabList styles="mx-3" title="Stamp">
+          <StampCreate  :getActiveUser="getActiveUser" />
+          <!-- <SignaturePad @close="updateSignatureModal = false" /> -->
+        </TabList>
+      </TabWrapper>
+    </template>
+
+    <template #footer> footer </template>
+  </ModalComp>
 </template>
 
 <script>
@@ -266,12 +342,15 @@ import { mapActions, mapState, useStore } from "vuex";
 import { useToast } from "vue-toast-notification";
 import SealTraditional from "./SealTraditional.vue";
 import StampCreate from "./StampCreate.vue";
+import TabWrapper from "@/components/Tab/TabTopNav/TopTabWrapper.vue";
+import TabList from "@/components/Tab/TabTopNav/TopTabList.vue";
+import ModalComp from "@/components/NewModalComp.vue";
 
 const $toast = useToast();
 
 export default {
   name: "CompanyDetails",
-  components: { Form, ErrorMessage, Field, SealTraditional, StampCreate },
+  components: { Form, ErrorMessage, Field, SealTraditional, StampCreate, TabWrapper, TabList, ModalComp },
   props: {
     generalData: {
       type: Object,
@@ -287,7 +366,8 @@ export default {
     let step = 0;
     const nextButton = document.getElementById("nextbtn");
     const prevButton = document.getElementById("prev");
-
+    const updateSealModal = ref(false);
+    const updateStampModal = ref(false)
     function goNext() {
       step += 1;
       goToStep(step);
@@ -338,8 +418,20 @@ export default {
     function hide(elem) {
       elem.classList.add("d-none");
     }
-
-    return { nextButton, prevButton, goNext, goPrev, goToStep, store };
+    function updateModal() {
+      updateSealModal.value = true;
+    }
+    function update_stamp_modal() {
+      updateStampModal.value = true;
+    }
+    return { 
+      nextButton, 
+      prevButton, 
+      goNext, goPrev, goToStep, 
+      store, updateSealModal, 
+      updateModal, 
+      update_stamp_modal, 
+      updateStampModal };
   },
   data() {
     const simpleSchema = {
@@ -381,12 +473,7 @@ export default {
         }
         return true;
       },
-      // state(value){
-      //   if(!value){
-      //     return "State is required";
-      //   }
-      //   return true;
-      // }
+    
     };
     return {
       activeItem: "seal",
@@ -402,6 +489,7 @@ export default {
       currentStep: 1,
       errors: "",
       setImage: "",
+      
     };
   },
   computed: {
@@ -420,6 +508,11 @@ export default {
       "updating",
       "gettingProfile",
     ]),
+    ...mapState('print', ['prints']),
+
+    getCompanyStamp(){
+      return this.prints?.CompanyStamp[0]
+    },
   },
   watch: {
     changeValue: {
@@ -453,6 +546,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions("print", ["getUserPrints"]),
+    ...mapActions("CompanyModule", ["companyUpdate", "getCompany"]),
+
     isActive(menuItem) {
       return this.activeItem === menuItem;
     },
@@ -468,7 +564,6 @@ export default {
 
       return activeUser
     },
-    ...mapActions("CompanyModule", ["companyUpdate", "getCompany"]),
 
     getStates(country) {
       ToNote.get(`/countries/${country}`).then((res) => {
@@ -526,11 +621,11 @@ export default {
           });
       }
     },
-
+    // /api/v1/user-company-verification
     verifyId() {
       this.verifying = true;
-      ToNote.post("/verify/company", {
-        registration_company_number: this.profile?.registration_company_number,
+      ToNote.post("/user-company-verification", {
+        regNumber: this.profile?.registration_company_number,
         type: this.profile.type,
       })
         .then((res) => {
@@ -585,7 +680,7 @@ export default {
 
       });
     }
-
+    this.getUserPrints()
   },
   //  mounted() {
 
@@ -629,5 +724,16 @@ export default {
   text-transform: uppercase;
   color: #cacaca;
   padding: 60px 0;
+}
+.signature-display {
+  display: flex;
+  width: 760px;
+  height: 200px;
+  padding: 20px 60px;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 8px;
+  background: #f7f9fd;
+  gap: 80px;
 }
 </style>
