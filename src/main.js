@@ -23,7 +23,7 @@ import 'vue-cropper/dist/index.css'
 
 const mixpanelConfig = {
   // token: process.env.VUE_APP_MIXPANEL_TOKEN,
-  token: '756082806459a1e587b56e6fcd2ce830',
+  token: process.env.VUE_APP_MIXPANEL_TOKEN,
   config: {
     debug: false,
   },

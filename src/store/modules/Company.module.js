@@ -182,7 +182,6 @@ const actions = {
   },
   getCompanyStatusSteps({ commit }){
     company.getCompanyStatus().then(res => {
-              console.log('res', res.data.data)
               commit("setCompanySetupSteps", res.data.data)
             }).catch(err => {
               console.log('err', err)
