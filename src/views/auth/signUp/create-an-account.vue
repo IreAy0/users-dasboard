@@ -30,7 +30,7 @@
             </div>
 
             
-            <div class="container mt-4">
+            <div class="container mt-4 create-an-account">
               <h1 class="fs-3 text-center mb-1">Create an account</h1>
               <div class="row ">
                 <div class="col-lg-6 h-100">
@@ -100,7 +100,7 @@ const continueSignup = () => {
   margin-right: 20px;
 }
 /* Custom checkmark icon */
-.form-check-input:checked:before {
+.create-an-account .form-check-input:checked:before {
   content: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 16 16'%3e%3cpath fill='%23fff' fill-rule='evenodd' d='M13.488 3.43a.75.75 0 0 1 .081 1.058l-6 7a.75.75 0 0 1-1.1.042l-3.5-3.5A.75.75 0 0 1 4.03 6.97l2.928 2.927l5.473-6.385a.75.75 0 0 1 1.057-.081Z' clip-rule='evenodd'/%3e%3c/svg%3e");
   display: block;
   position: absolute;
