@@ -345,11 +345,15 @@ import moment from "moment";
 import ToNote from "@/Services/Tonote";
 import { useToast } from "vue-toast-notification";
 import Upgrade from './Upgrade_new'
+import  {useMixpanelComposable} from '@/Services/useMixPanel.js'
+
 
 const props = defineProps({
   active_team: { type: Array, default: [] },
 });
 
+
+const { mixpanelEvent } = useMixpanelComposable()
 const store = useStore()
 const $toast = useToast();
 
@@ -387,8 +391,7 @@ const {
   getSingleSubscription: "TeamsModule/getSingleSubscription",
   getSubcriptions: "TeamsModule/getSubcriptions"
 });
-// ?.value?.filter(({id}) => id == props.active_team?.subscription?.plan?.id
-// activeFeatures.value = computed(()=> subcriptions?.subscriptions) 
+
 let activeFeatures = ref(subcriptions?.subscriptions)
 const getPlanId = (id) => {
 single_plan.value =  subcriptions?.value?.subcriptions.find(element => element.id == id )
@@ -396,9 +399,17 @@ plan_id.value = id
 features.value = single_plan?.value?.benefits
 }
 // getTeams
-const addUsersModal = (id) => {
-  getSingleSubscription(id)
-  selected_subscription.value = id
+const addUsersModal = (params) => {
+
+  const payload = {
+        subscriptionId: params.id,
+        subscriptionName: params.name
+    };
+  mixpanelEvent(`Upgrade ${params.name} plan CTA`, payload);
+
+  getSingleSubscription(params)
+  selected_subscription.value = params
+
 };
 
 const paymentSwitch = (value) => {

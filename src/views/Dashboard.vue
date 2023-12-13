@@ -311,6 +311,7 @@
                         E-Sign
                         <span class="">
                           <a
+                            @click="mixedPanelTrackToSign"
                             :href="`${getEnv}/document/upload?qt=${getToken}`"
                             class="text-primary"
                             >Sign Now
@@ -423,6 +424,7 @@
                         <span class="">
                           <!-- data-bs-toggle="modal" data-bs-target="#AffidavitModal" -->
                           <a
+                            @click="mixedPanelTrackAffidavitCTA"
                             :href="`${virtualNotary}/schedule?session=affidavit&token=${getToken}`"
                             class="text-primary"
                             >Get Now
@@ -448,6 +450,7 @@
                         <span class="">
                           <!-- data-bs-toggle="modal" data-bs-target="#NotaryRequestModal" -->
                           <a
+                          @click="mixedPanelTrackNotarizeCTA"
                             :href="`${virtualNotary}/schedule?session=notary&token=${getToken}`"
                             class="text-primary"
                             >Notarize Now
@@ -598,8 +601,10 @@ import RequestNotaryModal from "@/components/Notary/RequestNotaryModal.vue";
 import DocumentsList from "@/components/Admin/Document/DocumentList.vue";
 import { getToken } from "@/Services/helpers";
 import { Icon } from '@iconify/vue';
+import {useMixpanelComposable} from '@/Services/useMixPanel.js'
 
 Request;
+const { mixpanelEvent } = useMixpanelComposable()
 export default {
   name: "AdminDashboard",
   components: { AffidavitModal, RequestNotaryModal, DocumentsList, Icon },
@@ -681,6 +686,18 @@ export default {
       const url = process.env.VUE_APP_DOCUMENT_PAGE;
       return url;
     },
+    mixedPanelTrackToSign(){
+    mixpanelEvent('ToSign CTA', {email: this.userProfile.email});
+
+    },
+    mixedPanelTrackAffidavitCTA(){
+      mixpanelEvent('Affidavit CTA', {email: this.userProfile.email});
+
+    },
+    mixedPanelTrackNotarizeCTA(){
+      mixpanelEvent('Notarize CTA', {email: this.userProfile.email});
+
+    }
   },
   mounted: function () {
     this.getUser();

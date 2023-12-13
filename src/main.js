@@ -25,7 +25,7 @@ const mixpanelConfig = {
   // token: process.env.VUE_APP_MIXPANEL_TOKEN,
   token: process.env.VUE_APP_MIXPANEL_TOKEN,
   config: {
-    debug: false,
+    debug: true,
   },
 };
 
