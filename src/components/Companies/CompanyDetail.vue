@@ -147,24 +147,73 @@
               <small>Verify your ID.</small>
             </div>
             <div class="row">
-              <div class="mb-1 col-md-6">
-                <label class="form-label" for="id_type">Company Type</label>
-                <select
-                  :disabled="validState === true || getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
-                  v-model="profile.type" class="select2 w-100 form-select">
-                  <option value="" disabled>Please select a type</option>
-                  <option value="Limited Company">Limited Company</option>
-                  <option value="Incorprated Trustee">
-                    Incorprated Trustee
-                  </option>
-                  <option value="Business">Business</option>
-                </select>
+              
+              <div class="mb-1 mb-lg-0 col-md-6">
+                <label class="form-label" for="id_type_company">Company Type</label>
+                <Field
+                as="select"
+                :disabled="validState === true || getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
+                v-model="profile.type" 
+                name="id_type_company"
+                class="select2 w-100 py-1 form-select text-sm"
+              >
+              <option value="" selected disabled>Please select a type</option>
+              <option value="Limited Company">Limited Company</option>
+              <option value="Incorporated Trustee">
+                Incorporated Trustee
+              </option>
+              <option value="Business">Business</option>
+              </Field>
+              <ErrorMessage name="id_type_company" class="text-danger" />
               </div>
               <b-col md="6">
-                <label class="form-label" for="bvn">Company Registration Number</label>
+               
+                <label class="form-label" for="registration_company_number">Company Registration Number</label>
+                <div class="d-flex">
+
+                
+                <div class="input-group relative">
+                  
+                  <Field
+                      placeholder="RC123456"
+                      name="registration_company_number"
+                      v-model="profile.registration_company_number"
+                      :disabled="validState === true"
+                      id="registration_company_number"
+                      type="text"
+                      class="form-control py-2 rounded-end"
+                      aria-label="registration number"
+                    />
+                
+
+                <span
+                  v-if="validState"
+                  class="position-absolute end-0 px-1"
+                  :style="{ top: '7px' }"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    class="bi bi-check-lg text-success"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <button :disabled="!profile.registration_company_number && !profile.type " v-show="validState == false" @click="verifyId"
+              class="d-flex justify-content-center align-items-center btn border mb-0  btn-primary-outline border-primary text-primary ms-1">
+              <span v-show="verifying"  class="spinner-border flex-shrink-0  spinner-border-sm"></span>
+              <span class="text-nowrap">Verify ID</span>
+            </button>
+          </div>
                 <div></div>
-                <div class="input-group relative mb-3">
-                  <input placeholder="12345678910" v-model="profile.registration_company_number"
+                <!-- <div class="input-group relative mb-3">
+                  <input placeholder="RC1234567" v-model="profile.registration_company_number"
                     :disabled="validState === true" id="registration_company_number" type="text"
                     class="form-control rounded-end" aria-label="BVN" />
                   <span v-if="validState" class="position-absolute end-0  px-1" :style="{ top: '7px' }">
@@ -179,7 +228,7 @@
                     <span v-show="verifying" class="spinner-border spinner-border-sm"></span>
                     <span class="align-middle d-inline-block">Verify ID</span>
                   </button>
-                </div>
+                </div> -->
               </b-col>
             </div>
             <b-button-group class="mt-2 w-100 justify-content-end">
@@ -212,11 +261,10 @@
               <div class="col-12 mb-2">
                 <div class="">
                   
-
                   <div class="row mt-2">
                     <div class="col-md-12 mb-2">
                       <div class="signature-display">
-                        <h4 v-if="prints?.CompanySeal?.length <= 0" class="text-gray-secondary">
+                        <h4 v-if="!prints.CompanySeal" class="text-gray-secondary">
                           Your Seal displays here
                         </h4>
                         <!-- v-if="userProfile.image.includes('user')" -->
@@ -245,7 +293,7 @@
                   <div class="row mt-2">
                     <div class="col-md-12 mb-2">
                       <div class="signature-display">
-                        <h4 v-if="prints?.CompanyStamp?.length <= 0" class="text-gray-secondary">
+                        <h4 v-if="!prints.CompanyStamp" class="text-gray-secondary">
                           Your Stamp displays here
                         </h4>
                         <!-- v-if="userProfile.image.includes('user')" -->
@@ -631,6 +679,8 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.validState = true;
+            this.$store.dispatch("CompanyModule/getCompany");
+            this.$store.dispatch("ProfileModule/getUser");
             $toast.success("ID verified successfully", {
               duration: 3000,
               queue: false,

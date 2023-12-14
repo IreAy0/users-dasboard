@@ -33,7 +33,6 @@ export const getDeclinedDocuments = ({ commit }, formData) => {
       // if (!['Received', 'Deleted'].includes(formData)) {
       //   commit("SET_DOCUMENTS_BY_STATUS", response.data.data)
       // }
-      console.log('response', response)
       commit("SET_DECLINED_DOCUMENTS", response.data)
     })
 };

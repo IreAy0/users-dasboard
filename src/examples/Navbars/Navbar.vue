@@ -34,6 +34,7 @@
           </a>
         </li>
         <li class="nav-item">
+          
           <span
             :class="{
               'badge rounded-pill badge-light-danger':
@@ -223,6 +224,7 @@
       </div>
     </div>
   </nav>
+  
 </template>
 <script>
 // import MaterialInput from "@/components/MaterialInput.vue";
@@ -233,6 +235,7 @@ import { useToast } from "vue-toast-notification";
 import { mapState, mapActions, mapMutations } from "vuex";
 import { getToken } from "@/Services/helpers";
 import { Howl, Howler } from "howler";
+
 import { ref } from "vue";
 
 const $toast = useToast();
@@ -309,7 +312,7 @@ export default {
       this.sound.play();
     },
   },
-  components: {},
+  components: { },
   computed: {
     ...mapState("MenuModule", ["isRTL", "isAbsolute", "isPinned"]),
     ...mapState("ProfileModule", ["userProfile"]),

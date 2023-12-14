@@ -3,7 +3,7 @@ import { useToast } from "vue-toast-notification";
 const toast = useToast();
 
 export const setVerificationImage = ({ commit }, formData) => {
-  console.log('formData', formData)
+
   commit("SET_VERIFICATION_IMAGE", formData);
   
   // Print.store(formData)

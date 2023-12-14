@@ -3,7 +3,7 @@
    
     <div class="content-wrapper container-xxl p-0">
      
-      <div v-show="userProfile.role[0] == 'Company'" class="content-body bg-white mb-2 rounded">
+      <div v-show="userProfile.role[0] == 'Company' && company_profile_steps" class="content-body bg-white mb-2 rounded">
         <div class="container ">
           <div class="row p-2 gap-2 ">
             <div class="row gap-2">
@@ -309,7 +309,27 @@
                         class="list-group-item border-primary rounded mb-2 py-1 d-flex justify-content-between align-items-center"
                       >
                         E-Sign
-                        <span class="">
+                        <span v-if="userProfile.role[0] === 'Company' && company_profile_steps.some(item => item.type === 'subscription_status' && item.status === false)" class="">
+                          <a
+                            @click="openSubscribeModal"
+                            class="text-primary"
+                            >Sign Now
+                            <svg
+                              width="13"
+                              height="10"
+                              viewBox="0 0 13 10"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M7.01123 0L6.29623 0.6965L10.0862 4.5H0.0112305V5.5H10.0862L6.29623 9.2865L7.01123 10L12.0112 5L7.01123 0Z"
+                                fill="#003BB3"
+                              />
+                            </svg>
+                          </a>
+                          
+                        </span>
+                        <span v-else class="">
                           <a
                             @click="mixedPanelTrackToSign"
                             :href="`${getEnv}/document/upload?qt=${getToken}`"
@@ -328,6 +348,7 @@
                               />
                             </svg>
                           </a>
+                          
                         </span>
                       </li>
                       <li
@@ -592,9 +613,49 @@
   >
     <RequestNotaryModal />
   </div>
+  <ModalComp
+  :show="openModal"
+  :footer="false"
+  :header="false"
+  :closeBtn="false"
+  :style="'zindex-4'"
+  :size="'modal-md'"
+  modalClass=" "
+>
+  <template #header>
+    <h4 class="modal-title">Create Stamp</h4>
+  </template>
+
+  <template #body>
+    
+    <div class="position-relative " style="height:250px;">
+      <img src="/assets/images/Account.svg" alt="account" class="confimation__logo  position-absolute top-50 start-50 translate-middle" width="100" height="100" style="z-index: 2;" />
+
+      <!-- Confetti image -->
+      <img src="/assets/images/confetti.gif" alt="confetti" class=" confimation__logo position-absolute  top-50 start-50 translate-middle" style="z-index: 1;" width="200" height="200"/>
+      <!-- Account image inside confetti -->
+    </div>
+    <div class="text-center">
+      <h2 class="text-black ">Welcome {{userProfile.first_name}}!</h2>
+      <p class="fs-5 mt-2">We're thrilled to have you onboard! Your journey with us begins now. 🚀</p>
+      <p class="fs-5 mt-1">Click the <span class="text-gray-900 fw-bold ">Subscribe Now</span>  button below to get started.            </p>
+      <div class="mt-4 ">
+        <router-link
+        to="/admin/settings/?tab=billing"
+        class="btn btn-primary fs-4"
+      >Subscribe Now</router-link>
+      </div>
+      
+        <button type="button" @click="closeModal" class="btn text-gray-600 fw-bold fs-5">Go to Dashboard</button>
+    </div>
+  </template>
+
+  <template #footer> footer </template>
+</ModalComp>
 </template>
 
 <script>
+import { onMounted, ref, computed, watch } from 'vue'
 import { mapState, mapActions, mapMutations } from "vuex";
 import AffidavitModal from "../components/Affidavit/AffidavitModal.vue";
 import RequestNotaryModal from "@/components/Notary/RequestNotaryModal.vue";
@@ -602,15 +663,55 @@ import DocumentsList from "@/components/Admin/Document/DocumentList.vue";
 import { getToken } from "@/Services/helpers";
 import { Icon } from '@iconify/vue';
 import {useMixpanelComposable} from '@/Services/useMixPanel.js'
+import ModalComp from "@/components/NewModalComp.vue";
+import { useActions, useState } from "vuex-composition-helpers";
+import store from '@/store/index.js'
 
 Request;
 const { mixpanelEvent } = useMixpanelComposable()
 export default {
   name: "AdminDashboard",
-  components: { AffidavitModal, RequestNotaryModal, DocumentsList, Icon },
+  components: { AffidavitModal, RequestNotaryModal, DocumentsList, Icon, ModalComp},
+  setup() {
+
+    const userProfile = computed(() => store.state.ProfileModule.userProfile)
+    const company_profile_steps = computed(() => store.state.CompanyModule.company_profile_steps)
+    const company_steps = ref()
+    let openModal = ref(false)
+
+
+    watch(
+      () => company_profile_steps.value,
+      (newValue, oldValue) => {
+        if (userProfile.value.role[0] === 'Company' && newValue.some(item => item.type === 'subscription_status' && item.status === false)) {
+          openModal.value = true;
+        } else {
+          openModal.value = false;
+        }
+      },
+      { deep: true })
+  onMounted(() => {
+    store.dispatch("CompanyModule/getCompanyStatusSteps")
+  })
+
+  console.log('openModal', userProfile.value, openModal.value ,company_profile_steps?.value, company_steps.value);
+
+  function closeModal() {
+    openModal.value = false;
+  }
+  function openSubscribeModal(){
+    openModal.value = true;
+  }
+  return {
+    closeModal,
+    openModal,
+    openSubscribeModal
+  };
+},
   data() {
     return {
       loading: true,
+      // openModal:"",
     };
   },
   computed: {
@@ -654,6 +755,9 @@ export default {
     },
     filterFalseStatus(){
       return  this.company_profile_steps.filter(item => item.status == false)
+    },
+    openWelcomeModal(){
+      return this.userProfile.role[0] == 'Company' && this.company_profile_steps.find(item => item.type == 'subscription_status')?.status == false 
     }
   },
   methods: {
@@ -697,7 +801,8 @@ export default {
     mixedPanelTrackNotarizeCTA(){
       mixpanelEvent('Notarize CTA', {email: this.userProfile.email});
 
-    }
+    },
+   
   },
   mounted: function () {
     this.getUser();

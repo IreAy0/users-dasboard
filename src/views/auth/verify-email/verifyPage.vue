@@ -75,7 +75,6 @@ export default {
       otpInput.value.clearInput();
     };
     const fillInput = (value) => {
-      console.log(value, otpInput.value);
       otpInput.value?.fillInput(value);
 };
     return { clearInput, fillInput, otpInput };

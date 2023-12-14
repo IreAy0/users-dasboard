@@ -242,7 +242,7 @@ export default {
       // This method is called whenever the input field value changes
       // This can happen due to user input or autofill by the browser
       // You can add additional logic here if needed
-      console.log('this.user.email', this.user.email)
+      
     },
   },
 

@@ -78,11 +78,9 @@ const selectOption = (option) => {
 }
 const continueSignup = () => {
   if(selectedOption.value === 'user'){
-    console.log('User Signup Selected');
     router.push('/register')
   }else {
     router.push('/company-register')
-    console.log('Company Signup Selected');
   }
 }
 </script>

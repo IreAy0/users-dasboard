@@ -52,12 +52,11 @@
         </div>
       </div>
       <!-- <div class="preview"><img :src="data.file" class="img-fluid" alt="Seal" /></div> -->
-      <div class=" border-1 border p-2 rounded-3 d-flex align-items-center  my-1" >
-        <img class="w-100"  :src="companyStamps.file" alt="company stamp" />
+      <div class=" border-1 border p-2 w-100 rounded-3 d-flex align-items-center bg-light my-1" >
+        <img class="w-100" v-show="companyStamps.CompanyStamp" :src="companyStamps.CompanyStamp ? companyStamps?.CompanyStamp[0]?.file : ''" alt="company stamp" />
       </div>
     </div>
 
-   
   </div>
   <div class="d-flex justify-content-between py-2">
     <small class="text-muted fst-italic">By clicking save, I confirm that all the information
@@ -107,7 +106,7 @@ const phone = ref("");
 const email = ref("");
 const data = ref("");
 // ...mapState('print', ['prints']),
-const companyStamps = computed(() => store?.state?.print?.prints?.CompanyStamp[0]);
+const companyStamps = computed(() => store?.state?.print?.prints || null);
 const company = computed(() => store?.state?.CompanyModule?.companyProfile || {});
 const props = defineProps(["getActiveUser"]);
 const emit = defineEmits(["close"]);
