@@ -94,6 +94,7 @@
         seals to the extent allowed by law.</small>
      
     </div>
+    <NewSeal text="My Custom Seal" strokeColor="red"/>
     <div class="d-flex justify-content-md-start align-items-center">
       
     </div>
@@ -118,9 +119,7 @@ import { useStore } from "vuex";
 import domToImage from "dom-to-image-more";
 import { ref, onMounted, watch, computed, onBeforeMount } from "vue";
 import ToNote from "@/Services/Tonote";
-// import { createNamespacedHelpers } from "vuex-composition-helpers/dist";
-// const { useActions } = createNamespacedHelpers(["print"]);
-// const { savePrint } = useActions(["savePrint"]);
+import NewSeal from './newSeal.vue'
 const store = useStore();
 const companySeals = computed(() => store?.state?.print?.prints?.CompanySeal[0]);
 // const companySeals = computed(() => store?.state?.CompanyModule?.getCompanySeal);
@@ -147,7 +146,10 @@ const space = Math.PI / 12;
 const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
   const canvas = document?.getElementById("canvas"),
     ctx = canvas?.getContext("2d");
-
+    if (!text || !text.length) {
+      ctx.clearRect(0, top ? 0 : y, 600, y);
+  return; // Don't draw anything if text is empty
+}
   draw3dText(ctx, "", canvas?.width / 2, 120, 5);
   if(ctx){
     ctx.font = "normal " + fontSize + " arial ";
@@ -172,8 +174,7 @@ const updateCanvas = function (text, x, y, radius, space, top, fontSize) {
 
   const k = top ? 1 : -1;
   ctx.rotate(-k * ((Math.PI - numRadsPerLetter) / 2 - space));
-
-  for (let i = 0; i < text.length; i++) {
+  for (let i = 0; i < text?.length; i++) {
     ctx.save();
     ctx.rotate(k * i * numRadsPerLetter);
     ctx.textAlign = "left";
@@ -281,16 +282,15 @@ watch(company, (newValue, oldValue) => {
     }
   );
 
-onBeforeMount(() => {
-  ToNote.get("/company")
-    .then((res) => {
-      text_cnv.value = res?.data?.data?.company_name;
-      text_cnv2.value = res?.data?.data?.address;
-      text_horizontal.value = `RC: ${res?.data?.data?.registration_company_number}`;
-    })
-    .catch((err) => {
-     
-    });
+  onBeforeMount(async () => {
+  try {
+    const response = await ToNote.get("/company");
+    text_cnv.value = response.data.data.company_name;
+    text_cnv2.value = response.data.data.address;
+    text_horizontal.value = `RC: ${response.data.data.registration_company_number || ''}`;
+  } catch (error) {
+    // handle error
+  }
 });
 
 onMounted(() => {
@@ -300,7 +300,6 @@ onMounted(() => {
   if(coy_number) {
     coy_number.innerText = text_horizontal?.value;
   }
-  
   store.dispatch("CompanyModule/listCompanySeals");
 });
 </script>

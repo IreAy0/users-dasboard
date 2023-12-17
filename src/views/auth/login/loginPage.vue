@@ -28,11 +28,11 @@
             Welcome to ToNote! 👋
           </b-card-title>
           <TopTabWrapper>
-            <TopTabList title="User SignIn">
+            <TopTabList styles="p-0" title="User SignIn">
               <newLogin />
             </TopTabList>
         
-            <TopTabList title="Company SignIn">
+            <TopTabList styles="p-0" title="Company SignIn">
               <companyLogin />
             </TopTabList>
         

@@ -24,7 +24,7 @@
               <router-link to="/admin/settings" class="btn d-flex align-items-center btn-primary-light">Complete Profile <Icon icon="ph:arrow-right-bold" width="16"/> </router-link>
              </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               
               <div v-for="(profile, index) in company_profile_steps" :key="index+1" class=" col-lg-3 ">
                 <div class="d-flex align-items-center">
@@ -32,7 +32,7 @@
                     <div  :class="{
                       'completed': profile.status == true,
                       'not-completed': profile.status == false
-                    }" class="step-icon ">
+                    }" class="step-icon  ">
                      
                       <svg v-if="profile.status == true" xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
                         <path d="M10.3333 3L4.83334 8.5L2.33334 6" stroke="#12B76A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -45,6 +45,114 @@
                    
                   </div>
                 </div>
+              </div>
+              
+            </div> -->
+            <div class="row">
+              <div  class=" col-lg-3 ">
+                <router-link to="/admin/settings?tab=billing" class="d-flex align-items-center">
+                  <div class="me-1">
+                  
+                    <div  :class="{
+                      'not-completed': company_profile_steps.find(
+                        element => element?.type?.includes('subscription') && element?.status == false
+                      ) ?? null,
+                      'completed': company_profile_steps.find(
+                        element => element?.type?.includes('subscription') && element?.status == true
+                      ) ?? null,
+                    }"
+                    class="step-icon ">
+                      <svg v-if="company_profile_steps.find(
+                        element => element?.type?.includes('subscription') && element?.status == true
+                      ) ?? null" xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                        <path d="M10.3333 3L4.83334 8.5L2.33334 6" stroke="#12B76A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span v-else>1</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h5 class="text-black text-capitalize mb-0"> Subscription Payment</h5>
+                   
+                  </div>
+                </router-link>
+              </div>
+              <div  class=" col-lg-3 ">
+                <router-link to="/admin/settings?tab=home" class="d-flex align-items-center">
+                  <div class="me-1">
+                    <div :class="{
+                      'not-completed new': company_profile_steps.find(
+                        element => element?.id?.includes('identity') && element?.status == false
+                      ) ?? null,
+                      'completed': company_profile_steps.find(
+                        element => element?.id?.includes('identity') && element?.status == true
+                      ) ?? null,
+                    }" class="step-icon">
+                     
+                      <svg v-if="company_profile_steps.find(
+                        element => element?.id?.includes('identity') && element?.status == true
+                      ) ?? null" xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                        <path d="M10.3333 3L4.83334 8.5L2.33334 6" stroke="#12B76A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span v-else >2</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h5 class="text-black text-capitalize mb-0"> Identity Verification</h5>
+                   
+                  </div>
+                </router-link>
+              </div>
+              <div  class=" col-lg-3 ">
+                <router-link to="/admin/settings?tab=company" class="d-flex align-items-center">
+                  <div class="me-1">
+                    <div :class="{
+                      'not-completed new': company_profile_steps.find(
+                        element => element?.id?.includes('company_verification') && element?.status == false
+                      ) ?? null,
+                      'completed': company_profile_steps.find(
+                        element => element?.id?.includes('company_verification') && element?.status == true
+                      ) ?? null,
+                    }" class="step-icon">
+                     
+                      <svg v-if="company_profile_steps.find(
+                        element => element?.id?.includes('company_verification') && element?.status == true
+                      ) ?? null" xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                        <path d="M10.3333 3L4.83334 8.5L2.33334 6" stroke="#12B76A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span v-else >3</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h5 class="text-black text-capitalize mb-0"> Company Verification</h5>
+                   
+                  </div>
+                </router-link>
+              </div>
+              <div  class=" col-lg-3 ">
+                <router-link to="/admin/settings?tab=home" class="d-flex align-items-center">
+                  <div class="me-1">
+                    <div :class="{
+                      'not-completed new': company_profile_steps.find(
+                        element => element?.id?.includes('digitize_signature') && element?.status == false
+                      ) ?? null,
+                      'completed': company_profile_steps.find(
+                        element => element?.id?.includes('digitize_signature') && element?.status == true
+                      ) ?? null,
+                    }" class="step-icon ">
+                     
+                      <svg v-if="company_profile_steps.find(
+                        element => element?.id?.includes('digitize_signature') && element?.status == true
+                      ) ?? null" xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                        <path d="M10.3333 3L4.83334 8.5L2.33334 6" stroke="#12B76A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span v-else>4</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h5 class="text-black text-capitalize mb-0"> Digitize Signature</h5>
+                   
+                  </div>
+                </router-link>
               </div>
               
             </div>
@@ -89,7 +197,7 @@
         <div class="row row-cols-2 row-cols-md-5 g-2 mb-3">
           <div class="col">
             <div class="card h-100 justify-content-center">
-              <router-link to="/admin/requests" class="">
+              <router-link to="/admin/notary-requests" class="">
                 <div class="card-header p-1 flex-nowrap">
                   <div class="flex-shrink-1">
                     <h2 class="fw-bolder mb-0">
@@ -683,6 +791,7 @@ export default {
     watch(
       () => company_profile_steps.value,
       (newValue, oldValue) => {
+
         if (userProfile.value.role[0] === 'Company' && newValue.some(item => item.type === 'subscription_status' && item.status === false)) {
           openModal.value = true;
         } else {
@@ -694,7 +803,6 @@ export default {
     store.dispatch("CompanyModule/getCompanyStatusSteps")
   })
 
-  console.log('openModal', userProfile.value, openModal.value ,company_profile_steps?.value, company_steps.value);
 
   function closeModal() {
     openModal.value = false;
@@ -758,7 +866,8 @@ export default {
     },
     openWelcomeModal(){
       return this.userProfile.role[0] == 'Company' && this.company_profile_steps.find(item => item.type == 'subscription_status')?.status == false 
-    }
+    },
+  
   },
   methods: {
     ...mapActions("ProfileModule", ["getUser"]),
@@ -802,7 +911,11 @@ export default {
       mixpanelEvent('Notarize CTA', {email: this.userProfile.email});
 
     },
-   
+    hasIncompleteSubscriptions(steps, text) {
+      console.log('steps', steps)
+      // .some(item => item.type === 'subscription_status' && item.status === false)
+    return steps?.some(element => element.type.includes('Subscription') && element.status === false )
+}
   },
   mounted: function () {
     this.getUser();

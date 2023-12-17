@@ -36,19 +36,29 @@
                 <div class="col-lg-6 h-100">
                   <div class="card h-100 shadow-none mb-3 " :class="{ 'border-primary': selectedOption === 'user' }" @click="selectOption('user')">
                     <div class="card-body border rounded-3  ">
-                      <input type="radio" style="width: 30px; height:30px" class="form-check-input position-absolute top-0 end-0 mt-1 me-2" :checked="selectedOption === 'user'" @click="selectOption('user')" />
-                      <h5 class="card-title text-center fs-3 fw-bolder">For Personal Use</h5>
-                      <p class="card-text px-2 fs-6">Enjoy the convenience of signing and notarising documents for your personal use</p>
-                    
+                      <div class="p-2">
+                        <input type="radio" style="width: 30px; height:30px" class="form-check-input position-absolute top-0 end-0 mt-1 me-2" :checked="selectedOption === 'user'" @click="selectOption('user')" />
+                        <img src="/assets/images/user.svg" alt="account"  :class="[selectedOption === 'user' ? '' : 'grayscale' ]" class="p-1 d-flex mx-auto " width="100" height="100" style="z-index: 2;" />
+                        <h5 class="card-title text-center fs-3 fw-bolder">For Personal Use</h5>
+                        <p class="card-text px-2 fs-6">Enjoy the convenience of signing and notarising documents for your personal use</p>
+                      
+                      </div>
+                     
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-6 h-100">
                   <div class="card h-100  mb-3 shadow-none" :class="{ 'border-primary': selectedOption === 'company' }" @click="selectOption('company')">
                     <div class="card-body border rounded-3">
-                      <input type="radio" style="width: 30px; height:30px" class="form-check-input position-absolute top-0 end-0 mt-1  me-2" :checked="selectedOption === 'company'" @click="selectOption('company')" />
-                      <h5 class="card-title text-center fs-3 fw-bolder">For Company</h5>
-                      <p class="card-text px-2 fs-6">Collaborate with team members to enjoy seamless approval, signing and notarisation processes</p>
+                      <input type="radio" style="width: 30px; height:30px"  class="form-check-input position-absolute top-0 end-0 mt-1  me-2" :checked="selectedOption === 'company'" @click="selectOption('company')" />
+                      <div class="p-2">
+                        <img src="/assets/images/Account.svg" alt="account" :class="[selectedOption === 'company' ? '' : 'grayscale' ]" class="p-1 d-flex mx-auto confimation__logo   " width="100" height="100" style="z-index: 2;" />
+
+                        <h5 class="card-title text-center fs-3 fw-bolder">For Company</h5>
+                        <p class="card-text px-2 fs-6">Collaborate with team members to enjoy seamless approval, signing and notarisation processes</p>
+                      
+                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -105,7 +115,9 @@ const continueSignup = () => {
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
-
 }
 
+.grayscale{
+  filter:grayscale(1)
+}
 </style>
