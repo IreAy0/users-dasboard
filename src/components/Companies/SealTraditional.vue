@@ -94,7 +94,6 @@
         seals to the extent allowed by law.</small>
      
     </div>
-    <NewSeal text="My Custom Seal" strokeColor="red"/>
     <div class="d-flex justify-content-md-start align-items-center">
       
     </div>

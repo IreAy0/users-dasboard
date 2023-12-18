@@ -79,7 +79,6 @@
                   v-model="profile.company_name" />
                 <ErrorMessage name="company_name" class="text-danger" />
               </div>
-
               <div class="mb-1 col-md-12">
                 <label class="form-label" for="company-email">Email</label>
                 <Field :disabled="getActiveUser()?.permission !== 'Admin' || getActiveUser()?.isOwner !== true"
