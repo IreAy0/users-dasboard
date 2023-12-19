@@ -12,7 +12,7 @@
                 <p>You have {{ filterFalseStatus.length }} more to go</p>
               </div>
               <div class=" gap-1 align-items-center row col-lg-6">
-                <div v-for="(profile, index) in company_profile_steps" :key="index+1" class="progress col px-0">
+                <div v-for="(profile, index) in company_profile_steps.sort((a, b) => (a.status === true) - (b.status === true)).reverse()" :key="index+1" class="progress col px-0">
                   <div :class="{
                     'bg-success': profile.status == true,
                     'bg-transparent': profile.status == false,
