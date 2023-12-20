@@ -12,7 +12,7 @@
                 <p>You have {{ filterFalseStatus.length }} more to go</p>
               </div>
               <div class=" gap-1 align-items-center row col-lg-6">
-                <div v-for="(profile, index) in company_profile_steps.sort((a, b) => (a.status === true) - (b.status === true)).reverse()" :key="index+1" class="progress col px-0">
+                <div v-for="(profile, index) in sort_company_steps" :key="index+1" class="progress col px-0">
                   <div :class="{
                     'bg-success': profile.status == true,
                     'bg-transparent': profile.status == false,
@@ -786,7 +786,7 @@ export default {
     const company_profile_steps = computed(() => store.state.CompanyModule.company_profile_steps)
     const company_steps = ref()
     let openModal = ref(false)
-
+    const sort_company_steps = computed(() => company_profile_steps.value.sort((a, b) => (a.status === true) - (b.status === true)).reverse())
 
     watch(
       () => company_profile_steps.value,
@@ -803,9 +803,10 @@ export default {
     store.dispatch("CompanyModule/getCompanyStatusSteps")
   })
 
-
+  
   function closeModal() {
     openModal.value = false;
+    console.log(openModal.value)
   }
   function openSubscribeModal(){
     openModal.value = true;
@@ -813,7 +814,8 @@ export default {
   return {
     closeModal,
     openModal,
-    openSubscribeModal
+    openSubscribeModal,
+    sort_company_steps
   };
 },
   data() {

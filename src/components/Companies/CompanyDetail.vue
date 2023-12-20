@@ -204,7 +204,9 @@
                   </svg>
                 </span>
               </div>
-              <button :disabled="!profile.registration_company_number && !profile.type " v-show="validState == false" @click="verifyId"
+            
+              <button :disabled="!profile.registration_company_number && !profile.type "  @click="verifyId"
+              :class="{'d-none': validState}"
               class="d-flex justify-content-center align-items-center btn border mb-0  btn-primary-outline border-primary text-primary ms-1">
               <span v-show="verifying"  class="spinner-border flex-shrink-0  spinner-border-sm"></span>
               <span class="text-nowrap">Verify ID</span>
@@ -720,8 +722,6 @@ export default {
     });
   },
   mounted() {
-
-
     if (this.companyProfile) {
       ToNote.get(`/countries/${this.companyProfile?.country_id}`).then((res) => {
         this.states = res?.data?.data;
