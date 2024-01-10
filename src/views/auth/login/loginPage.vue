@@ -27,8 +27,9 @@
           >
             Welcome to ToNote! 👋
           </b-card-title>
-          <TopTabWrapper>
-            <TopTabList styles="p-0" title="User SignIn">
+          <newLogin />
+          <!-- <TopTabWrapper>
+            <TopTabList styles="p-0" title=" ">
               <newLogin />
             </TopTabList>
         
@@ -37,7 +38,7 @@
             </TopTabList>
         
            
-          </TopTabWrapper>
+          </TopTabWrapper> -->
           
 
          

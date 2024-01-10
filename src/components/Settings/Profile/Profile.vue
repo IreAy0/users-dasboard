@@ -999,7 +999,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .camera-passport-placeholder {
   width: 250px;
   height: 250px;
@@ -1018,15 +1018,27 @@ export default {
   object-fit: cover;
 }
 
-.signature-display {
-  display: flex;
-  width: 760px;
-  height: 200px;
-  padding: 20px 60px;
-  justify-content: flex-end;
-  align-items: center;
+
+
+.signature-display{
   border-radius: 8px;
   background: #f7f9fd;
-  gap: 80px;
+  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px  20px;
+}
+
+@media (min-width : 1200px) {
+  .signature-display {
+    flex-wrap: nowrap;
+    width: 760px;
+    height: 200px;
+    padding: 20px 60px;
+    gap: 80px;
+    justify-content: flex-end;
+  }
 }
 </style>

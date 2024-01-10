@@ -279,7 +279,7 @@
                         <!-- @click="updateModal" -->
                         <button
                         @click="updateModal"
-                          class="btn btn-primary px-3 py-1 waves-effect flex-shrink-0"
+                          class="btn btn-primary px-3 py-1 waves-effect flex-md-shrink-0"
                           id="updateSignature"
                         >
                         <!-- Create Seal -->
@@ -308,7 +308,7 @@
                        
                         <button
                         @click="update_stamp_modal"
-                          class="btn btn-primary px-3 py-1 waves-effect flex-shrink-0"
+                          class="btn btn-primary px-3 py-1 waves-effect flex-md-shrink-0"
                           id="updateStamp"
                         >
                         {{prints.CompanyStamp ? "Edit Stamp" : "Create Stamp"}}
@@ -774,15 +774,26 @@ export default {
   color: #cacaca;
   padding: 60px 0;
 }
-.signature-display {
-  display: flex;
-  width: 760px;
-  height: 200px;
-  padding: 20px 60px;
-  justify-content: flex-end;
-  align-items: center;
+
+.signature-display{
   border-radius: 8px;
   background: #f7f9fd;
-  gap: 80px;
+  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px  20px;
+}
+
+@media (min-width : 1200px) {
+  .signature-display {
+    flex-wrap: nowrap;
+    width: 760px;
+    height: 200px;
+    padding: 20px 60px;
+    gap: 80px;
+    justify-content: flex-end;
+  }
 }
 </style>
