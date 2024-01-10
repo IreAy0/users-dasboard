@@ -62,6 +62,15 @@ export const randomId = (leng) => {
   }
   return result;
 };
+
+export const getFirstLetters = (str) => {
+	const firstLetters = str
+		.split(' ')
+		.map((word) => word[0])
+		.join('');
+
+	return firstLetters;
+};
 // export const getToken = () => {
 //   const authHash = getCookie("token");
 //   if (authHash) {

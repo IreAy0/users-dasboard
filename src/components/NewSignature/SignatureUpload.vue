@@ -5,19 +5,22 @@
         <p class="my-1 text-dark fw-normal">Upload Signature from your device</p>
       </div>
       <p class="text-danger">{{ fileValidated }}</p>
-      <div class="mt-2 d-flex gap-2">
-        <DropZone @drop.prevent="drop" @change="selectedFile">
-          <template #format> PNG, JPEG OR JPG </template>
-          <template #input>
-            <input
-              type="file"
-              id="dropzoneFile"
-              class="dropzoneFile hidden"
-              accept="image/png, image/jpg, image/jpeg"
-            />
-          </template>
-        </DropZone>
-        <div style="max-width: 150px" v-show="uploadedSignature && uploadedSignature.file !== ''">
+      <div class="mt-2 row  gap-md-0 gap-2">
+        <div class="col-12 col-md-9 rounded-3">
+          <DropZone @drop.prevent="drop" @change="selectedFile">
+            <template #format> PNG, JPEG OR JPG </template>
+            <template #input>
+              <input
+                type="file"
+                id="dropzoneFile"
+                class="dropzoneFile hidden"
+                accept="image/png, image/jpg, image/jpeg"
+              />
+            </template>
+          </DropZone>
+        </div>
+        
+        <div class="        col-12 col-md-3"  v-show="uploadedSignature && uploadedSignature.file !== ''">
           <div class="h-100 border-1 border rounded-3">
             <img
             :src="uploadedSignature.file"

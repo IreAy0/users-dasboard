@@ -18,8 +18,9 @@
       </div>
     </div>
 
+    
     <div class="col-12">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex flex-wrap  justify-content-between">
         <div
           class="col-md-6 hover mb-1"
           v-for="(font, index) in fonts"
@@ -27,6 +28,7 @@
         >
           <div class="p-1">
             <input
+            @change="onCapture($event)"
               type="radio"
               :name="font"
               v-model="selected"
@@ -40,7 +42,7 @@
             <label
               :for="'radio-' + font"
               class="form-check-label d-flex align-items-center gap-2"
-              @click="onCapture(font)"
+              
             >
               <div class="custom-checkbox">
                 <span class="checkbox-icon">
@@ -73,15 +75,15 @@
         <div class="col-md-7">
           <p class="mb-50 text-dark fw-normal">Selected Signature</p>
           <h1
-            class="d-inline-block fw-normal p-0 my-50"
-            style="line-height: 0.8 !important; overflow: visible"
+          ctr
+            class="d-block fw-normal p-0 my-50"
+           
           >
             <template v-if="selectedFont">
               <span
                 ref="capture"
-                class="d-inline-block custom-fs-sm text-lowercase"
+                class=" capture custom-fs-sm "
                 data-type="Signature"
-                style="line-height: 0.8 !important"
                 :style="styleObject"
               >
                 {{ fullName }}
@@ -100,29 +102,30 @@
         <div class="col-md-5">
           <p class="mb-50 text-dark fw-normal">Initial</p>
           <h1
-            class="w-100 d-inline-block fw-normal"
-            style="line-height: 0.8 !important"
+          ctr
+            class=" d-inline-block fw-normal"
+            
           >
             <template v-if="selectedFont">
               <span
                 id="capture_initials"
                 ref="capture_initials"
-                class="w-100 py-1 d-inline-block custom-fs-sm"
+                class="capture py-1 custom-fs-sm"
                 data-type="Initial"
-                style="line-height: 0.8 !important; font-size: 32px"
                 :style="styleObject"
               >
-                {{ initials }}
+                {{ getFirstLetters(fullName) }}
               </span>
             </template>
             <template v-else>
-              <img :src="typeInitial"   class="img-fluid" alt="initials" />
+              <img :src="typeInitial"  style="max-width: 30% !important"  class="img-fluid" alt="initials" />
             </template>
           </h1>
         </div>
       </div>
     </div>
   </div>
+
   <div class="row px-3">
     <!-- <img :src="imgUrl" class="p-0 border border-danger" alt="type" /> -->
     <div class="col-md-12 mt-2">
@@ -153,8 +156,8 @@
     </div>
     <button
       type="button"
-      class="btn btn-primary d-block ms-auto"
-      :disabled="capturing === false"
+      class="btn btn-primary d-block ms-auto my-auto"
+      :disabled="capturing === true"
       @click="createTypedSignature"
     >
       <span v-show="loading" class="spinner-border spinner-border-sm"></span>
@@ -165,10 +168,12 @@
 
 <script setup>
 import domToImage from "dom-to-image";
+// import html2canvas from 'html2canvas';
 import { ref, watch, defineEmits } from "vue";
 import html2canvas from "html2canvas";
 import { useNamespacedState } from "vuex-composition-helpers";
 import { toPng } from "html-to-image";
+import { getFirstLetters }from '@/Services/helpers.js'
 
 import {
   useGetters,
@@ -183,14 +188,7 @@ const { profile, prints, user, dashboard } = useGetters({
   dashboard: "ProfileModule/dashboard"
 });
 
-const getFirstLetters = (str) => {
-  const firstLetters = str
-    .split(" ")
-    .map((word) => word[0])
-    .join("");
 
-  return firstLetters;
-};
 
 
 const { savePrint, makeDefaultPrint, getDashboard } = useActions({
@@ -245,118 +243,55 @@ watch(
   }
 );
 
-const onCapture = async (font) => {
+const captureAndSave = async (element) => {
+	try {
+		let type = element.dataset.type;
+		const canvas = await html2canvas(element, {
+			backgroundColor: 'transparent',
+			scale: 3,
+		});
+		const imageData = canvas.toDataURL('image/png');
+		let fullNameOrInitial = type == 'Signature' ? fullName.value : getFirstLetters(fullName.value);
+    imgUrl.value.push({
+			file: imageData,
+			type: type,
+			// value: capitalizeEachWord(fullNameOrInitial),
+			category: 'Type',
+		});
+    // data.value = { file: imageData, type: "Signature", category: "Type" };
+		capturing.value  = false;
+	} catch (error) {
+		capturing.value = false;
+		console.error('Error capturing and saving the image:', error);
+	}
+};
+
+const onCapture = async (e) => {
   loading.value = true;
-  capturing.value = false;
-  selectedFont.value = font;
-  const input = document.getElementById(`radio-${font}`);
-  let init = fullName.value.toLowerCase();
-  let initial_text = initials.value.toLowerCase();
+  capturing.value = true;
+	selectedFont.value = e.target.value;
 
   styleObject.value = {
-    fontFamily: font,
+    fontFamily: e.target.value,
     color: "#000",
-    padding:
-      font == "Great Vibes" &&
-      (init.includes("f") ||
-        init.includes("g") ||
-        init.includes("j") ||
-        init.includes("y"))
-        ? "0.9rem 0.5rem 0.7rem 0.6rem"
-        : font == "Great Vibes" && init.includes("q")
-        ? "0.9rem 1.8rem 0.9rem 0.3rem"
-        : font == "Great Vibes" &&
-          (init.includes("a") ||
-            init.includes("i") ||
-            init.includes("o") ||
-            init.includes("s") ||
-            init.includes("t"))
-        ? "0.9rem 0.4rem 0 0.1rem"
-        : font == "Arizonia" && init.includes("q")
-        ? "0.2rem 0.5rem 0.5rem 0.3rem"
-        : font == "Arizonia" &&
-          (init.includes("g") ||
-            init.includes("j") ||
-            init.includes("m") ||
-            init.includes("y"))
-        ? "0.2rem 1rem 0.8rem 0.8rem"
-        : "0.2rem 0.2rem 0.2rem 0.1rem",
   };
   if (selectedFont.value != "") {
     let type = await capture.value.dataset?.type;
     let initial_type = await capture_initials.value;
-    const scale = 5;
+    imgUrl.value = [];
+    let capturedArr = Array.from(document.querySelectorAll('.capture'));
+		setTimeout(() => {
+			capturedArr.forEach((element) => captureAndSave(element));
+		}, 100);
 
-    const captureImage = (element) => {
-      return domToImage.toPng(element, {
-        quality: 1,
-        width: element.clientWidth * scale,
-        height: element.clientHeight * scale,
-        style: {
-          transform: "scale(" + scale + ")",
-          transformOrigin: "top left",
-        },
-      });
-    };
-
-    try {
-      const dataUrl = await captureImage(capture.value);
-      imgUrl.value = dataUrl;
-      data.value = { file: dataUrl, type: "Signature", category: "Type" };
-      // loading.value = false;
-      // capturing.value = true;
-    } catch (error) {
-      console.error("oops, something went wrong!", error);
-    }
-
-    try {
-      const dataUrl = await captureImage(capture_initials.value);
-      initial_data.value = {
-        file: dataUrl,
-        type: "Initial",
-        category: "Type",
-      };
-      loading.value = false;
-      capturing.value = true;
-    } catch (error) {
-      console.error("oops, something went wrong!", error);
-    }
   }
 };
 
 const emit = defineEmits(["close"]);
 const createTypedSignature = () => {
   loading.value = true;
-
-  const formData = {
-    category: data.value.category,
-    type: data.value.type,
-    file: data.value.file,
-    value: fullName.value,
-  };
-  const initialsFormData = {
-    category: initial_data.value.category,
-    type: initial_data.value.type,
-    file: initial_data.value.file,
-    value: initials.value,
-  };
-  const save = (form) => {
-    savePrint(form);
-  };
-  try {
-    save(formData);
-  } catch (error) {
-    console.error("oops, something went wrong!", error);
-  }
-  try {
-    save(initialsFormData);
-  } catch (error) {
-    console.error("oops, something went wrong!", error);
-  }
-  // savePrint(formData);
-  // savePrint(initialsFormData);
-  // emit("close", true);
-
+  capturing.value = true;
+	imgUrl.value.forEach((formData) => savePrint(formData));
   setTimeout(() => {
     loading.value = false;
     capturing.value = false;
@@ -387,8 +322,8 @@ const makeDefaultSignature = async (printID)=> {
 .custom-fs-sm {
   color: #000;
   font-size: 36px;
-  /* font-size: clamp(1rem, 2vw, 2.875rem); */
-  font-size: clamp(1rem, -0.875rem + 8.333vw, 3.5rem);
+  font-size: clamp(1rem, 4vw, 2rem);
+	padding: 4px 8px;
 }
 
 .hidden-radio {

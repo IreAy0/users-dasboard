@@ -23,6 +23,18 @@
         :options="options"
         class="canvas"
       ></VueSignaturePad>
+      <!-- {{ type }}
+      <div class="canvas">
+        <canvas
+        :id="state.uid"
+        class="border shadow-sm"
+        :width="type == 'lg' ? '100%' : type == 'xs' ? '320' : '410'"
+        :height="type== 'lg' ? '223' : type == 'xs' ? '150' : '170'"
+        :data-uid="state.uid"
+        :disabled="state?.disabled"
+      ></canvas>
+      </div> -->
+     
     </div>
     <div class="col-12 col-md-3">
       <div class="text-center h-100">
@@ -86,7 +98,7 @@
       >
     </div>
     <button
-      class="btn btn-primary d-block ms-auto"
+      class="btn btn-primary d-block ms-auto my-auto"
       ref="create"
       @click="createDrawSignature"
     >
@@ -425,10 +437,10 @@ canvas {
 }
 
 @media screen and (max-width: 991.5px) {
-  canvas {
+ /* canvas {
     width: 290px;
     height: 190px;
-  }
+  } */
 
   .grid {
     grid-template-columns: 1fr;
