@@ -18,9 +18,9 @@
         <div
           class="m-0 bg-white shadow zindex-2 rounded-2 col-lg-8"
         >
-          <div class="align-items-center">
+          <div class="align-items-center row">
             <div
-              class="col-12 col-sm-8 col-md-6 col-lg-12 mx-auto py-3 "
+              class="col-12  col-lg-12 mx-auto py-3 "
             >
             <div class="brand-logo">
               <router-link to="/">
@@ -30,10 +30,10 @@
             </div>
 
             
-            <div class="container mt-4 create-an-account">
+            <div class="px-md-3 mt-2 mt-lg-4 create-an-account">
               <h1 class="fs-3 text-center mb-1">Create an account</h1>
               <div class="row ">
-                <div class="col-lg-6 h-100">
+                <div class=" col-md-6 h-100">
                   <div class="card h-100 shadow-none mb-3 " :class="{ 'border-primary': selectedOption === 'user' }" @click="selectOption('user')">
                     <div class="card-body border rounded-3  ">
                       <div class="p-2">
@@ -47,7 +47,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-6 h-100">
+                <div class="col-md-6 h-100">
                   <div class="card h-100  mb-3 shadow-none" :class="{ 'border-primary': selectedOption === 'company' }" @click="selectOption('company')">
                     <div class="card-body border rounded-3">
                       <input type="radio" style="width: 30px; height:30px"  class="form-check-input position-absolute top-0 end-0 mt-1  me-2" :checked="selectedOption === 'company'" @click="selectOption('company')" />
